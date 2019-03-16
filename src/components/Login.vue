@@ -4,10 +4,10 @@
     <div id="login-form">
       <form v-on:submit.prevent="login">
         <label for="username">username:</label>
-        <input type="username" name="username" placeholder="username">
+        <input v-model="username" type="username" name="username" placeholder="username">
         <br>
         <label for="password">password:</label>
-        <input type="password" name="password" placeholder="password">
+        <input v-model="password" type="password" name="password" placeholder="password">
         <br>
         <button>enter</button>
       </form>
@@ -29,15 +29,23 @@
 </template>
 
 <script>
+
+  import {AuthenticationDetails, CognitoUserPool, CognitoUser} from 'amazon-cognito-identity-js'
+
 export default {
   name: 'Login',
   data () {
     return {
+      username: '',
+      password: ''
     }
   },
   methods: {
     login: function () {
-      this.$router.push('app/inbox')
+        const {username, password} = this
+        this.$store.dispatch('login', { username, password })
+       .then(() => this.$router.push('/app/people'))
+       .catch(err => console.log(err))
     }
   }
 }

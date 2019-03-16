@@ -9,6 +9,10 @@
       <router-link to="/calendar" class="noselect">events</router-link>
       <span>|</span>
       <router-link to="/categories" class="noselect">categories</router-link>
+      <div 
+        class="profile-pic"
+        :style="{backgroundImage: 'url(' +  profileURL + ')'}">
+      </div>
     </div>
     <!-- <span>|</span><router-link to="sermons" class="noselect">sermons</router-link>
     <span>|</span><router-link to="groups" class="noselect">groups</router-link> -->
@@ -16,11 +20,17 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: 'Header',
   data () {
     return {
     }
+  },
+  computed: {
+    ...mapState([
+      'churchProfile'
+    ]),
   }
 }
 </script>
@@ -72,5 +82,23 @@ export default {
   margin-left: 10px;
   margin-top: 10px;
   image-rendering: crisp-edges;
+}
+
+#navbar .profile-pic {
+  position: absolute;
+  right: 10px;
+  top: 7.5px;
+
+  cursor: pointer;
+
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  /* display: inline-flex;
+  flex: 1; */
+
+  /* background-repeat: repeat; */
+  background-position: center center;
+  background-size: cover;
 }
 </style>

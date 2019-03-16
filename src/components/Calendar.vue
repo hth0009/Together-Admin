@@ -1,11 +1,16 @@
 <template>
   <div>
     <div id="calendar-content">
-      <div id="event-content">
+      <!-- <div id="event-content">
         <new-event v-model="newEvent"></new-event>
-      </div>
+      </div> -->
       <div class="calendar-holder">
-        <full-calendar :events="events"></full-calendar>
+        <ejs-schedule height="650px" 
+          :selectedDate='selectedDate' 
+          :eventSettings='eventSettings'
+          :views='views'
+          :events='events'
+          ></ejs-schedule>
       </div>
     </div>
   </div>
@@ -14,17 +19,34 @@
 <script>
 import FullCalendar from 'vue-fullcalendar'
 import NewEvent from '@/components/NewEvent'
+import { SchedulePlugin, Day, Month, Agenda, Resize, DragAndDrop } from "@syncfusion/ej2-vue-schedule";
+
+import Vue from 'vue'
+Vue.use(SchedulePlugin);
 
 export default {
   name: 'Calender',
-  components: {
-    FullCalendar,
-    NewEvent
-  },
-  data () {
+  data() {
     return {
       newEvent: {},
-      events: []
+      events: [],  
+      views: ['Month', 'Day', 'Agenda'],
+       eventSettings: {
+        dataSource: []
+      },
+      selectedDate: new Date(),
+    }
+  },
+  components: {
+    FullCalendar,
+    NewEvent,
+  },
+  provide: {
+    schedule: [Day, Month, Agenda, Resize, DragAndDrop]
+  },
+  methods: {
+    onDateChange: function (args) {
+      this.selectedDate = args.value;
     }
   },
   watch: {
@@ -61,6 +83,7 @@ export default {
   }
   .calendar-holder {
     flex: 50;
+    padding: 30px;
   }
   #event-content {
     padding: 30px;
@@ -74,32 +97,4 @@ export default {
     display: inline-block; */
 }
 
-
-  .red {
-    background: rgb(235, 77, 77) !important;
-    color: whitesmoke !important;
-  }
-  .blue {
-    background: rgb(59, 59, 163) !important;
-    color: whitesmoke !important;
-  }
-  .orange {
-    background: orange !important;
-    color: white !important;
-  }
-  .green {
-    background: rgb(49, 155, 49) !important;
-    color: white !important;
-  }
-  .blue,
-  .orange,
-  .red,
-  .green {
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: capitalize;
-  }
-  .event-item {
-    padding: 2px 0 2px 4px !important;
-  }
 </style>

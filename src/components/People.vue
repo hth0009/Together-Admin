@@ -65,6 +65,8 @@
 
 <script>
 import VueTable from '@/components/Table'
+// import store from '../store'
+
 export default {
   name: 'People',
   data () {
@@ -87,6 +89,23 @@ export default {
     VueTable
   },
   methods: {
+    getPeople () {
+      // console.log(this.$store.state)
+      this.$http.get('people',
+      {
+        params: {
+          inChurch: 'NPCChurch3',
+          pagesize: 500,
+          page: 0,
+          // accountEmail: this.$store.state.user.username
+        }
+      }).then((response) => {
+        console.log(response.data)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
+    },
     recieveID(id) {
       this.selectedID = id
       var key = 'username'
@@ -137,6 +156,7 @@ export default {
   },
   mounted() {    
     this.recieveID('smith123')
+    this.getPeople()
   },
   computed: {
   }

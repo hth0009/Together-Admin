@@ -9,13 +9,38 @@
 
 <script>
 import AppHeader from '@/components/Header'
+import {CognitoAuth} from 'amazon-cognito-auth-js'
+
 export default {
   name: 'App',
   components: {
     AppHeader
+  },
+  created: function () {
+    // this.$http.interceptors.response.use(undefined, function (err) {
+    //   return new Promise(function (resolve, reject) {
+    //     if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+    //       this.$store.dispatch(logout)
+    //     }
+    //     throw err;
+    //   });
+    // });
+  },
+  methods: {
   }
 }
 </script>
+
+<style>
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-vue-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-vue-calendars/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-vue-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-vue-inputs/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-vue-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-vue-popups/styles/material.css'; 
+@import '../node_modules/@syncfusion/ej2-vue-schedule/styles/material.css';
+</style>
 
 <style>
   #app{
