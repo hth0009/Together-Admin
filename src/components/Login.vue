@@ -17,14 +17,14 @@
       :video-id="'hs1HoLs4SD0'"
       :resize="true"
       ></youtube> -->
-    <div id="login-footer">
+    <!-- <div id="login-footer">
       <div id="link-container">
         <router-link to="sign-up">sign up</router-link>
         <router-link to="more">more</router-link>
         <router-link to="about">about</router-link>
         <router-link to="connect">contact</router-link>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -44,7 +44,7 @@ export default {
     login: function () {
         const {username, password} = this
         this.$store.dispatch('login', { username, password })
-       .then(() => this.$router.push('/app/people'))
+       .then(() => this.$router.push('/app/inbox'))
        .catch(err => console.log(err))
     }
   }
@@ -82,7 +82,7 @@ export default {
     justify-content: center;
   }
   #login-form form{
-    width: 400px;
+    width: 500px;
     color: #595C5F;
   }
   #login-form br{
@@ -92,9 +92,9 @@ export default {
     display: inline-block;
     padding-right: 10px;
     margin-bottom: 10px;
-    width: 120px;
-    font-size: 2vh;
+    width: 40%;
     text-align: right;
+    font-size: 13px;
   }
   #login-form input{
     background: none;
@@ -102,8 +102,8 @@ export default {
     outline: none;
     padding-left: 10px;
     margin-bottom: 10px;
-    width: 120px;
-    font-size: 2vh;
+    width: 40%;
+    font-size: 13px;    
   }
   #login-form input::placeholder{
     color: #86898C;
@@ -143,5 +143,41 @@ export default {
     -webkit-animation-name: autofill;
     -webkit-animation-fill-mode: both;
   }
+
+  
+/* //////////////////////////
+//////  MEDIA QUERIES ///////
+////////////////////////// */
+
+/*------------------------------------------
+  Responsive Grid Media Queries - 1280, 1024, 768, 480
+   1280-1024   - desktop (default grid)
+   1024-768    - tablet landscape
+   768-480     - tablet 
+   480-less    - phone landscape & smaller
+--------------------------------------------*/
+@media all and (min-width: 1024px) and (max-width: 1280px) {
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+} 
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  #login-page{
+    /* background: white; */
+    background-size: 50%;
+    background-size: cover;
+    background-position: bottom right;
+  }
+}
+
+@media all and (max-width: 480px) {
+  #login-page{
+    /* background: white; */
+    background-size: 50%;    
+    background-size: cover;
+    background-position: bottom right;
+  }
+}
 
 </style>

@@ -1,37 +1,39 @@
 <template>
   <div class="people-container">
-    <h2>People</h2>
     <div class="people-wrapper">
-      <div class="people-table-wrapper">
+      <div class="people-table-wrapper">        
+        <h2>People</h2>
         <input type="text" class="basic-input" placeholder="search" v-model="peopleSearch">
         <vue-table
-          :data="gridData"
+          :data="computedPeople"
           :columns="gridColumns"
           :column-type="columnType"
           :filter-key="peopleSearch"
-          :id-key="'username'"
-          :highlighted-entry="selectedPerson['username']"
+          :id-key="'id'"
+          :highlighted-entry="selectedPerson['id']"
           @value="recieveID"></vue-table>
       </div>
       <div class="person-view" v-show="selectedID != ''">
         <div class="person-header"> 
-          <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
+          <!-- <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
+          class="profile-pic"></div> -->
+          <div :style="{backgroundImage: 'url(https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1)'}"
           class="profile-pic"></div>
-          <h3>{{selectedPerson.name}}</h3>
+          <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
         </div>
         <div class="person-info">
           <!-- <button class="section-toggle">Teams</button> -->
           <div class="general-info-panel">
             <h4>General Info</h4>
             <p class="username">username: {{selectedPerson.username}}</p>
-            <p class="email">email: {{selectedPerson.email}}</p>
-            <p class="phone">phone: {{selectedPerson.phone}}</p>
+            <p class="email">email: {{selectedPerson.accountEmail}}</p>
+            <p class="birthday">birthday: {{selectedPerson.birthday}}</p>
             <p class="address">address: {{selectedPerson.address}}</p>
           </div>
           <div class="teams-panel">
             <h4>Teams</h4>
             <div class="teams">
-              <div class="team-box" v-for="team in selectedPerson.teams" :key="team.id">
+              <div class="team-box" v-for="team in selectedPersonTeams" :key="team.id">
                 <div class="icon" :style="{backgroundImage: 'url(' +  team.icon + ')'}"></div>
                 <div class="team-info">
                   <div class="name">{{team.name}}</div>
@@ -40,10 +42,9 @@
               </div>
             </div>
           </div>
-          <div class="roles-panel">
+          <!-- <div class="roles-panel">
             <h4>Role</h4>
               <p class="role-title">
-                {{selectedPerson.staff.isStaff ? selectedPerson.staff.staffRole : 'Member'}}
               </p>
           </div>
           <div class="skills-panel">
@@ -56,7 +57,7 @@
                 {{skill.title}}
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -65,6 +66,8 @@
 
 <script>
 import VueTable from '@/components/Table'
+import People from '@/services/people'
+import Teams from '@/services/teams'
 // import store from '../store'
 
 export default {
@@ -72,93 +75,55 @@ export default {
   data () {
     return {
       searchQuery: '',
-      gridColumns: ['profile', 'name', 'username'],
-      columnType: {profile: 'profile', name: 'text', username: 'text'},
-      gridData: [
-        {profile: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80', name: 'Sarah Thompson', username: 'sarah_t'},
-        {profile: 'https://images.unsplash.com/photo-1486645725491-57c86b563b91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80', name: 'John Smith', username: 'smith123'},
-        {profile: 'https://images.unsplash.com/photo-1485811904074-04513843270c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80', name: 'Lauren White' ,username: 'LaurenWhite'},
-        {profile: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80', name: 'Bob Jackson' , username: 'bob_1978'}
-      ],
+      gridColumns: ['profile', 'name'],
+      columnType: {profile: 'profile', name: 'text'},
+      people: [],
       peopleSearch: '',
       selectedID: '',
-      selectedPerson: {}
+      selectedPerson: {},
+      selectedPersonTeams: []
     }
   },
   components: {
     VueTable
   },
   methods: {
-    getPeople () {
-      // console.log(this.$store.state)
-      this.$http.get('people',
-      {
-        params: {
-          inChurch: 'NPCChurch3',
-          pagesize: 500,
-          page: 0,
-          // accountEmail: this.$store.state.user.username
-        }
-      }).then((response) => {
-        console.log(response.data)
-      })
-      .catch((e) => {
-        console.error(e)
-      })
+    async getPeople () {
+      const response = await People.getPeople()
+      this.people = response['person(s)']
+    },
+    async getPerson () {
+      var response = await People.getPerson(this.selectedID)
+      this.selectedPerson = response['person']
+    },
+    async getTeams() {   
+      const response = await Teams.getTeams(this.selectedID)
+      this.selectedPersonTeams = response['team(s)']
     },
     recieveID(id) {
       this.selectedID = id
-      var key = 'username'
-      this.selectedPerson = {...this.gridData.find(function (item) {
-        return item[key] === id
-      })}
-      this.selectedPerson['address'] = '2202 Straford Park, Lexington Lexington 40505'
-      this.selectedPerson['phone'] = '(606) 637-0799'
-      this.selectedPerson['email'] = 'email@email.com'
-      this.selectedPerson['teams'] = [
-        {
-          "name": "Crazy Love",
-          "icon": "https://images.unsplash.com/photo-1532498551838-b7a1cfac622e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-          "isLeader": false,
-          "isServeTeam": false
-        },
-        {
-          "name": "Worship Team",
-          "icon": "https://images.unsplash.com/photo-1508349356983-7838c2b04eb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80",
-          "isLeader": true,
-          "isServeTeam": true
-        }
-      ]
-      this.selectedPerson["staff"] = {
-        "isStaff": true,
-        "staffRole": "Worship Leader",
-        "roleID": 239
-      }
-      this.selectedPerson["skills"] = [
-        { 
-          title: 'Singing',
-          confirmed: false
-        }, { 
-          title: 'Drums',
-          confirmed: true
-        }, { 
-          title: 'Videography',
-          confirmed: false
-        }, { 
-          title: 'Preaching',
-          confirmed: false
-        }
-      ],
-      this.selectedPerson = {...this.selectedPerson}
+      this.getPerson()
+      this.getTeams()
     }
   },
   props: {
   },
   mounted() {    
-    this.recieveID('smith123')
     this.getPeople()
   },
   computed: {
+    computedPeople() {
+      const newPeople = []
+      for (let index = 0; index < this.people.length; index++) {
+        const person = this.people[index];
+        newPeople.push({
+          name: person.firstName + ' ' + person.lastName,
+          id: person.id,
+          profile: 'https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1'
+        })
+      }
+      return newPeople
+    }
   }
 }
 </script>
@@ -169,41 +134,46 @@ export default {
 }
 h2 {
   padding-top: 30px;
-  padding-left: 20px;
+  /* padding-left: 20px; */
   height: 40px;
 }
 
 .people-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: stretch;
+  display: grid;
+  grid-template-columns: 300px auto;
   position: relative;
-  height: calc(100% - 70px);
+  height: 100%;
+  width: 100%;
   overflow: hidden;
+  /* overflow-x: auto; */
 }
 
 .people-table-wrapper {
   padding: 20px 30px;
-  flex: 1;
+  height: calc(100%);
+  overflow-y: auto;
+  height: calc(100vh - 80px);
+}
+.people-table-wrapper table {
+  width: 100%;
 }
 
 .person-view {  
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
   position: relative;
   padding-left: 30px;
-  flex: 1;
-  height: 100%;
+  height: calc(100vh - 80px);
   overflow-y: auto;
+  padding-top: 40px;
 }
 .person-view::before {
   content: '';
-  border-left: 1px solid #D0D3D6;
+  border-left: 1px solid #f0f0f0 ;
   position: absolute;
-  height: 60vh;
+  height: 20vh;
   left: 0;
-  top: 20%;
+  top: 0%;
 }
 .person-header {  
   position: relative;
@@ -284,4 +254,31 @@ h2 {
 .skill.confirmed {
   border-color: #69CDCF;
 }
+
+
+/* //////////////////////////
+//////  MEDIA QUERIES ///////
+////////////////////////// */
+
+/*------------------------------------------
+  Responsive Grid Media Queries - 1280, 1024, 768, 480
+   1280-1024   - desktop (default grid)
+   1024-768    - tablet landscape
+   768-480     - tablet 
+   480-less    - phone landscape & smaller
+--------------------------------------------*/
+@media all and (min-width: 1024px) and (max-width: 1280px) {
+ }
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+ }
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+ }
+
+@media all and (max-width: 480px) {
+  .people-wrapper {
+    grid-template-columns: 1fr;
+  }
+ }
 </style>

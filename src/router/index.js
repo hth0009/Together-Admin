@@ -5,11 +5,16 @@ import Home from '@/components/Home'
 import Calendar from '@/components/Calendar'
 import EventDetails from '@/components/EventDetails'
 import AppPage from '@/components/AppPage'
-import store from '../store.js'
+import ChurchInfo from '@/components/ChurchInfo'
+import Staff from '@/components/Staff'
+import Subscription from '@/components/Subscription'
+import PrivacyPolicy from '@/components/PrivacyPolicy'
+// import store from '../store.js'
 
 Vue.use(Router)
 
 let router = new Router({
+  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -21,6 +26,12 @@ let router = new Router({
       path: '/login',
       name: 'Login',
       component: Login,
+      meta: { noNav: true }
+    },
+    {
+      path: '/privacy-policy',
+      name: 'PrivacyPolicy',
+      component: PrivacyPolicy,
       meta: { noNav: true }
     },
     {
@@ -62,20 +73,55 @@ let router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/church-info',
+      name: 'Church Info',
+      component: ChurchInfo,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/staff',
+      name: 'Staff',
+      component: Staff,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/subscription',
+      name: 'Subscription',
+      component: Subscription,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
-      next()
-      return
-    }
-    next('/login')
-  } else {
-    next()
-  }
+  // console.log('to')
+  // console.log(to)
+  // console.log('from')
+  // console.log(from)
+  // console.log('next')
+  // console.log(next)
+  // if (to.matched.some(record => record.meta.requiresAuth)) {
+  //   console.log(store)
+  //   console.log(store.getters.isLoggedIn)
+  //   if (store.getters.isLoggedIn) {
+  //     console.log('hi')
+  //     next(to.fullPath)
+  //     // return
+  //   }
+  //   // next('/login')
+  // } else {
+  //   // next()
+  // }
+  next()
+  // next(to.path)
 })
 
 export default router

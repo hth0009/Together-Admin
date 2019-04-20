@@ -3,7 +3,7 @@
     <div class="threads">
       <div class="search-wrapper">
         <input type="text" class="basic-input"
-          placeholder="search people"
+          placeholder="search"
           v-model="threadSearch">
       </div>
       <div class="thread-boxes">
@@ -253,7 +253,7 @@ export default {
     justify-content: stretch;
   }
   .threads {
-    height: calc(100vh - 80px);
+    height: calc(100vh - 40px);
     width: 250px;
     border-right: 1px #E6E9EC solid;
   }
@@ -262,7 +262,7 @@ export default {
     height: 57px;
   }
   .search-wrapper .basic-input {
-    margin: 10px 5px;
+    margin: 10px 0px;
   }
   .thread-boxes {
     overflow-y: auto;
@@ -317,7 +317,7 @@ export default {
 
   
   .thread-wrapper {
-    height: calc(100vh - 80px);
+    height: calc(100vh - 40px);
     position: relative;
     /* background: red; */
     flex: 1;
@@ -392,4 +392,52 @@ export default {
   .message-box.simple .message-info{
     padding-left: 40px;
   }
+
+  
+/* //////////////////////////
+//////  MEDIA QUERIES ///////
+////////////////////////// */
+
+/*------------------------------------------
+  Responsive Grid Media Queries - 1280, 1024, 768, 480
+   1280-1024   - desktop (default grid)
+   1024-768    - tablet landscape
+   768-480     - tablet 
+   480-less    - phone landscape & smaller
+--------------------------------------------*/
+@media all and (min-width: 1024px) and (max-width: 1280px) {
+ }
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+ }
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  .threads {
+    height: calc(100vh - 75px);    
+    margin-top: 25px;
+  }
+ }
+
+@media all and (max-width: 480px) {
+  .thread-wrapper {
+    display: none;
+  }
+  .threads{
+    width: 100%;
+    height: calc(100vh - 75px);
+    margin-top: 25px;
+  }
+  .thread-boxes {
+    padding: 0px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    /* justify-content: center; */
+  }
+  .thread-box {
+    /* max-width: 275px; */
+    width: 90%;
+  }
+ }
 </style>

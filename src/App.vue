@@ -87,6 +87,7 @@ export default {
     transition: .3s box-shadow ease;
     margin-bottom: 5px;
     font-size: 13px;
+    width: calc(100% - 20px);
   }
   .basic-button {
     /* border: #12b5e7 3px solid; */
@@ -97,10 +98,16 @@ export default {
   .basic-input::placeholder, .basic-textarea::placeholder, .basic-button::placeholder{
     color: #7e7e7e;
   }
-  .basic-input:hover, .basic-textarea:hover, .basic-button:hover{
+  /* .basic-input:hover, .basic-textarea:hover, .basic-button:hover{
+    box-shadow: 0px 4px 4px -5px rgba(128, 128, 128, 0.507);
+  } */
+  .basic-button:hover{
     box-shadow: 0px 4px 4px -5px rgba(128, 128, 128, 0.507);
   }
-  .basic-input:focus, .basic-textarea:focus, .basic-button:focus{
+  /* .basic-input:focus, .basic-textarea:focus, .basic-button:focus{
+    box-shadow: 0px 5px 6px -2px rgba(128, 128, 128, 0.507);
+  } */
+  .basic-button:focus{
     box-shadow: 0px 5px 6px -2px rgba(128, 128, 128, 0.507);
   }
   .basic-button:hover {    
@@ -120,6 +127,9 @@ export default {
     box-shadow: 0px 3px 5px -2px rgba(128, 128, 128, 0.507);
   }
   .basic-radio{
+    border-color: #00cec9;
+    background: #00cec9;
+
     appearance: none;
     outline: none;
     border-width: 3px;
@@ -133,7 +143,7 @@ export default {
   .basic-radio:hover {
     box-shadow: 0px 0px 0px 4px inset white;
     border-width: 3px;
-    border-color: white;
+    /* border-color: white; */
   }
   .basic-radio:checked {
     box-shadow: 0px 0px 0px 2px inset white;
@@ -157,5 +167,78 @@ export default {
     vertical-align: middle;
     margin-left: 0.4em;
     color: #A0A3A6;
+  }
+
+
+
+  /* /////////////////////////////
+  ///////////People List//////////
+  ///////////////////////////// */
+  
+.people-list-panel .people {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-right: 15px;
+}
+.people-list-panel .people-box {
+  margin: 5px;
+  padding: 10px;
+  transition: all .3s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-left: 2px white solid;
+  cursor: pointer;
+}  
+.people-list-panel .people-box.unread {
+  border-left: 2px #69CDCF solid;
+}
+.people-list-panel .people-box:hover {
+  box-shadow: 0px 2px 4px -2px rgba(128, 128, 128, 0.507);    
+}
+.people-list-panel .people-box.selected {
+  box-shadow: 0px 4px 5px -3px rgba(128, 128, 128, 0.507);
+}
+.people-list-panel .people-box .icon {
+  min-width: 30px;
+  max-width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  flex: 1;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.people-list-panel .people-box .person-info{
+  flex: 1;
+  padding-left: 10px;
+}
+
+  /* /////////////////////////////
+  ////////////Checkbox////////////
+  ///////////////////////////// */
+  
+
+  .basic-checkbox{
+    appearance: none;
+    outline: none;
+    border-width: 3px;
+    border-style: solid;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 0px 10px inset white;
+    transition: all .2s;
+  }
+  .basic-checkbox:hover {
+    box-shadow: 0px 0px 0px 4px inset white;
+    border-width: 3px;
+    border-color: white;
+  }
+  .basic-checkbox:checked {
+    box-shadow: 0px 0px 0px 2px inset white;
+    border-width: 2px;
   }
 </style>

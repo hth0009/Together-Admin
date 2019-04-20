@@ -49,7 +49,7 @@ export default {
     columnType: Object,
     filterKey: String,
     idKey: String,
-    highlightedEntry: String
+    highlightedEntry: Number
   },
   methods: {
     sortBy: function (key) {
@@ -80,7 +80,6 @@ export default {
       }
       if (sortKey) {
         data = data.slice().sort(function (a, b) {
-          console.log(a)
           a = a[sortKey]
           b = b[sortKey]
           return (a === b ? 0 : a > b ? 1 : -1) * order
@@ -101,6 +100,7 @@ export default {
 table {
   border-radius: 3px;
   background-color: #fff;
+  font-size: 13px;
 }
 
 th {

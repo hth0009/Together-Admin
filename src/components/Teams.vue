@@ -1,33 +1,45 @@
 <template>
   <div class="teams-container">
-    <h2>Teams</h2>
-    <div class="teams-wrapper">
+    <div class="teams-wrapper">      
+    <modal
+      name="new-team"
+      height="auto"
+      :scrollable="true"
+      y-overflow="auto">
+      <new-teams></new-teams>
+    </modal>
       <div class="teams-table-wrapper">
+        <h2>Teams</h2>
+        <div id="add-new-team"
+          @click="show">
+          <i class="material-icons noselect">add</i>
+        </div>
         <input type="text" class="basic-input" placeholder="search" v-model="teamsSearch">
         <vue-table
-          :data="gridData"
+          :data="computedPeople"
           :columns="gridColumns"
           :column-type="columnType"
           :filter-key="teamsSearch"
           :id-key="'id'"
-          :highlighted-entry="selectedTeam['id']"
+          :highlighted-entry="selectedID"
           @value="recieveID"></vue-table>
       </div>
-      <div class="team-view" v-show="selectedID != ''">
+      <div class="team-view" v-if="selectedID != ''">
         <div class="team-header"> 
-          <div :style="{backgroundImage: 'url(' +  selectedTeam.profile + ')'}"
+          <div :style="{backgroundImage: 'url(https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1)'}"
           class="profile-pic"></div>
+          <!-- <div :style="{backgroundImage: 'url(' +  selectedTeam.iconURL + ')'}"
+          class="profile-pic"></div> -->
           <h3>{{selectedTeam.name}}</h3>
           <div class="team-type noselect serve" v-if="selectedTeam.isServe">Serve Team</div>
           <div class="team-type noselect annonymous" v-if="selectedTeam.isAnnonymous">Annonymous</div>
         </div>
         <div class="team-info">
-          <!-- <button class="section-toggle">Teams</button> -->
           <div class="annonymous-team"
             v-if="selectedTeam.isAnnonymous">            
             <div class="description-panel">
               <h4>Description</h4>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p>{{selectedTeam.description}}</p>
             </div>            
             <div class="contact-panel">
               <h4>Contact</h4>
@@ -37,9 +49,9 @@
           <div v-else>
             <div class="description-panel">
               <h4>Description</h4>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p>{{selectedTeam.description}}</p>              
             </div>    
-            <div class="team-leader-panel">   
+            <!-- <div class="team-leader-panel">   
               <h4>Team Leader</h4>           
                 <div class="people-box">
                   <div class="icon" :style="{backgroundImage: 'url(' +  selectedTeam.leader.icon + ')'}"></div>
@@ -48,14 +60,14 @@
                   </div>
                 </div>
                 <p>Reach out to John at (606) 637-0799</p>
-            </div>
-            <div class="people-panel">
-              <h4>Members <span>| {{selectedTeam.people.length}}</span></h4>
+            </div> -->
+            <div class="people-list-panel">
+              <h4>Members <span>| {{selectedTeam.members.total}}</span></h4>
               <div class="people">
-                <div class="people-box" v-for="person in selectedTeam.people" :key="person.id">
+                <div class="people-box" v-for="person in selectedTeam.members['teamMembers(s)']" :key="person.personID">
                   <div class="icon" :style="{backgroundImage: 'url(' +  person.icon + ')'}"></div>
                   <div class="person-info">
-                    <div class="name">{{person.name}}</div>
+                    <div class="name">{{person.firstName + " " + person.lastName}}</div>
                   </div>
                 </div>
               </div>
@@ -68,144 +80,134 @@
 </template>
 
 <script>
+import NewTeams from '@/components/NewTeam'
 import VueTable from '@/components/Table'
+import Teams from '@/services/teams'
+
 export default {
   name: 'Teams',
   data () {
     return {
       searchQuery: '',
       gridColumns: ['profile', 'name', 'type'],
+      // gridColumns: ['name', 'type'],
+      // columnType: {name: 'text', type: 'text'},
       columnType: {profile: 'profile', name: 'text', type: 'text'},
-      gridData: [
-        {profile: 'https://images.unsplash.com/photo-1532498551838-b7a1cfac622e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80', name: 'Crazy Love', type: 'Community Group', id: 12363},
-        {profile: 'https://images.unsplash.com/photo-1523459178261-028135da2714?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1047&q=80', name: 'Abortion Recovery', type: 'Annonymous Group', id: 9832},
-        {profile: 'https://images.unsplash.com/photo-1519096990358-3c121dec4458?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80', name: 'Living out Sunday\'s Sermon' , type: 'Community Group', id: 934},
-        {profile: 'https://images.unsplash.com/photo-1527853359084-088460b3000d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=936&q=80', name: 'Load In' , type: 'Serve', id: 4876},
-        {profile: 'https://images.unsplash.com/photo-1509622460822-e6f328c33ac4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=618&q=80', name: 'Production' , type: 'Serve', id: 567587},
-        {profile: 'https://images.unsplash.com/photo-1522413452208-996ff3f3e740?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80', name: 'Wednessday Dinner and Discussion' , type: 'Community Group', id: 98765},
-        {profile: 'https://images.unsplash.com/photo-1508349356983-7838c2b04eb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80', name: 'Worship Team' , type: 'Serve', id: 8766},
+      teams: [
       ],
       teamsSearch: '',
       selectedID: '',
-      selectedTeam: {}
+      selectedTeam: {},
+      selectedID: 0
     }
   },
   components: {
-    VueTable
+    VueTable, NewTeams
   },
   methods: {
+    show () {
+      this.$modal.show('new-team');
+    },
+    hide () {
+      this.$modal.hide('new-team');
+    },
     recieveID(id) {
+      this.getTeam(id)
+    },    
+    async getTeams() {
+      const response = await Teams.getTeams()
+      this.teams = response['team(s)']
+    },
+    async getTeam(id) {
       this.selectedID = id
-      var key = 'id'
-      this.selectedTeam = {...this.gridData.find(function (item) {
-        return item[key] === id
-      })}
-      this.selectedTeam['isAnnonymous'] = false
-      this.selectedTeam['isServe'] = false
-      if (this.selectedTeam.type === 'Annonymous Group') {
-        this.selectedTeam.isAnnonymous = true
-      }
-      if (this.selectedTeam.type === 'Serve') {
-        this.selectedTeam.isServe = true
-      }
-      this.selectedTeam['people'] = [
-        {
-          "name": "Bob Jackson",
-          "icon": "https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",  
-        },
-        {
-          "name": "John Doe",
-          "icon": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
-        },
-        {
-          "name": "John Doe",
-          "icon": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
-        },
-        {
-          "name": "John Doe",
-          "icon": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
-        },
-        {
-          "name": "John Doe",
-          "icon": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
-        },
-        {
-          "name": "John Doe",
-          "icon": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
-        },
-        {
-          "name": "John Doe",
-          "icon": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
-        },
-        {
-          "name": "John Doe",
-          "icon": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
-        },
-        {
-          "name": "John Doe",
-          "icon": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80",
-        }
-      ]
-      this.selectedTeam["leader"] = {
-        "name": 'John Smith',
-        "icon": "https://images.unsplash.com/photo-1486645725491-57c86b563b91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-        "id": 239
-      }
-      this.selectedTeam = {...this.selectedTeam}
+      const response = await Teams.getTeam(id)
+      this.selectedTeam = response['team']
     }
   },
   props: {
   },
-  mounted() {    
-    this.recieveID(4876)
+  mounted() {
+    this.getTeams()
+  },
+  created() {
   },
   computed: {
+    computedPeople() {
+      const newTeams = []
+
+      for (let index = 0; index < this.teams.length; index++) {
+        const team = this.teams[index];
+
+      // Find Team Type
+      var teamType = ''
+      if (team.isServeTeam ) {
+        teamType = "Serve Team"
+      }
+      else if (team.isAnonymous ) {
+        teamType = "Anonymous"
+      }
+      else {
+        teamType = "Community Group"
+      }
+
+      newTeams.push({
+          name: team.name,
+          type: teamType,
+          id: team.id,
+          profile: 'https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1'
+        })
+      }
+      return newTeams
+    }
   }
 }
 </script>
 
 <style scoped>
+
 .teams-container {
   height: 100%;
 }
 h2 {
   padding-top: 30px;
-  padding-left: 20px;
+  /* padding-left: 20px; */
   height: 40px;
 }
 
 .teams-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: stretch;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   position: relative;
-  height: calc(100% - 70px);
+  height: 100%;
+  width: 100%;
   overflow: hidden;
+  /* overflow-x: auto; */
 }
 
 .teams-table-wrapper {
   padding: 20px 30px;
-  height: 100%;
+  height: calc(100%);
   overflow-y: auto;
-  flex: 1;
+  height: calc(100vh - 80px);
+  position: relative;
 }
 
 .team-view {  
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
   position: relative;
   padding-left: 30px;
-  flex: 1;
+  height: calc(100vh - 80px);
   overflow-y: auto;
+  padding-top: 40px;
 }
 .team-view::before {
   content: '';
-  border-left: 1px solid #D0D3D6;
+  border-left: 1px solid #f0f0f0 ;
   position: absolute;
-  height: 60vh;
+  height: 20vh;
   left: 0;
-  top: 20%;
+  top: 0%;
 }
 .team-header {  
   position: relative;
@@ -253,46 +255,6 @@ h2 {
 .team-info p{
   margin: 10px 20px 10px 10px;
 }
-.people {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-right: 15px;
-}
-.people-box {
-  margin: 5px;
-  padding: 10px;
-  transition: all .3s ease;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border-left: 2px white solid;
-  cursor: pointer;
-}  
-.people-box.unread {
-  border-left: 2px #69CDCF solid;
-}
-.people-box:hover {
-  box-shadow: 0px 2px 4px -2px rgba(128, 128, 128, 0.507);    
-}
-.people-box.selected {
-  box-shadow: 0px 4px 5px -3px rgba(128, 128, 128, 0.507);
-}
-.people-box .icon {
-  min-width: 30px;
-  max-width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: inline-flex;
-  flex: 1;
-
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-}
-.people-box .person-info{
-  flex: 1;
-  padding-left: 10px;
-}
 .skills {
   padding-left: 5px;
 }
@@ -307,4 +269,46 @@ h2 {
 .skill.confirmed {
   border-color: #69CDCF;
 }
+
+#add-new-team {
+  width: 25px;
+  height: 25px;
+  padding: 7.5px;
+  position: absolute;
+  top: 40px;
+  right: 15px;
+  background: #00cec9;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+#add-new-team i {    
+  color: white;
+}
+
+/* //////////////////////////
+//////  MEDIA QUERIES ///////
+////////////////////////// */
+
+/*------------------------------------------
+  Responsive Grid Media Queries - 1280, 1024, 768, 480
+   1280-1024   - desktop (default grid)
+   1024-768    - tablet landscape
+   768-480     - tablet 
+   480-less    - phone landscape & smaller
+--------------------------------------------*/
+@media all and (min-width: 1024px) and (max-width: 1280px) {
+ }
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+ }
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+ }
+
+@media all and (max-width: 480px) {
+  .teams-wrapper {
+    grid-template-columns: 1fr;
+  }
+ }
 </style>
