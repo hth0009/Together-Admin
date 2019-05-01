@@ -1,17 +1,30 @@
 <template>
-  <div class="reading-plan-container">
-    <form action="" class="new-notification">
-      <label for="new-notification">New Notification</label>
-      <input type="text" name="new-notification" class="basic-input notification" placeholder="new notification">
-      <div class="events">
-        <ejs-dropdownlist
-          :autofill='true' 
-          :fields='fields' 
-          :dataSource='events' 
-          :placeholder='"events"'
-          :select="appendUser"></ejs-dropdownlist>
+  <div class="new-notification-container">
+    <label for="new-notification" class="header">New Notification</label>
+    <form @submit.prevent="addNotification" class="new-notification">
+      <!-- <input type="text" name="new-notification-title" class="basic-input title" placeholder="title"> -->
+      <textarea type="text" name="new-notification" class="basic-textarea notification" placeholder="message"></textarea>
+      <!-- <div class="date">
+        <label class="event-or-team">
+          <input type="checkbox" class="basic-radio"
+            name="event-or-team"
+            v-model="teamType"
+            value="TEAM">
+          <i>scheduled</i>
+        </label>
+      </div> -->
+      <div class="date">
+        <ejs-datetimepicker
+          :placeholder="'now'"></ejs-datetimepicker>
       </div>
-      <div class="teams">
+          <!-- <div class="teams">
+        <label class="event-or-team">
+          <input type="radio" class="basic-radio"
+            name="event-or-team"
+            v-model="teamType"
+            value="TEAM">
+          <i>TEAM</i>
+        </label>
         <ejs-dropdownlist
           :autofill='true' 
           :fields='fields' 
@@ -19,7 +32,26 @@
           :placeholder='"team"'
           :select="appendUser"></ejs-dropdownlist>
       </div>
-      <button class="basic-button submit">sumbit</button>
+      <div class="events">
+        <label class="event-or-team">
+          <input type="radio" class="basic-radio"
+            name="event-or-team"
+            v-model="teamType"
+            value="EVENT">
+          <i>EVENT</i>
+        </label>
+        <ejs-dropdownlist
+          :autofill='true' 
+          :fields='fields' 
+          :dataSource='events' 
+          :placeholder='"events"'
+          :select="appendUser"></ejs-dropdownlist>
+      </div> -->
+      <button class="basic-button submit">
+        <i class="material-icons">
+          send
+        </i>
+      </button>
     </form>
   </div>
 </template>
@@ -44,18 +76,34 @@ export default {
 </script>
 
 <style scoped>
-
+.new-notification-container {
+  padding: 20px;
+}
+.new-notification-container .header{
+  margin-bottom: 10px;
+  display: block;
+}
 .new-notification {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr .2fr;
   /* grid-auto-rows: minmax(100px, auto); */
   grid-gap: 10px;
+  padding: 0px 20px;
 }
-.new-notification label{
-  grid-column: 1/5;
+.new-notification .notification, .new-notification .title{
+  grid-column: 2/4;
+  padding: 15px 10px;
+  margin: 0px;
+  height: 80px;
+  resize: none;
 }
-.new-notification .notification{
-  grid-column: 2/5;
+.new-notification .title{
+  font-weight: bold;
+}
+.new-notification .date{
+  padding-top: 10px;
+  grid-column: 1;
+  grid-row: 1;
 }
 .new-notification .teams{
   grid-column: 2;
@@ -66,8 +114,30 @@ export default {
   /* grid-row: 2; */
 }
 .new-notification .submit{
-  /* grid-column: 4/5;
-  grid-row: 1/3; */
+  grid-column: 4/5;
+  grid-row: 1/3;
+  width: 40px;
+  height: 40px;
+  padding: 7.5px 0px 0px 2.5px;
+  border-radius: 50px;
+  justify-self: center;
+  /* align-self: center; */
+}
+.new-notification .submit i{
+  font-size: 17.5px;
+  text-rendering: optimizeLegibility;
+}
+
+.event-or-team {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0px 5px;
+}
+.event-or-team i {  
+  padding: 5px;
+  font-size: 13px;
+  font-style: normal;
 }
 
 /* //////////////////////////

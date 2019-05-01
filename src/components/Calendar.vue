@@ -1,15 +1,13 @@
 <template>
   <div>
     <div id="calendar-content">
-      <!-- <div id="event-content">
-        <new-event v-model="newEvent"></new-event>
-      </div> -->
       <div class="calendar-holder">
         <ejs-schedule height="650px" 
+          id="schedule"
+          ref="ScheduleObj"
           :selectedDate='selectedDate' 
           :eventSettings='eventSettings'
           :views='views'
-          :events='events'
           ></ejs-schedule>
       </div>
     </div>
@@ -17,56 +15,53 @@
 </template>
 
 <script>
-import FullCalendar from 'vue-fullcalendar'
-import NewEvent from '@/components/NewEvent'
 import { SchedulePlugin, Day, Month, Agenda, Resize, DragAndDrop } from "@syncfusion/ej2-vue-schedule";
+import { extend } from '@syncfusion/ej2-base';
+import Events from '@/services/events'
 
 import Vue from 'vue'
 Vue.use(SchedulePlugin);
+
+const eventTemplate = {
+  Id: -1,
+  Subject: '',
+  StartTime: new Date(),
+  EndTIme: new Date(),
+  IsAllDay: false,
+}
 
 export default {
   name: 'Calender',
   data() {
     return {
-      newEvent: {},
       events: [],  
+      eventSettings: { dataSource: extend({}, this.events, null, true)},
+      selectedDate: new Date("2018-08-19T12:00:00"),
       views: ['Month', 'Day', 'Agenda'],
-       eventSettings: {
-        dataSource: []
-      },
-      selectedDate: new Date(),
     }
-  },
-  components: {
-    FullCalendar,
-    NewEvent,
   },
   provide: {
     schedule: [Day, Month, Agenda, Resize, DragAndDrop]
   },
-  methods: {
-    onDateChange: function (args) {
-      this.selectedDate = args.value;
-    }
+  mounted() {
+    this.getEvents()
   },
-  watch: {
-    newEvent: {
-      handler: function (n, o) {
-        const empty = {
-          title: '',
-          description: '',
-          start: '',
-          end: '',
-          type: ''
-        }
-        if (n == empty) {
-          return
-        }
-        this.events = [
-          ...this.events,
-          this.newEvent
-        ]
+  methods: {   
+    async getEvents () {
+      const response = await Events.getEvents()
+      const data = response['event(s)']
+      for (let index = 0; index < data.length; index++) {
+        const event = data[index];
+        this.events.push({
+          Id: event.id,
+          Subject: event.eventName,
+          StartTime: new Date(event.startTime),
+          EndTIme: new Date(event.endTime),
+        })        
       }
+      // this.eventSettings.dataSource = this.events  
+      let scheduleObj = document.getElementById("schedule").ej2_instances[0]; 
+      scheduleObj.eventSettings.dataSource = this.events  
     }
   }
 }

@@ -11,20 +11,17 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: '',
-    user: {
-      username: localStorage.getItem('username') || '',
-      profileUrl: 'https://images.unsplash.com/photo-1476493279419-b785d41e38d8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-    },
+    personID: 1,
     churchProfile: 'http://static1.squarespace.com/static/563fb2d1e4b07f78f2db4c32/t/5c3621a9352f53339f36df51/1552577214769/?format=1500w'
   },
   mutations: {
     auth_request (state) {
       state.status = 'loading'
     },
-    auth_success (state, token, user) {
+    auth_success (state, payload) {
       state.status = 'success'
-      state.token = token
-      state.user = user
+      state.token = payload.token
+      state.personID = payload.personID
     },
     auth_error (state) {
       state.status = 'error'
@@ -51,31 +48,24 @@ export default new Vuex.Store({
           Username: username,
           Pool: userPool
         }
-        var userInfo = {
-          username: username
-        }
         cognitoUser = new CognitoUser(userData)
         cognitoUser.authenticateUser(authenticationDetails, {
           onSuccess: function (result) {
             // Local Storage
-            // var refreshToken = result.getRefreshToken().getToken()
             var idToken = result.getIdToken().getJwtToken()
-            // localStorage.setItem('refreshToken', refreshToken)
-            // localStorage.setItem('idToken', idToken)
-            // localStorage.setItem('username', username)
 
             // Set Header
             axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`
 
             // Change State
-            commit('auth_success', idToken, ...userInfo)
+            commit('auth_success', {
+              token: idToken,
+              personID: 1
+            })
             resolve()
           },
           onFailure: function (err) {
             commit('auth_error')
-            // localStorage.removeItem('refreshToken')
-            // localStorage.removeItem('idToken')
-            // localStorage.removeItem('username')
             reject(err)
           }
         })
@@ -95,10 +85,11 @@ export default new Vuex.Store({
             if (err) {
               reject(err)
             }
-            console.log('session validity: ' + session.isValid())
-            console.log(session)
             var idToken = session.getIdToken().getJwtToken()
-            commit('auth_success', idToken, {})
+            commit('auth_success', {
+              token: idToken,
+              personID: 1
+            })
             resolve()
           })
         }
@@ -107,7 +98,6 @@ export default new Vuex.Store({
     logout ({commit}) {
       return new Promise((resolve, reject) => {
         commit('logout')
-        // localStorage.removeItem('token')
         cognitoUser.deleteUser(function (err, result) {
           if (err) {
             reject(err)
@@ -120,6 +110,7 @@ export default new Vuex.Store({
   },
   getters: {
     isLoggedIn: state => !!state.token,
-    authStatus: state => state.status
+    authStatus: state => state.status,
+    personID: state => state.personID
   }
 })

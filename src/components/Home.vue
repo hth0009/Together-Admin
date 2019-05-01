@@ -25,6 +25,6 @@ import Notifications from '@/components/Notifications'
 
 <style scoped>
 #home {
-  padding: 0px
+  padding: 30px
 }
 </style>

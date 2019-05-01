@@ -9,43 +9,48 @@
       <div class="thread-boxes">
         <div v-for="thread in sortedThreads" :key="thread.id"
           class="thread-box"
-          :class="{unread: thread.unread,
-            selected: thread.id === selectedMessage.id}">
-            <div class="profile-pic" :style="{backgroundImage: 'url(' +  thread.senderProfilePic + ')'}"></div>
+          :class="{unread: thread.unreadMessages > 0,
+          selected: thread.id === selectedThreadID}"
+          @click="selectThread(thread.id)">
+            <div class="profile-pic" :style="{backgroundImage: 'url(' +  thread.threadImageThumbnailURL + ')'}"></div>
             <div class="thread-info">
-              <div class="sender"> {{thread.sender}} </div>
-              <div class="message"> {{thread.recentMessage.substring(0, 30) + ""}} </div>
+              <div class="sender"> {{thread.title}} </div>
+              <div v-if="thread.lastMessage != null" class="message"> {{thread.lastMessage.contents.substring(0, 30) + ""}} </div>
             </div>
         </div>
       </div>
     </div>
     <div class="thread-wrapper">
-    <div class="thread">
-      <div class="new-message-box">
-        <input type="text">
-      </div>
-      <div class="messages">
-        <div class="message-box-wrapper">
-          <div v-for="(message, index) in messages" :key="message.id"
-          class="message-box"
-          :class="{self: message.sender.self,
-          simple: index > 0 && !message.sender.self && messages[index - 1].sender.username == message.sender.username}">
-            <div v-if="!message.sender.self && index == 0 || index > 0 && !message.sender.self && messages[index - 1].sender.username != message.sender.username"
-              class="profile-pic" :style="{backgroundImage: 'url(' +  message.sender.profilePic + ')'}"></div>
-            <div class="message-info">
-              <div v-if="!message.sender.self && index == 0 || index > 0 && !message.sender.self && messages[index - 1].sender.username != message.sender.username"
-                class="user">{{message.sender.name}}</div>
-              <div class="message-content">{{message.message}}</div>
+      <div class="thread">
+        <div class="new-message-box">
+          <input type="text">
+        </div>
+        <div class="messages">
+          <div class="message-box-wrapper">
+            <div v-for="(message, index) in messages" :key="message.id"
+            class="message-box"
+            :class="{self: id == message.fromID,
+            simple: index > 0 && id != message.fromID && messages[index - 1].fromID == message.fromID}">
+              <div v-if="id != message.fromID && index == 0 || index > 0 && id != message.fromID && messages[index - 1].fromID != message.fromID"
+                class="profile-pic" :style="{backgroundImage: 'url(' +  message.fromIDIcon + ')'}"></div>
+              <div class="message-info">
+                <div v-if="id != message.fromID && index == 0 || index > 0 && id != message.fromID && messages[index - 1].fromID != message.fromID
+                  && hasThreadInfo"
+                  class="user">{{peopleHash[message.fromID].firstName + " " + peopleHash[message.fromID].lastName}}</div>
+                <div class="message-content">{{message.contents}}</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
   </div>
 </template>
 
 <script>
+import Threads from '@/services/threads'
+import Message from '@/services/messages'
+
 export default {
   name: 'Inbox',
   data () {
@@ -134,106 +139,54 @@ export default {
           senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
         }
       ],
-      selectedMessage: 
-        {
-          sender: "Sarah Thompson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-          id: 'aljk40'
-        },
+      thread: {},
+      selectedThreadID: -1,
       messages: [
-        {
-          timeSent: '',
-          sender: {
-            name: 'Sarah',
-            username: 'sarahbeara',          
-            profilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-            self: false
-          },
-          message: 'Hi there. I have a question about how to get plugged in.',
-        },
-        {
-          timeSent: '',
-          sender: {
-            name: 'Bob',
-            username: 'bob',          
-            profilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-            self: true
-          },
-          message: 'How can I help?',
-        },
-        {
-          timeSent: '',
-          sender: {
-            name: 'Sarah',
-            username: 'sarahbeara',          
-            profilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-            self: false
-          },
-          message: 'I\'ve been wanting to serve on a creative team, but I can\'t find any information on one',
-        },
-        {
-          timeSent: '',
-          sender: {
-            name: 'Bob',
-            username: 'bob',          
-            profilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-            self: true
-          },
-          message: 'We actually have been looking for sommeone to lead that team! Would you like to grab a meal and talk about setting up a serve team?',
-        },
-        {
-          timeSent: '',
-          sender: {
-            name: 'Sarah',
-            username: 'sarahbeara',          
-            profilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-            self: false
-          },
-          message: 'That sounds great',
-        },
-        {
-          timeSent: '',
-          sender: {
-            name: 'Sarah',
-            username: 'sarahbeara',          
-            profilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-            self: false
-          },
-          message: 'I just invited you to a meal!',
-        },
-        {
-          timeSent: '',
-          sender: {
-            name: 'Sarah',
-            username: 'sarahbeara',          
-            profilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-            self: false
-          },
-          message: 'Can\'t wait to see you there!',
-        },
-        {
-          timeSent: '',
-          sender: {
-            name: 'Sarah',
-            username: 'sarahbeara',          
-            profilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-            self: false
-          },
-          message: 'Thanks!',
-        },
-      ]
+      ],
+      id: 1,
+      peopleHash: {},
+      hasThreadInfo: false,
+      hasMessageInfo: false
     }
   },
   components: {
   },
-  methods: {
+  methods: {    
+    async getThreads() {
+      const response = await Threads.getThreads()
+      let threads = response['thread(s)']
+      this.threads = threads
+    },
+    async getThread(id) {
+      const response = await Threads.getThread(id)
+      let thread = response.thread
+      let members = thread.members['threadMembers(s)']
+      this.peopleHash = {}
+      for (let index = 0; index < members.length; index++) {
+        const member = members[index];
+        this.peopleHash[member.personID] = member
+      }
+      this.thread = thread      
+      this.hasThreadInfo = true
+    },
+    async getMessages(id) {
+      const response = await Message.getMessages(id)
+      let messages = response['message(s)']
+      this.messages = messages
+      this.hasMessageInfo = true
+    },
+    selectThread(id) {
+      this.hasThreadInfo = false
+      this.hasMessageInfo = false
+      this.selectedThreadID = id
+      this.getThread(id)
+      this.getMessages(id)
+    }
   },
   props: {
   },
   mounted() {    
+    this.getThreads()
   },
   computed: {
     sortedThreads() {
@@ -414,7 +367,7 @@ export default {
 @media all and (min-width: 480px) and (max-width: 768px) {
   .threads {
     height: calc(100vh - 75px);    
-    margin-top: 25px;
+    padding-top: 35px;
   }
  }
 

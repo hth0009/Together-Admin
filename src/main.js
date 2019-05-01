@@ -11,7 +11,7 @@ import store from './store'
 /////////////////////////////// */
 
 import { DropDownListPlugin } from '@syncfusion/ej2-vue-dropdowns'
-import { DatePickerPlugin } from '@syncfusion/ej2-vue-calendars'
+import { DateTimePickerPlugin } from '@syncfusion/ej2-vue-calendars'
 // import { TabPlugin } from '@syncfusion/ej2-vue-navigations'
 
 /* ///////////////////////
@@ -19,7 +19,7 @@ import { DatePickerPlugin } from '@syncfusion/ej2-vue-calendars'
 /////////////////////// */
 
 Vue.use(DropDownListPlugin)
-Vue.use(DatePickerPlugin)
+Vue.use(DateTimePickerPlugin)
 // Vue.use(TabPlugin)
 
 /* ///////////////////////

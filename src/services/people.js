@@ -7,7 +7,7 @@ export default {
       {
         params: {
           inChurch: 'NPCChurch3',
-          pageSize: 500,
+          pagesize: 50,
           page: 0,
           relateTo: -1
         }

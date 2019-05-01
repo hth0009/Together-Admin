@@ -29,7 +29,7 @@ import DayExpandedScheduler from '@/components/DayExpandedScheduler'
 import OrderOfService from '@/components/OrderOfService'
 import Times from '@/components/Times'
 import TextField from '@/components/TextField'
-import Audio from '@/components/Audio'
+// import Audio from '@/components/Audio'
 import Reminders from '@/components/Reminders'
 
 import VueSelect from 'vue-select'
@@ -63,10 +63,10 @@ import VueSelect from 'vue-select'
               name: 'Text Field',
               component: 'TextField'
             },
-            {
-              name: 'Audio',
-              component: 'Audio'
-            }
+            // {
+            //   name: 'Audio',
+            //   component: 'Audio'
+            // }
           ]
         }
       }
@@ -76,7 +76,7 @@ import VueSelect from 'vue-select'
       OrderOfService,
       Times,
       TextField,
-      Audio,
+      // Audio,
       Reminders,
       VueSelect
     }
