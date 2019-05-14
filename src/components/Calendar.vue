@@ -3,7 +3,7 @@
     <div id="calendar-content">
       <div class="calendar-holder">
         <ejs-schedule height="650px" 
-          id="schedule"
+          id="Schedule"
           ref="ScheduleObj"
           :selectedDate='selectedDate' 
           :eventSettings='eventSettings'
@@ -37,6 +37,7 @@ export default {
       events: [],  
       eventSettings: { dataSource: extend({}, this.events, null, true)},
       selectedDate: new Date("2018-08-19T12:00:00"),
+      // selectedDate: new Date(2018, 5, 4),
       views: ['Month', 'Day', 'Agenda'],
     }
   },
@@ -50,18 +51,39 @@ export default {
     async getEvents () {
       const response = await Events.getEvents()
       const data = response['event(s)']
+
+      var events = Array(data.length)
       for (let index = 0; index < data.length; index++) {
         const event = data[index];
-        this.events.push({
+        events[index] = {
           Id: event.id,
           Subject: event.eventName,
           StartTime: new Date(event.startTime),
           EndTIme: new Date(event.endTime),
-        })        
+        }    
       }
       // this.eventSettings.dataSource = this.events  
-      let scheduleObj = document.getElementById("schedule").ej2_instances[0]; 
-      scheduleObj.eventSettings.dataSource = this.events  
+      let scheduleObj = document.getElementById("Schedule").ej2_instances[0]; 
+      const setArray = [...events]
+      scheduleObj.eventSettings.dataSource = setArray
+      scheduleObj.dataBind()
+
+      this.events = setArray
+
+      // let scheduleObj = document.getElementById("Schedule").ej2_instances[0];
+      // scheduleObj.eventSettings.dataSource = [{
+      //   Id: 1,
+      //   Subject: 'Explosion of Betelgeuse Star',
+      //   StartTime: new Date(2018, 5, 4, 9, 30),
+      //   EndTime: new Date(2018, 5, 4, 11, 0),
+      // },
+      // {
+      //   Id: 2,
+      //   Subject: 'Analysis',
+      //   StartTime: new Date(2018, 5, 4, 9, 30),
+      //   EndTime: new Date(2018, 5, 4, 11, 0),
+      // }];
+      // scheduleObj.dataBind();
     }
   }
 }

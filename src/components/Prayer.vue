@@ -1,34 +1,24 @@
 <template>
   <div class="prayer-container">
     <div class="prayer-wrapper">  
-      <div class="prayer-table-wrapper">
-        <h2>Prayer</h2>        
-        <!-- <div id="add-new-prayer"
-          @click="show">
-          <i class="material-icons noselect">add</i>
-        </div> -->
-        <input type="text" class="basic-input" placeholder="search" v-model="prayersSearch">
-        <vue-table
-          :data="computedPrayers"
-          :columns="gridColumns"
-          :column-type="columnType"
-          :filter-key="prayersSearch"
-          :id-key="'id'"
-          :highlighted-entry="selectedID"
-          @value="recieveID"></vue-table>
+      <div class="prayer-card-wrapper">
+        <cards
+          :cardList="formattedPrayers"
+          :loading="prayersLoading"
+          @selected="recieveID"/>
       </div>
       <div class="prayer-view" v-if="selectedID != ''">
-        <div class="prayer-header"> 
+        <!-- <div class="prayer-header"> 
           <div :style="{backgroundImage: 'url(https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1)'}"
-          class="profile-pic"></div>
+          class="profile-pic"></div> -->
           <!-- <div :style="{backgroundImage: 'url(' +  selectedTeam.iconURL + ')'}"
           class="profile-pic"></div> -->
-          <h3>{{selectedTeam.name}}</h3>
+          <!-- <h3>{{selectedTeam.name}}</h3>
           <div class="prayer-type noselect serve" v-if="selectedTeam.isServe">Serve Team</div>
           <div class="prayer-type noselect annonymous" v-if="selectedTeam.isAnnonymous">Annonymous</div>
         </div>
-        <div class="prayer-info">
-          <div class="annonymous-prayer"
+        <div class="prayer-info"> -->
+          <!-- <div class="annonymous-prayer"
             v-if="selectedTeam.isAnnonymous">            
             <div class="description-panel">
               <h4>Description</h4>
@@ -43,7 +33,7 @@
             <div class="description-panel">
               <h4>Description</h4>
               <p>{{selectedTeam.description}}</p>              
-            </div>    
+            </div>     -->
             <!-- <div class="prayer-leader-panel">   
               <h4>Team Leader</h4>           
                 <div class="people-box">
@@ -54,7 +44,7 @@
                 </div>
                 <p>Reach out to John at (606) 637-0799</p>
             </div> -->
-            <div class="people-list-panel">
+            <!-- <div class="people-list-panel">
               <h4>Members <span>| {{selectedTeam.members.total}}</span></h4>
               <div class="people">
                 <div class="people-box" v-for="person in selectedTeam.members['prayerMembers(s)']" :key="person.personID">
@@ -64,62 +54,70 @@
                   </div>
                 </div>
               </div>
-            </div>   
-          </div>
-        </div>
+            </div>    -->
+          <!-- </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import VueTable from '@/components/Table'
+import Prayers from '@/services/prayers'
+import Cards from '@/components/CardList'
 
 export default {
   name: 'Prayer',
   data () {
     return {
-      searchQuery: '',
-      gridColumns: ['profile', 'name', 'prayer'],
-      // gridColumns: ['name', 'type'],
-      // columnType: {name: 'text', type: 'text'},
-      columnType: {profile: 'profile', name: 'text', type: 'text'},
       prayers: [
-        {
-          profile: '',
-          name: 'Harrison Haigler',
-          prayer: 'Trust in the Lord\'s promises'
-        }
       ],
+      prayersLoading: false,
       prayersSearch: '',
       selectedID: '',
       selectedPrayer: {},
-      selectedID: 0
+      selectedID: -1
     }
   },
   components: {
-    VueTable
+    Cards
   },
   methods: {
+    recieveID(id) {
+      this.selectedID = id
+      this.getPrayer()
+    },
+    async getPrayers() {
+      const response = await Prayers.getPrayers()
+      console.log(response)
+      this.prayers = response['prayer(s)']
+    },    
+    async getPrayer() {
+      const response = await Prayers.getPrayer(this.selectedID)
+      console.log(response)
+      this.selectedPrayer = response['prayer']
+    }
   },
   props: {
   },
-  mounted() {    
+  mounted() {  
+    this.prayersLoading = true 
+    this.getPrayers().then(() => {this.prayersLoading = false})
   },
-  computed: {    
-    computedPrayers() {
-      const newPrayers = []
-
+  computed: {   
+    formattedPrayers() {
+      var prayers = Array(this.prayers.length)
       for (let index = 0; index < this.prayers.length; index++) {
         const prayer = this.prayers[index];
-
-        newPrayers.push({
-          name: prayer.name,
+        const newPrayer = {
           id: prayer.id,
-          prayer: prayer.prayer
-        })
+          title: prayer.subject,         
+          profile:'https://images.unsplash.com/photo-1483884105135-c06ea81a7a80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+          subtext: ''
+        }
+        prayers[index] = newPrayer
       }
-      return newPrayers
+      return prayers
     }
   }
 }
@@ -135,22 +133,19 @@ h2 {
   /* padding-left: 20px; */
   height: 40px;
 }
-
 .prayer-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 250px 1fr;
   position: relative;
   height: 100%;
   width: 100%;
   overflow: hidden;
   /* overflow-x: auto; */
 }
-
-.prayer-table-wrapper {
-  padding: 20px 30px;
-  height: calc(100%);
+.prayer-card-wrapper {
   overflow-y: auto;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 40px);
+  width: 250px;
   position: relative;
 }
 
@@ -212,6 +207,10 @@ h2 {
  }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
+  .prayer-card-wrapper {    
+    height: calc(100vh - 75px);    
+    padding-top: 35px;
+  }
  }
 
 @media all and (max-width: 480px) {

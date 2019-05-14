@@ -40,8 +40,8 @@ export default new Vuex.Store({
           Password: password
         }
         var authenticationDetails = new AuthenticationDetails(authenticationData)
-        var poolData = { UserPoolId: 'us-east-2_0Uo7x0QxS',
-          ClientId: '1jevotv2ihv5u4kvn5kj8c62cq'
+        var poolData = { UserPoolId: 'us-east-2_th6kgbG7W',
+          ClientId: '40ljk2uqsfr2rhuqascb564rlq'
         }
         var userPool = new CognitoUserPool(poolData)
         var userData = {
@@ -74,8 +74,8 @@ export default new Vuex.Store({
     checkLogin ({commit}) {
       return new Promise((resolve, reject) => {
         var data = {
-          UserPoolId: 'us-east-2_0Uo7x0QxS',
-          ClientId: '1jevotv2ihv5u4kvn5kj8c62cq'
+          UserPoolId: 'us-east-2_th6kgbG7W',
+          ClientId: '40ljk2uqsfr2rhuqascb564rlq'
         }
         var userPool = new CognitoUserPool(data)
         cognitoUser = userPool.getCurrentUser()

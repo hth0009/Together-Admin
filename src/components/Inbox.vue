@@ -1,6 +1,12 @@
 <template>
   <div class="inbox-container">
-    <div class="threads">
+    <div class="card-container"><cards
+      :cardList="sortedThreads"
+      :loading="threadsLoading"
+      @selected="selectThread"
+      />
+    </div>
+    <!-- <div class="threads">
       <div class="search-wrapper">
         <input type="text" class="basic-input"
           placeholder="search"
@@ -19,13 +25,13 @@
             </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="thread-wrapper">
       <div class="thread">
         <div class="new-message-box">
           <input type="text">
         </div>
-        <div class="messages">
+        <div class="messages" v-if="displayThread == 2">
           <div class="message-box-wrapper">
             <div v-for="(message, index) in messages" :key="message.id"
             class="message-box"
@@ -34,7 +40,7 @@
               <div v-if="id != message.fromID && index == 0 || index > 0 && id != message.fromID && messages[index - 1].fromID != message.fromID"
                 class="profile-pic" :style="{backgroundImage: 'url(' +  message.fromIDIcon + ')'}"></div>
               <div class="message-info">
-                <div v-if="id != message.fromID && index == 0 || index > 0 && id != message.fromID && messages[index - 1].fromID != message.fromID
+                <div v-if="id != peopleHash[message.fromID] != undefined && index == 0 || index > 0 && id != message.fromID && messages[index - 1].fromID != message.fromID
                   && hasThreadInfo"
                   class="user">{{peopleHash[message.fromID].firstName + " " + peopleHash[message.fromID].lastName}}</div>
                 <div class="message-content">{{message.contents}}</div>
@@ -50,6 +56,7 @@
 <script>
 import Threads from '@/services/threads'
 import Message from '@/services/messages'
+import Cards from '@/components/CardList'
 
 export default {
   name: 'Inbox',
@@ -139,6 +146,7 @@ export default {
           senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
         }
       ],
+      threadsLoading: false,
       thread: {},
       selectedThreadID: -1,
       messages: [
@@ -146,10 +154,12 @@ export default {
       id: 1,
       peopleHash: {},
       hasThreadInfo: false,
-      hasMessageInfo: false
+      hasMessageInfo: false,
+      displayThread: 0
     }
   },
   components: {
+    Cards
   },
   methods: {    
     async getThreads() {
@@ -161,7 +171,7 @@ export default {
       const response = await Threads.getThread(id)
       let thread = response.thread
       let members = thread.members['threadMembers(s)']
-      this.peopleHash = {}
+      this.peopleHash = []
       for (let index = 0; index < members.length; index++) {
         const member = members[index];
         this.peopleHash[member.personID] = member
@@ -170,6 +180,7 @@ export default {
       this.hasThreadInfo = true
     },
     async getMessages(id) {
+      this.messages = []
       const response = await Message.getMessages(id)
       let messages = response['message(s)']
       this.messages = messages
@@ -179,18 +190,39 @@ export default {
       this.hasThreadInfo = false
       this.hasMessageInfo = false
       this.selectedThreadID = id
-      this.getThread(id)
-      this.getMessages(id)
+
+      // displayThread waits for getThread() and getMessages()
+      // to finish. When displayThread equals 2 we know both
+      // functions have run
+      this.displayThread = 0
+      this.thread = {}
+      this.getThread(id).then(() => {this.displayThread += 1})
+      this.getMessages(id).then(() => {this.displayThread += 1})
     }
   },
   props: {
   },
   mounted() {    
-    this.getThreads()
+    this.threadsLoading = true
+    this.getThreads().then(() => {this.threadsLoading = false})
   },
   computed: {
     sortedThreads() {
-      return this.threads
+      var threads = Array(this.threads.length)
+      for (let index = 0; index < this.threads.length; index++) {
+        const thread = this.threads[index];
+        const lastMessage = thread.lastMessage != null ? thread.lastMessage.contents : ''
+        const newThread = {
+          id: thread.id,
+          title: thread.title,
+          // profile: thread.threadImageThumbnailURL,
+          profile: 'https://images.unsplash.com/photo-1536562833330-a59dc2305a5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+          subtext: lastMessage,
+          unread: thread.unreadMessages > 0
+        }
+        threads[index] = (newThread)
+      }
+      return threads
     },
     reversedMessages() {
       return this.messages.reverse()
@@ -205,70 +237,10 @@ export default {
     flex-direction: row;
     justify-content: stretch;
   }
-  .threads {
-    height: calc(100vh - 40px);
-    width: 250px;
+
+  .card-container {
     border-right: 1px #E6E9EC solid;
   }
-  .search-wrapper {
-    border-bottom: 1px #E6E9EC solid;
-    height: 57px;
-  }
-  .search-wrapper .basic-input {
-    margin: 10px 0px;
-  }
-  .thread-boxes {
-    overflow-y: auto;
-    overflow-x: hidden;
-    height: calc( 100% - 58px);
-  }
-  .thread-box {
-    margin: 5px;
-    padding: 10px;
-    transition: all .3s ease;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-left: 2px white solid;
-    cursor: pointer;
-  }  
-  .thread-box.unread {
-    border-left: 2px #69CDCF solid;
-  }
-  .thread-box:hover {
-    box-shadow: 0px 2px 4px -2px rgba(128, 128, 128, 0.507);    
-  }
-  .thread-box.selected {
-    box-shadow: 0px 4px 5px -3px rgba(128, 128, 128, 0.507);
-  }
-  .thread-box .profile-pic {
-    min-width: 30px;
-    max-width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: inline-flex;
-    flex: 1;
-
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-  }
-  .thread-box .thread-info{
-    flex: 1;
-    padding-left: 10px;
-  }
-  .thread-box .profile-pic img{
-  }
-  .thread-box .sender{
-    /* margin: 5px; */
-    font-size: 12px;
-    font-weight: bold;
-  }
-  .thread-box .message{
-    font-size: 12px;
-  }
-
-  
   .thread-wrapper {
     height: calc(100vh - 40px);
     position: relative;
@@ -365,7 +337,7 @@ export default {
  }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
-  .threads {
+  .card-container {
     height: calc(100vh - 75px);    
     padding-top: 35px;
   }

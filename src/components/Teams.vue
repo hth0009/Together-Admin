@@ -8,13 +8,13 @@
       y-overflow="auto">
       <new-teams></new-teams>
     </modal>
-      <div class="teams-table-wrapper">
-        <h2>Teams</h2>
+      <div class="teams-card-wrapper">
+        <!-- <h2>Teams</h2> -->
         <div id="add-new-team"
           @click="show">
           <i class="material-icons noselect">add</i>
         </div>
-        <input type="text" class="basic-input" placeholder="search" v-model="teamsSearch">
+        <!-- <input type="text" class="basic-input" placeholder="search" v-model="teamsSearch">
         <vue-table
           :data="computedPeople"
           :columns="gridColumns"
@@ -22,7 +22,11 @@
           :filter-key="teamsSearch"
           :id-key="'id'"
           :highlighted-entry="selectedID"
-          @value="recieveID"></vue-table>
+          @value="recieveID"></vue-table> -->
+        <cards
+          :cardList="formattedTeams"
+          :loading="teamsLoading"
+          @selected="recieveID"/>
       </div>
       <div class="team-view" v-if="selectedID != ''">
         <div class="team-header"> 
@@ -81,6 +85,7 @@
 
 <script>
 import NewTeams from '@/components/NewTeam'
+import Cards from '@/components/CardList'
 import VueTable from '@/components/Table'
 import Teams from '@/services/teams'
 
@@ -95,6 +100,7 @@ export default {
       columnType: {profile: 'profile', name: 'text', type: 'text'},
       teams: [
       ],
+      teamsLoading: false,
       teamsSearch: '',
       selectedID: '',
       selectedTeam: {},
@@ -102,7 +108,7 @@ export default {
     }
   },
   components: {
-    VueTable, NewTeams
+    VueTable, NewTeams, Cards
   },
   methods: {
     show () {
@@ -127,37 +133,65 @@ export default {
   props: {
   },
   mounted() {
-    this.getTeams()
+    this.teamsLoading = true
+    this.getTeams().then(() => {this.teamsLoading = false})
   },
   created() {
   },
   computed: {
-    computedPeople() {
-      const newTeams = []
-
+    formattedTeams() {      
+      var teams = Array(this.teams.length)
       for (let index = 0; index < this.teams.length; index++) {
         const team = this.teams[index];
 
-      // Find Team Type
-      var teamType = ''
-      if (team.isServeTeam ) {
-        teamType = "Serve Team"
-      }
-      else if (team.isAnonymous ) {
-        teamType = "Anonymous"
-      }
-      else {
-        teamType = "Community Group"
-      }
+        // Find Team Type
+        var teamType = ''
+        if (team.isServeTeam ) {
+          teamType = "Serve Team"
+        }
+        else if (team.isAnonymous ) {
+          teamType = "Anonymous"
+        }
+        else {
+          teamType = "Community Group"
+        }
 
-      newTeams.push({
-          name: team.name,
-          type: teamType,
+        const newTeam = {
           id: team.id,
-          profile: 'https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1'
-        })
+          title: team.name,          
+          profile: 'https://images.unsplash.com/photo-1496275068113-fff8c90750d1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+          subtext: teamType
+        }
+        teams[index] = newTeam
       }
-      return newTeams
+      return teams
+
+
+      // const newTeams = []
+
+      // for (let index = 0; index < this.teams.length; index++) {
+      //   const team = this.teams[index];
+
+      // // Find Team Type
+      // var teamType = ''
+      // if (team.isServeTeam ) {
+      //   teamType = "Serve Team"
+      // }
+      // else if (team.isAnonymous ) {
+      //   teamType = "Anonymous"
+      // }
+      // else {
+      //   teamType = "Community Group"
+      // }
+
+      // newTeams.push({
+      //     name: team.name,
+      //     type: teamType,
+      //     id: team.id,
+      //     profile: 'https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1'
+      //   })
+      // }
+      // return newTeams
     }
   }
 }
@@ -176,7 +210,7 @@ h2 {
 
 .teams-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 250px 1fr;
   position: relative;
   height: 100%;
   width: 100%;
@@ -184,11 +218,10 @@ h2 {
   /* overflow-x: auto; */
 }
 
-.teams-table-wrapper {
-  padding: 20px 30px;
-  height: calc(100%);
+.teams-card-wrapper {
   overflow-y: auto;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 40px);
+  width: 250px;
   position: relative;
 }
 
@@ -275,8 +308,8 @@ h2 {
   height: 25px;
   padding: 7.5px;
   position: absolute;
-  top: 40px;
-  right: 15px;
+  bottom: 20px;
+  right: 20px;
   background: #00cec9;
   border-radius: 50px;
   cursor: pointer;
@@ -298,17 +331,21 @@ h2 {
    480-less    - phone landscape & smaller
 --------------------------------------------*/
 @media all and (min-width: 1024px) and (max-width: 1280px) {
- }
+}
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
- }
+}
 
 @media all and (min-width: 480px) and (max-width: 768px) {
- }
+  .teams-card-wrapper {    
+    height: calc(100vh - 75px);    
+    padding-top: 35px;
+  }
+}
 
 @media all and (max-width: 480px) {
   .teams-wrapper {
     grid-template-columns: 1fr;
   }
- }
+}
 </style>

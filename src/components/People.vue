@@ -2,16 +2,21 @@
   <div class="people-container">
     <div class="people-wrapper">
       <div class="people-table-wrapper">        
-        <h2>People</h2>
-        <input type="text" class="basic-input" placeholder="search" v-model="peopleSearch">
-        <vue-table
+        <!-- <h2>People</h2> -->
+        <!-- <input type="text" class="basic-input" placeholder="search" v-model="peopleSearch"> -->
+        <!-- <vue-table
           :data="computedPeople"
           :columns="gridColumns"
           :column-type="columnType"
           :filter-key="peopleSearch"
           :id-key="'id'"
           :highlighted-entry="selectedPerson['id']"
-          @value="recieveID"></vue-table>
+          @value="recieveID"></vue-table> -->
+        <cards
+          :cardList="formatedPeople"
+          :loading="peopleLoading"
+          @selected="recieveID"
+          />
       </div>
       <div class="person-view" v-show="selectedID != ''">
         <div class="person-header"> 
@@ -65,6 +70,7 @@
 </template>
 
 <script>
+import Cards from '@/components/CardList'
 import VueTable from '@/components/Table'
 import People from '@/services/people'
 import Teams from '@/services/teams'
@@ -78,14 +84,23 @@ export default {
       gridColumns: ['profile', 'name'],
       columnType: {profile: 'profile', name: 'text'},
       people: [],
+      peopleLoading: false,
       peopleSearch: '',
       selectedID: '',
       selectedPerson: {},
-      selectedPersonTeams: []
+      selectedPersonTeams: [
+      ],
+      profiles: [
+        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
+        'https://images.unsplash.com/photo-1486645725491-57c86b563b91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
+        'https://images.unsplash.com/photo-1485811904074-04513843270c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+        'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+        'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
+        ]
     }
   },
   components: {
-    VueTable
+    VueTable, Cards
   },
   methods: {
     async getPeople () {
@@ -109,20 +124,23 @@ export default {
   props: {
   },
   mounted() {    
-    this.getPeople()
+    this.peopleLoading = true
+    this.getPeople().then(() => {this.peopleLoading = false})
   },
   computed: {
-    computedPeople() {
-      const newPeople = []
+    formatedPeople() {
+      var people = Array(this.people.length)
       for (let index = 0; index < this.people.length; index++) {
         const person = this.people[index];
-        newPeople.push({
-          name: person.firstName + ' ' + person.lastName,
+        const newPerson = {
           id: person.id,
-          profile: 'https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1'
-        })
+          title: person.firstName + ' ' + person.lastName,
+          // profile: thread.threadImageThumbnailURL,          
+          profile: this.profiles[index % 4],
+        }
+        people[index] = (newPerson)
       }
-      return newPeople
+      return people
     }
   }
 }
@@ -140,7 +158,7 @@ h2 {
 
 .people-wrapper {
   display: grid;
-  grid-template-columns: 300px auto;
+  grid-template-columns: 250px auto;
   position: relative;
   height: 100%;
   width: 100%;
@@ -149,10 +167,10 @@ h2 {
 }
 
 .people-table-wrapper {
-  padding: 20px 30px;
+  /* padding: 20px 30px; */
   height: calc(100%);
   overflow-y: auto;
-  height: calc(100vh - 80px);
+  /* height: calc(100vh - 80px); */
 }
 .people-table-wrapper table {
   width: 100%;
@@ -274,6 +292,10 @@ h2 {
  }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
+  .people-wrapper {
+    height: calc(100vh - 75px);    
+    padding-top: 35px;
+  }
  }
 
 @media all and (max-width: 480px) {
