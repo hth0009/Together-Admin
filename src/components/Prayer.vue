@@ -7,56 +7,22 @@
           :loading="prayersLoading"
           @selected="recieveID"/>
       </div>
-      <div class="prayer-view" v-if="selectedID != ''">
-        <!-- <div class="prayer-header"> 
-          <div :style="{backgroundImage: 'url(https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1)'}"
+      <div class="prayer-view" v-if="selectedID != -1">
+        <div class="prayer-header"> 
+          <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1483884105135-c06ea81a7a80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)'}"
+          class="profile-pic"></div>
+          <!-- <div :style="{backgroundImage: 'url(' +  selectedPrayer.iconURL + ')'}"
           class="profile-pic"></div> -->
-          <!-- <div :style="{backgroundImage: 'url(' +  selectedTeam.iconURL + ')'}"
-          class="profile-pic"></div> -->
-          <!-- <h3>{{selectedTeam.name}}</h3>
-          <div class="prayer-type noselect serve" v-if="selectedTeam.isServe">Serve Team</div>
-          <div class="prayer-type noselect annonymous" v-if="selectedTeam.isAnnonymous">Annonymous</div>
+          <h3>{{selectedPrayer.subject}}</h3>
+          <div class="prayer-type noselect anonymous" v-if="selectedPrayer.isAnonymousPrayer">Annonymous</div>
         </div>
-        <div class="prayer-info"> -->
-          <!-- <div class="annonymous-prayer"
-            v-if="selectedTeam.isAnnonymous">            
+        <div class="prayer-info">
+          <div>
             <div class="description-panel">
-              <h4>Description</h4>
-              <p>{{selectedTeam.description}}</p>
-            </div>            
-            <div class="contact-panel">
-              <h4>Contact</h4>
-              <p>Please email us at: herchoicetoheal.acc@gmail.com</p>
-            </div>
+              <p>{{selectedPrayer.content}}</p>              
+            </div>  
           </div>
-          <div v-else>
-            <div class="description-panel">
-              <h4>Description</h4>
-              <p>{{selectedTeam.description}}</p>              
-            </div>     -->
-            <!-- <div class="prayer-leader-panel">   
-              <h4>Team Leader</h4>           
-                <div class="people-box">
-                  <div class="icon" :style="{backgroundImage: 'url(' +  selectedTeam.leader.icon + ')'}"></div>
-                  <div class="person-info">
-                    <div class="name">{{selectedTeam.leader.name}}</div>
-                  </div>
-                </div>
-                <p>Reach out to John at (606) 637-0799</p>
-            </div> -->
-            <!-- <div class="people-list-panel">
-              <h4>Members <span>| {{selectedTeam.members.total}}</span></h4>
-              <div class="people">
-                <div class="people-box" v-for="person in selectedTeam.members['prayerMembers(s)']" :key="person.personID">
-                  <div class="icon" :style="{backgroundImage: 'url(' +  person.icon + ')'}"></div>
-                  <div class="person-info">
-                    <div class="name">{{person.firstName + " " + person.lastName}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>    -->
-          <!-- </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -89,12 +55,10 @@ export default {
     },
     async getPrayers() {
       const response = await Prayers.getPrayers()
-      console.log(response)
       this.prayers = response['prayer(s)']
     },    
     async getPrayer() {
       const response = await Prayers.getPrayer(this.selectedID)
-      console.log(response)
       this.selectedPrayer = response['prayer']
     }
   },
@@ -113,7 +77,9 @@ export default {
           id: prayer.id,
           title: prayer.subject,         
           profile:'https://images.unsplash.com/photo-1483884105135-c06ea81a7a80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-          subtext: ''
+          // subtext: prayer.personID + '',
+          subtext: 'John Doe',
+          // body: prayer.content
         }
         prayers[index] = newPrayer
       }
@@ -144,9 +110,10 @@ h2 {
 }
 .prayer-card-wrapper {
   overflow-y: auto;
-  height: calc(100vh - 40px);
-  width: 250px;
+  height: calc(100vh - 35px);
+  width: 100%;
   position: relative;
+  border-right: 1px #E6E9EC solid;
 }
 
 #add-new-prayer {
@@ -169,7 +136,7 @@ h2 {
   height: 100%;
   position: relative;
   padding-left: 30px;
-  height: calc(100vh - 80px);
+  height: 100vh;
   overflow-y: auto;
   padding-top: 40px;
 }
@@ -181,12 +148,44 @@ h2 {
   left: 0;
   top: 0%;
 }
+.prayer-header .prayer-type{
+  font-size: 11px;
+  font-weight: lighter;
+  padding: 2.5px 5px;
+  border-radius: 3px;
+  display: inline;
+}
+.prayer-header .prayer-type.anonymous{
+  border: 2px #69CDCF solid;
+}
 .prayer-header {  
   position: relative;
 }
 .prayer-header h3 {
   display: inline;
   padding: 10px;
+}
+.prayer-header .profile-pic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: inline-flex;
+  flex: 1;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+
+  /* position: absolute;
+  right: 20px;
+  top: 0px; */
+}
+.prayer-info h4{
+  margin-top: 20px; 
+  margin-bottom: 15px;
+}
+.prayer-info p{
+  margin: 10px 10px;
 }
 
 /* //////////////////////////
@@ -207,8 +206,7 @@ h2 {
  }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
-  .prayer-card-wrapper {    
-    height: calc(100vh - 75px);    
+  .prayer-card-wrapper {
     padding-top: 35px;
   }
  }
@@ -216,6 +214,8 @@ h2 {
 @media all and (max-width: 480px) {
   .prayer-wrapper {
     grid-template-columns: 1fr;
+    height: calc(100% - 35px);    
+    margin-top: 35px;
   }
  }
 </style>

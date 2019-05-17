@@ -1,12 +1,15 @@
 import Api from './api'
-// import store from '../store'
+import store from '../store'
 
 export default {
-  getPrayers () {
+  _defaultParams: {
+    storedChurchCode: store.state.churchCode
+  },
+  getPrayers (churchCode = store.state.churchCode) {
     return Api().get('prayers',
       {
         params: {
-          churchUsername: 'NPCChurch3'
+          churchUsername: `${churchCode}`
         }
       }).then((response) => {
       return response.data
@@ -14,11 +17,11 @@ export default {
       console.error(e)
     })
   },
-  getPrayer (id) {
+  getPrayer (prayerID) {
     return Api().get('prayers',
       {
         params: {
-          id: `${id}`
+          id: `${prayerID}`
         }
       }).then((response) => {
       return response.data

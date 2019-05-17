@@ -19,6 +19,7 @@
     "@syncfusion/ej2-vue-buttons": "^16.4.55",
     "@syncfusion/ej2-vue-calendars": "^16.4.55",
     "@syncfusion/ej2-vue-dropdowns": "^16.4.55",
+    "@syncfusion/ej2-vue-inplace-editor": "^17.1.47",
     "@syncfusion/ej2-vue-inputs": "^16.4.55",
     "@syncfusion/ej2-vue-navigations": "^16.4.54",
     "@syncfusion/ej2-vue-popups": "^16.4.54",

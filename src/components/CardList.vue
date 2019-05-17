@@ -11,10 +11,14 @@
         :class="{unread: card['unread'] != undefined && card['unread'] > 0,
         selected: card['id'] === selectedCardID}"
         @click="selectCard(card['id'])">
+          <div v-if="card['superscript']" class="superscript">{{card['superscript']}}</div>
           <div v-if="card['profile']" class="profile-pic" :style="{backgroundImage: 'url(' +  card['profile'] + ')'}"></div>
           <div class="card-info">
             <div class="sender"> {{card['title']}} </div>
             <div v-if="card['subtext']" class="message"> {{card['subtext'].substring(0, 30) + ""}} </div>
+          </div>
+          <div v-if="card['body']" class="body">
+            {{card['body'].substring(0, 250) + ""}}
           </div>
       </div>
     </div>    
@@ -63,31 +67,38 @@ export default {
 
   .cards {
     height: 100%;
-    width: 250px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 48px auto;
     /* border-right: 1px #E6E9EC solid; */
   }
   .search-wrapper {
-    border-bottom: 1px #E6E9EC solid;
+    /* border-bottom: 1px #E6E9EC solid; */
     height: 57px;
   }
   .search-wrapper .basic-input {
-    margin: 10px 0px;
+    margin-top: 10px;
+    padding-left: 20px;
+    width: calc(100% - 30px);
   }
   .card-boxes {
     overflow-y: auto;
     overflow-x: hidden;
-    height: calc( 100% - 58px);
+    padding-bottom: 50px;
   }
   .card-box {
     margin: 5px;
-    height: 30px;
+    /* height: 30px; */
     padding: 10px;
     transition: all .3s ease;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 40px 1fr;
     align-items: center;
     border-left: 2px white solid;
     cursor: pointer;
+    position: relative;
+    background-color: white;
   }  
   .card-box.unread {
     border-left: 2px #69CDCF solid;
@@ -103,16 +114,27 @@ export default {
     max-width: 30px;
     height: 30px;
     border-radius: 50%;
-    display: inline-flex;
-    flex: 1;
+
+    grid-column: 1/2;
+    grid-row: 1/2;
 
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
   }
+  .card-box .superscript {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    color: rgb(126, 126, 126);
+    font-size: 12px;
+  }
   .card-box .card-info{
     flex: 1;
-    padding-left: 10px;
+    /* padding-left: 10px;  */
+
+    grid-column: 2/3;
+    grid-row: 1/2;
   }
   .card-box .sender{
     /* margin: 5px; */
@@ -122,8 +144,15 @@ export default {
   .card-box .message{
     font-size: 12px;
   }
+  .card-box .body {
+    padding-top: 10px;
 
-  
+    grid-column: 2/3;
+    grid-row: 2/3;
+
+    font-size: .75em;
+  }
+
   .card-wrapper {
     height: calc(100vh - 40px);
     position: relative;

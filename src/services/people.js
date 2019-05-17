@@ -1,12 +1,12 @@
 import Api from './api'
-// import store from '../store'
+import store from '../store'
 
 export default {
-  getPeople () {
+  getPeople (churchCode = store.state.churchCode) {
     return Api().get('people',
       {
         params: {
-          inChurch: 'NPCChurch3',
+          inChurch: `${churchCode}`,
           pagesize: 50,
           page: 0,
           relateTo: -1
@@ -17,11 +17,11 @@ export default {
       console.error(e)
     })
   },
-  getPerson (id) {
+  getPerson (personID) {
     return Api().get('people',
       {
         params: {
-          id: `${id}`,
+          id: `${personID}`,
           relateTo: -1
         }
       }).then((response) => {

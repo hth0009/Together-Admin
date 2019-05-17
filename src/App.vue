@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <app-header v-if="!$route.meta.noNav"></app-header>
-    <div id="app-content" :class="$route.meta.noNav ? 'no-nav' : 'with-nav'">
+    <!-- <app-header v-if="!$route.meta.noNav"></app-header> -->
+    <!-- <div id="app-content" :class="$route.meta.noNav ? 'no-nav' : 'with-nav'"> -->
+    <div id="app-content" class="noNav">
       <router-view/>
     </div>
   </div>
@@ -25,6 +26,9 @@ export default {
     //     throw err;
     //   });
     // });
+    this.$store.dispatch('checkLogin')
+    .then()
+    .catch(err => console.log(err))
   },
   methods: {
   }
@@ -57,8 +61,8 @@ export default {
                                   supported by Chrome and Opera */
   }
   #app-content {
-    /* height: calc(100% - 40px);
-    position: relative; */
+    height: 100%;
+    position: relative;
   }
   .with-nav {
     padding-top: 40px;

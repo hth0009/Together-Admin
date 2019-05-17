@@ -6,7 +6,7 @@ export default {
     return Api().get('threads',
       {
         params: {
-          personID: 1
+          personID: `${store.state.personID}`
         }
       }).then((response) => {
       return response.data
@@ -14,12 +14,12 @@ export default {
       return e
     })
   },
-  getThread (id) {
+  getThread (threadID) {
     return Api().get('threads',
       {
         params: {
           personID: store.state.personID,
-          id: id
+          id: threadID
         }
       }).then((response) => {
       return response.data

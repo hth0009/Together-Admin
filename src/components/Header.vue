@@ -1,6 +1,6 @@
 <template>
   <div id="navbar">
-    <router-link to="" class="noselect brand"><img :src="'/static/image/white-logo.png'" alt=""></router-link>
+    <!-- <router-link to="" class="noselect brand"><img :src="'/static/image/white-logo.png'" alt=""></router-link> -->
       <div id="navbar-buttons">
       <router-link to="/home" class="noselect"
        :class="{selected: $route.fullPath.split('/')[1] == 'home'}">home</router-link>

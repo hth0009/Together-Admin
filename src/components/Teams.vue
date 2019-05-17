@@ -14,29 +14,26 @@
           @click="show">
           <i class="material-icons noselect">add</i>
         </div>
-        <!-- <input type="text" class="basic-input" placeholder="search" v-model="teamsSearch">
-        <vue-table
-          :data="computedPeople"
-          :columns="gridColumns"
-          :column-type="columnType"
-          :filter-key="teamsSearch"
-          :id-key="'id'"
-          :highlighted-entry="selectedID"
-          @value="recieveID"></vue-table> -->
         <cards
           :cardList="formattedTeams"
           :loading="teamsLoading"
           @selected="recieveID"/>
       </div>
-      <div class="team-view" v-if="selectedID != ''">
-        <div class="team-header"> 
-          <div :style="{backgroundImage: 'url(https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1)'}"
+      <div class="selected-view" v-if="selectedID != ''">
+        <div class="header"> 
+          <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1496275068113-fff8c90750d1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'}"
           class="profile-pic"></div>
           <!-- <div :style="{backgroundImage: 'url(' +  selectedTeam.iconURL + ')'}"
           class="profile-pic"></div> -->
           <h3>{{selectedTeam.name}}</h3>
-          <div class="team-type noselect serve" v-if="selectedTeam.isServe">Serve Team</div>
-          <div class="team-type noselect annonymous" v-if="selectedTeam.isAnnonymous">Annonymous</div>
+          <h3>
+            <!-- <ejs-inplaceeditor ref="titleObj" id="inplace_title_editor" data-underline='false' mode="Inline" emptyText="Enter your question title" name="Title" value="Succinctly E-Book about TypeScript" :validationRules="textValidationRules" :model="textModel" > -->
+          </h3>
+          <!-- <div class="team-type noselect serve" v-if="selectedTeam.isServe">Serve Team</div>
+          <div class="team-type noselect annonymous" v-if="selectedTeam.isAnnonymous">Annonymous</div> -->
+          <div class="subtitle" v-if="selectedTeam.isAnonymous">anonymous</div>
+          <div class="subtitle" v-else-if="selectedTeam.isServeTeam">serve team</div>
+          <div class="subtitle" v-else>community group</div>
         </div>
         <div class="team-info">
           <div class="annonymous-team"
@@ -199,6 +196,8 @@ export default {
 
 <style scoped>
 
+@import '../assets/css/selected-view.css';
+
 .teams-container {
   height: 100%;
 }
@@ -220,9 +219,9 @@ h2 {
 
 .teams-card-wrapper {
   overflow-y: auto;
-  height: calc(100vh - 40px);
-  width: 250px;
+  width: 100%;
   position: relative;
+  border-right: 1px #E6E9EC solid;
 }
 
 .team-view {  
@@ -306,13 +305,14 @@ h2 {
 #add-new-team {
   width: 25px;
   height: 25px;
-  padding: 7.5px;
+  padding: 5px;
   position: absolute;
   bottom: 20px;
   right: 20px;
   background: #00cec9;
   border-radius: 50px;
   cursor: pointer;
+  z-index: 100;
 }
 
 #add-new-team i {    
@@ -337,8 +337,7 @@ h2 {
 }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
-  .teams-card-wrapper {    
-    height: calc(100vh - 75px);    
+  .teams-card-wrapper {
     padding-top: 35px;
   }
 }
@@ -346,6 +345,9 @@ h2 {
 @media all and (max-width: 480px) {
   .teams-wrapper {
     grid-template-columns: 1fr;
+    height: calc(100% - 35px);
+    margin-top: 35px;
+    
   }
 }
 </style>

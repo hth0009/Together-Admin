@@ -1,12 +1,12 @@
 import Api from './api'
-// import store from '../store'
+import store from '../store'
 
 export default {
-  getEvents () {
+  getEvents (churchCode = store.state.churchCode) {
     return Api().get('events',
       {
         params: {
-          churchUsername: 'NPCChurch3',
+          churchUsername: `${churchCode}`,
           pagesize: 50,
           page: 0
         }

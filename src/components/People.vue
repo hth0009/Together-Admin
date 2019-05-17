@@ -1,7 +1,8 @@
 <template>
   <div class="people-container">
     <div class="people-wrapper">
-      <div class="people-table-wrapper">        
+      <div class="people-card-wrapper"
+        :class="{'inactive': selectedID != ''}">        
         <!-- <h2>People</h2> -->
         <!-- <input type="text" class="basic-input" placeholder="search" v-model="peopleSearch"> -->
         <!-- <vue-table
@@ -18,19 +19,19 @@
           @selected="recieveID"
           />
       </div>
-      <div class="person-view" v-show="selectedID != ''">
-        <div class="person-header"> 
+      <div class="selected-view" v-show="selectedID != ''">
+        <div class="header"> 
           <!-- <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
           class="profile-pic"></div> -->
-          <div :style="{backgroundImage: 'url(https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1)'}"
+          <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
           class="profile-pic"></div>
           <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
+          <div class="subtitle">@username</div>
         </div>
-        <div class="person-info">
+        <div class="info">
           <!-- <button class="section-toggle">Teams</button> -->
           <div class="general-info-panel">
             <h4>General Info</h4>
-            <p class="username">username: {{selectedPerson.username}}</p>
             <p class="email">email: {{selectedPerson.accountEmail}}</p>
             <p class="birthday">birthday: {{selectedPerson.birthday}}</p>
             <p class="address">address: {{selectedPerson.address}}</p>
@@ -47,22 +48,6 @@
               </div>
             </div>
           </div>
-          <!-- <div class="roles-panel">
-            <h4>Role</h4>
-              <p class="role-title">
-              </p>
-          </div>
-          <div class="skills-panel">
-            <h4>Skills</h4>
-            <div class="skills">
-              <div class="skill noselect" 
-                v-for="skill in selectedPerson.skills" :key="skill.title"                
-                :class="{confirmed: skill.confirmed}"
-                @click="skill.confirmed = !skill.confirmed">
-                {{skill.title}}
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>
@@ -166,14 +151,11 @@ h2 {
   /* overflow-x: auto; */
 }
 
-.people-table-wrapper {
-  /* padding: 20px 30px; */
-  height: calc(100%);
+.people-card-wrapper {
   overflow-y: auto;
-  /* height: calc(100vh - 80px); */
-}
-.people-table-wrapper table {
   width: 100%;
+  position: relative;
+  border-right: 1px #E6E9EC solid;
 }
 
 .person-view {  
@@ -185,14 +167,6 @@ h2 {
   overflow-y: auto;
   padding-top: 40px;
 }
-.person-view::before {
-  content: '';
-  border-left: 1px solid #f0f0f0 ;
-  position: absolute;
-  height: 20vh;
-  left: 0;
-  top: 0%;
-}
 .person-header {  
   position: relative;
 }
@@ -201,8 +175,8 @@ h2 {
   padding: 10px;
 }
 .person-header .profile-pic {
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   display: inline-flex;
   flex: 1;
@@ -292,8 +266,7 @@ h2 {
  }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
-  .people-wrapper {
-    height: calc(100vh - 75px);    
+  .people-card-wrapper {
     padding-top: 35px;
   }
  }
@@ -301,6 +274,17 @@ h2 {
 @media all and (max-width: 480px) {
   .people-wrapper {
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    /* height: calc(100% - 35px);     */
+    /* margin-top: 35px; */
+  }
+  .people-card-wrapper {
+    margin-top: 35px;
+  }
+  .people-card-wrapper.inactive {
+    margin-top: 0px;
+    display: none;
   }
  }
+
 </style>

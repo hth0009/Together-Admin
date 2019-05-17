@@ -1,12 +1,12 @@
 import Api from './api'
-// import store from '../store'
+import store from '../store'
 
 export default {
-  getTeams (id = 1) {
+  getTeams (personID = store.state.personID) {
     return Api().get('teams',
       {
         params: {
-          personID: `${id}`
+          personID: `${personID}`
           // accountEmail: this.$store.state.user.username
         }
       }).then((response) => {
@@ -15,11 +15,11 @@ export default {
       console.error(e)
     })
   },
-  getTeam (id = 2) {
+  getTeam (teamID) {
     return Api().get('teams',
       {
         params: {
-          id: `${id}`
+          id: `${teamID}`
           // accountEmail: this.$store.state.user.username
         }
       }).then((response) => {
