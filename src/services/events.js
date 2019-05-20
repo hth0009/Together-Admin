@@ -15,5 +15,17 @@ export default {
     }).catch((e) => {
       return e
     })
+  },
+  getEvent (eventID) {
+    return Api().get('events',
+      {
+        params: {
+          id: eventID
+        }
+      }).then((response) => {
+      return response.data
+    }).catch((e) => {
+      return e
+    })
   }
 }

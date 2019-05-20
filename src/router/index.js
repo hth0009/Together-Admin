@@ -1,15 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
-import Home from '@/components/Home'
-import Calendar from '@/components/Calendar'
 import EventDetails from '@/components/EventDetails'
 import AppPage from '@/components/AppPage'
 import ChurchInfo from '@/components/ChurchInfo'
 import Staff from '@/components/Staff'
 import Subscription from '@/components/Subscription'
 import PrivacyPolicy from '@/components/PrivacyPolicy'
-// import store from '../store.js'
+
+import Inbox from '@/components/Inbox'
+import People from '@/components/People'
+import Teams from '@/components/Teams'
+import Prayer from '@/components/Prayer'
+import Events from '@/components/Calendar'
+import Home from '@/components/Home'
 
 Vue.use(Router)
 
@@ -48,23 +52,53 @@ let router = new Router({
       component: AppPage,
       meta: {
         requiresAuth: true
-      }
-    },
-    {
-      path: '/app/:subpage',
-      name: 'AppPage',
-      component: AppPage,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/calendar',
-      name: 'Calendar',
-      component: Calendar,
-      meta: {
-        requiresAuth: true
-      }
+      },
+      children: [
+        {
+          path: 'home',
+          component: Home
+        },
+        {
+          path: 'inbox/',
+          component: Inbox
+        },
+        {
+          path: 'inbox/:id',
+          component: Inbox
+        },
+        {
+          path: 'teams',
+          component: Teams
+        },
+        {
+          path: 'teams/:id',
+          component: Teams
+        },
+        {
+          path: 'prayer',
+          component: Prayer
+        },
+        {
+          path: 'prayer/:id',
+          component: Prayer
+        },
+        {
+          path: 'people',
+          component: People
+        },
+        {
+          path: 'people/:id',
+          component: People
+        },
+        {
+          path: 'events',
+          component: Events
+        },
+        {
+          path: 'events/:id',
+          component: Events
+        }
+      ]
     },
     {
       path: '/event-details/:eventNumber',

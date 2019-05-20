@@ -4,9 +4,10 @@
       <div class="events-wrapper">
         <div class="event-card-wrapper">
           <cards
-            :cardList="formattedEventsForCards"
+            :cardList="formattedEvents"
             :loading="false"
-            @selected="onSubmit"/>
+            :selectedID="selectedID + ''"
+            @selected="recieveID"/>
         </div>
         <div class="calendar-holder">
           <ejs-schedule height="100%" 
@@ -17,7 +18,6 @@
             >
             <e-views>
               <e-view option="Month"></e-view>
-              <e-view option="Week"></e-view>
               <e-view option="Day"></e-view>
               <e-view option="Agenda"></e-view>
             </e-views>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { SchedulePlugin, Week, Day, Month, Agenda, Resize, DragAndDrop, EJ2Instances } from "@syncfusion/ej2-vue-schedule";
+import { SchedulePlugin, Day, Month, Agenda, Resize, DragAndDrop, EJ2Instances } from "@syncfusion/ej2-vue-schedule";
 import { extend } from '@syncfusion/ej2-base';
 import Events from '@/services/events'
 import Cards from '@/components/CardList'
@@ -43,53 +43,74 @@ export default {
   data() {
     return {
       events: [],  
-      eventSettings: { dataSource: []},
+      eventSettings: { dataSource: extend([], this.events, null, true) },
       dataManageer: {},
-      selectedDate: new Date(),
+      // selectedDate: new Date(),
+      selectedDate: new Date('2018-08-19T12:00:00'),
+      selectedID: -1,
+      selectedEvent: {},
       views: ['Month', 'Day', 'Agenda'],
+      eventHash: {}
     }
   },
   components: {
     Cards
   },
   provide: {
-    schedule: [Day, Week, Month, Agenda, Resize, DragAndDrop]
+    schedule: [Day, Month, Agenda, Resize, DragAndDrop]
   },
   mounted() {
     this.getEvents()
   },
   methods: { 
+    addEvent() {
+
+    },
+    recieveID(id) {
+      this.selectedID = id
+      this.getEvent(id)
+    },
     async getEvents () {
       const response = await Events.getEvents()
       const data = response['event(s)']
-
-      const events = Array(data.length)
-      for (let index = 0; index < data.length; index++) {
-        const event = data[index];
-        data[index]['Id'] = event.id
-        data[index]['Subject'] = event.eventName
-        data[index]['StartTime'] = event.startTime
-        data[index]['EndTime'] = event.endTime
-      }
-          
-      let scheduleObj = document.getElementById("Schedule").ej2_instances[0]; 
-      scheduleObj.eventSettings.dataSource = data
       this.events = data
       return data
+    },
+    async getEvent (id) {
+      const response = await Events.getEvent(id)
+      const data = response['event']
+      this.selectedEvent = data
     }
   },
-  computed: {    
-    formattedEventsForCards() {
+  computed: {   
+    formattedEvents() {
+      if (this.events.length == 0) {
+        return
+      }
+
       var events = Array(this.events.length)
       for (let index = 0; index < this.events.length; index++) {
         const event = this.events[index];
         const newEvent = {
           id: event.id,
-          title: event.eventName,         
+          title: event.eventName,  
+          Id: event.id,
+          Subject: event.eventName,
+          StartTime: event.startTime,
+          EndTime: event.endTime       
           // profile:'https://images.unsplash.com/photo-1483884105135-c06ea81a7a80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
           // subtext: prayer.personID + '',
+        }        
+
+        // Pass Events to Scheduler
+        if (this.eventHash[event.id] == true) {
+          continue
         }
-        events[index] = newEvent
+        else {          
+          this.eventHash[event.id] = true          
+          this.$refs.ScheduleObj.addEvent(newEvent)
+        }
+        events[index] = newEvent        
       }
       return events
     }

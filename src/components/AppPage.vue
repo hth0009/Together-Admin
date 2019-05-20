@@ -14,7 +14,7 @@
           clear
         </i>
       </transition>
-      <div class="current-page" v-show="showSidebar == false">{{$route.params.subpage}}</div>
+      <div class="current-page" v-show="showSidebar == false">{{$route.path.split('/')[2]}}</div>
     </div>
     <div id="app-navbar"
       :class="{'toggled': showSidebar}">
@@ -23,19 +23,19 @@
       </div>
       <div id="app-navbar-buttons">
         <router-link v-on:click.native="showSidebar = false" to="/app/home" class="noselect"
-          :class="{selected: $route.params.subpage == 'home'}">home</router-link>
+          >home</router-link>
         <router-link v-on:click.native="showSidebar = false" to="/app/inbox" class="noselect"
-          :class="{selected: $route.params.subpage == 'inbox'}">inbox</router-link>
+          >inbox</router-link>
         <router-link  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
-          :class="{selected: $route.params.subpage == 'teams'}">teams</router-link>
+          >teams</router-link>
         <router-link  v-on:click.native="showSidebar = false" to="/app/prayer" class="noselect"
-          :class="{selected: $route.params.subpage == 'prayer'}">prayer</router-link>
+          >prayer</router-link>
         <router-link  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
-          :class="{selected: $route.params.subpage == 'people'}">people</router-link>
+          >people</router-link>
         <router-link  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
-          :class="{selected: $route.params.subpage == 'this-sunday'}">this sunday</router-link>
+          >this sunday</router-link>
         <router-link  v-on:click.native="showSidebar = false" to="/app/events" class="noselect"
-          :class="{selected: $route.params.subpage == 'events'}">events</router-link>
+          >events</router-link>
       </div>
       <div id="app-footer">
         <router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
@@ -46,19 +46,11 @@
           :class="{selected: $route.params.subpage == ''}">about us</router-link>
       </div>
     </div>
-    <div id="app-page-content">      
-      <!-- <div>{{$route.params.subpage}}</div> -->
-      <home v-if="$route.params.subpage == 'home'"></home>
-      <inbox v-if="$route.params.subpage == 'inbox'"></inbox>
-      <people v-if="$route.params.subpage == 'people'"></people>
-      <teams v-if="$route.params.subpage == 'teams'"></teams>
-      <prayer v-if="$route.params.subpage == 'prayer'"></prayer>
-      <events v-if="$route.params.subpage == 'events'"></events>
+    <div id="app-page-content">            
+      <router-view></router-view>
       <div style="overflow-y: auto; height: calc(100vh - 40px)" v-if="$route.params.subpage == 'this-sunday'">
         <event-details></event-details>
       </div>
-      <!-- <audio-page v-if="$route.params.subpage == 'audio'"></audio-page> -->
-      <!-- <reading-plan v-if="$route.params.subpage == 'reading-plan'"></reading-plan> -->
     </div>
   </div>
 </template>
@@ -153,10 +145,10 @@ import Home from '@/components/Home'
   visibility: visible;
   width: 100%;
 }
-#app-navbar-buttons a.selected {
+#app-navbar-buttons a.router-link-active {
   color: white;
 }
-#app-navbar-buttons a.selected:before {
+#app-navbar-buttons a.router-link-active:before {
   height: 1.1em; 
   bottom: -5px; 
   right: -5px;

@@ -16,6 +16,7 @@
         <cards
           :cardList="formatedPeople"
           :loading="peopleLoading"
+          :selectedID="selectedID + ''"
           @selected="recieveID"
           />
       </div>
@@ -101,6 +102,10 @@ export default {
       this.selectedPersonTeams = response['team(s)']
     },
     recieveID(id) {
+      if (id == undefined) {
+        return
+      }
+      this.$router.push(`/app/people/${id}`)
       this.selectedID = id
       this.getPerson()
       this.getTeams()
@@ -110,6 +115,7 @@ export default {
   },
   mounted() {    
     this.peopleLoading = true
+    this.recieveID(this.$route.params.id)
     this.getPeople().then(() => {this.peopleLoading = false})
   },
   computed: {

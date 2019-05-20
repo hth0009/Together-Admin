@@ -1,9 +1,11 @@
 <template>
   <div class="inbox-container">
-    <div class="threads-card-wrapper">
+    <div class="threads-card-wrapper"
+      :class="{'inactive': selectedThreadID != '' || -1}">
       <cards
         :cardList="sortedThreads"
         :loading="threadsLoading"
+        :selectedID="selectedThreadID + ''"
         @selected="selectThread"
         />
       <div id="add-new-thread"
@@ -13,12 +15,7 @@
     </div>
     <div class="thread-wrapper">
       <div class="thread">
-        <form class="new-message-box"
-          v-if="displayThread >= 0"
-          v-on:sumbit.prevent="">
-          <input type="text" v-model="newMessageContent"  v-on:keyup.enter="sendMessage">
-          <i @click="sendMessage" class="material-icons noselect">send</i>
-        </form>
+        <div class="thread-header">{{thread.title}}</div>
         <div class="messages" v-if="displayThread == 2">
           <div class="message-box-wrapper">
             <div v-for="(message, index) in reversedMessages" :key="message.id"
@@ -41,6 +38,12 @@
             </div>
           </div>
         </div>
+          <form class="new-message-box"
+            v-if="displayThread >= 0"
+            v-on:sumbit.prevent="">
+            <input type="text" v-model="newMessageContent"  v-on:keyup.enter="sendMessage">
+            <i @click="sendMessage" class="material-icons noselect">send</i>
+          </form>
       </div>
     </div>
   </div>
@@ -56,94 +59,11 @@ export default {
   data () {
     return {
       threadSearch: '',
-      threads: [
-        {
-          sender: "Sarah Thompson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-          id: 'aljk40'
-        },
-        {
-          sender: "John Smith",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: false,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1486645725491-57c86b563b91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
-          id: '9hohu'
-        },
-        {
-          sender: "Lauren White",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: false,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1485811904074-04513843270c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-          id: '9phyp'
-        },
-        {
-          sender: "Bob Jackson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-          id: '9hph8'
-        },
-        {
-          sender: "Bob Jackson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
-        },
-        {
-          sender: "Bob Jackson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
-        },
-        {
-          sender: "Bob Jackson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
-        },
-        {
-          sender: "Bob Jackson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
-        },
-        {
-          sender: "Bob Jackson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
-        },
-        {
-          sender: "Bob Jackson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
-        },
-        {
-          sender: "Bob Jackson",
-          recentMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          unread: true,
-          sentTime: '',
-          senderProfilePic: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
-        }
-      ],
+      threads: [],
       threadsLoading: false,
       thread: {},
       selectedThreadID: -1,
-      messages: [
-      ],
+      messages: [],
       id: 1,
       peopleHash: {},
       displayThread: -1,
@@ -179,6 +99,12 @@ export default {
       const response = await Message.postMessage(fromID, threadID, content)
     },
     selectThread(id) {
+      if (id == undefined) {
+        return
+      }
+
+      this.$router.push(`/app/inbox/${id}`)
+
       this.selectedThreadID = id
       this.messages = []
 
@@ -211,6 +137,8 @@ export default {
       })
     },
     formatDate(messageDate, nextDate = '') {
+      messageDate += 'Z'
+      nextDate += 'Z'
       const date1 = new Date(messageDate)
       const date2 = new Date(nextDate)      
       var diffTime = Math.abs(date2.getTime() - date1.getTime());
@@ -283,6 +211,7 @@ export default {
   },
   mounted() {    
     this.threadsLoading = true
+    this.selectThread(this.$route.params.id)
     this.getThreads().then(() => {this.threadsLoading = false})
   },
   computed: {
@@ -333,9 +262,14 @@ export default {
     flex: 1;
   }
   .thread {
-    display: flex;
-    flex-direction: column-reverse;
+    display: grid;
+    grid-template-rows: 30px auto 47px;
     height: 100%;
+  }
+  .thread-header {
+    padding: 10px 15px;
+    background: white;
+    border-left: #f0f0f0 1px solid;
   }
   .new-message-box {
     width: 100%;

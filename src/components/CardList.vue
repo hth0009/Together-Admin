@@ -9,7 +9,7 @@
       <div v-for="card in cardList" :key="card['id']"
         class="card-box"
         :class="{unread: card['unread'] != undefined && card['unread'] > 0,
-        selected: card['id'] === selectedCardID}"
+        selected: card['id'] == selectedID}"
         @click="selectCard(card['id'])">
           <div v-if="card['superscript']" class="superscript">{{card['superscript']}}</div>
           <div v-if="card['profile']" class="profile-pic" :style="{backgroundImage: 'url(' +  card['profile'] + ')'}"></div>
@@ -37,19 +37,18 @@ export default {
   data () {
     return {
       cardSearch: '',
-      selectedCardID: '',
     }
   },
   components: {
   },
   methods: {
     selectCard(id) {
-      this.selectedCardID = id
       this.$emit('selected', id)
     }
   },
   props: {
     cardList: Array,
+    selectedID: String,
     loading: {
       type: Boolean,
       default: true
@@ -93,7 +92,7 @@ export default {
     padding: 10px;
     transition: all .3s ease;
     display: grid;
-    grid-template-columns: 40px 1fr;
+    grid-template-columns: auto 1fr;
     align-items: center;
     border-left: 2px white solid;
     cursor: pointer;
@@ -114,6 +113,8 @@ export default {
     max-width: 30px;
     height: 30px;
     border-radius: 50%;
+
+    margin-right: 10px;
 
     grid-column: 1/2;
     grid-row: 1/2;

@@ -17,6 +17,7 @@
         <cards
           :cardList="formattedTeams"
           :loading="teamsLoading"
+          :selectedID="selectedID + ''"
           @selected="recieveID"/>
       </div>
       <div class="selected-view" v-if="selectedID != ''">
@@ -99,7 +100,6 @@ export default {
       ],
       teamsLoading: false,
       teamsSearch: '',
-      selectedID: '',
       selectedTeam: {},
       selectedID: 0
     }
@@ -115,6 +115,11 @@ export default {
       this.$modal.hide('new-team');
     },
     recieveID(id) {
+      if (id == undefined) {
+        return
+      }
+      this.$router.push(`/app/teams/${id}`)
+      this.selectedID = id
       this.getTeam(id)
     },    
     async getTeams() {
@@ -131,6 +136,7 @@ export default {
   },
   mounted() {
     this.teamsLoading = true
+    this.recieveID(this.$route.params.id)
     this.getTeams().then(() => {this.teamsLoading = false})
   },
   created() {

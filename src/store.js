@@ -22,8 +22,8 @@ export default new Vuex.Store({
     auth_success (state, payload) {
       state.status = 'success'
       state.token = payload.token
-      state.personID = 1
-      // state.personID = payload.personID
+      // state.personID = 1
+      state.personID = payload.personID
       state.churchCode = payload.churchCode
     },
     auth_error (state) {
@@ -56,10 +56,9 @@ export default new Vuex.Store({
         cognitoUser.authenticateUser(authenticationDetails, {
           onSuccess: function (result) {
             // Local Storage
-            console.log(result)
             var idToken = result.getIdToken().getJwtToken()
             var personID = result.getIdToken().payload.person_id
-            var churchCode = result.getIdToken().payload.churchUsername
+            var churchCode = result.getIdToken().payload['custom:churchUsernam']
 
             // Set Header
             axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`
@@ -94,13 +93,9 @@ export default new Vuex.Store({
               reject(err)
             }
 
-            console.log(session)
-
             var idToken = session.getIdToken().getJwtToken()
             var personID = session.getIdToken().payload.person_id
-            var churchCode = session.getIdToken().payload.churchUsername
-
-            console.log(churchCode)
+            var churchCode = session.getIdToken().payload['custom:churchUsernam']
 
             commit('auth_success', {
               token: idToken,

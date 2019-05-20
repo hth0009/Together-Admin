@@ -5,6 +5,7 @@
         <cards
           :cardList="formattedPrayers"
           :loading="prayersLoading"
+          :selectedID="selectedID + ''"
           @selected="recieveID"/>
       </div>
       <div class="prayer-view" v-if="selectedID != -1">
@@ -50,6 +51,11 @@ export default {
   },
   methods: {
     recieveID(id) {
+      if (id == undefined) {
+        return
+      }
+      this.$router.push(`/app/prayer/${id}`)
+      this.selectedID = id
       this.selectedID = id
       this.getPrayer()
     },
@@ -66,6 +72,7 @@ export default {
   },
   mounted() {  
     this.prayersLoading = true 
+    this.recieveID(this.$route.params.id)
     this.getPrayers().then(() => {this.prayersLoading = false})
   },
   computed: {   
