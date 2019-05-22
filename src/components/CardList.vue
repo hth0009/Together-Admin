@@ -27,6 +27,11 @@
         class="card-box loading">
         <div class="profile-pic"></div>
       </div>
+    </div>    
+    <div id="add-new"
+      v-if="hasAddNew"
+      @click="addNew">
+      <i class="material-icons noselect">add</i>
     </div>
   </div>
 </template>
@@ -44,6 +49,9 @@ export default {
   methods: {
     selectCard(id) {
       this.$emit('selected', id)
+    },
+    addNew() {
+      this.$emit('onAddNew')
     }
   },
   props: {
@@ -52,6 +60,10 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    },
+    hasAddNew: {
+      type: Boolean,
+      default: false
     },
   },
   mounted() {    
@@ -84,7 +96,7 @@ export default {
   .card-boxes {
     overflow-y: auto;
     overflow-x: hidden;
-    padding-bottom: 50px;
+    padding-bottom: 40px;
   }
   .card-box {
     margin: 5px;
@@ -160,6 +172,23 @@ export default {
     /* background: red; */
     flex: 1;
   }
+  
+#add-new {
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: #00cec9;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 100;
+}
+
+#add-new i {    
+  color: white;
+}
 
 
   

@@ -18,14 +18,6 @@ export default {
     AppHeader
   },
   created: function () {
-    // this.$http.interceptors.response.use(undefined, function (err) {
-    //   return new Promise(function (resolve, reject) {
-    //     if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-    //       this.$store.dispatch(logout)
-    //     }
-    //     throw err;
-    //   });
-    // });
     this.$store.dispatch('checkLogin')
     .then()
     .catch(err => console.log(err))
@@ -44,6 +36,10 @@ export default {
 @import '../node_modules/@syncfusion/ej2-vue-navigations/styles/material.css';
 @import '../node_modules/@syncfusion/ej2-vue-popups/styles/material.css'; 
 @import '../node_modules/@syncfusion/ej2-vue-schedule/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-vue-lists/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-vue-richtexteditor/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-vue-splitbuttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-vue-inplace-editor/styles/material.css";
 </style>
 
 <style>
@@ -92,9 +88,11 @@ export default {
     margin-bottom: 5px;
     font-size: 13px;
     width: calc(100% - 20px);
+    resize: none;
   }
   .basic-button {
     /* border: #12b5e7 3px solid; */
+    width: auto;
     cursor: pointer;
     padding-top: 13px;
     box-shadow: 0px 5px 6px -2px rgba(128, 128, 128, 0.507);

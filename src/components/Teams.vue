@@ -10,14 +10,11 @@
     </modal>
       <div class="teams-card-wrapper">
         <!-- <h2>Teams</h2> -->
-        <div id="add-new-team"
-          @click="show">
-          <i class="material-icons noselect">add</i>
-        </div>
         <cards
           :cardList="formattedTeams"
           :loading="teamsLoading"
           :selectedID="selectedID + ''"
+          :hasAddNew="true"
           @selected="recieveID"/>
       </div>
       <div class="selected-view" v-if="selectedID != ''">
@@ -123,7 +120,7 @@ export default {
       this.getTeam(id)
     },    
     async getTeams() {
-      const response = await Teams.getTeams()
+      const response = await Teams.getTeamsByChurch()
       this.teams = response['team(s)']
     },
     async getTeam(id) {
@@ -306,23 +303,6 @@ h2 {
 }
 .skill.confirmed {
   border-color: #69CDCF;
-}
-
-#add-new-team {
-  width: 25px;
-  height: 25px;
-  padding: 5px;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background: #00cec9;
-  border-radius: 50px;
-  cursor: pointer;
-  z-index: 100;
-}
-
-#add-new-team i {    
-  color: white;
 }
 
 /* //////////////////////////

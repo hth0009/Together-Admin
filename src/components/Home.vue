@@ -1,6 +1,5 @@
 <template>
   <div id='home'>
-    <h2>Home</h2>
     <notifications/>
   </div>
 </template>

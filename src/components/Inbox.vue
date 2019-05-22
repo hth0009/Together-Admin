@@ -6,22 +6,20 @@
         :cardList="sortedThreads"
         :loading="threadsLoading"
         :selectedID="selectedThreadID + ''"
+        :hasAddNew="true"
         @selected="selectThread"
+        @onAddNew="createNewItem"
         />
-      <div id="add-new-thread"
-        @click="'hi'">
-        <i class="material-icons noselect">add</i>
-      </div>
     </div>
     <div class="thread-wrapper">
-      <div class="thread">
+      <div class="thread"  v-if="!creatingNewItem">
         <div class="thread-header">{{thread.title}}</div>
-        <div class="messages" v-if="displayThread == 2">
-          <div class="message-box-wrapper">
+        <div class="messages">
+          <div class="message-box-wrapper" v-if="displayThread == 2">
             <div v-for="(message, index) in reversedMessages" :key="message.id"
             class="message-box"
             :class="{
-                'self': id === message.fromID,
+                'self': personID == message.fromID,
                 'repeat': index > 0 && reversedMessages[index - 1].fromID == reversedMessages[index].fromID 
               }">
               <!-- <div
@@ -41,9 +39,50 @@
           <form class="new-message-box"
             v-if="displayThread >= 0"
             v-on:sumbit.prevent="">
-            <input type="text" v-model="newMessageContent"  v-on:keyup.enter="sendMessage">
+            <input type="text" v-model="newMessageContent"  @keypress.enter.prevent="sendMessage">
             <i @click="sendMessage" class="material-icons noselect">send</i>
           </form>
+      </div>
+      <div class="new-item" v-if="creatingNewItem">
+        <div class="title">New Message</div>
+        <div class="details">
+          <div class="type">            
+            <custom-radio v-model="newThreadType" :options="['direct', 'team']"></custom-radio>
+          </div>
+          <div class="members">
+            <div v-show="newThreadType == 0">
+              <ejs-dropdownlist
+                :dataSource='formatedPeople' 
+                :fields='dropDownFields'
+                floatLabelType="Auto" 
+                :placeholder='"select person"'
+                :allowFiltering="true"
+                :select="assignMember"></ejs-dropdownlist>  
+            </div>
+            <div v-show="newThreadType == 1">
+              <ejs-dropdownlist
+                :dataSource='teams' 
+                :fields='dropDownFields'
+                floatLabelType="Auto" 
+                :placeholder='"select team"'
+                :allowFiltering="true"
+                :select="assignMember"></ejs-dropdownlist> 
+            </div>  
+          </div>
+        </div>
+            <!-- <ejs-textbox floatLabelType="Auto" placeholder="" v-model="newThread.name"></ejs-textbox> -->
+            <!-- <ejs-inplaceeditor  
+              type="Text"
+              emptyText="Name"
+              mode="Inline" 
+              data-underline="false"
+              :validationRules="textValidationRules" 
+              :model="newThread.name" >
+            </ejs-inplaceeditor> -->
+        <div class="footer">
+          <button class="basic-button" @click="creatingNewItem = false">cancel</button>
+          <button class="basic-button">create</button>
+        </div>
       </div>
     </div>
   </div>
@@ -51,8 +90,14 @@
 
 <script>
 import Threads from '@/services/threads'
+import Teams from '@/services/teams'
+import People from '@/services/people'
+
 import Message from '@/services/messages'
 import Cards from '@/components/CardList'
+import CustomRadio from '@/components/CustomRadio'
+
+import store from '../store'
 
 export default {
   name: 'Inbox',
@@ -64,20 +109,65 @@ export default {
       thread: {},
       selectedThreadID: -1,
       messages: [],
-      id: 1,
+      personID: -1,
       peopleHash: {},
       displayThread: -1,
       newMessageContent: '',
+      creatingNewItem: false,
+      newThread: {
+        name: null
+      },
+      dropDownFields: { value: 'name' },
+      newThreadType: 0,
+      newThreadMemeber: 0,
+      newThreadName: 'new-name',
+      textValidationRules: {
+        Name: { required: [true, 'Enter valid title'] },
+      },
+      teams: [],
+      people: [],
     }
   },
   components: {
-    Cards
+    Cards, CustomRadio
   },
-  methods: {    
+  mounted() {
+    this.personID = store.state.personID
+    this.threadsLoading = true
+    this.selectThread(this.$route.params.id)
+    this.getThreads().then(() => {this.threadsLoading = false})
+    this.getTeams()
+    this.getPeople()
+  },
+  watch: {
+    newThreadType: {
+      handler: function(newValue) {
+        console.log(newValue)
+      },
+      deep: true
+    },
+    // Clear selected member when thread type changed
+    newThreadType() {
+
+    }
+  },
+  methods: {
     async getThreads() {
       const response = await Threads.getThreads()
       let threads = response['thread(s)']
       this.threads = threads
+    },
+    async getTeams() {
+      // const response = await Teams.getTeamsByID(this.personID)
+      const response = await Teams.getTeamsByChurch()
+      let teams = response['team(s)']
+      this.teams = teams
+    },
+    async getPeople() {
+      // const response = await Teams.getTeamsByID(this.personID)
+      const response = await People.getPeople()
+      let people = response['person(s)']
+      this.people = people
     },
     async getThread(id) {
       const response = await Threads.getThread(id)
@@ -88,7 +178,7 @@ export default {
         const member = members[index];
         this.peopleHash[member.personID] = member
       }
-      this.thread = thread      
+      this.thread = thread
     },
     async getMessages(id) {
       const response = await Message.getMessages(id)
@@ -97,6 +187,17 @@ export default {
     },
     async postMessage(fromID, threadID, content) {
       const response = await Message.postMessage(fromID, threadID, content)
+    },
+    // On new thread member selected    
+    assignMember (member) {
+      console.log(member)
+
+    },
+    createNewItem() {
+      this.selectedThreadID = -1;
+      this.$router.push(`/app/inbox/`)
+
+      this.creatingNewItem = !this.creatingNewItem
     },
     selectThread(id) {
       if (id == undefined) {
@@ -107,6 +208,7 @@ export default {
 
       this.selectedThreadID = id
       this.messages = []
+      this.creatingNewItem = false
 
       // displayThread waits for getThread() and getMessages()
       // to finish. When displayThread equals 2 we know both
@@ -120,7 +222,7 @@ export default {
         })
     },
     sendMessage() {
-      const fromID = this.id
+      const fromID = this.personID
       const threadID = this.selectedThreadID
       const content = this.newMessageContent
       if (content == '') {
@@ -209,11 +311,6 @@ export default {
   },
   props: {
   },
-  mounted() {    
-    this.threadsLoading = true
-    this.selectThread(this.$route.params.id)
-    this.getThreads().then(() => {this.threadsLoading = false})
-  },
   computed: {
     sortedThreads() {
       var threads = Array(this.threads.length)
@@ -235,6 +332,14 @@ export default {
     },
     reversedMessages() {
       return this.messages.reverse()
+    },
+    formatedPeople() {
+      var people = this.people
+      for (let index = 0; index < people.length; index++) {
+        const person = people[index]
+        people[index]['name'] = person.firstName + " " + person.lastName
+      }
+      return people
     }
   }
 }
@@ -263,8 +368,8 @@ export default {
   }
   .thread {
     display: grid;
-    grid-template-rows: 30px auto 47px;
-    height: 100%;
+    grid-template-rows: 35px auto 47px;
+    height: 100vh;
   }
   .thread-header {
     padding: 10px 15px;
@@ -299,7 +404,7 @@ export default {
     cursor: pointer;
   } 
   .messages {
-    flex: 1;
+    height: calc(100vh - 82px);
     display: flex;
     flex-direction: column-reverse;
     overflow-y: auto;
@@ -384,24 +489,10 @@ export default {
   .message-box.repeat .profile-pic{
     display: none;
   }
-
-  
-#add-new-thread {
-  width: 25px;
-  height: 25px;
-  padding: 5px;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background: #00cec9;
-  border-radius: 50px;
-  cursor: pointer;
-  z-index: 100;
-}
-
-#add-new-thread i {    
-  color: white;
-}
+  .new-item .new-message{
+    margin: 0px 10px;
+    padding-left: 20px;
+  }
 
   
 /* //////////////////////////

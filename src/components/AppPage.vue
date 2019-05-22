@@ -1,20 +1,23 @@
 <template>
   <div class="app-page">
-    <div id="app-navbar-toggle" @click="showSidebar = !showSidebar">
-      <transition name="rotate-fade">
-        <i class="material-icons noselect"
-          v-if="showSidebar == false">
-          menu
-        </i>     
-      </transition>
-      <transition name="rotate-fade">
-        <i class="material-icons noselect"      
-          v-if="showSidebar == true"
-          >
-          clear
-        </i>
-      </transition>
-      <div class="current-page" v-show="showSidebar == false">{{$route.path.split('/')[2]}}</div>
+    <div id="app-navbar-header" 
+      :class="{'toggled': showSidebar}">
+      <div id="app-navbar-toggle" @click="showSidebar = !showSidebar">
+        <transition name="rotate-fade">
+          <i class="material-icons noselect"
+            v-if="showSidebar == false">
+            menu
+          </i>     
+        </transition>
+        <transition name="rotate-fade">
+          <i class="material-icons noselect"      
+            v-if="showSidebar == true"
+            >
+            clear
+          </i>
+        </transition>
+        <div class="current-page" v-show="showSidebar == false">{{$route.path.split('/')[2]}}</div>
+      </div>
     </div>
     <div id="app-navbar"
       :class="{'toggled': showSidebar}">
@@ -26,24 +29,34 @@
           >home</router-link>
         <router-link v-on:click.native="showSidebar = false" to="/app/inbox" class="noselect"
           >inbox</router-link>
+        <router-link  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
+          >people</router-link>
         <router-link  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
           >teams</router-link>
         <router-link  v-on:click.native="showSidebar = false" to="/app/prayer" class="noselect"
           >prayer</router-link>
-        <router-link  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
-          >people</router-link>
+        <router-link  v-on:click.native="showSidebar = false" to="/app/calendar" class="noselect"
+          >calendar</router-link>
         <router-link  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
           >this sunday</router-link>
-        <router-link  v-on:click.native="showSidebar = false" to="/app/events" class="noselect"
-          >events</router-link>
       </div>
       <div id="app-footer">
-        <router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
-          :class="{selected: $route.params.subpage == ''}">help</router-link>
-        <router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
-          :class="{selected: $route.params.subpage == ''}">privacy</router-link>
-        <router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
-          :class="{selected: $route.params.subpage == ''}">about us</router-link>
+        <div class="profiles">
+          <router-link  v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
+            <div class="profile-pic" :style="{backgroundImage: 'url(' + $store.state.churchIcon +')'}"></div>
+          </router-link>
+          <router-link  v-on:click.native="showSidebar = false" to="/app/me" class="noselect">
+            <div class="profile-pic" :style="{backgroundImage: 'url(' + $store.state.userIcon +')'}"></div>
+          </router-link>
+        </div>
+        <div class="links">
+          <router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
+            >help</router-link>
+          <router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
+            >privacy</router-link>
+          <router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
+            >about us</router-link>
+        </div>
       </div>
     </div>
     <div id="app-page-content">            
@@ -71,11 +84,15 @@ import Home from '@/components/Home'
     data() {
       return {
         showSidebar: false,
+        profilePic: ''
       }
     },
     components: {
       Inbox, People, Teams, Prayer, EventDetails, Events, Home
       // AudioPage, ReadingPlan
+    },
+    mounted() {
+      this.profilePic = this.$store.state.profilePic
     },
     methods: {
       hideSidebar() {
@@ -98,7 +115,7 @@ import Home from '@/components/Home'
   padding-right: 20px;
   z-index: 800;
   display: grid;
-  grid-template-rows: 100px auto 100px;
+  /* grid-template-rows: 100px 1fr 100px; */
 
   transition: min-width .3s ease;
 }
@@ -184,16 +201,45 @@ import Home from '@/components/Home'
 
   grid-row: 3/4;
 
+  display: grid;
+  grid-template-columns: 40px auto;
+  align-items: flex-end;
+}
+
+#app-footer .profiles a{
+  padding: 0px;
+  margin: 0px;
+  margin-top: 10px;
+  height: auto;
+}
+#app-footer .profiles{
+  /* padding: 2.5px; */
+  padding-left: 10px;
+}
+
+.profile-pic {
+  cursor: pointer;
+
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+#app-footer .links{
   display: flex;
-  justify-content: flex-end;
+  justify-content: end;
   align-items: flex-end;
   flex-direction: column;
   flex: 1;  
 }
+
 #app-footer a{
   color: #8a8a8a;
   text-decoration: none;
-  margin-bottom: 10px;
+  margin-top: 10px;
   display: inline-flex;
   font-size: 14px;
   text-align: right;
@@ -211,13 +257,23 @@ import Home from '@/components/Home'
   position: relative;
   overflow: hidden;
 }
-
-#app-navbar-toggle {
+#app-navbar-header {
+  background: white;
   position: fixed;
-  left: 15px;
-  top: 15px;
-  cursor: pointer;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   z-index: 900;
+  width: 100%;
+  height: 40px;
+  display: none;
+}
+#app-navbar-toggle {
+  position: relative;
+  left: 15px;
+  top: 10px;
+  cursor: pointer;
+  z-index: 500;
   display: none;
   width: 24px;
   height: 24px;
@@ -230,7 +286,7 @@ import Home from '@/components/Home'
 #app-navbar-toggle .current-page {  
   position: fixed;
   left: 50px;
-  top: 21px;
+  top: 17px;
   font-size: 15px;
   font-weight: bold;
 }
@@ -285,7 +341,11 @@ import Home from '@/components/Home'
   #app-footer {
     padding-right: 10px;
   }
- }
+  #app-navbar-header {
+    display: block;
+    background: none;
+  }
+}
 
 @media all and (max-width: 480px) {
   #app-navbar {
@@ -303,13 +363,19 @@ import Home from '@/components/Home'
   }
   #app-navbar-toggle {
     display: inline;
-  } 
+  }
   #app-header {
     text-align: center;
     padding-top: 20px;
   } 
   #app-footer {
     padding-right: 10px;
+  }
+  #app-navbar-header {
+    display: block;
+  }
+  #app-navbar-header.toggled {
+    background: none;
   }
  }
 </style>
@@ -355,5 +421,43 @@ import Home from '@/components/Home'
   }
   #app-page-content >>> .selected-view  .subtitle {
     font-size: 14px;
+  }
+  
+  #app-page-content >>> .new-item .footer {
+    height: 30px;
+    grid-row: 4;
+    grid-column: 1/3;
+    justify-self: flex-end;
+  }
+  #app-page-content >>> .new-item {
+    display: grid;
+    height: calc(100vh - 50px);
+    grid-template-rows: 5fr auto 5fr auto;
+    grid-template-columns: 1fr 15fr;
+    /* justify-content: center; */
+    margin: 25px;
+    max-width: 500px;
+  }
+  #app-page-content >>> .new-item .title{
+    grid-column: 1/3;
+    grid-row: 1;
+    font-size: 1.7rem;
+    margin: 20px;
+    color: #3b3b3b;
+  }
+  #app-page-content >>> .new-item .details{
+    grid-column: 2;
+    grid-row: 2;
+    width: 90%;
+    max-width: 400px;
+  }
+  #app-page-content >>> .new-item .type{
+    margin: 10px 0px;
+  }
+  #app-page-content >>> .new-item .section{
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: #5f5f5f;
+    font-size: .9rem
   }
 </style>

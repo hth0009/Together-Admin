@@ -3,11 +3,11 @@
     <h1 class="noselect">together</h1>
     <div id="login-form">
       <form v-on:submit.prevent="login">
-        <label for="username">email:</label>
-        <input v-model="username" type="username" name="username" placeholder="email">
+        <label for="username">username:</label>
+        <input v-model="username" type="username" name="username" placeholder="username">
         <br>
         <label for="password">password:</label>
-        <input v-model="password" type="password" name="password" placeholder="password">
+        <input v-model="password" type="password" name="password" placeholder="password" autocomplete="password">
         <br>
         <button>enter</button>
       </form>

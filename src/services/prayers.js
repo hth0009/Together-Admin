@@ -3,13 +3,13 @@ import store from '../store'
 
 export default {
   _defaultParams: {
-    storedChurchCode: store.state.churchCode
+    storedChurchCode: store.state.churchUsername
   },
-  getPrayers (churchCode = store.state.churchCode) {
+  getPrayers (churchUsername = store.state.churchUsername) {
     return Api().get('prayers',
       {
         params: {
-          churchUsername: `${churchCode}`
+          churchUsername: `${churchUsername}`
         }
       }).then((response) => {
       return response.data

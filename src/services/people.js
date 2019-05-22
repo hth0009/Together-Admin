@@ -2,11 +2,11 @@ import Api from './api'
 import store from '../store'
 
 export default {
-  getPeople (churchCode = store.state.churchCode) {
+  getPeople (churchUsername = store.state.churchUsername) {
     return Api().get('people',
       {
         params: {
-          inChurch: `${churchCode}`,
+          inChurch: `${churchUsername}`,
           pagesize: 50,
           page: 0,
           relateTo: -1

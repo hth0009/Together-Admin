@@ -10,9 +10,12 @@ import store from './store'
 ///////SYNC FUSION IMPORTS////////
 /////////////////////////////// */
 
-import { DropDownListPlugin } from '@syncfusion/ej2-vue-dropdowns'
+import { DropDownListPlugin, AutoCompletePlugin, ComboBoxPlugin } from '@syncfusion/ej2-vue-dropdowns'
 import { DateTimePickerPlugin } from '@syncfusion/ej2-vue-calendars'
 import { InPlaceEditorPlugin } from '@syncfusion/ej2-vue-inplace-editor'
+import { TextBoxPlugin } from '@syncfusion/ej2-vue-inputs'
+import { ChipListPlugin } from '@syncfusion/ej2-vue-buttons'
+
 // import { TabPlugin } from '@syncfusion/ej2-vue-navigations'
 
 /* ///////////////////////
@@ -22,6 +25,10 @@ import { InPlaceEditorPlugin } from '@syncfusion/ej2-vue-inplace-editor'
 Vue.use(DropDownListPlugin)
 Vue.use(DateTimePickerPlugin)
 Vue.use(InPlaceEditorPlugin)
+Vue.use(TextBoxPlugin)
+Vue.use(ChipListPlugin)
+Vue.use(AutoCompletePlugin)
+Vue.use(ComboBoxPlugin)
 // Vue.use(TabPlugin)
 
 /* ///////////////////////

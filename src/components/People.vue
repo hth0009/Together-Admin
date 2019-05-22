@@ -3,24 +3,16 @@
     <div class="people-wrapper">
       <div class="people-card-wrapper"
         :class="{'inactive': selectedID != ''}">        
-        <!-- <h2>People</h2> -->
-        <!-- <input type="text" class="basic-input" placeholder="search" v-model="peopleSearch"> -->
-        <!-- <vue-table
-          :data="computedPeople"
-          :columns="gridColumns"
-          :column-type="columnType"
-          :filter-key="peopleSearch"
-          :id-key="'id'"
-          :highlighted-entry="selectedPerson['id']"
-          @value="recieveID"></vue-table> -->
         <cards
           :cardList="formatedPeople"
           :loading="peopleLoading"
           :selectedID="selectedID + ''"
+          :hasAddNew="true"
           @selected="recieveID"
+        @onAddNew="createNewItem"
           />
       </div>
-      <div class="selected-view" v-show="selectedID != ''">
+      <div class="selected-view" v-show="selectedID != ''"  v-if="!creatingNewItem">
         <div class="header"> 
           <!-- <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
           class="profile-pic"></div> -->
@@ -51,6 +43,51 @@
           </div>
         </div>
       </div>
+      <div class="new-item" v-if="creatingNewItem">
+        <div class="title">New Person</div>
+        <div class="details">
+          <div class="type">            
+            <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio>
+          </div>
+          <div class="detailed" v-show="newItemType == 0">
+           <div style="width: 45%; display: inline-block">
+              <ejs-textbox floatLabelType="Auto" placeholder="First Name"
+              required name="none"></ejs-textbox>
+            </div>
+            <div style="width: 45%; display: inline-block; float: right">
+              <ejs-textbox floatLabelType="Auto" placeholder="Last Name" v-bind:enableRtl="true"
+              name="none"></ejs-textbox>
+            </div>
+            <div>
+              <ejs-textbox floatLabelType="Auto" type="email" placeholder="Email"
+              name="none"></ejs-textbox>
+            </div>
+            <div class="section">
+              mailing
+            </div>
+            <div>
+              <ejs-textbox floatLabelType="Auto" placeholder="Street"
+              name="none"></ejs-textbox>
+            </div>
+            <div style="width: 50%; display: inline-block;">
+              <ejs-textbox floatLabelType="Auto" placeholder="City"
+              name="none"></ejs-textbox>
+            </div>
+            <div style="width: 19%; display: inline-block;">
+              <ejs-textbox floatLabelType="Auto" placeholder="St"
+              name="none"></ejs-textbox>
+            </div>
+            <div style="width: 28%; display: inline-block; float: right">
+              <ejs-textbox floatLabelType="Auto" placeholder="Zip"
+              name="none"></ejs-textbox>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <button class="basic-button" @click="creatingNewItem = false">cancel</button>
+          <button class="basic-button">create</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -60,6 +97,7 @@ import Cards from '@/components/CardList'
 import VueTable from '@/components/Table'
 import People from '@/services/people'
 import Teams from '@/services/teams'
+import CustomRadio from '@/components/CustomRadio'
 // import store from '../store'
 
 export default {
@@ -82,11 +120,13 @@ export default {
         'https://images.unsplash.com/photo-1485811904074-04513843270c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
         'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
         'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
-        ]
+        ],
+      creatingNewItem: false,
+      newItemType: 0
     }
   },
   components: {
-    VueTable, Cards
+    VueTable, Cards, CustomRadio
   },
   methods: {
     async getPeople () {
@@ -98,18 +138,25 @@ export default {
       this.selectedPerson = response['person']
     },
     async getTeams() {   
-      const response = await Teams.getTeams(this.selectedID)
+      const response = await Teams.getTeamsByID(this.selectedID)
       this.selectedPersonTeams = response['team(s)']
     },
     recieveID(id) {
       if (id == undefined) {
         return
       }
+      this.creatingNewItem = false
       this.$router.push(`/app/people/${id}`)
       this.selectedID = id
       this.getPerson()
       this.getTeams()
-    }
+    },    
+    createNewItem() {
+      this.selectedThreadID = -1;
+      this.$router.push(`/app/people/`)
+
+      this.creatingNewItem = !this.creatingNewItem
+    },
   },
   props: {
   },
