@@ -48,7 +48,7 @@ export default {
   display: inline-block;
   margin: 5px 10px 5px 0px;
   font-size: .9rem;
-  padding: 7.5px 12.5px;
+  padding: 10px 15px;
   color: white; 
   background: #b6b6b6;
   border-radius: 30px;

@@ -6,7 +6,8 @@ export default {
     return Api().get('threads',
       {
         params: {
-          personID: `${store.state.personID}`
+          // personID: `${store.state.personID}`
+          orderByDescending: 'lastMessageAt'
         }
       }).then((response) => {
       return response.data
@@ -18,7 +19,7 @@ export default {
     return Api().get('threads',
       {
         params: {
-          personID: store.state.personID,
+          // personID: store.state.personID,
           id: threadID
         }
       }).then((response) => {

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import DayExpandedScheduler from '@/components/DayExpandedScheduler'
+import EventServing from '@/components/EventServing'
 import OrderOfService from '@/components/OrderOfService'
 import Times from '@/components/Times'
 import TextField from '@/components/TextField'
@@ -53,7 +53,7 @@ import VueSelect from 'vue-select'
             },
             {
               name: 'Day Scheduler',
-              component: 'DayExpandedScheduler'
+              component: 'EventServing'
             },
             {
               name: 'Order of Service',
@@ -72,7 +72,7 @@ import VueSelect from 'vue-select'
       }
     },
     components: {      
-      DayExpandedScheduler,
+      EventServing,
       OrderOfService,
       Times,
       TextField,
@@ -129,7 +129,7 @@ import VueSelect from 'vue-select'
   height: 75px;
   color: rgb(236, 236, 236);
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 600;
 }
 #event-day {
   position: absolute;

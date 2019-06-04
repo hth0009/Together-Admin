@@ -6,24 +6,45 @@
         v-model="cardSearch">
     </div>
     <div class="card-boxes" v-if="!loading">
-      <div v-for="card in cardList" :key="card['id']"
+    <div v-for="(card, index) in cardList" :key="card['id']">
+      <div class="header"
+        v-if="card['header'] && (index == 0 || cardList[index - 1].header != card.header)">{{card.header}}</div>
+      <div
         class="card-box"
-        :class="{unread: card['unread'] != undefined && card['unread'] > 0,
-        selected: card['id'] == selectedID}"
+        :class="{
+          unread: card['unread'] != undefined && card['unread'] > 0,
+          selected: card['id'] == selectedID,
+          'photo-header': card['photoHeader'] != undefined
+        }"
+        :style="{
+          backgroundImage: card['photoHeader'] != undefined ? 'url(' + card['photoHeader'] + ')' : '',          
+          color: card['color'] != undefined ? card['color'] : ''
+        }"
         @click="selectCard(card['id'])">
           <div v-if="card['superscript']" class="superscript">{{card['superscript']}}</div>
           <div v-if="card['profile']" class="profile-pic" :style="{backgroundImage: 'url(' +  card['profile'] + ')'}"></div>
-          <div class="card-info">
-            <div class="sender"> {{card['title']}} </div>
-            <div v-if="card['subtext']" class="message"> {{card['subtext'].substring(0, 30) + ""}} </div>
+          <div class="card-info"
+              :style="{
+                backgroundImage: card['photoHeader'] != undefined ? 'url(' + card['photoHeader'] + ')' : ''
+              }">
+            <div class="title"> {{card['title']}} </div>
+            <div v-if="card['subtext']" class="subtext"> {{card['subtext'].substring(0, 30) + ""}} </div>
+            <div v-if="card['subtext2']" class="subtext-2"> {{card['subtext2'].substring(0, 30) + ""}} </div>
           </div>
           <div v-if="card['body']" class="body">
             {{card['body'].substring(0, 250) + ""}}
           </div>
+          <div v-if="hasAddButtonOnCard"            
+           :style="{
+            boxShadow: card['color'] != undefined ? '0px 1px 4px ' + card['color'] + 'A5' : '',
+            backgroundColor: card['color'] != undefined ? card['color'] : ''
+            }" class="add-button">
+            <i class="material-icons">add</i></div>
       </div>
-    </div>    
+    </div>
+    </div>  
     <div class="card-boxes loading" v-if="loading">
-      <div v-for="(card, index) in Array(15)" :key="index"
+      <div v-for="(card, index) in Array(17)" :key="index"
         class="card-box loading">
         <div class="profile-pic"></div>
       </div>
@@ -65,6 +86,14 @@ export default {
       type: Boolean,
       default: false
     },
+    hasAddButtonOnCard: {
+      type: Boolean,
+      default: false
+    },
+    filters: {
+      type: Array,
+      default: function () { return [] }
+    }
   },
   mounted() {    
   },
@@ -73,8 +102,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
 
   .cards {
     height: 100%;
@@ -98,10 +126,17 @@ export default {
     overflow-x: hidden;
     padding-bottom: 40px;
   }
+  .card-boxes .header{
+    /* text-align: center; */
+    font-size: 18px;
+    font-weight: 500;
+    color: #636e72
+  }
   .card-box {
     margin: 5px;
     /* height: 30px; */
     padding: 10px;
+    border-radius: 5px;
     transition: all .3s ease;
     display: grid;
     grid-template-columns: auto 1fr;
@@ -110,15 +145,28 @@ export default {
     cursor: pointer;
     position: relative;
     background-color: white;
-  }  
+  }
   .card-box.unread {
-    border-left: 2px #69CDCF solid;
+    border-left: 4px #69CDCF solid;
+    padding-left: 8px;
+  }
+  .card-box.photo-header {
+    padding: 0px;
+    height: 150px;
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    overflow: hidden;
+
+    border-radius: 6px;
   }
   .card-box:hover {
     box-shadow: 0px 2px 4px -2px rgba(128, 128, 128, 0.507);    
   }
   .card-box.selected {
-    box-shadow: 0px 4px 5px -3px rgba(128, 128, 128, 0.507);
+    box-shadow: 0px 2px 7px -1px rgba(128, 128, 128, 0.342);
   }
   .card-box .profile-pic {
     min-width: 30px;
@@ -149,13 +197,96 @@ export default {
     grid-column: 2/3;
     grid-row: 1/2;
   }
-  .card-box .sender{
+  
+  .card-box.photo-header .card-info{
+    position: relative;
+    z-index: 1;
+
+    padding: 5px 10px;
+
+    height: 100%;
+
+    top: 105px;
+    left: 0px;
+    
+    overflow: hidden;
+  }
+  .card-box .card-info::before{
+    display: none;
+  }
+  .card-box.photo-header .card-info::before{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+     
+    z-index: 2;
+    display: block;
+    position: absolute;
+    content: ' ';
+
+    left: 0px;
+    top: -5px;
+
+    -webkit-filter: blur(6px);
+    filter: blur(6px);
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: scale(1.03);
+    background-origin: center center;
+    background-position: center -100px;
+    opacity: 0.5;
+    
+    // transform: translateY(-100%) translateY(5em) translateZ(0);
+    
+    background-image: inherit;
+  }
+  .card-box .card-info::after{
+    display: none;
+  }
+  .card-box.photo-header .card-info::after{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+     
+    z-index: 1;
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: .25px;
+    content: ' ';
+
+    background: #464646;
+  }
+  
+  .card-box .title{
     /* margin: 5px; */
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 600;
+    z-index: 10;
+    position: relative;
+    color: inherit;
   }
-  .card-box .message{
+  .card-box.photo-header .title{
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .card-box .subtext{
     font-size: 12px;
+    z-index: 10;
+    position: relative;
+  }
+  .card-box.photo-header .subtext{
+    color: white;
+    font-size: 10px;
+    z-index: 10;
+    position: relative;
+  }
+  .card-box.photo-header .subtext-2{
+    color: white;
+    font-size: 10px;
+    opacity: .7;
+    z-index: 10;
+    position: relative;
   }
   .card-box .body {
     padding-top: 10px;
@@ -164,6 +295,26 @@ export default {
     grid-row: 2/3;
 
     font-size: .75em;
+    z-index: 10;
+    position: relative;
+  }
+  .card-box .add-button{
+    background-color: inherit;
+    color: white;
+    height: 10px;
+    width: 10px;
+    border-radius: 8px;
+    
+    position: absolute;
+    right: 10px;
+    bottom: 12.5px;
+    z-index: 50;
+
+    padding: 8px;
+    font-size: 10px;
+  }
+  .card-box .add-button i{
+    font-size: 10px;
   }
 
   .card-wrapper {
@@ -222,6 +373,7 @@ export default {
   .card-box.loading {    
     opacity: .5;
     animation: shadowFade 4s infinite;
+    cursor: default;
   }  
   .card-boxes.loading {
     overflow: hidden;
@@ -234,11 +386,20 @@ export default {
   .card-box.loading:nth-child(7) { animation-delay: 1.5s }
   .card-box.loading:nth-child(8) { animation-delay: 1.75s }
   .card-box.loading:nth-child(9) { animation-delay: 2s }
-  .card-box.loading:nth-child(10) { animation-delay: 2.5s }
+  .card-box.loading:nth-child(10) { animation-delay: 2.25s }
   .card-box.loading:nth-child(11) { animation-delay: 2.5s }
-  .card-box.loading:nth-child(12) { animation-delay: 2.5s }
-  .card-box.loading:nth-child(13) { animation-delay: 2.5s }
-  .card-box.loading:nth-child(14) { animation-delay: 2.5s }
+  .card-box.loading:nth-child(12) { animation-delay: 2.75s }
+  .card-box.loading:nth-child(13) { animation-delay: 3s }
+  .card-box.loading:nth-child(14) { animation-delay: 3.25s }
+  .card-box.loading:nth-child(15) { animation-delay: 3.5s }
+  .card-box.loading:nth-child(16) { animation-delay: 3.75s }
+  .card-box.loading:nth-child(17) { animation-delay: 4s }
+  .card-box.loading:nth-child(18) { animation-delay: 4.25s }
+  .card-box.loading:nth-child(19) { animation-delay: 4.5s }
+  .card-box.loading:nth-child(20) { animation-delay: 4.75s }
+  .card-box.loading:nth-child(21) { animation-delay: 5s }
+  .card-box.loading:nth-child(22) { animation-delay: 5.25s }
+  .card-box.loading:nth-child(23) { animation-delay: 5.5s }
 
   
   .card-box.loading .profile-pic{  

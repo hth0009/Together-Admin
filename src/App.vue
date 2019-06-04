@@ -78,7 +78,7 @@ export default {
     height: 100%;
   }
 
-  .basic-drag, .basic-input, .basic-textarea,  .basic-button{
+  .basic-drag, .basic-input, .basic-textarea {
     background: white;
     border: none;
     outline: none;
@@ -92,10 +92,38 @@ export default {
   }
   .basic-button {
     /* border: #12b5e7 3px solid; */
+    background: #00cec9;
+    color: white;
+    text-shadow: 0px 1px 8px #00000034;
+    box-shadow: 0px 1px 6px 2px #00cecb69;
+    outline: none;
+    appearance: none;
     width: auto;
+    border: none;
     cursor: pointer;
-    padding-top: 13px;
-    box-shadow: 0px 5px 6px -2px rgba(128, 128, 128, 0.507);
+    padding: 15px 18px;
+    border-radius: 30px;
+    /* line-height: 1; */
+    transition: all .2s ease;
+    font-weight: 600;    
+    line-height: inherit;
+    margin: 2.5px;
+  }
+  .basic-button.orange {
+    background: #e17055;
+    box-shadow: 0px 1px 8px 2px #e1715569; 
+  }
+  .basic-button.purple {
+    background: #6c5ce7;
+    box-shadow: 0px 1px 8px 2px #6c5ce77c; 
+  }
+  .basic-button.red {
+    background: #ff7675;
+    box-shadow: 0px 1px 8px 2px #ff76757c; 
+  }
+  .basic-button.green {
+    background: #05e0a2;
+    box-shadow: 0px 1px 8px 2px #05e0a286; 
   }
   .basic-input::placeholder, .basic-textarea::placeholder, .basic-button::placeholder{
     color: #7e7e7e;
@@ -103,17 +131,12 @@ export default {
   /* .basic-input:hover, .basic-textarea:hover, .basic-button:hover{
     box-shadow: 0px 4px 4px -5px rgba(128, 128, 128, 0.507);
   } */
-  .basic-button:hover{
-    box-shadow: 0px 4px 4px -5px rgba(128, 128, 128, 0.507);
-  }
   /* .basic-input:focus, .basic-textarea:focus, .basic-button:focus{
     box-shadow: 0px 5px 6px -2px rgba(128, 128, 128, 0.507);
   } */
-  .basic-button:focus{
-    box-shadow: 0px 5px 6px -2px rgba(128, 128, 128, 0.507);
-  }
-  .basic-button:hover {    
-    box-shadow: 0px 4px 4px -3px rgba(128, 128, 128, 0.507);
+  .basic-button:hover {
+    /* padding: 20px 23px;
+    transform: translateY(-2px) */
     /* color: #fafafa */
   }
   .basic-button:active {    

@@ -9,34 +9,99 @@
             :selectedID="selectedID + ''"
             @selected="recieveID"/>
         </div>
-        <div class="calendar-holder">
-          <ejs-schedule height="100%" 
-            id="Schedule"
-            ref="ScheduleObj"
-            :selectedDate='selectedDate' 
-            :eventSettings='eventSettings'
-            >
-            <e-views>
-              <e-view option="Month"></e-view>
-              <e-view option="Day"></e-view>
-              <e-view option="Agenda"></e-view>
-            </e-views>
-          </ejs-schedule>
+        <div class="selected-view" v-show="selectedID != -1"  v-if="!creatingNewItem">
+          <div class="header">
+            <h3>{{selectedEvent.eventName}}</h3>
+            <div class="subtitle">event type</div>
+          </div>
+          <div class="details">
+            <div class="panel">
+              <h4 class="noselect">General Info</h4>
+              <div class="item">
+                <i class="material-icons noselect">place</i>
+                <div class="label noselect">Start Time</div>
+                <div class="content">
+                  <ejs-datetimepicker id="start-time" :placeholder="'Start Time'" :value="selectedEvent.startTime" :format="dateFormat"></ejs-datetimepicker>
+                </div>
+              </div>
+              <div class="item">
+                <i class="material-icons noselect">place</i>
+                <div class="label noselect">End Time</div>
+                <div class="content">
+                  <ejs-datetimepicker id="end-time" :placeholder="'End Time'" :value="selectedEvent.endTime" :format="dateFormat"></ejs-datetimepicker>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <h4>Times</h4>
+              <times/>
+            </div>
+            <div class="panel">
+              <h4>Reminders</h4>
+              <reminders/>
+            </div>
+            <div class="panel">
+              <h4>Serve Teams</h4>
+              <event-serving/>
+            </div>
+            <div class="panel">
+              <h4>Order of Service</h4>
+              <order-of-service/>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="new-item" v-if="creatingNewItem">
+        <div class="title">New Event</div>
+        <div class="details">
+          <div class="type">            
+            <!-- <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio> -->
+          </div>
+          <div class="detailed">
+          </div>
+        </div>
+        <div class="footer">
+          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
+          <button class="basic-button green">CREATE</button>
+        </div>
+      </div>
+      <div class="calendar-holder">
+        <ejs-schedule height="100%" 
+          id="Schedule"
+          ref="ScheduleObj"
+          :selectedDate='selectedDate' 
+          :eventSettings='eventSettings'
+          >
+          <e-views>
+            <e-view option="Month"></e-view>
+            <e-view option="Day"></e-view>
+            <e-view option="Agenda"></e-view>
+          </e-views>
+        </ejs-schedule>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { SchedulePlugin, Day, Month, Agenda, Resize, DragAndDrop, EJ2Instances } from "@syncfusion/ej2-vue-schedule";
-import { extend } from '@syncfusion/ej2-base';
+import { SchedulePlugin, Day, Month, Agenda, Resize, DragAndDrop, EJ2Instances } from "@syncfusion/ej2-vue-schedule"
+import { DateTimePickerPlugin } from '@syncfusion/ej2-vue-calendars'
+import { extend } from '@syncfusion/ej2-base'
 import Events from '@/services/events'
 import Cards from '@/components/CardList'
 
+// Event Components
+
+import EventServing from '@/components/EventServing'
+import OrderOfService from '@/components/OrderOfService'
+import Times from '@/components/Times'
+import TextField from '@/components/TextField'
+import Reminders from '@/components/Reminders'
+
+import {getHHMM, getDayOfWeek} from '../utils/helpers'
 
 import Vue from 'vue'
-Vue.use(SchedulePlugin);
+Vue.use(SchedulePlugin, DateTimePickerPlugin)
 
 export default {
   name: 'Calender',
@@ -50,11 +115,14 @@ export default {
       selectedID: -1,
       selectedEvent: {},
       views: ['Month', 'Day', 'Agenda'],
-      eventHash: {}
+      eventHash: {},
+      creatingNewItem: false,
+      dateFormat: "dd MMMM yyyy hh:mm a",
+      eventComponents: [],
     }
   },
   components: {
-    Cards
+    Cards, Times, EventServing, OrderOfService, Reminders
   },
   provide: {
     schedule: [Day, Month, Agenda, Resize, DragAndDrop]
@@ -80,6 +148,7 @@ export default {
       const response = await Events.getEvent(id)
       const data = response['event']
       this.selectedEvent = data
+      this.eventComponents = data.components['components']
     }
   },
   computed: {   
@@ -93,7 +162,9 @@ export default {
         const event = this.events[index];
         const newEvent = {
           id: event.id,
-          title: event.eventName,  
+          title: event.eventName,
+          subtext: getHHMM(new Date(event.startTime)),
+          header: getDayOfWeek(new Date(event.startTime)),
           Id: event.id,
           Subject: event.eventName,
           StartTime: event.startTime,

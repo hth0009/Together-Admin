@@ -6,23 +6,38 @@
           :cardList="formattedPrayers"
           :loading="prayersLoading"
           :selectedID="selectedID + ''"
-          @selected="recieveID"/>
+          :hasAddNew="true"
+          @selected="recieveID"
+          @onAddNew="createNewItem"/>
       </div>
-      <div class="prayer-view" v-if="selectedID != -1">
-        <div class="prayer-header"> 
+      <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
+        <div class="header"> 
           <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1483884105135-c06ea81a7a80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)'}"
           class="profile-pic"></div>
           <!-- <div :style="{backgroundImage: 'url(' +  selectedPrayer.iconURL + ')'}"
           class="profile-pic"></div> -->
-          <h3>{{selectedPrayer.subject}}</h3>
-          <div class="prayer-type noselect anonymous" v-if="selectedPrayer.isAnonymousPrayer">Annonymous</div>
+          <h3 class="">{{selectedPrayer.subject}}</h3>
+          <div class="subtitle" v-if="selectedPrayer.isAnonymousPrayer">Annonymous</div>
         </div>
         <div class="prayer-info">
+          <p>{{selectedPrayer.content}}</p>
+        </div>
+      </div>
+      <div class="new-item" v-if="creatingNewItem">
+        <div class="title">New Prayer</div>
+        <div class="details">
           <div>
-            <div class="description-panel">
-              <p>{{selectedPrayer.content}}</p>              
-            </div>  
+            <ejs-textbox floatLabelType="Auto" placeholder="Title"
+            required name="none"></ejs-textbox>
           </div>
+          <div>
+            <ejs-textbox floatLabelType="Auto" placeholder="Prayer"
+            required name="none"></ejs-textbox>
+          </div>
+        </div>
+        <div class="footer">
+          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
+          <button class="basic-button green">CREATE</button>
         </div>
       </div>
     </div>
@@ -31,6 +46,7 @@
 
 <script>
 import Prayers from '@/services/prayers'
+import CustomRadio from '@/components/CustomRadio'
 import Cards from '@/components/CardList'
 
 export default {
@@ -43,21 +59,30 @@ export default {
       prayersSearch: '',
       selectedID: '',
       selectedPrayer: {},
-      selectedID: -1
+      selectedID: -1,
+      creatingNewItem: false,
+      newItemType: 0,
     }
   },
   components: {
-    Cards
+    Cards, CustomRadio
   },
   methods: {
     recieveID(id) {
       if (id == undefined) {
         return
       }
+      this.creatingNewItem = false
       this.$router.push(`/app/prayer/${id}`)
       this.selectedID = id
       this.selectedID = id
       this.getPrayer()
+    },
+    createNewItem() {
+      this.selectedID = -1;
+      this.$router.push(`/app/prayer/`)
+
+      this.creatingNewItem = !this.creatingNewItem
     },
     async getPrayers() {
       const response = await Prayers.getPrayers()
@@ -117,7 +142,6 @@ h2 {
 }
 .prayer-card-wrapper {
   overflow-y: auto;
-  height: calc(100vh - 35px);
   width: 100%;
   position: relative;
   border-right: 1px #E6E9EC solid;

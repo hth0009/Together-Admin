@@ -4,7 +4,7 @@
       <div class="me-header">
         <div></div>
         <div class="logout">
-          <button @click="logout" class="basic-button">logout</button>
+          <button @click="logout" class="basic-button red">LOGOUT</button>
         </div>
       </div>
     </div>
@@ -55,9 +55,6 @@ export default {
   cursor: pointer;
 
   display: grid;
-}
-.logout .basic-button {  
-  color: #d63031;
 }
 /* //////////////////////////
 //////  MEDIA QUERIES ///////

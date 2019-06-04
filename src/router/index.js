@@ -7,6 +7,7 @@ import ChurchInfo from '@/components/ChurchInfo'
 import Staff from '@/components/Staff'
 import Subscription from '@/components/Subscription'
 import PrivacyPolicy from '@/components/PrivacyPolicy'
+import Splash from '@/components/Splash'
 
 import Inbox from '@/components/Inbox'
 import People from '@/components/People'
@@ -14,6 +15,7 @@ import Teams from '@/components/Teams'
 import Prayer from '@/components/Prayer'
 import Calendar from '@/components/Calendar'
 import Home from '@/components/Home'
+import ThisSunday from '@/components/ThisSunday'
 import Me from '@/components/Me'
 
 import store from '@/store'
@@ -26,7 +28,7 @@ let router = new Router({
     {
       path: '/',
       name: 'Splash Screen',
-      component: Login,
+      component: Splash,
       meta: {
         noNav: true,
         requiresAuth: false
@@ -143,14 +145,14 @@ let router = new Router({
             requiresAuth: true
           }
         },
-        {
-          path: 'this-sunday/',
-          component: EventDetails,
-          name: 'This Sunday',
-          meta: {
-            requiresAuth: true
-          }
-        },
+        // {
+        //   path: 'this-sunday/',
+        //   component: ThisSunday,
+        //   name: 'This Sunday',
+        //   meta: {
+        //     requiresAuth: true
+        //   }
+        // },
         {
           path: 'me/',
           component: Me,

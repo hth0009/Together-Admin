@@ -98,7 +98,7 @@ export default {
   resize: none;
 }
 .new-notification .title{
-  font-weight: bold;
+  font-weight: 600;
 }
 .new-notification .date{
   padding-top: 10px;

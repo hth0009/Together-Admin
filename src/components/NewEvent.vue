@@ -103,7 +103,7 @@ export default {
   } 
   .event-name {
     /* font-size: 17px; */
-    font-weight: bold
+    font-weight: 600
   }
   .event-description {
     resize: none;

@@ -22,24 +22,25 @@
     <div id="app-navbar"
       :class="{'toggled': showSidebar}">
       <div id="app-header" class="noselect">
-        <img class="logo" src="/static/image/black-logo.png" alt="" srcset="">
+        <!-- <img class="logo" src="/static/image/black-logo.png" alt="" srcset=""> -->
+        <div class="brand noselect">TOGETHER</div>
       </div>
-      <div id="app-navbar-buttons">
-        <router-link v-on:click.native="showSidebar = false" to="/app/home" class="noselect"
+      <transition-group name="fadeLeft" id="app-navbar-buttons">
+        <router-link :key="1" v-on:click.native="showSidebar = false" to="/app/home" class="noselect"
           >home</router-link>
-        <router-link v-on:click.native="showSidebar = false" to="/app/inbox" class="noselect"
+        <router-link :key="2" v-on:click.native="showSidebar = false" to="/app/inbox" class="noselect"
           >inbox</router-link>
-        <router-link  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
+        <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
           >people</router-link>
-        <router-link  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
+        <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
           >teams</router-link>
-        <router-link  v-on:click.native="showSidebar = false" to="/app/prayer" class="noselect"
+        <router-link :key="5"  v-on:click.native="showSidebar = false" to="/app/prayer" class="noselect"
           >prayer</router-link>
-        <router-link  v-on:click.native="showSidebar = false" to="/app/calendar" class="noselect"
+        <router-link :key="6"  v-on:click.native="showSidebar = false" to="/app/calendar" class="noselect"
           >calendar</router-link>
-        <router-link  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
-          >this sunday</router-link>
-      </div>
+        <!-- <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
+          >this sunday</router-link> -->
+      </transition-group>
       <div id="app-footer">
         <div class="profiles">
           <router-link  v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
@@ -76,6 +77,8 @@ import Prayer from '@/components/Prayer'
 import EventDetails from '@/components/EventDetails'
 import Events from '@/components/Calendar'
 import Home from '@/components/Home'
+
+require('vue2-animate/dist/vue2-animate.min.css')
 // import AudioPage from '@/components/AudioPage'
 // import ReadingPlan from '@/components/ReadingPlan'
 
@@ -110,7 +113,7 @@ import Home from '@/components/Home'
 }
 #app-navbar {
   min-width: 145px;
-  width: 145px;
+  width: 225px;
   /* padding: 10px 20px; */
   padding-right: 20px;
   z-index: 800;
@@ -152,8 +155,8 @@ import Home from '@/components/Home'
   bottom: -2px;
   border-radius: 2px;
   right: 0;
-  background-color: #69CDCF;
-  border: 0px #69CDCF solid;
+  background-color: #00cec9;
+  border: 0px #00cec9 solid;
   visibility: hidden;
   -webkit-transition: all 0.3s ease-in-out 0s;
   transition: all 0.3s ease-in-out 0s;
@@ -169,7 +172,7 @@ import Home from '@/components/Home'
   height: 1.1em; 
   bottom: -5px; 
   right: -5px;
-  border: 4px #69CDCF solid;
+  border: 4px #00cec9 solid;
   width: calc(100% + 2px);  
   z-index: -1;
   visibility: visible;
@@ -189,6 +192,15 @@ import Home from '@/components/Home'
   /* font-size: 17.5px; */
   /* text-align: center; */
 }
+#app-header .brand{
+  text-align: center;
+  margin-top: 4px;
+  margin-left: 5px;
+  color: #00cec9;
+  font-weight: 500;
+  writing-mode: vertical-rl;
+  /* text-orientation: upright; */
+} 
 #app-header .logo{
   height: 30px;
   opacity: .75;
@@ -288,7 +300,7 @@ import Home from '@/components/Home'
   left: 50px;
   top: 17px;
   font-size: 15px;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .rotate-fade-enter-active, .rotate-fade-leave-active {
@@ -317,7 +329,11 @@ import Home from '@/components/Home'
 @media all and (min-width: 768px) and (max-width: 1024px) {
  }
 
-@media all and (min-width: 480px) and (max-width: 768px) {  
+@media all and (min-width: 480px) and (max-width: 768px) {
+  #app-header .brand{
+    margin-top: 20px;
+    margin-left: 10px;
+  }
   #app-navbar {
     display: none;
     min-width: 0px;
@@ -348,6 +364,10 @@ import Home from '@/components/Home'
 }
 
 @media all and (max-width: 480px) {
+  #app-header .brand{
+    margin-top: 20px;
+    margin-left: 10px;
+  }
   #app-navbar {
     display: none;
     min-width: 0px;
@@ -394,20 +414,28 @@ import Home from '@/components/Home'
     /* height: calc(100vh - 80px); */
     overflow-y: auto;
   }
+  #app-page-content >>> .selected-view h1,
+  #app-page-content >>> .selected-view h2,
+  #app-page-content >>> .selected-view h3,
+  #app-page-content >>> .selected-view h4,
+  #app-page-content >>> .selected-view h5 {
+    font-weight: 600
+  }
   #app-page-content >>> .selected-view .header {
     display: grid;
-    grid-template-columns: 110px auto;
-    grid-template-rows: 30px 15px 30px 30px;
-    margin-top: 40px;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 5px auto 15px auto 5px;
+    margin: 40px 0px 20px 10px;
   }
   #app-page-content >>> .selected-view .profile-pic {
     grid-row: 1/5;
 
-    width: 85px;
-    height: 85px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
 
     margin: 7.5px;
+    margin-right: 15px;
 
     background-repeat: no-repeat;
     background-position: center center;
@@ -415,42 +443,114 @@ import Home from '@/components/Home'
   }
 
   #app-page-content >>> .selected-view  h3 {
+    grid-row: 2;
+    grid-column: 2;
     padding-top: 10px;
-    font-size: 17px;
-    white-space: nowrap;
+    font-size: 32px;
   }
-  #app-page-content >>> .selected-view  .subtitle {
-    font-size: 14px;
+  #app-page-content >>> .selected-view .subtitle {
+    grid-row: 3;
+    grid-column: 2;
+    font-size: 18px;
+    font-weight: 600;
+    color: #707070;
+  }
+  #app-page-content >>> .selected-view .details {
+    max-width: 650px;
+  }
+  #app-page-content >>> .selected-view .panel {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 30px 30px;
+    margin: 10px;
+    box-shadow: 0px 2px 6px -1px #8080803d;
+
+  }
+  #app-page-content >>> .selected-view .panel h4{
+    font-size: 20px;
+    color: #424242;
+    margin-bottom: 10px;
+  }
+  #app-page-content >>> .selected-view .panel .explanation{
+    font-size: 16px;
+    color: #a1a1a1;
+    margin-bottom: 10px;
+    margin-left: 10px;
+  }
+  #app-page-content >>> .selected-view .panel .item{
+    margin: 0px 0px 10px 10px;
+    display: flex;
+    align-items: flex-end;
+  }
+  #app-page-content >>> .selected-view .panel .item i{
+    font-size: 18px;
+    margin-right: 7.5px;
+    color: #e7e7e7;
+    margin-top: 1px;
+  }
+  #app-page-content >>> .selected-view .panel .item .label{
+    font-size: 18px;
+    display: inline-flex;
+    vertical-align: middle;
+    
+    margin-right: 7.5px;
+    color: #4e4e4e;
+    font-weight: 500;
+  }
+  #app-page-content >>> .selected-view .panel .item .content{
+    flex: 1;
   }
   
-  #app-page-content >>> .new-item .footer {
-    height: 30px;
-    grid-row: 4;
-    grid-column: 1/3;
-    justify-self: flex-end;
-  }
   #app-page-content >>> .new-item {
     display: grid;
     height: calc(100vh - 50px);
-    grid-template-rows: 5fr auto 5fr auto;
+    grid-template-rows: 70px auto 70px;
     grid-template-columns: 1fr 15fr;
+    align-items: center;
     /* justify-content: center; */
     margin: 25px;
-    max-width: 500px;
+    max-width: 600px;
   }
   #app-page-content >>> .new-item .title{
     grid-column: 1/3;
     grid-row: 1;
     font-size: 1.7rem;
     margin: 20px;
-    color: #3b3b3b;
+    color: #7a7a7a;
+    font-weight: 600;
+  }
+  #app-page-content >>> .new-item .footer {
+    height: 40px;
+    grid-row: 3;
+    grid-column: 1/3;
+    justify-self: flex-end;
   }
   #app-page-content >>> .new-item .details{
     grid-column: 2;
     grid-row: 2;
     width: 90%;
-    max-width: 400px;
+    max-width: 500px;
+    max-height: 100%;
+    overflow-y: auto;
   }
+  #app-page-content >>> .new-item .profile-pic {
+    grid-row: 1/5;
+
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+
+    margin: 7.5px;
+    margin-right: 15px;
+
+    background-color: red;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    cursor: pointer;
+  }
+
   #app-page-content >>> .new-item .type{
     margin: 10px 0px;
   }
@@ -458,6 +558,7 @@ import Home from '@/components/Home'
     margin-top: 10px;
     margin-bottom: 5px;
     color: #5f5f5f;
-    font-size: .9rem
+    font-size: 1rem;
+    font-weight: 600;
   }
 </style>

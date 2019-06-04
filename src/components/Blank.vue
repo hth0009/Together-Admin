@@ -1,6 +1,5 @@
 <template>
-  <div class="reading-plan-container">
-    <h3></h3>
+  <div class="-container">
   </div>
 </template>
 

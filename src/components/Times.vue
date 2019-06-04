@@ -1,6 +1,5 @@
 <template>
   <div class="times-container width-override-full">
-    <h3>Times</h3>
     <div class="selected-times">
       <div class="time noselect"
         v-for="(time, index) in times"

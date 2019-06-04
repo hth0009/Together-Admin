@@ -1,6 +1,5 @@
 <template>
   <div class='order-of-service-container'>
-    <h3>{{title}}</h3>
     <div class="order-of-service">
       <Container 
       class="item-list"
@@ -450,7 +449,7 @@ export default {
   display: inline-block;
   color: #4e4e4e;
   border-radius: 20px;
-  font-weight: bold;
+  font-weight: 600;
   height: 16px;
   width: 16px;
   padding: 1.5px;

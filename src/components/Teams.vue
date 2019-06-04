@@ -1,13 +1,6 @@
 <template>
   <div class="teams-container">
     <div class="teams-wrapper">      
-    <modal
-      name="new-team"
-      height="auto"
-      :scrollable="true"
-      y-overflow="auto">
-      <new-teams></new-teams>
-    </modal>
       <div class="teams-card-wrapper">
         <!-- <h2>Teams</h2> -->
         <cards
@@ -15,18 +8,16 @@
           :loading="teamsLoading"
           :selectedID="selectedID + ''"
           :hasAddNew="true"
-          @selected="recieveID"/>
+          @selected="recieveID"
+          @onAddNew="createNewItem"/>
       </div>
-      <div class="selected-view" v-if="selectedID != ''">
+      <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
         <div class="header"> 
           <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1496275068113-fff8c90750d1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'}"
           class="profile-pic"></div>
           <!-- <div :style="{backgroundImage: 'url(' +  selectedTeam.iconURL + ')'}"
           class="profile-pic"></div> -->
           <h3>{{selectedTeam.name}}</h3>
-          <h3>
-            <!-- <ejs-inplaceeditor ref="titleObj" id="inplace_title_editor" data-underline='false' mode="Inline" emptyText="Enter your question title" name="Title" value="Succinctly E-Book about TypeScript" :validationRules="textValidationRules" :model="textModel" > -->
-          </h3>
           <!-- <div class="team-type noselect serve" v-if="selectedTeam.isServe">Serve Team</div>
           <div class="team-type noselect annonymous" v-if="selectedTeam.isAnnonymous">Annonymous</div> -->
           <div class="subtitle" v-if="selectedTeam.isAnonymous">anonymous</div>
@@ -74,6 +65,58 @@
           </div>
         </div>
       </div>
+      <div class="new-item" v-if="creatingNewItem">
+        <div class="title">New Team</div>
+        <div class="details">
+          <div class="profile-pic" @click="uploadingPhoto = true"></div>
+          <div>
+            <ejs-textbox floatLabelType="Auto" placeholder="Name"
+            required name="none"></ejs-textbox>
+          </div>
+          <div>
+            <ejs-textbox floatLabelType="Auto" placeholder="Description"
+            required name="none"></ejs-textbox>
+          </div>
+          <div class="type">            
+            <custom-radio v-model="newItemType" :options="['public', 'serve', 'anonymous']"></custom-radio>
+          </div>
+          <div class="detailed public" v-if="newItemType == 0">
+            <!-- <div class="section">
+              Leader
+            </div> -->
+              <ejs-dropdownlist
+                :dataSource='formatedPeople' 
+                :fields="{ value: 'name'}"
+                floatLabelType="Auto" 
+                :placeholder='"Select Leader"'
+                :allowFiltering="true"
+                :select="assignMember"></ejs-dropdownlist>
+            <div>
+              <ejs-textbox floatLabelType="Auto" placeholder="Address"
+              name="none"></ejs-textbox>
+            </div>
+            <div>
+              <ejs-textbox floatLabelType="Auto" placeholder="Location Description"
+              name="none"></ejs-textbox>
+            </div>
+            <ejs-recurrenceeditor id='editor' ref="EditorObj" :selectedType='selectedType' :change="onChange"></ejs-recurrenceeditor>
+            <image-uploader field="img"
+              v-model="uploadingPhoto"
+              :width="300"
+              :height="300"
+              url="/upload"
+              lang-type="en"
+              :params="{}"
+              :headers="{}"
+              :noSquare="true"
+              img-format="png"></image-uploader>
+            </div>
+          </div>
+        <div class="footer">
+          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
+          <button class="basic-button green">CREATE</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -83,6 +126,9 @@ import NewTeams from '@/components/NewTeam'
 import Cards from '@/components/CardList'
 import VueTable from '@/components/Table'
 import Teams from '@/services/teams'
+import People from '@/services/people'
+import CustomRadio from '@/components/CustomRadio'
+import ImageUploader from 'vue-image-crop-upload'
 
 export default {
   name: 'Teams',
@@ -98,23 +144,22 @@ export default {
       teamsLoading: false,
       teamsSearch: '',
       selectedTeam: {},
-      selectedID: 0
+      selectedID: -1,
+      creatingNewItem: false,
+      newItemType: 0,
+      people: [],
+      uploadingPhoto: false
     }
   },
   components: {
-    VueTable, NewTeams, Cards
+    VueTable, NewTeams, Cards, CustomRadio, ImageUploader
   },
   methods: {
-    show () {
-      this.$modal.show('new-team');
-    },
-    hide () {
-      this.$modal.hide('new-team');
-    },
     recieveID(id) {
       if (id == undefined) {
         return
       }
+      this.creatingNewItem = false
       this.$router.push(`/app/teams/${id}`)
       this.selectedID = id
       this.getTeam(id)
@@ -127,6 +172,21 @@ export default {
       this.selectedID = id
       const response = await Teams.getTeam(id)
       this.selectedTeam = response['team']
+    },
+    async getPeople() {
+      // const response = await Teams.getTeamsByID(this.personID)
+      const response = await People.getPeople()
+      let people = response['person(s)']
+      this.people = people
+    },
+    createNewItem() {
+      this.selectedID = -1;
+      this.$router.push(`/app/teams/`)
+
+      this.creatingNewItem = !this.creatingNewItem
+    },
+    assignMember (member) {
+      console.log(member)
     }
   },
   props: {
@@ -135,6 +195,7 @@ export default {
     this.teamsLoading = true
     this.recieveID(this.$route.params.id)
     this.getTeams().then(() => {this.teamsLoading = false})
+    this.getPeople()
   },
   created() {
   },
@@ -165,33 +226,14 @@ export default {
         teams[index] = newTeam
       }
       return teams
-
-
-      // const newTeams = []
-
-      // for (let index = 0; index < this.teams.length; index++) {
-      //   const team = this.teams[index];
-
-      // // Find Team Type
-      // var teamType = ''
-      // if (team.isServeTeam ) {
-      //   teamType = "Serve Team"
-      // }
-      // else if (team.isAnonymous ) {
-      //   teamType = "Anonymous"
-      // }
-      // else {
-      //   teamType = "Community Group"
-      // }
-
-      // newTeams.push({
-      //     name: team.name,
-      //     type: teamType,
-      //     id: team.id,
-      //     profile: 'https://i0.wp.com/christopherscottedwards.com/wp-content/uploads/2018/07/Generic-Profile.jpg?ssl=1'
-      //   })
-      // }
-      // return newTeams
+    },    
+    formatedPeople() {
+      var people = this.people
+      for (let index = 0; index < people.length; index++) {
+        const person = people[index]
+        people[index]['name'] = person.firstName + " " + person.lastName
+      }
+      return people
     }
   }
 }

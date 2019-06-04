@@ -9,7 +9,7 @@
           :selectedID="selectedID + ''"
           :hasAddNew="true"
           @selected="recieveID"
-        @onAddNew="createNewItem"
+          @onAddNew="createNewItem"
           />
       </div>
       <div class="selected-view" v-show="selectedID != ''"  v-if="!creatingNewItem">
@@ -21,15 +21,40 @@
           <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
           <div class="subtitle">@username</div>
         </div>
-        <div class="info">
+        <div class="details">
           <!-- <button class="section-toggle">Teams</button> -->
-          <div class="general-info-panel">
-            <h4>General Info</h4>
-            <p class="email">email: {{selectedPerson.accountEmail}}</p>
-            <p class="birthday">birthday: {{selectedPerson.birthday}}</p>
-            <p class="address">address: {{selectedPerson.address}}</p>
+          <div class="panel">
+            <h4 class="noselect">General Info</h4>
+            <div class="item">
+              <i class="material-icons noselect">email</i>
+              <div class="label noselect">Email</div>
+                {{selectedPerson.accountEmail}}
+              </div>
+            <div class="item">
+              <i class="material-icons noselect">event</i>
+              <div class="label noselect">Birthday</div>
+              {{selectedPerson.birthday}}
+            </div>
+            <div class="item">
+              <i class="material-icons noselect">place</i>
+              <div class="label noselect">Address</div>
+              {{selectedPerson.address}}
+            </div>
           </div>
-          <div class="teams-panel">
+          <div class="panel">
+            <h4 class="noselect">Skills</h4>
+            <div class="explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
+            <div class="skills noselect">
+              <div class="skill" 
+                v-for="(skill, index) in skills"
+                :key="skill.title"
+                :class="{'confirmed': skill.confirmed}"
+                @click="toggleSkill(index)">
+                {{ skill.title }}
+              </div>
+            </div>
+          </div>
+          <div class="panel">
             <h4>Teams</h4>
             <div class="teams">
               <div class="team-box" v-for="team in selectedPersonTeams" :key="team.id">
@@ -84,8 +109,8 @@
           </div>
         </div>
         <div class="footer">
-          <button class="basic-button" @click="creatingNewItem = false">cancel</button>
-          <button class="basic-button">create</button>
+          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
+          <button class="basic-button green">CREATE</button>
         </div>
       </div>
     </div>
@@ -98,6 +123,8 @@ import VueTable from '@/components/Table'
 import People from '@/services/people'
 import Teams from '@/services/teams'
 import CustomRadio from '@/components/CustomRadio'
+import { Container, Draggable } from 'vue-smooth-dnd'
+import { applyDrag } from '@/utils/helpers'
 // import store from '../store'
 
 export default {
@@ -122,11 +149,33 @@ export default {
         'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
         ],
       creatingNewItem: false,
-      newItemType: 0
+      newItemType: 0,
+      skills: [
+        {title: 'Dancing',
+        confirmed: false},
+        {title: 'Preaching',
+        confirmed: false},
+        {title: 'CPR',
+        confirmed: true},
+        {title: 'Talking',
+        confirmed: false},
+        {title: 'Guitar',
+        confirmed: false},
+        {title: 'Singing',
+        confirmed: false},
+        {title: 'Cooking',
+        confirmed: true},
+        {title: 'Boating',
+        confirmed: false},
+        {title: 'Drums',
+        confirmed: false},
+        {title: 'Ukulele',
+        confirmed: true},
+      ]
     }
   },
   components: {
-    VueTable, Cards, CustomRadio
+    VueTable, Cards, CustomRadio, Container, Draggable
   },
   methods: {
     async getPeople () {
@@ -141,6 +190,9 @@ export default {
       const response = await Teams.getTeamsByID(this.selectedID)
       this.selectedPersonTeams = response['team(s)']
     },
+    toggleSkill(index) {
+      this.skills[index].confirmed = !this.skills[index].confirmed
+    },
     recieveID(id) {
       if (id == undefined) {
         return
@@ -150,13 +202,13 @@ export default {
       this.selectedID = id
       this.getPerson()
       this.getTeams()
-    },    
+    },
     createNewItem() {
       this.selectedThreadID = -1;
       this.$router.push(`/app/people/`)
 
       this.creatingNewItem = !this.creatingNewItem
-    },
+    }
   },
   props: {
   },
@@ -290,14 +342,24 @@ h2 {
 }
 .skill {
   display: inline-block;
+  cursor: pointer;
   margin: 0px 5px 15px 5px;
-  padding: 5px;
-  border: 2px #B6B9BC solid;
+  padding: 10px;
+  color: white;
   cursor: pointer;
   font-size: 12px;
+  border-radius: 7px;
+  background: #b2bec3;
+  text-shadow: 0px 1px 8px #00000034;
+  transition: all .3s ease-out
 }
 .skill.confirmed {
-  border-color: #69CDCF;
+  background: #05e0a2;
+}
+
+.skills-container {
+  margin: 10px;
+  background: red;
 }
 
 

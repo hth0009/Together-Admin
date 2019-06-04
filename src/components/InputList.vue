@@ -113,7 +113,7 @@ export default {
     text-align: end;
     resize: none;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
   }
   .new-list-item textarea {
     flex: 100;

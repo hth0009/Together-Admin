@@ -1,6 +1,5 @@
 <template>
   <div class="reminder-container">
-    <h3>Reminders</h3>
     <div class="reminders">
       <div v-if="reminders.length == 0" class="no-reminders">
         SET REMINDER

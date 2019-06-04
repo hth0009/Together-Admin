@@ -24,8 +24,8 @@
               }">
               <!-- <div
                 class="profile-pic" :style="{backgroundImage: 'url(' +  message.fromIDIcon + ')'}"></div> -->
-              <div class="time" v-if="index == 0">{{formatDate(message.sentAt)}}</div>
-              <div class="time" v-else>{{formatDate(message.sentAt, reversedMessages[index - 1].sentAt)}}</div>
+              <div class="time" v-if="index == 0">{{getDateFormate(message.sentAt)}}</div>
+              <div class="time" v-else>{{getDateFormate(message.sentAt, reversedMessages[index - 1].sentAt)}}</div>
               <div
                 class="profile-pic" :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1536562833330-a59dc2305a5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80)'}"></div>
               <div class="message-info">
@@ -80,8 +80,8 @@
               :model="newThread.name" >
             </ejs-inplaceeditor> -->
         <div class="footer">
-          <button class="basic-button" @click="creatingNewItem = false">cancel</button>
-          <button class="basic-button">create</button>
+          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
+          <button class="basic-button green">CREATE</button>
         </div>
       </div>
     </div>
@@ -98,6 +98,7 @@ import Cards from '@/components/CardList'
 import CustomRadio from '@/components/CustomRadio'
 
 import store from '../store'
+import {formatDate} from '../utils/helpers'
 
 export default {
   name: 'Inbox',
@@ -175,8 +176,8 @@ export default {
       let members = thread.members['threadMembers(s)']
       this.peopleHash = []
       for (let index = 0; index < members.length; index++) {
-        const member = members[index];
-        this.peopleHash[member.personID] = member
+        const member = members[index].person;
+        this.peopleHash[member.id] = member
       }
       this.thread = thread
     },
@@ -188,10 +189,13 @@ export default {
     async postMessage(fromID, threadID, content) {
       const response = await Message.postMessage(fromID, threadID, content)
     },
-    // On new thread member selected    
+    // On new thread member selected
     assignMember (member) {
       console.log(member)
 
+    },
+    getDateFormate(date1, date2) {
+      return formatDate(date1, date2)
     },
     createNewItem() {
       this.selectedThreadID = -1;
@@ -238,76 +242,6 @@ export default {
         this.messages = response
       })
     },
-    formatDate(messageDate, nextDate = '') {
-      messageDate += 'Z'
-      nextDate += 'Z'
-      const date1 = new Date(messageDate)
-      const date2 = new Date(nextDate)      
-      var diffTime = Math.abs(date2.getTime() - date1.getTime());
-      diffTime /= 1000
-      // If meesage sent within 2.5 min of previous message, don't display time
-      if (diffTime < 150) {
-        return ''
-      }
-      // If message was sent today, format for HH:MM AM/PM
-      else if (date1.toDateString() == new Date().toDateString()) {
-        return this.getHHMM(date1)
-      }
-      // If less than a week (604800) diff in seconds from today, display week day
-      else if (diffTime < 604800) {
-        if (date1.toDateString() == date2.toDateString()) {
-          return ''
-        }
-        return this.getDayOfWeek(date1)
-      }
-      // Else, format to MM/DD/YYYY
-      else {        
-        if (date1.toDateString() == date2.toDateString()) {
-          return ''
-        }
-        return this.getMMDDYY(date1)
-      }
-    },
-    getMMDDYY(dt) {
-      var res = "";
-      res += this.formatDigits(dt.getMonth() + 1);
-      res += "/";
-      res += this.formatDigits(dt.getDate());
-      res += "/";
-      res += this.formatDigits(dt.getFullYear());
-      return res;
-    },
-    getHHMM(dt) {
-      var res = "" 
-      res += this.formatDigits(dt.getHours() > 12 ? dt.getHours() - 12 : dt.getHours());
-      res += ":";
-      res += this.formatDigits(dt.getMinutes());
-      res += " " + dt.getHours() > 11 ? " PM" : " AM";
-      if (res.charAt(0) == '0') {
-        res = res.slice(1, 8)
-      }
-      return res;
-    },
-    getDayOfWeek(dt){
-      var res = ""
-
-      var weekday = new Array(7);
-      weekday[0] =  "Sunday";
-      weekday[1] = "Monday";
-      weekday[2] = "Tuesday";
-      weekday[3] = "Wednesday";
-      weekday[4] = "Thursday";
-      weekday[5] = "Friday";
-      weekday[6] = "Saturday";
-
-      res = weekday[dt.getDay()];
-
-      return res
-    },
-    formatDigits(val) {
-        val = val.toString();
-        return val.length == 1 ? "0" + val : val;
-    }
   },
   props: {
   },
@@ -456,7 +390,7 @@ export default {
     grid-row: 2/3;
   }
   .message-box .user {
-    font-weight: bold;
+    font-weight: 600;
     padding-bottom: 5px;
     font-size: 14px;
   }
