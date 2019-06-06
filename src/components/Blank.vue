@@ -15,7 +15,7 @@ export default {
   },
   props: {
   },
-  mounted() {    
+  mounted() {
   },
   computed: {
   }
@@ -36,14 +36,14 @@ export default {
    480-less    - phone landscape & smaller
 --------------------------------------------*/
 @media all and (min-width: 1024px) and (max-width: 1280px) {
- }
+}
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
- }
+}
 
 @media all and (min-width: 480px) and (max-width: 768px) {
- }
+}
 
 @media all and (max-width: 480px) {
- }
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
   <form class="radio-buttons">
-    <label v-for="(option, index) in options" :key="index">
+    <label v-for="(option, index) in options" :key="index" tabindex="0">
       <input type="radio" name="select"
-        :value="index" v-model="selectedIndex">
+        :value="index" v-model="selectedIndex" tabindex="0">
       <span>{{option}}</span>
     </label>
   </form>
@@ -48,6 +48,7 @@ export default {
   display: inline-block;
   margin: 5px 10px 5px 0px;
   font-size: .9rem;
+  text-shadow: 0px 1px 9px #0000006c;
   padding: 10px 15px;
   color: white; 
   background: #b6b6b6;
@@ -56,5 +57,10 @@ export default {
 .radio-buttons input:checked ~ span{
   background: #00cec9;
 }
+
+.radio-buttons label:focus {
+  outline: none
+}
+
 
 </style>

@@ -463,7 +463,7 @@ require('vue2-animate/dist/vue2-animate.min.css')
     border-radius: 10px;
     padding: 30px 30px;
     margin: 10px;
-    box-shadow: 0px 2px 6px -1px #8080803d;
+    box-shadow: 0px 2px 6px 0px #0000003d;
 
   }
   #app-page-content >>> .selected-view .panel h4{
@@ -553,12 +553,29 @@ require('vue2-animate/dist/vue2-animate.min.css')
 
   #app-page-content >>> .new-item .type{
     margin: 10px 0px;
+    width: 100%;
   }
-  #app-page-content >>> .new-item .section{
+  #app-page-content >>> .new-item .new-item-card{
+    height: 350px;
+  }
+  #app-page-content >>> .new-item .section-header{
     margin-top: 10px;
-    margin-bottom: 5px;
-    color: #5f5f5f;
-    font-size: 1rem;
+    color: #555555;
+    font-size: 2rem;
     font-weight: 600;
+  }
+  #app-page-content >>> .new-item .section-header-info{
+    margin-bottom: 20px;
+    padding-top: 5px;
+    color: #818181;
+    font-size: .9rem;
+    font-weight: 600;
+  }
+  #app-page-content >>> .new-item .item-description{
+    margin-bottom: 20px;
+    color: #9c9c9c;
+    font-size: .9rem;
+    font-weight: 600;
+    padding: 5px;
   }
 </style>

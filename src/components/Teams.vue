@@ -65,54 +65,152 @@
           </div>
         </div>
       </div>
-      <div class="new-item" v-if="creatingNewItem">
+      <div class="new-item" v-if="creatingNewItem" :model="7">
         <div class="title">New Team</div>
         <div class="details">
-          <div class="profile-pic" @click="uploadingPhoto = true"></div>
-          <div>
-            <ejs-textbox floatLabelType="Auto" placeholder="Name"
-            required name="none"></ejs-textbox>
-          </div>
-          <div>
-            <ejs-textbox floatLabelType="Auto" placeholder="Description"
-            required name="none"></ejs-textbox>
-          </div>
-          <div class="type">            
-            <custom-radio v-model="newItemType" :options="['public', 'serve', 'anonymous']"></custom-radio>
-          </div>
-          <div class="detailed public" v-if="newItemType == 0">
-            <!-- <div class="section">
-              Leader
+          <carousel>
+            <div class="new-item-card">
+              <div class="section-header">New Team Name</div>  
+              <div class="section-header-info">Step 1: Give this new team a name</div>       
+              <div>
+                <ejs-textbox v-model="newTeam.name" floatLabelType="Auto" placeholder="Name"
+                required name=""></ejs-textbox>
+              </div>
+            </div>
+            <div class="new-item-card">
+              <div class="section-header">Team Type</div>  
+              <div class="section-header-info">Step 2: What type of team is {{newTeam.name}}?</div>
+                <div class="type">            
+                  <custom-radio v-model="newTeam.type" :options="['public', 'serve', 'anonymous']"></custom-radio>
+                  <div v-show="newTeam.type == 0" name="public" class="item-description">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima dolores excepturi, aliquid deleniti expedita eaque eligendi, voluptatum dolore obcaecati officia, architecto consequuntur odio. Obcaecati
+                  </div>
+                  <div v-show="newTeam.type == 1" name="serve" class="item-description">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima dolores excepturi, aliquid deleniti expedita eaque eligendi, voluptatum dolore obcaecati officia, architecto
+                  </div>
+                  <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima dolores excepturi, aliquid deleniti expedita eaque eligendi, voluptatum dolore obcaecati officia, architecto consequuntur odio. Obcaecati soluta nesciunt non in aliquid quasi
+                  </div>
+                </div>
+            </div>
+            <div class="new-item-card">
+              <div class="section-header">{{newTeam.name}} Description</div>  
+              <div class="section-header-info">Step 3: Briefly explain what {{newTeam.name}} is about</div>
+              <div>
+                <ejs-textbox floatLabelType="Auto" placeholder="Description"
+                required name=""></ejs-textbox>
+                <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
+                  Since this team is annonymous, we will not be keeping a record of anyone participants. Therefore, the only way to reach to out to {{newTeam.name}} will be through traditional communication. We recommend including a phone number or email in the description.
+                </div>
+              </div>
+            </div>
+            <div class="new-item-card">
+              <div class="section-header">{{newTeam.name}} Leader</div>  
+              <div class="section-header-info">Step 4: Select the leader of {{newTeam.name}}</div>            
+                <div v-if="newTeam.type != 2">
+                <ejs-dropdownlist
+                  :dataSource='formatedPeople' 
+                  :fields="{ value: 'name'}"
+                  floatLabelType="Auto" 
+                  :placeholder='"Select Leader"'
+                  :allowFiltering="true"
+                  :select="assignMember"></ejs-dropdownlist>
+                </div>
+                <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
+                  Annonymous teams can only be managed by admin.
+                </div>
+            </div>
+            <div class="new-item-card">
+              <div class="section-header">{{newTeam.name}} Location</div>  
+              <div class="section-header-info">Step 5: Does {{newTeam.name}} have a meeting location?</div>            
+                <div v-if="newTeam.type != 2">
+                  <custom-radio v-model="newTeam.hasLocation" :options="['Has Location', 'No Location']"></custom-radio>
+                  <div v-show="newTeam.hasLocation == 0">
+                    <ejs-textbox floatLabelType="Auto" placeholder="Address"
+                    name=""></ejs-textbox>
+                    <ejs-textbox floatLabelType="Auto" placeholder="Location Description"
+                    name=""></ejs-textbox>
+                    <div class="item-description">(ex: Room 103, Front Office)</div>
+                  </div>
+                </div>
+                <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
+                  Annonymous teams cannot have addresses.
+                </div>
+            </div>
+            <div class="new-item-card">
+              <div class="section-header">{{newTeam.name}} Meeting Recurrence</div>  
+              <div class="section-header-info">Step 6: Does {{newTeam.name}} meet on a regular basis?</div>            
+                <div v-if="newTeam.type != 2">
+                  <div class="type">
+                    <custom-radio v-model="newTeam.hasRecurrence" :options="['Meets Regualarly', 'Does Not Meet Regularly']"></custom-radio>
+                  </div>
+                  <div v-show="newTeam.hasRecurrence == 0">
+                    <ejs-recurrenceeditor id='editor' ref="EditorObj"></ejs-recurrenceeditor>
+                    <!-- <ejs-recurrenceeditor id='editor' ref="EditorObj" :selectedType='selectedType' :change="onChange"></ejs-recurrenceeditor> -->
+                  </div>
+                </div>
+                <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
+                  Annonymous teams cannot have events assigned to them.
+                </div>
+            </div>
+            <div class="new-item-card">
+              <div class="section-header">{{newTeam.name}} Subteams</div>  
+              <div class="section-header-info">Step 7: Does {{newTeam.name}} have subteams? Details can be added to the subteams later.</div>            
+                <div v-if="newTeam.type != 2" style="height: 250px">
+                  <quick-create
+                    :model="newTeam.leaders"
+                    :itemStructure="subTeamStructure"
+                    />
+                </div>
+                <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
+                  Annonymous teams cannot have subteams.
+                </div>
+            </div>
+            <!-- <div>
+              <div class="profile-pic" @click="uploadingPhoto = true"></div>
+              <div>
+                <ejs-textbox floatLabelType="Auto" placeholder="Name"
+                required name=""></ejs-textbox>
+              </div>
+              <div>
+                <ejs-textbox floatLabelType="Auto" placeholder="Description"
+                required name=""></ejs-textbox>
+              </div>
+              <div class="type">            
+                <custom-radio v-model="newTeam.type" :options="['public', 'serve', 'anonymous']"></custom-radio>
+              </div>
+              <div class="detailed public" v-if="newTeam.type == 0">
+                <ejs-dropdownlist
+                  :dataSource='formatedPeople' 
+                  :fields="{ value: 'name'}"
+                  floatLabelType="Auto" 
+                  :placeholder='"Select Leader"'
+                  :allowFiltering="true"
+                  :select="assignMember"></ejs-dropdownlist>
+                <div>
+                  <ejs-textbox floatLabelType="Auto" placeholder="Address"
+                  name=""></ejs-textbox>
+                </div>
+                <div>
+                  <ejs-textbox floatLabelType="Auto" placeholder="Location Description"
+                  name=""></ejs-textbox>
+                </div>
+                <ejs-recurrenceeditor id='editor' ref="EditorObj" :selectedType='selectedType' :change="onChange"></ejs-recurrenceeditor>
+                <image-uploader field="img"
+                  v-model="uploadingPhoto"
+                  :width="300"
+                  :height="300"
+                  url="/upload"
+                  lang-type="en"
+                  :params="{}"
+                  :headers="{}"
+                  :noSquare="true"
+                  img-format="png"></image-uploader>
+              </div>
             </div> -->
-              <ejs-dropdownlist
-                :dataSource='formatedPeople' 
-                :fields="{ value: 'name'}"
-                floatLabelType="Auto" 
-                :placeholder='"Select Leader"'
-                :allowFiltering="true"
-                :select="assignMember"></ejs-dropdownlist>
-            <div>
-              <ejs-textbox floatLabelType="Auto" placeholder="Address"
-              name="none"></ejs-textbox>
-            </div>
-            <div>
-              <ejs-textbox floatLabelType="Auto" placeholder="Location Description"
-              name="none"></ejs-textbox>
-            </div>
-            <ejs-recurrenceeditor id='editor' ref="EditorObj" :selectedType='selectedType' :change="onChange"></ejs-recurrenceeditor>
-            <image-uploader field="img"
-              v-model="uploadingPhoto"
-              :width="300"
-              :height="300"
-              url="/upload"
-              lang-type="en"
-              :params="{}"
-              :headers="{}"
-              :noSquare="true"
-              img-format="png"></image-uploader>
-            </div>
-          </div>
-        <div class="footer">
+          </carousel>
+        </div>
+        <div class="footer">          
           <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
           <button class="basic-button green">CREATE</button>
         </div>
@@ -129,6 +227,25 @@ import Teams from '@/services/teams'
 import People from '@/services/people'
 import CustomRadio from '@/components/CustomRadio'
 import ImageUploader from 'vue-image-crop-upload'
+import Carousel from '@/components/Carousel'
+import QuickCreate from '@/components/QuickCreate'
+
+const subTeamStructureTemplate = [
+  {
+    name: 'teamName',
+    type: 'INPUT',
+    placeholder: 'Subteam Name',
+    default: ''
+  }, {
+    name: 'leaderID',
+    dropdownKey: 'id',
+    type: 'DROPDOWN',
+    placeholder: 'Choose Leader',
+    list: [],
+    displayValue: 'name',
+    default: ""
+  }
+]
 
 export default {
   name: 'Teams',
@@ -145,14 +262,22 @@ export default {
       teamsSearch: '',
       selectedTeam: {},
       selectedID: -1,
-      creatingNewItem: false,
-      newItemType: 0,
+      creatingNewItem: true,
       people: [],
-      uploadingPhoto: false
+      uploadingPhoto: false,
+      newTeam: {
+        name: '',
+        description: '',
+        hasLocation: 0,
+        hasRecurrence: 0,
+        type: 0,
+        leaders: []
+      },
+      subTeamStructure: subTeamStructureTemplate
     }
   },
   components: {
-    VueTable, NewTeams, Cards, CustomRadio, ImageUploader
+    VueTable, NewTeams, Cards, CustomRadio, ImageUploader, Carousel, QuickCreate
   },
   methods: {
     recieveID(id) {
@@ -178,6 +303,7 @@ export default {
       const response = await People.getPeople()
       let people = response['person(s)']
       this.people = people
+      this.subTeamStructure[1].list = this.people;
     },
     createNewItem() {
       this.selectedID = -1;

@@ -3,7 +3,7 @@
     <div id="video-board">
       <div id="main-video-container">
       <!-- <video-bg :sources="[mainVideoURL]" :img="mainImageURL"></video-bg> -->
-      <video autoplay muted loop id="main-video" type="video/mp4" src="/static/video/background.mp4"></video>      
+      <video autoplay muted loop id="main-video" type="video/mp4" src="https://s3.wasabisys.com/cdn.togetheradmin.com/website_background.mp4"></video>      
         <!-- <img id="main-video" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80"> -->
       </div>
       <div id="main-title" class="">
@@ -301,8 +301,10 @@ h1 {
   overflow: hidden;
 }
 #main-video {  
-  min-width: 100%;
-  min-height: 100%;
+  /* min-width: 100vmin;
+  min-height: 100vmin; */
+  max-height: 177vmax;
+  max-width: 177vmax;
   width: auto;
   height: auto;
   
@@ -321,6 +323,7 @@ h1 {
   width: 90vw;
   font-weight: 100;
   top: 45vh;
+  mix-blend-mode: difference;
 }
 #main-title h1{
   width: 100%;
@@ -487,7 +490,7 @@ h1 {
   transform: translate(-50%,-50%);
   z-index: 100;
 
-  background-image: url('/static/image/mockups.png');
+  background-image: url('https://s3.wasabisys.com/cdn.togetheradmin.com/mockups.png');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
@@ -696,13 +699,13 @@ input[type=number]::-webkit-outer-spin-button {
    480-less    - phone landscape & smaller
 --------------------------------------------*/
 @media all and (min-width: 1024px) and (max-width: 1280px) {
- }
+}
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
- }
+}
 
 @media all and (min-width: 480px) and (max-width: 768px) {
- }
+}
 @media all and (max-width: 768px) {
   #splash-container {
     perspective: 1px;
@@ -710,14 +713,11 @@ input[type=number]::-webkit-outer-spin-button {
     overflow-x: hidden;
     overflow-y: visible;
   }
-  .parallax {
-    transform: none;
+  #main-video {
+    display: none
   }
-  .parallax-container {
-    transform-style: flat;
-  }
- }
+}
 
 @media all and (max-width: 480px) {
- }
+}
 </style>

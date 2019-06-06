@@ -10,7 +10,7 @@
       <div class="header"
         v-if="card['header'] && (index == 0 || cardList[index - 1].header != card.header)">{{card.header}}</div>
       <div
-        class="card-box"
+        class="card-box noselect"
         :class="{
           unread: card['unread'] != undefined && card['unread'] > 0,
           selected: card['id'] == selectedID,
@@ -269,16 +269,19 @@ export default {
   .card-box.photo-header .title{
     font-weight: 600;
     font-size: 15px;
+    margin-bottom: 2px;
   }
   .card-box .subtext{
     font-size: 12px;
     z-index: 10;
     position: relative;
+    margin-bottom: 2px;
   }
   .card-box.photo-header .subtext{
     color: white;
     font-size: 10px;
     z-index: 10;
+    font-weight: 600;
     position: relative;
   }
   .card-box.photo-header .subtext-2{
@@ -286,6 +289,7 @@ export default {
     font-size: 10px;
     opacity: .7;
     z-index: 10;
+    font-weight: 500;
     position: relative;
   }
   .card-box .body {

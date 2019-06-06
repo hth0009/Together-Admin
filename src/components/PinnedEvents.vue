@@ -61,7 +61,7 @@ export default {
 <style scoped>
 
 .list-wrapper {
-  width: 250px;
+  width: 265px;
 }
 
 /* //////////////////////////

@@ -41,6 +41,11 @@
               <reminders/>
             </div>
             <div class="panel">
+              <h4>Teams</h4>
+              <div class="explanation">This is where teams are. Let's describe this better</div>
+              <event-teams/>
+            </div>
+            <div class="panel">
               <h4>Serve Teams</h4>
               <event-serving/>
             </div>
@@ -97,6 +102,7 @@ import OrderOfService from '@/components/OrderOfService'
 import Times from '@/components/Times'
 import TextField from '@/components/TextField'
 import Reminders from '@/components/Reminders'
+import EventTeams from '@/components/EventTeams'
 
 import {getHHMM, getDayOfWeek} from '../utils/helpers'
 
@@ -122,7 +128,7 @@ export default {
     }
   },
   components: {
-    Cards, Times, EventServing, OrderOfService, Reminders
+    Cards, Times, EventServing, OrderOfService, Reminders, EventTeams
   },
   provide: {
     schedule: [Day, Month, Agenda, Resize, DragAndDrop]
