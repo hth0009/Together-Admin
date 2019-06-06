@@ -6,9 +6,9 @@
         v-model="cardSearch">
     </div>
     <div class="card-boxes" v-if="!loading">
-    <div v-for="(card, index) in cardList" :key="card['id']">
+    <div v-for="(card, index) in filteredCards" :key="card['id']">
       <div class="header"
-        v-if="card['header'] && (index == 0 || cardList[index - 1].header != card.header)">{{card.header}}</div>
+        v-if="card['header'] && (index == 0 || filteredCards[index - 1].header != card.header)">{{card.header}}</div>
       <div
         class="card-box noselect"
         :class="{
@@ -63,6 +63,17 @@ export default {
   data () {
     return {
       cardSearch: '',
+      filteredCards: [],
+      searchOptions: {
+        shouldSort: true,
+        threshold: .7,
+        distance: 100,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        keys: [
+          'title', 'subtext', 'subtext2'
+        ]
+      }
     }
   },
   components: {
@@ -95,9 +106,26 @@ export default {
       default: function () { return [] }
     }
   },
-  mounted() {    
+  mounted() {
   },
   computed: {
+  },
+  watch: {
+    cardList: {
+      handler(n, o) {
+        this.filteredCards = this.cardList
+      }, deep: true
+    },
+    cardSearch() {
+      if (this.cardSearch == '') {
+        this.filteredCards = this.cardList
+        return
+      }
+      console.log(this.cardSearch)
+      this.$search(this.cardSearch, this.cardList, this.searchOptions).then(results => {
+        this.filteredCards = results
+      })
+    }
   }
 }
 </script>
@@ -105,24 +133,33 @@ export default {
 <style lang="scss" scoped>
 
   .cards {
-    height: 100%;
-    width: 100%;
+    max-height: calc(100% - 30px);
+    margin: 30px 20px 0px 20px;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 48px auto;
+    grid-template-rows: 48px minmax(0, 1fr);
+    box-shadow: 0px 2px 10px -1px #0000003d;
+    background: none;
+    border-radius: 10px;
+    position: relative;
     /* border-right: 1px #E6E9EC solid; */
   }
   .search-wrapper {
     /* border-bottom: 1px #E6E9EC solid; */
     height: 57px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
   }
   .search-wrapper .basic-input {
     margin-top: 10px;
     padding-left: 20px;
     width: calc(100% - 30px);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
   }
   .card-boxes {
     overflow-y: auto;
+    // height: 100%;
     overflow-x: hidden;
     padding-bottom: 40px;
   }

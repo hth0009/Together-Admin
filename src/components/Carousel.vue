@@ -122,7 +122,7 @@ export default {
   position: relative;
   left: 0%;
 
-  transition: all .3s ease-out;
+  transition: left .3s ease-out;
 
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;

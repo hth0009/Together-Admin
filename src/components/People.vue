@@ -260,7 +260,7 @@ h2 {
   overflow-y: auto;
   width: 100%;
   position: relative;
-  border-right: 1px #E6E9EC solid;
+  /* border-right: 1px #E6E9EC solid; */
 }
 
 .person-view {  

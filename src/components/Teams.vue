@@ -73,8 +73,8 @@
               <div class="section-header">New Team Name</div>  
               <div class="section-header-info">Step 1: Give this new team a name</div>       
               <div>
-                <ejs-textbox v-model="newTeam.name" floatLabelType="Auto" placeholder="Name"
-                required name=""></ejs-textbox>
+                <ejs-textbox autocomplete="off" v-model="newTeam.name" floatLabelType="Auto" :placeholder="'Team Name'"
+                required></ejs-textbox>
               </div>
             </div>
             <div class="new-item-card">
@@ -97,7 +97,7 @@
               <div class="section-header">{{newTeam.name}} Description</div>  
               <div class="section-header-info">Step 3: Briefly explain what {{newTeam.name}} is about</div>
               <div>
-                <ejs-textbox floatLabelType="Auto" placeholder="Description"
+                <ejs-textbox floatLabelType="Auto" placeholder="Description" v-model="newTeam.description"
                 required name=""></ejs-textbox>
                 <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
                   Since this team is annonymous, we will not be keeping a record of anyone participants. Therefore, the only way to reach to out to {{newTeam.name}} will be through traditional communication. We recommend including a phone number or email in the description.
@@ -114,7 +114,7 @@
                   floatLabelType="Auto" 
                   :placeholder='"Select Leader"'
                   :allowFiltering="true"
-                  :select="assignMember"></ejs-dropdownlist>
+                  :select="assignLeader"></ejs-dropdownlist>
                 </div>
                 <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
                   Annonymous teams can only be managed by admin.
@@ -124,12 +124,12 @@
               <div class="section-header">{{newTeam.name}} Location</div>  
               <div class="section-header-info">Step 5: Does {{newTeam.name}} have a meeting location?</div>            
                 <div v-if="newTeam.type != 2">
-                  <custom-radio v-model="newTeam.hasLocation" :options="['Has Location', 'No Location']"></custom-radio>
-                  <div v-show="newTeam.hasLocation == 0">
+                  <custom-radio v-model="newTeam.hasMeetings" :options="['Has Location', 'No Location']"></custom-radio>
+                  <div v-show="newTeam.hasMeetings == 0">
                     <ejs-textbox floatLabelType="Auto" placeholder="Address"
-                    name=""></ejs-textbox>
+                    name="" v-model="newTeam.address"></ejs-textbox>
                     <ejs-textbox floatLabelType="Auto" placeholder="Location Description"
-                    name=""></ejs-textbox>
+                    name="" v-model="newTeam.location"></ejs-textbox>
                     <div class="item-description">(ex: Room 103, Front Office)</div>
                   </div>
                 </div>
@@ -145,8 +145,7 @@
                     <custom-radio v-model="newTeam.hasRecurrence" :options="['Meets Regualarly', 'Does Not Meet Regularly']"></custom-radio>
                   </div>
                   <div v-show="newTeam.hasRecurrence == 0">
-                    <ejs-recurrenceeditor id='editor' ref="EditorObj"></ejs-recurrenceeditor>
-                    <!-- <ejs-recurrenceeditor id='editor' ref="EditorObj" :selectedType='selectedType' :change="onChange"></ejs-recurrenceeditor> -->
+                    <ejs-recurrenceeditor id='editor' ref="EditorObj" :selectedType="0" :change="setRecurranceOfNewTeam"></ejs-recurrenceeditor>
                   </div>
                 </div>
                 <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
@@ -186,7 +185,7 @@
                   floatLabelType="Auto" 
                   :placeholder='"Select Leader"'
                   :allowFiltering="true"
-                  :select="assignMember"></ejs-dropdownlist>
+                  :select="assignLeader"></ejs-dropdownlist>
                 <div>
                   <ejs-textbox floatLabelType="Auto" placeholder="Address"
                   name=""></ejs-textbox>
@@ -229,6 +228,7 @@ import CustomRadio from '@/components/CustomRadio'
 import ImageUploader from 'vue-image-crop-upload'
 import Carousel from '@/components/Carousel'
 import QuickCreate from '@/components/QuickCreate'
+import { checkIfObjNotFilled } from '../utils/helpers';
 
 const subTeamStructureTemplate = [
   {
@@ -268,10 +268,13 @@ export default {
       newTeam: {
         name: '',
         description: '',
-        hasLocation: 0,
+        hasMeetings: 0,
+        address: "",
+        location: "",
         hasRecurrence: 0,
+        recurrence: '',
         type: 0,
-        leaders: []
+        leaderID: ''
       },
       subTeamStructure: subTeamStructureTemplate
     }
@@ -311,8 +314,13 @@ export default {
 
       this.creatingNewItem = !this.creatingNewItem
     },
-    assignMember (member) {
-      console.log(member)
+    assignLeader (member) {
+      this.newTeam.leaderID = member.itemData.id
+    },
+    setRecurranceOfNewTeam(e) {
+      console.log(e)
+      this.newTeam.recurrence = e.value
+      console.log(this.newTeam)
     }
   },
   props: {
@@ -326,6 +334,10 @@ export default {
   created() {
   },
   computed: {
+    newTeamReady () {
+      console.log(this.newTeam)
+      return !checkIfObjNotFilled(this.newTeam)
+    },
     formattedTeams() {      
       var teams = Array(this.teams.length)
       for (let index = 0; index < this.teams.length; index++) {
@@ -392,7 +404,7 @@ h2 {
   overflow-y: auto;
   width: 100%;
   position: relative;
-  border-right: 1px #E6E9EC solid;
+  /* border-right: 1px #E6E9EC solid; */
 }
 
 .team-view {  

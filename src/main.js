@@ -6,6 +6,8 @@ import router from './router'
 import VModal from 'vue-js-modal'
 import VueYoutube from 'vue-youtube'
 import store from './store'
+import VueFuse from 'vue-fuse'
+
 /* ///////////////////////////////
 ///////SYNC FUSION IMPORTS////////
 /////////////////////////////// */
@@ -40,6 +42,7 @@ Vue.use(RecurrenceEditorPlugin)
 Vue.config.productionTip = false
 Vue.use(VModal)
 Vue.use(VueYoutube)
+Vue.use(VueFuse)
 
 /* eslint-disable no-new */
 new Vue({

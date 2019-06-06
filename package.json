@@ -45,6 +45,7 @@
     "vue-full-calendar": "https://github.com/CroudTech/vue-fullcalendar/tarball/master",
     "vue-fullcalendar": "https://github.com/Wanderxx/vue-fullcalendar/tarball/master",
     "vue-functional-calendar": "^2.3.2",
+    "vue-fuse": "^2.1.0",
     "vue-gallery-slideshow": "^1.3.1",
     "vue-image-crop-upload": "^2.5.0",
     "vue-js-modal": "^1.3.31",

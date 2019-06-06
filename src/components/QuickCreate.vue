@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  name: '',
+  name: 'QuickCreate',
   data () {
     return {
       newItems: this.value,
@@ -132,7 +132,7 @@ export default {
 .basic-button {
   width: 30px;
   height: 30px;
-  padding: 5px 5px 3px 3px;
+  padding: 5px 3px 3px 3px;
 }
 .basic-button i{
   font-size: 18px;

@@ -86,3 +86,12 @@ export const formatDate = (messageDate, nextDate = '') => {
     return getMMDDYY(date1)
   }
 }
+
+export const checkIfObjNotFilled = (obj) => {
+  for (var key in obj) {
+    if (obj[key] === null || obj[key] === '') {
+      return true
+    }
+  }
+  return false
+}

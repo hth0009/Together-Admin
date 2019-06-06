@@ -462,7 +462,7 @@ require('vue2-animate/dist/vue2-animate.min.css')
     margin-bottom: 10px;
     border-radius: 10px;
     padding: 30px 30px;
-    margin: 10px;
+    margin: 30px 20px;
     box-shadow: 0px 2px 6px 0px #0000003d;
 
   }

@@ -109,21 +109,41 @@ export default {
     line-height: inherit;
     margin: 2.5px;
   }
+  .basic-button:hover,
+  .basic-button:focus {
+    background: #0cd6d3;
+    box-shadow: 0px 4px 8px 0px #01d3cfd8;
+  }
   .basic-button.orange {
     background: #e17055;
-    box-shadow: 0px 1px 8px 2px #e1715569; 
+    box-shadow: 0px 1px 8px 2px #e1715569;
+  }
+  .basic-button:hover.orange,
+  .basic-button:focus.orange {
+    background: #f37556;
+    box-shadow: 0px 4px 8px 0px #e17155b7;
   }
   .basic-button.purple {
     background: #6c5ce7;
-    box-shadow: 0px 1px 8px 2px #6c5ce77c; 
+    box-shadow: 0px 1px 8px 2px #6c5ce77c;
   }
   .basic-button.red {
     background: #ff7675;
-    box-shadow: 0px 1px 8px 2px #ff76757c; 
+    box-shadow: 0px 1px 8px 2px #ff76757c;
+  }
+  .basic-button:hover.red,
+  .basic-button:focus.red {
+    background: #ff7f7f;
+    box-shadow: 0px 4px 8px 0px #ff7575dc;
   }
   .basic-button.green {
     background: #05e0a2;
-    box-shadow: 0px 1px 8px 2px #05e0a286; 
+    box-shadow: 0px 1px 8px 2px #05e0a286;
+  }
+  .basic-button:hover.green,
+  .basic-button:focus.green {
+    background: #00eca9;
+    box-shadow: 0px 4px 8px 0px #05e0a2ce;
   }
   .basic-input::placeholder, .basic-textarea::placeholder, .basic-button::placeholder{
     color: #7e7e7e;

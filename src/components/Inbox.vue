@@ -291,7 +291,7 @@ export default {
     height: 100vh;
     width: 100%;
     position: relative;
-    border-right: #f0f0f0 1px solid;
+    /* border-right: #f0f0f0 1px solid; */
   }
   .thread-wrapper {
     /* height: calc(100vh - 40px); */
