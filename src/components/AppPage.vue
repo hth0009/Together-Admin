@@ -535,13 +535,14 @@ import Home from '@/components/Home'
     grid-column: 1/3;
     justify-self: flex-end;
   }
-  #app-page-content >>> .new-item .details{
+  #app-page-content >>> .new-item .details{    
+    overflow: hidden;
     grid-column: 2;
     grid-row: 2;
     width: 90%;
     max-width: 500px;
     max-height: 100%;
-    overflow-y: auto;
+    /* overflow-y: auto; */
   }
   #app-page-content >>> .new-item .profile-pic {
     grid-row: 1/5;

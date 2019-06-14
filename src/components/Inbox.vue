@@ -53,7 +53,7 @@
             <div v-show="newThread.type == 0">
               <ejs-dropdownlist
                 :dataSource='formatedPeople' 
-                :fields='dropDownFields'
+                :fields='dropDownField'
                 floatLabelType="Auto" 
                 :placeholder='"select person"'
                 :allowFiltering="true"
@@ -62,7 +62,7 @@
             <div v-show="newThread.type == 1">
               <ejs-dropdownlist
                 :dataSource='teams' 
-                :fields='dropDownFields'
+                :fields='dropDownField'
                 floatLabelType="Auto" 
                 :placeholder='"select team"'
                 :allowFiltering="true"
@@ -116,7 +116,7 @@ export default {
       displayThread: -1,
       newMessageContent: '',
       creatingNewItem: false,
-      dropDownFields: { value: 'name' },
+      dropDownField: { value: 'id', text: 'name' },
       textValidationRules: {
         Name: { required: [true, 'Enter valid title'] },
       },

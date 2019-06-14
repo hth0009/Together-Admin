@@ -27,11 +27,11 @@
         <div class="title">New Prayer</div>
         <div class="details">
           <div>
-            <ejs-textbox floatLabelType="Auto" placeholder="Title"
+            <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Title"
             required name="none"></ejs-textbox>
           </div>
           <div>
-            <ejs-textbox floatLabelType="Auto" placeholder="Prayer"
+            <ejs-textbox autocomplete="off" floatLabelType="Auto" :multiline="true" placeholder="Prayer"
             required name="none"></ejs-textbox>
           </div>
         </div>
