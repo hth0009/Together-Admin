@@ -97,6 +97,9 @@ export default new Vuex.Store({
             var idToken = session.getIdToken().getJwtToken()
             var personID = session.getIdToken().payload.person_id
             var churchUsername = session.getIdToken().payload['custom:churchUsernam']
+            
+            // Set Header
+            axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`
 
             commit('auth_success', {
               token: idToken,

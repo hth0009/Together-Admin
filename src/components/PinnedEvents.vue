@@ -5,7 +5,8 @@
         :cardList="events"
         :noProfile="true"
         :hasAddButtonOnCard="true"
-        :loading="false"/>
+        :loading="false"
+        :hasShadow="false"/>
     </div>
   </div>
 </template>

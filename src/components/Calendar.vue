@@ -7,12 +7,15 @@
             :cardList="formattedEvents"
             :loading="eventsLoading"
             :selectedID="selectedID + ''"
-            @selected="recieveID"/>
+            :hasAddNew="true"
+            @selected="recieveID"
+            @onAddNew="createNewItem"/>
         </div>
-        <div class="selected-view" v-show="selectedID != -1"  v-if="!creatingNewItem">
+        <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
           <div class="header">
-            <h3>{{selectedEvent.eventName}}</h3>
-            <div class="subtitle">event type</div>
+            <h3>{{eventInstance.eventBase.title}}</h3>
+            <div class="subtitle"
+              :style="{'color': '#' + eventInstance.eventBase.eventType.colorCode}">{{eventInstance.eventBase.eventType.name}}</div>
           </div>
           <div class="details">
             <div class="panel">
@@ -21,25 +24,25 @@
                 <i class="material-icons noselect">place</i>
                 <div class="label noselect">Start Time</div>
                 <div class="content">
-                  <ejs-datetimepicker id="start-time" :placeholder="'Start Time'" :value="selectedEvent.startTime" :format="dateFormat"></ejs-datetimepicker>
+                  <ejs-datetimepicker id="start-time" :placeholder="'Start Time'" :value="eventInstance.startTime" :format="dateFormat"></ejs-datetimepicker>
                 </div>
               </div>
               <div class="item">
                 <i class="material-icons noselect">place</i>
                 <div class="label noselect">End Time</div>
                 <div class="content">
-                  <ejs-datetimepicker id="end-time" :placeholder="'End Time'" :value="selectedEvent.endTime" :format="dateFormat"></ejs-datetimepicker>
+                  <ejs-datetimepicker id="end-time" :placeholder="'End Time'" :value="eventInstance.endTime" :format="dateFormat"></ejs-datetimepicker>
                 </div>
               </div>
             </div>
-            <div class="panel">
+            <!-- <div class="panel">
               <h4>Times</h4>
               <times/>
-            </div>
-            <div class="panel">
+            </div> -->
+            <!-- <div class="panel">
               <h4>Reminders</h4>
               <reminders/>
-            </div>
+            </div> -->
             <div class="panel">
               <h4>Teams</h4>
               <div class="explanation">This is where teams are. Let's describe this better</div>
@@ -55,7 +58,7 @@
             </div>
           </div>
         </div>        
-        <div class="calendar-holder">
+        <!-- <div class="calendar-holder">
           <ejs-schedule height="100%" 
             id="Schedule"
             ref="ScheduleObj"
@@ -68,20 +71,21 @@
               <e-view option="Agenda"></e-view>
             </e-views>
           </ejs-schedule>
-        </div>
-      </div>
-      <div class="new-item" v-if="creatingNewItem">
-        <div class="title">New Event</div>
-        <div class="details">
-          <div class="type">            
-            <!-- <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio> -->
+        </div> -->        
+        <div class="new-item" v-if="creatingNewItem">
+          <div class="title">New Event</div>
+          <div class="details">
+            <div class="type">            
+              <!-- <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio> -->
+            </div>
+            <div class="detailed">
+              <new-event/>
+            </div>
           </div>
-          <div class="detailed">
+          <div class="footer">
+            <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
+            <button class="basic-button green">CREATE</button>
           </div>
-        </div>
-        <div class="footer">
-          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
-          <button class="basic-button green">CREATE</button>
         </div>
       </div>
     </div>
@@ -94,6 +98,7 @@ import { DateTimePickerPlugin } from '@syncfusion/ej2-vue-calendars'
 import { extend } from '@syncfusion/ej2-base'
 import Events from '@/services/events'
 import Cards from '@/components/CardList'
+import NewEvent from '@/components/NewEvent'
 
 // Event Components
 
@@ -126,38 +131,60 @@ export default {
       dateFormat: "dd MMMM yyyy hh:mm a",
       eventComponents: [],
       eventsLoading: true,
+      eventInstance: {}
     }
   },
   components: {
-    Cards, Times, EventServing, OrderOfService, Reminders, EventTeams
+    Cards, Times, EventServing, OrderOfService, Reminders, EventTeams, NewEvent
   },
   provide: {
     schedule: [Day, Month, Agenda, Resize, DragAndDrop]
   },
   mounted() {
-    this.getEvents()
+    this.getEventInstances()
+    this.getEventBases()
   },
-  methods: { 
-    addEvent() {
-
-    },
+  methods: {
     recieveID(id) {
+      if (id == undefined) {
+        return
+      }
+
+      this.$router.push(`/app/calendar/${id}`)
+
       this.selectedID = id
-      this.getEvent(id)
+      this.creatingNewItem = false
+
+      this.getEventInstance(id)
+    },    
+    createNewItem() {
+      this.selectedID = -1;
+      this.$router.push(`/app/calendar/`)
+
+      this.creatingNewItem = !this.creatingNewItem
     },
-    async getEvents () {
-      const response = await Events.getEvents()
-      const data = response['event(s)']
+    async getEventInstances () {
+      const response = await Events.getEventInstancesByChurch()
+      const data = response['eventInstance(s)']
       this.events = data
       this.eventsLoading = false
       return data
     },
-    async getEvent (id) {
-      const response = await Events.getEvent(id)
-      const data = response['event']
-      this.selectedEvent = data
-      this.eventComponents = data.components['components']
-    }
+    async getEventInstance (instanceID) {
+      const response = await Events.getEventInstance(instanceID)
+      console.log(response)
+      const data = response['eventInstance']
+      this.eventInstance = data
+      return data
+    },
+    async getEventBases () {
+      const response = await Events.getEventBasesByChurch()
+      console.log(response)
+      const data = response['eventBase(s)']
+      // this.events = data
+      // this.eventsLoading = false
+      return data
+    },
   },
   computed: {   
     formattedEvents() {
@@ -170,7 +197,8 @@ export default {
         const event = this.events[index];
         const newEvent = {
           id: event.id,
-          title: event.eventName,
+          title: event.eventBase.title,
+          color: '#' + event.eventBase.eventType.colorCode,
           subtext: getHHMM(new Date(event.startTime)),
           header: getDayOfWeek(new Date(event.startTime)),
           Id: event.id,
@@ -187,7 +215,7 @@ export default {
         }
         else {          
           this.eventHash[event.id] = true          
-          this.$refs.ScheduleObj.addEvent(newEvent)
+          // this.$refs.ScheduleObj.addEvent(newEvent)
         }
         events[index] = newEvent        
       }

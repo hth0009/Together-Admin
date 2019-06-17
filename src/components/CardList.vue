@@ -1,6 +1,7 @@
 <template>
   <div class="cards"
-    :style="{maxHeight: 'calc(' + maxHeight + '% - 10px)'}">
+    :style="{maxHeight: 'calc(' + maxHeight + '% - 10px)',
+      boxShadow: hasShadow ? '': 'none'}">
     <div class="search-wrapper">
       <input type="text" class="basic-input"
         placeholder="search"
@@ -60,7 +61,7 @@
         <div class="profile-pic"></div>
       </div>
     </div>    
-    <div id="add-new"
+    <div class="add-new"
       v-if="hasAddNew"
       @click="addNew">
       <i class="material-icons noselect">add</i>
@@ -133,6 +134,10 @@ export default {
     noProfile: {
       type: Boolean,
       default: false,
+    },
+    hasShadow: {
+      type: Boolean,
+      default: true
     },
     hasAddNew: {
       type: Boolean,
@@ -280,7 +285,7 @@ export default {
     position: absolute;
     top: 3px;
     right: 3px;
-    color: rgb(126, 126, 126);
+    color: #7e7e7e;
     font-size: 12px;
   }
   .card-box .card-info{
@@ -353,7 +358,7 @@ export default {
   
   .card-box .title{
     /* margin: 5px; */
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     z-index: 10;
     position: relative;
@@ -365,10 +370,12 @@ export default {
     margin-bottom: 2px;
   }
   .card-box .subtext{
-    font-size: 12px;
+    font-size: 11px;
     z-index: 10;
     position: relative;
     margin-bottom: 2px;
+    font-weight: 600;
+    color: #303030;
   }
   .card-box.photo-header .subtext{
     color: white;
@@ -414,7 +421,7 @@ export default {
     font-size: 10px;
   }
   
-#add-new {
+.add-new {
   width: 25px;
   height: 25px;
   padding: 5px;
@@ -422,12 +429,12 @@ export default {
   bottom: 10px;
   right: 20px;
   background: #00cec9;
-  border-radius: 50px;
+  border-radius: 50%;
   cursor: pointer;
   z-index: 100;
 }
 
-#add-new i {    
+.add-new i {    
   color: white;
 }
 

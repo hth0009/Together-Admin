@@ -62,7 +62,7 @@
         </div> -->
       </div>
     </div>    
-    <modal
+    <!-- <modal
       name="hello-world"
       height="75%">
       <div class="group-info-full">
@@ -92,19 +92,10 @@
               :key="person.name"
               ref="selected-people-container">
               <div class="draggable-item basic-drag" :style="{borderColor: selectedGroup.color}">
-                <!-- <div class="basic-drag-bar-filler" :style="{borderColor: selectedGroup.color}"
-                ></div> -->
-                <!-- <div class="resize-bar"
-                  :style="{marginLeft: resizeAndPos(person).leftMargin,
-                  background: selectedGroup.color}"
-                  @mousedown="startDrag" @mousemove="dragLeft(event, person)">|</div> -->
                 <div class="basic-drag-bar" :style="{background: selectedGroup.color, 
                   width: resizeAndPos(person).width}">
                 {{person.name}}<span> lorem ipsum asdfa</span>
                 </div>
-                <!-- <div class="resize-bar"
-                  :style="{background: selectedGroup.color}"
-                  @mousedown="startDrag" @mousemove="dragRight">|</div> -->
               </div>
             </Draggable>
           </Container> 
@@ -122,7 +113,7 @@
       <textarea name="message" class="basic-textarea" v-model="selectedGroup.message"></textarea>
       <button class="basic-button">SEND</button>
       </div>
-    </modal>
+    </modal> -->
   </div>
 </template>
 

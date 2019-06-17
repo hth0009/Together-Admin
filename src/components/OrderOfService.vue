@@ -47,13 +47,12 @@
       </div>    
       <!-- <button class="basic-button" @click="createNewItem">+</button> -->
     </div>    
-    <modal
+    <!-- <modal
       name="new-service-item"
       height="75%">      
       <div class="service-item-info-full">
         <div class="service-item-info-full-content">
           <h3>New Service Item</h3>
-          <!-- <h3 :style="{color: selectedGroup.color}">{{selectedGroup.title}}</h3> -->
           <h5>Section Type</h5>
           <div class="item-types-container">
             <label class="item-type"
@@ -77,10 +76,7 @@
             <div class="item-lyrics"
               v-if="selectedItem.itemType.hasLyrics">
               <h5>Lyrics</h5>
-              <!-- <vue-editor v-model="selectedItem.itemType.lyrics"
-              :editorToolbar="[]"></vue-editor> -->
               <div v-html="selectedItem.itemType.lyrics"></div>
-              <!-- <div v-html="selectedItem.itemType.lyrics"></div> -->
               <hr>
             </div>
             <div class="item-songs"
@@ -122,15 +118,13 @@
             <div class="item-notes"
               v-if="selectedItem.itemType.hasNotes">   
               <h5>Notes</h5>
-              <!-- <vue-editor v-model="selectedItem.itemType.notes"
-              ></vue-editor> -->
             <hr>
             </div>
             <button class="basic-button" @click="hide()">CONFIRM</button>
           </div>        
         </div>
       </div>
-    </modal>
+    </modal> -->
   </div>
 </template>
 

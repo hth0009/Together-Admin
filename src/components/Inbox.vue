@@ -127,7 +127,9 @@ export default {
         teamID: -1,
         firstMessage: '',
         type: 0
-      }
+      },
+      messagesReload: {},
+      threadReload: {}
     }
   },
   components: {
@@ -140,6 +142,13 @@ export default {
     this.getThreads().then(() => {this.threadsLoading = false})
     this.getTeams()
     this.getPeople()
+    
+    // THIS IS TEMPORARY
+    this.threadReload = setInterval(function () {this.getThreads()}.bind(this), 10000)
+  },
+  beforeDestroy() {
+    clearInterval(this.messagesReload)
+    clearInterval(this.threadReload)
   },
   watch: {
     newThreadType: {
@@ -148,9 +157,15 @@ export default {
       },
       deep: true
     },
-    // Clear selected member when thread type changed
-    newThreadType() {
-
+    selectedThreadID(val) {
+      console.log(!!this.messagesReload)
+      if (val != -1 && val != undefined && !!this.messagesReload) { // it seems to me this additional check would make sense?
+          this.messagesReload = setInterval(function() {
+              this.updateMessages()
+          }.bind(this), 5000)
+      } else {
+          clearInterval(this.messageReload)
+      }
     }
   },
   methods: {
@@ -207,7 +222,7 @@ export default {
       this.creatingNewItem = !this.creatingNewItem
     },
     selectThread(id) {
-      if (id == undefined) {
+      if (id == undefined || id == -1) {
         return
       }
 
