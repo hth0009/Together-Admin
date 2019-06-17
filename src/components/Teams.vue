@@ -9,7 +9,8 @@
           :selectedID="selectedID + ''"
           :hasAddNew="true"
           @selected="recieveID"
-          @onAddNew="createNewItem"/>
+          @onAddNew="createNewItem"
+          :filters="teamFilters"/>
       </div>
       <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
         <div class="header"> 
@@ -247,6 +248,72 @@ const subTeamStructureTemplate = [
   }
 ]
 
+const teamFiltersTemplate = [
+  {
+    type: 'Type',
+    key: 'subtext',
+    options: [
+      {
+        value: 'Community Group',
+        title: 'Public',
+        icon: 'public'
+      },
+      {
+        value: 'Serve Team',
+        title: 'Private',
+        icon: 'lock'
+      },
+      {
+        value: 'Anonymous',
+        title: 'Anonymous',
+        icon: 'wc'
+      }
+    ]
+  },
+  {
+    type: 'Grade',
+    key: 'ageGroup',
+    options: [
+      {
+        value: '1',
+        title: 'First',
+        icon: '',
+        short: '1'
+      },
+      {
+        value: '2',
+        title: 'Second',
+        icon: '',
+        short: '2'
+      },
+      {
+        value: '3',
+        title: 'Third',
+        icon: '',
+        short: '3'
+      },
+      {
+        value: '4',
+        title: 'Fourth',
+        icon: '',
+        short: '4'
+      },
+      {
+        value: '5',
+        title: 'Fifth',
+        icon: '',
+        short: '5'
+      },
+      {
+        value: '6',
+        title: 'Sixth',
+        icon: '',
+        short: '6'
+      },
+    ]
+  },
+]
+
 export default {
   name: 'Teams',
   data () {
@@ -276,7 +343,8 @@ export default {
         type: 0,
         leaderID: ''
       },
-      subTeamStructure: subTeamStructureTemplate
+      subTeamStructure: subTeamStructureTemplate,
+      teamFilters: teamFiltersTemplate
     }
   },
   components: {

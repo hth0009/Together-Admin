@@ -6,11 +6,45 @@
       <input type="text" class="basic-input"
         placeholder="search"
         v-model="cardSearch">
+      <div class="filter-section-toggle">
+        <i class="material-icons noselect" @click="toggleFilterSection = !toggleFilterSection"
+          :class="{selected: toggleFilterSection}">keyboard_arrow_down</i>
+      </div>
+    </div>
+    <div class="filter-wrapper">
+      <div class="selected-filters" :class="{toggled: toggleFilterSection}">
+        <div class="filters">
+          <div v-for="(filterKey, index) in Object.keys(selectedFilters)" :key="index" class="filter" @click="toggleFilter(filterKey, selectedFilters[filterKey], '', '', '')"
+            >
+            <ejs-tooltip :position="'BottomCenter'" :content="filterHash[filterKey + selectedFilters[filterKey]].title">
+              <i v-show="filterHash[filterKey + selectedFilters[filterKey]].icon != ''" class="material-icons noselect selected">{{filterHash[filterKey + selectedFilters[filterKey]].icon}}</i>
+              <div class="short selected" v-show="filterHash[filterKey + selectedFilters[filterKey]].icon == ''">{{filterHash[filterKey + selectedFilters[filterKey]].short}}</div>
+            </ejs-tooltip>
+          </div>
+        </div>
+        <div class="clear" v-show="Object.keys(selectedFilters).length != 0" @click="selectedFilters = {}"><i class="material-icons noselect">close</i></div>
+      </div>
+      <div class="all-filters" :class="{toggled: toggleFilterSection}">
+        <h3>Filters</h3>
+        <div v-for="filterType in listFilters" :key="filterType.type">
+          <h4> {{ filterType.type }}</h4>          
+          <div class="filters">
+            <div v-for="filter in filterType.options" :key="filter.value" class="filter" @click="toggleFilter(filterType.key, filter.value, filter.icon, filter.title, filter.short)">
+              <ejs-tooltip :position="'BottomCenter'" :content="filter.title">
+                <i v-show="filter.icon != ''" class="material-icons noselect"
+                  :class="{selected: selectedFilters[filterType.key] === filter.value}">{{filter.icon}}</i>
+                <div v-show="filter.icon == ''" class="short noselect"
+                  :class="{selected: selectedFilters[filterType.key] === filter.value}">{{filter.short}}</div>
+              </ejs-tooltip>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="card-boxes"
       v-if="!loading"
       v-on:scroll="manageScroll">
-    <div class="nothing-here noselect" v-if="cardList.length == 0">
+    <div class="nothing-here noselect" v-if="filteredCards.length == 0">
       nothing here
     </div>
     <div class="card-wrapper" v-for="(card, index) in filteredCards" :key="card['id']">
@@ -86,10 +120,21 @@ export default {
         distance: 100,
         maxPatternLength: 32,
         minMatchCharLength: 1,
-        keys: [
-          'title', 'subtext', 'subtext2'
-        ]
-      }
+        keys: [{
+          name: 'title',
+          weight: 0.7
+        }, {
+          name: 'subtext',
+          weight: 0.4
+        }, {
+          name: 'subtext2',
+          weight: 0.3
+        }]
+      },
+      listFilters: this.filters,
+      selectedFilters: {},
+      filterHash: {},
+      toggleFilterSection: false,
     }
   },
   components: {
@@ -118,6 +163,38 @@ export default {
       }
       this.maxHeight = Math.max(Math.min(this.maxHeight, 100), maxHeightFloor)
       this.previousScroll = scrollTop
+    },
+    toggleFilter(key, value, icon, title, short) {
+      console.log(key)
+      if (this.selectedFilters[key] == value) {
+        delete this.selectedFilters[key]
+      }
+      else {
+        this.selectedFilters[key] = value
+        this.filterHash[key + value] = {
+          icon: icon,
+          title: title,
+          short: short
+        }
+      }
+      this.selectedFilters = {...this.selectedFilters}
+    },
+    async filterAndSearchCards() {
+      if (this.cardSearch == '') {
+        this.filteredCards = this.cardList
+      }
+      else {
+        await this.$search(this.cardSearch, this.cardList, this.searchOptions).then(results => {
+          this.filteredCards = results
+        })
+      }
+      this.filteredCards = this.filteredCards.filter(function(item) {
+        for (var key in this.selectedFilters) {
+          if (item[key] === undefined || item[key] != this.selectedFilters[key])
+            return false;
+        }
+        return true;
+      }.bind(this));
     }
     // manageScroll(event) {
     //   console.log(event)
@@ -147,6 +224,19 @@ export default {
       type: Boolean,
       default: false
     },
+    /*[
+      {
+        type: 'Type',
+        key: 'subtext',
+        options: [
+          {
+            value: 'Community Group',
+            title: 'Public',
+            icon: 'public'
+          },
+        ]
+      }
+    ]*/
     filters: {
       type: Array,
       default: function () { return [] }
@@ -164,14 +254,12 @@ export default {
       }, deep: true
     },
     cardSearch() {
-      if (this.cardSearch == '') {
-        this.filteredCards = this.cardList
-        return
-      }
-      console.log(this.cardSearch)
-      this.$search(this.cardSearch, this.cardList, this.searchOptions).then(results => {
-        this.filteredCards = results
-      })
+      this.filterAndSearchCards()
+    },
+    selectedFilters: {
+      handler(n) {
+        this.filterAndSearchCards()
+      }, deep: true
     }
   }
 }
@@ -184,7 +272,7 @@ export default {
     margin: 10px 20px 0px 10px;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 55px minmax(0, 1fr);
+    grid-template-rows: 50px auto minmax(0, 1fr);
     box-shadow: 0px 2px 7px 0px #00000049;
     background: none;
     border-radius: 10px;
@@ -197,14 +285,89 @@ export default {
     height: 57px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    display: grid;
+    grid-template-columns: auto 50px;
   }
   .search-wrapper .basic-input {
     margin-top: 10px;
-    padding-bottom: 5px;
     padding-left: 20px;
-    width: calc(100% - 30px);
+    padding-right: 0px;
     border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+  }
+  .search-wrapper .filter-section-toggle {
+    padding-top: 5px;
+    color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  .search-wrapper .filter-section-toggle i{
+    transition: all .3s ease;
+  }
+  .search-wrapper .filter-section-toggle .selected {
+    transform: rotate(-180deg)
+  }
+  .filters {
+    padding: 5px;
+    color: grey;
+    display: grid;    
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    grid-auto-rows: 1fr;
+  }
+  .selected-filters {  
+    display: grid;  
+    grid-template-columns: auto 50px;
+    grid-auto-rows: 1fr;
+  }
+  .selected-filters .clear{  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .selected-filters .clear i{  
+    font-size: 15px;
+    color: #666666
+  }
+  .all-filters {
+    max-height: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+    transition: max-height 0.15s ease-out, overflow-y 1s 1s ease, margin .15s ease-out, padding .0s .15s ease-in-out;
+    overflow: hidden;
+  }
+  .all-filters.toggled {
+    max-height: 500px;
+    overflow-y: auto;
+    margin-bottom: 25px;
+    padding: 5px;
+    transition: max-height 0.25s ease-in, overflow-y 1s 1s;
+  }
+  .all-filters h3, h4 {
+    padding-left: 5px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555555
+  }
+  .filter {
+    cursor: pointer;
+  }
+  .filter > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .filter .short {
+    font-size: 24px;
+    font-weight: 500
+  }
+  .filter .short,
+  .filter i {
+    transition: color .2s ease
+  }
+  .filter i.selected,
+  .filter .short.selected {
+    color: #00cec9;
   }
   .card-boxes {
     overflow-y: auto;

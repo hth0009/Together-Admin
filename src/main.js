@@ -18,6 +18,7 @@ import { InPlaceEditorPlugin } from '@syncfusion/ej2-vue-inplace-editor'
 import { TextBoxPlugin } from '@syncfusion/ej2-vue-inputs'
 import { CheckBoxPlugin } from '@syncfusion/ej2-vue-buttons'
 import { RecurrenceEditorPlugin } from '@syncfusion/ej2-vue-schedule'
+import { TooltipPlugin } from "@syncfusion/ej2-vue-popups"
 
 // import { TabPlugin } from '@syncfusion/ej2-vue-navigations'
 
@@ -37,6 +38,7 @@ Vue.use(RecurrenceEditorPlugin)
 Vue.use(MultiSelectPlugin)
 Vue.use(DateRangePickerPlugin)
 Vue.use(TimePickerPlugin)
+Vue.use(TooltipPlugin)
 // Vue.use(TabPlugin)
 
 /* ///////////////////////
