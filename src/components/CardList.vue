@@ -300,10 +300,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
   }
   .search-wrapper .filter-section-toggle i{
     transition: all .3s ease;
+    cursor: pointer;
   }
   .search-wrapper .filter-section-toggle .selected {
     transform: rotate(-180deg)
@@ -312,8 +312,8 @@ export default {
     padding: 5px;
     color: grey;
     display: grid;    
-    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    grid-auto-rows: 25px;
   }
   .selected-filters {  
     display: grid;  
@@ -358,12 +358,13 @@ export default {
     align-items: center;
   }
   .filter .short {
-    font-size: 24px;
+    // font-size: 24px;
     font-weight: 500
   }
   .filter .short,
   .filter i {
-    transition: color .2s ease
+    transition: color .2s ease;
+    font-size: 22px;
   }
   .filter i.selected,
   .filter .short.selected {

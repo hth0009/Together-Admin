@@ -100,6 +100,7 @@ import CustomRadio from '@/components/CustomRadio'
 
 import store from '../store'
 import {formatDate} from '../utils/helpers'
+import { clearInterval } from 'timers'; 
 
 export default {
   name: 'Inbox',
@@ -158,13 +159,14 @@ export default {
       deep: true
     },
     selectedThreadID(val) {
-      console.log(!!this.messagesReload)
-      if (val != -1 && val != undefined && !!this.messagesReload) { // it seems to me this additional check would make sense?
-          this.messagesReload = setInterval(function() {
-              this.updateMessages()
-          }.bind(this), 5000)
-      } else {
-          clearInterval(this.messageReload)
+      const reloadNumber = Number(this.messagesReload)
+      if (!!reloadNumber) {
+        window.clearInterval(reloadNumber)
+      }
+      if (val != -1 && val != undefined) {
+        this.messagesReload = setInterval(function() {
+          this.updateMessages(val)
+        }.bind(this), 5000)
       }
     }
   },
@@ -225,6 +227,8 @@ export default {
       if (id == undefined || id == -1) {
         return
       }
+      
+      // clearInterval(this.messageReload)
 
       this.$router.push(`/app/inbox/${id}`)
 

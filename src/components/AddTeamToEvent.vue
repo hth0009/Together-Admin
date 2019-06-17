@@ -115,13 +115,13 @@
             <button class="basic-button icon" @click.prevent="addRole(noSignUpTimesRoles)"><i class="material-icons">add</i></button>
           </div>
         </div>
-        <div class="new-item-card">
+        <div class="new-item-card" style="overflow-y: auto">
           <div class="section-header">Message</div>
           <div class="section-header-info"></div>
           <div>
-            <div class="multiline_wrapper">
-              <!-- <ejs-textbox :multiline="true" rows="8" floatLabelType="Auto" placeholder="Enter your message"></ejs-textbox> -->
-              <textarea placeholder="Enter your message" rows="10" class="basic-textarea" v-model="message"></textarea>
+            <div class="multiline-wrapper">
+              <ejs-textbox :multiline="true" rows="8" floatLabelType="Auto" placeholder="Enter your message" v-model="message"></ejs-textbox>
+              <!-- <textarea placeholder="Enter your message" rows="10" class="basic-textarea" v-model="message"></textarea> -->
             </div>
           </div>
         </div>

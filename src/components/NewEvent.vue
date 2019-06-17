@@ -1,12 +1,12 @@
 <template>
   <carousel class="new-event" v-model="currentCarouselPage">
-    <div class="new-item-card">
+    <div class="new-item-card" style="overflow-y: auto">
       <div class="section-header">Basic Details</div>  
       <!-- <div class="section-header-info">Give this new team a name</div>        -->
       <div>
         <ejs-textbox autocomplete="off" v-model="newEvent.name" floatLabelType="Auto" :placeholder="'Event Name'"
         required></ejs-textbox>
-        <ejs-textbox autocomplete="off" :multiline="true" v-model="newEvent.description" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
+        <ejs-textbox autocomplete="off" style="max-height: 50px" :multiline="true" v-model="newEvent.description" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
         required></ejs-textbox>
         <ejs-textbox autocomplete="off" v-model="newEvent.location" resize="none" floatLabelType="Auto" :placeholder="'Location'"
         required></ejs-textbox>
