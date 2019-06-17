@@ -148,8 +148,8 @@ export default {
     this.threadReload = setInterval(function () {this.getThreads()}.bind(this), 10000)
   },
   beforeDestroy() {
-    clearInterval(this.messagesReload)
-    clearInterval(this.threadReload)
+    window.clearInterval(this.messagesReload)
+    window.clearInterval(this.threadReload)
   },
   watch: {
     newThreadType: {
