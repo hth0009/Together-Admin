@@ -1,8 +1,10 @@
 <template>
   <div class="event-teams-container">
-    <div class="add-team new-item">
-      <div class="title">Add {{team.name != undefined ? team.name : 'Team'}} to Event</div>
-      <carousel class="details" ref="addTeamCarousel" v-model="currentCarouselPage">
+    <div class="add-team">
+      <div class="card-header">Add {{team.name != undefined ? team.name : 'Team'}} to Event</div>
+      <carousel class="details" ref="addTeamCarousel"
+        v-model="currentCarouselPage"
+        :cardHeight="450">
         <div class="new-item-card">
           <div class="section-header">Select team</div>
           <ejs-dropdownlist
@@ -15,7 +17,7 @@
         </div>
         <div class="new-item-card">
           <div class="section-header">Select a response type</div>
-          <div class="section-header-info">How do you want people on {{team.name}} to respond to this event</div>   
+          <div class="section-info">How do you want people on {{team.name}} to respond to this event</div>   
             <custom-radio v-model="responseType" @changed="resizeCarousel" :options="['Auto', 'Serve', 'Sign Up', 'RSVP']"></custom-radio>
             <div v-show="responseType == 0" class="item-description">
               This event will automatically get added to all or selected people within the team's calendar.
@@ -58,7 +60,7 @@
             </div>
             <div class="person-info" v-if="selectedPerson.personID != undefined">
               <h3 class="person-name">{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
-              <label for="">Toggle times</label>
+              <label for="">Toggle to <span style="color: #05e0a2; font-weight: 600">COMFIRM</span> times</label>
               <custom-multi-select :options="times" v-model="selectedPerson.times"></custom-multi-select>
               <label for="">Assign role</label>
               <ejs-textbox floatLabelType="Never" placeholder="Role"
@@ -68,7 +70,7 @@
         </div>
         <div class="new-item-card"  v-if="responseType == 2">
           <div class="section-header">Sign Up: Times</div>
-          <div class="section-header-info">Should people sign up to serve the entire event or should they select times?</div>
+          <div class="section-info">Should people sign up to serve the entire event or should they select times?</div>
           <custom-radio v-model="hasServeTimes" :options="['Whole Event', 'Selected Times']"></custom-radio>
           <!-- <custom-multi-select v-if="hasServeTimes == 1" :options="times" v-model="serveTimes"></custom-multi-select> -->
           <div class="time-caps" v-if="hasServeTimes == 1">
@@ -86,7 +88,7 @@
         </div>
         <div class="new-item-card" v-if="responseType == 2">
           <div class="section-header">Sign Up: Roles</div>
-          <div class="section-header-info">You can add specific roles for people to sign up for</div>   
+          <div class="section-info">You can add specific roles for people to sign up for</div>   
           <custom-radio v-model="hasRoles" :options="['No Roles', 'Has Roles']"></custom-radio>
           <div class="times" v-if="hasRoles == 1 && hasServeTimes == 1">
             <div v-for="(time, index) in signUpTimes" :key="index" class="sign-up-roles">
@@ -117,7 +119,7 @@
         </div>
         <div class="new-item-card" style="overflow-y: auto">
           <div class="section-header">Message</div>
-          <div class="section-header-info"></div>
+          <div class="section-info"></div>
           <div>
             <div class="multiline-wrapper">
               <ejs-textbox :multiline="true" rows="8" floatLabelType="Auto" placeholder="Enter your message" v-model="message"></ejs-textbox>
@@ -273,7 +275,9 @@ export default {
 </script>
 
 <style scoped>
-
+.add-team {
+  height: 625px;
+}
 .serve-assign-page {
   display: grid;
   grid-template-columns: 175px 1fr;
@@ -326,7 +330,7 @@ export default {
 }
 .times {
   overflow-y: auto;
-  max-height: 225px;
+  max-height: 325px;
 }
 .times .sign-up-roles .time,
 .time-caps .sign-up-times .time{

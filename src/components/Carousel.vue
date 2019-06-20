@@ -16,7 +16,8 @@
       <div class="carousel-cards" ref="carousel"
         :style="{
           width: carouselWidth,
-          left: xCoordinate}"
+          left: xCoordinate,
+          height: cardHeight != undefined ? cardHeight + 'px' : ''}"
         v-on:keydown.tab="stopScroll"
         v-on:scroll="stopScroll">
         <slot class="carousel-card"></slot>
@@ -69,6 +70,7 @@ export default {
       type: Number,
       default: 1
     },
+    cardHeight: Number
   },
   mounted() {
     this.resize()
@@ -90,7 +92,7 @@ export default {
 }
 .carousel-buttons {
   position: relative;
-  padding: 5px; 
+  padding-top: 10px; 
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -102,7 +104,7 @@ export default {
   height: 30px;
   border-radius: 20px;
 
-  margin: 5px;
+  margin-right: 10px;
 
   color: white;
   background-color: #00cec9;

@@ -56,7 +56,30 @@ export const getDayOfWeek = (dt) => {
 
 export const formatDigits = (val) => {
   val = val.toString()
+  if (val.length === 0) {
+    return '00'
+  }
   return val.length === 1 ? '0' + val : val
+}
+export const HHMMSSToReadable = (val) => {
+  var result = ''
+  console.log(val)
+  if (val.length != 8) {
+    return val
+  }
+  const hours = parseInt(val.substring(0,2))
+  const min = parseInt(val.substring(3,5))
+  const sec = parseInt(val.substring(6,8))
+  if (hours != 0) {
+    result += hours + ' hr '
+  }
+  if (min != 0) {
+    result += min + ' min '
+  }
+  if (sec != 0) {
+    result += sec + ' sec'
+  }
+  return result
 }
 
 export const formatDate = (messageDate, nextDate = '') => {

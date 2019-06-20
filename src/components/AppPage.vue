@@ -470,8 +470,20 @@ import Home from '@/components/Home'
   }
   #app-page-content >>> .section-header{
     color: #505050;
-    font-size: .9rem;
+    font-size: 1rem;
     font-weight: 600;
+    margin: 35px 0px 5px 0px
+  }
+  #app-page-content >>> .section-info{
+    color: #6b6b6b;
+    font-size: .85rem;
+    font-weight: 500;
+    margin: 0px 0px 10px 0px
+  }
+  #app-page-content >>> .item-description{
+    color: #6b6b6b;
+    font-size: .85rem;
+    font-weight: 500;
     margin: 20px 0px 10px 0px
   }
 

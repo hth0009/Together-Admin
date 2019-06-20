@@ -1,10 +1,19 @@
 <template>
-  <div class='new-order-of-service-item-container' v-if="Object.keys(selectedItem).length > 0">
+  <div class='new-order-of-service-item-container'>
     <div class="service-item-info-full">
       <div class="service-item-info-full-content">
         <div class="card-header">New Service Item</div>
         <ejs-textbox autocomplete="off" class="item-title" v-model="selectedItem.itemName" floatLabelType="Auto" :placeholder="'Item Name'"
-          required></ejs-textbox>
+          required></ejs-textbox>          
+        <div class="section-header">Duration</div>
+        <div class="duration">
+          <ejs-textbox autocomplete="off" min="0" max="23" type="number" v-model="splitDuration.hours" floatLabelType="Auto" :placeholder="'Hours'"
+            required></ejs-textbox>
+          <ejs-textbox autocomplete="off" min="0" max="59" type="number" v-model="splitDuration.min" floatLabelType="Auto" :placeholder="'Minutes'"
+            required></ejs-textbox>
+          <ejs-textbox autocomplete="off" min="0" max="59" type="number" v-model="splitDuration.sec" floatLabelType="Auto" :placeholder="'Seconds'"
+            required></ejs-textbox>
+        </div>
         <div class="section-header">Section Type</div>
         <div class="item-types-container">
           <label class="item-type"
@@ -29,10 +38,10 @@
             v-if="selectedItem.itemType.hasLyrics">
             <div class="section-header">Lyrics</div>            
             <ejs-richtexteditor
-              v-model="selectedItem.itemType.notes"
+              v-model="selectedItem.itemType.lyrics"
               :toolbarSettings="toolbarSettings"
               :maxLength="20"></ejs-richtexteditor>
-            <div v-html="selectedItem.itemType.lyrics"></div>
+            <!-- <div v-html="selectedItem.itemType.lyrics"></div> -->
           </div>
           <div class="item-songs"
             v-if="selectedItem.itemType.hasSongUrl">
@@ -52,6 +61,7 @@
               v-if="videoId != null"
               :video-id="videoId"
               :width = "'100%'"
+              :height="auto"
               :resize="true"
               ></youtube>
           </div>
@@ -79,6 +89,7 @@ import Swatches from 'vue-swatches'
 import "vue-swatches/dist/vue-swatches.min.css"
 
 import { Toolbar, Link, Image, HtmlEditor } from "@syncfusion/ej2-vue-richtexteditor";
+import { formatDigits } from '../utils/helpers';
 
 export default {
   name: 'EditOrderOfServiceItem',
@@ -135,7 +146,12 @@ export default {
           hasNotes: true,
           notes: ''
         }
-      ]
+      ],      
+      splitDuration: {
+        hours: 0,
+        min: 0,
+        sec: 0
+      }
     }
   },
   props: {
@@ -147,6 +163,7 @@ export default {
     close() {
       this.selectedItem = {...{}}
       this.$root.$emit('editEventItem', this.selectedItem)
+      this.$root.$emit('currentlyEditing', '')
     }
   },
   provide:{
@@ -155,14 +172,44 @@ export default {
   mounted() {    
     this.$root.$on('editEventItem', data => {
       this.selectedItem = data
+      const duration = data.duration
+      console.log(duration.length)
+      if (duration.length == 8) {        
+        this.splitDuration =  {
+          hours: parseInt(duration.substring(0,2)),
+          min: parseInt(duration.substring(3,5)),
+          sec: parseInt(duration.substring(6,8)),
+        }
+      }
+      else {
+        this.splitDuration =  {
+          hours: 0,
+          min: 0,
+          sec: 0,
+        }
+      }
     });
   },
   computed: {
     videoId () {
       return this.$youtube.getIdFromUrl(this.selectedItem.itemType.videoUrl)
+    },
+    computedDuration() {
+      console.log('00' && '03')
+      var duration = this.splitDuration.hours.split(1)
+      return this.splitDuration.hours
     }
   },
   watch: {
+    splitDuration: {
+      handler(n) {
+        const sDur = this.splitDuration
+        const duration = formatDigits(sDur.hours) + ':'
+        + formatDigits(sDur.min) + ':'
+        + formatDigits(sDur.sec)
+        this.selectedItem.duration = duration
+      }, deep: true
+    }
   }
 }
 </script>
@@ -216,13 +263,14 @@ export default {
 .item-types-container {
   display: flex;
   flex-direction: row;
-  padding: 10px;
-  justify-content: space-evenly;
+  /* padding: 10px; */
+  justify-content: flex-start;
 }
 .item-type {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-right: 10px;
 }
 .item-type i{
   padding: 5px;
@@ -250,10 +298,17 @@ export default {
   color: white
 }
 .colors {
-  margin: 0px auto
+  /* margin: 0px auto */
 }
 .basic-button.confirm {
   margin: 20px 0px;
+}
+.duration {
+  width: 200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 15px;
+  grid-template-rows: 1fr;
 }
 
 </style>

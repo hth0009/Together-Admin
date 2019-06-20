@@ -32,11 +32,13 @@
             v-for="item in eventServiceItems"
             v-bind:key="item.itemName">
                   <div class="item-bar noselect"
-                    @click="selectedItem = item; $root.$emit('editEventItem', selectedItem)"
+                    :class="{selected: item == selectedItem}"
+                    @click="onItemClick(item)"
                     :style="{background: item.color}"
                   >
                     <div class="item-bar-button">
                       <div class="item-name">{{item.itemName}}</div>
+                      <div class="item-duration">{{item.duration | formatTime}}</div>
                       <div class="item-type">{{item.itemType.typeName}}</div>
                     </div>
                   </div>
@@ -44,8 +46,7 @@
               </Container> -->
           </Draggable>   
         </Container>  
-      </div>    
-      <!-- <button class="basic-button" @click="createNewItem">+</button> -->
+      </div>
     </div>
   </div>
 </template>
@@ -54,7 +55,7 @@
 // Vue.use(VueDraggable)
 
 import { Container, Draggable } from 'vue-smooth-dnd'
-import { applyDrag } from '@/utils/helpers'
+import { applyDrag, HHMMSSToReadable } from '@/utils/helpers'
 import Swatches from 'vue-swatches'
 import "vue-swatches/dist/vue-swatches.min.css"
 
@@ -81,7 +82,7 @@ export default {
           hasNotes: false,
           notes: ''
         },
-        duration: '',
+        duration: '00:00:00',
       },
       selectedItem: {},
       itemTypes: [{
@@ -136,9 +137,7 @@ export default {
       var payload = dropResult.payload
       this[collection] = applyDrag(this[collection], dropResult) 
       if (this[collection].length > this.numberOfItems) {
-        this.selectedItem = payload
-        this.$root.$emit('input', this.eventServiceItems)
-        this.numberOfItems ++
+        this.emitItem(dropResult.payload)
       }
     },       
     getChildPayload1 (index) {
@@ -148,25 +147,29 @@ export default {
     },    
     getServiceItemsPayload (index) {
       return this.eventServiceItems[index]
-    },  
-    createNewItem () {
-      this.selectedItem = {...this.newItem}
-      // this.show()
-      this.$root.$emit('edit', this.selectedItem)
     },
-    show () {
-      // this.$modal.show('new-service-item');
+    emitItem(item) {
+      this.$root.$emit('editEventItem', item)
+      this.$root.$emit('currentlyEditing', 'ORDER')
     },
-    hide () {
-      this.$modal.hide('new-service-item');
+    onItemClick(item) {
+      this.selectedItem = item      
+      this.emitItem(this.selectedItem)
     },
     addItem (item) {
       var newItem = {...this.newItem}
       newItem.itemType = {...item}
       this.eventServiceItems.push(newItem)
       this.selectedItem = newItem
-      this.show()
-      this.$root.$emit('editEventItem', this.selectedItem)
+      this.numberOfItems++
+
+      this.emitItem(this.selectedItem)
+    }
+  },
+  filters: {
+    formatTime(val) {
+      console.log(val)
+      return HHMMSSToReadable(val)
     }
   },
   props: {
@@ -177,12 +180,13 @@ export default {
       }
     }
   }, 
-  mounted() {    
+  mounted() {
+    this.$root.$on('editEventItem', data => {this.selectedItem = data})
   },
   computed: {
     dragOptions() {
       return {
-        animation: 0,
+        animation: .5,
         group: "title",
         disabled: false,
         ghostClass: "ghost"
@@ -224,7 +228,7 @@ export default {
   height: 300px;
 }
 .service-items-container {
-  min-height: calc(100% - 37px);
+  min-height: 100%
 }
 .no-items {  
   color: #4e4e4e;
@@ -261,18 +265,41 @@ export default {
   flex-direction: row;
   margin-top: 5px;
   font-size: 15px;
+  transition: all .2s ease;
+}
+.item-bar.selected {  
+  margin-left: 20px;
+  border-radius: 10px 0px 0px 10px;
 }
 .item-bar-button {
   padding: 10px 10px;
   cursor: grab;
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: grid;
   justify-content: space-between;
+  transition: all .2s ease;
+  grid-template-columns: 3fr 1fr;
+  text-shadow: 0px 1px 6px #0000004b;
+  transition: all .2s ease;
 }
-.item-bar-button .item-type{
+.item-bar.selected .item-bar-button {
+  padding: 15px;
+  font-size: 22px;
+}
+.item-bar-button .item-type {
+  transition: font-size .15s ease;
   font-size: 12px;
   opacity: .7;
+}
+.item-bar-button .item-duration{
+  transition: font-size .15s ease;
+  font-size: 12px;
+  opacity: 1;
+  justify-self: flex-end;
+}
+.item-bar.selected  .item-type{
+  font-size: 14px;
+  opacity: .8;
 }
 
 .service-item-info-full {

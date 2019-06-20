@@ -1,6 +1,6 @@
 <template>
   <div id="events-content">
-    <div class="page-wrapper" :class="{'three-rows': editingItem}">
+    <div class="page-wrapper" :class="{'three-rows': !!currentlyEditing}">
       <div class="page-card-wrapper">
         <cards
           :cardList="formattedEvents"
@@ -73,10 +73,10 @@
           </e-views>
         </ejs-schedule>
       </div> -->
-      <div class="editing-panel-wrapper" v-show="!!editingItem">
+      <div class="editing-panel-wrapper" v-if="!!currentlyEditing">
         <div class="editing-panel">
-          <new-order-of-service-item v-show="editingItem == 'ORDER'"/>
-          <add-team-to-event v-if="editingItem == 'TEAM'"></add-team-to-event>
+          <new-order-of-service-item v-if="currentlyEditing == 'ORDER'"/>
+          <add-team-to-event v-if="currentlyEditing == 'EVENT_TEAMS'"/>
         </div>
       </div>
 
@@ -143,7 +143,9 @@ export default {
       eventsLoading: true,
       eventInstance: {},
       tempOrderOfEvents: [],
-      selectedOrderItem: {}
+      selectedOrderItem: {},
+      selectedTeamToEvent: {},
+      currentlyEditing: '',
     }
   },
   components: {
@@ -157,8 +159,14 @@ export default {
     this.getEventInstances()
     this.getEventBases()
    
-    this.$root.$on('editEventItem', data => {
-      this.selectedOrderItem = data
+    // this.$root.$on('editEventItem', data => {
+    //   this.selectedOrderItem = data
+    // });
+    // this.$root.$on('addTeamToEvent', data => {
+    //   this.selectedTeamToEvent = data
+    // });
+    this.$root.$on('currentlyEditing', data => {
+      this.currentlyEditing = data
     });
   },
   methods: {
@@ -207,6 +215,9 @@ export default {
     editingItem () {
       if (Object.keys(this.selectedOrderItem).length > 0) {
         return 'ORDER'
+      }
+      if (Object.keys(this.selectedTeamToEvent).length > 0) {
+        return 'TEAM'
       }
       return ''
     },

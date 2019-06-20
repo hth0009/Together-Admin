@@ -1,5 +1,7 @@
 <template>
   <div class="event-teams-container">
+    <button class="basic-button icon"
+      @click="addTeamToEvent()"><i class="material-icons">add</i></button>
   </div>
 </template>
 
@@ -9,12 +11,16 @@ export default {
   name: 'EventTeams',
   data () {
     return {
-      addingTeam: true,
+      selectedTeam: {}
     }
   },
   components: {
   },
   methods: {
+    addTeamToEvent() {
+      this.$root.$emit('addTeamToEvent', this.selectedTeam)
+      this.$root.$emit('currentlyEditing', 'EVENT_TEAMS')
+    }
   },
   props: {
   },
