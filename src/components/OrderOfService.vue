@@ -149,8 +149,10 @@ export default {
       return this.eventServiceItems[index]
     },
     emitItem(item) {
-      this.$root.$emit('editEventItem', item)
       this.$root.$emit('currentlyEditing', 'ORDER')
+      this.$nextTick(() => {
+        this.$root.$emit('editEventItem', item)
+      })      
     },
     onItemClick(item) {
       this.selectedItem = item      
