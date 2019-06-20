@@ -98,7 +98,7 @@
               <div class="section-header">{{newTeam.name}} Description</div>  
               <div class="section-header-info">Step 3: Briefly explain what {{newTeam.name}} is about</div>
               <div>
-                <ejs-textbox floatLabelType="Auto" placeholder="Description" v-model="newTeam.description"
+                <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Description" v-model="newTeam.description"
                 required name=""></ejs-textbox>
                 <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
                   Since this team is annonymous, we will not be keeping a record of anyone participants. Therefore, the only way to reach to out to {{newTeam.name}} will be through traditional communication. We recommend including a phone number or email in the description.
@@ -127,9 +127,9 @@
                 <div v-if="newTeam.type != 2">
                   <custom-radio v-model="newTeam.hasMeetings" :options="['Has Location', 'No Location']"></custom-radio>
                   <div v-show="newTeam.hasMeetings == 0">
-                    <ejs-textbox floatLabelType="Auto" placeholder="Address"
+                    <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Address"
                     name="" v-model="newTeam.address"></ejs-textbox>
-                    <ejs-textbox floatLabelType="Auto" placeholder="Location Description"
+                    <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Location Description"
                     name="" v-model="newTeam.location"></ejs-textbox>
                     <div class="item-description">(ex: Room 103, Front Office)</div>
                   </div>
@@ -169,11 +169,11 @@
             <!-- <div>
               <div class="profile-pic" @click="uploadingPhoto = true"></div>
               <div>
-                <ejs-textbox floatLabelType="Auto" placeholder="Name"
+                <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Name"
                 required name=""></ejs-textbox>
               </div>
               <div>
-                <ejs-textbox floatLabelType="Auto" placeholder="Description"
+                <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Description"
                 required name=""></ejs-textbox>
               </div>
               <div class="type">            
@@ -188,11 +188,11 @@
                   :allowFiltering="true"
                   :select="assignLeader"></ejs-dropdownlist>
                 <div>
-                  <ejs-textbox floatLabelType="Auto" placeholder="Address"
+                  <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Address"
                   name=""></ejs-textbox>
                 </div>
                 <div>
-                  <ejs-textbox floatLabelType="Auto" placeholder="Location Description"
+                  <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Location Description"
                   name=""></ejs-textbox>
                 </div>
                 <ejs-recurrenceeditor id='editor' ref="EditorObj" :selectedType='selectedType' :change="onChange"></ejs-recurrenceeditor>
@@ -212,7 +212,7 @@
         </div>
         <div class="footer">          
           <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
-          <button class="basic-button green">CREATE</button>
+          <button class="basic-button green" @click="postTeam()">CREATE</button>
         </div>
       </div>
     </div>
@@ -230,6 +230,7 @@ import ImageUploader from 'vue-image-crop-upload'
 import Carousel from '@/components/Carousel'
 import QuickCreate from '@/components/QuickCreate'
 import { checkIfObjNotFilled } from '../utils/helpers'
+import store from '../store'
 
 const subTeamStructureTemplate = [
   {
@@ -329,7 +330,7 @@ export default {
       teamsSearch: '',
       selectedTeam: {},
       selectedID: -1,
-      creatingNewItem: true,
+      creatingNewItem: false,
       people: [],
       uploadingPhoto: false,
       newTeam: {
@@ -440,6 +441,27 @@ export default {
         people[index]['name'] = person.firstName + " " + person.lastName
       }
       return people
+    },
+    postTeam() {
+      const newTeam = {
+        "churchUsername": store.state.churchUsername,
+        "name": this.newTeam.name,
+        "teamImageURL": "",
+        "teamImageThumbnailURL": "",
+        "leaderID": this.newTeam.leaderID,
+        "members": [
+        ],
+        "isAnonymous": this.newTeam.type == 2,
+        "description": this.newTeam.description,
+        "hasMeetings": this.newTeam.hasMeetings == 1,
+        "meetingRecurrence": this.newTeam.recurrence,
+        "meetingAddress": this.newTeam.address,
+        "meetingLocationDescription": this.newTeam.location,
+        "isServeTeam": this.newTeam.type == 1,
+        "serveTeamRoles": [
+        ]
+      }
+      Teams.postTeam(newTeam)
     }
   }
 }

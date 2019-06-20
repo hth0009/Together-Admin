@@ -8,7 +8,7 @@
         v-model="cardSearch">
       <div class="filter-section-toggle">
         <i class="material-icons noselect" @click="toggleFilterSection = !toggleFilterSection"
-          :class="{selected: toggleFilterSection}">keyboard_arrow_down</i>
+          :class="{selected: toggleFilterSection}">filter_list</i>
       </div>
     </div>
     <div class="filter-wrapper">
@@ -269,7 +269,7 @@ export default {
 
   .cards {
     max-height: calc(100% - 10px);
-    margin: 10px 20px 0px 10px;
+    margin: 10px 7.5px 0px 7.5px;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 50px auto minmax(0, 1fr);
@@ -295,8 +295,8 @@ export default {
     border-top-left-radius: 10px;
   }
   .search-wrapper .filter-section-toggle {
-    padding-top: 5px;
-    color: grey;
+    // padding-top: 5px;
+    color: #00cec9;;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -306,7 +306,7 @@ export default {
     cursor: pointer;
   }
   .search-wrapper .filter-section-toggle .selected {
-    transform: rotate(-180deg)
+    transform: rotate(180deg)
   }
   .filters {
     padding: 5px;

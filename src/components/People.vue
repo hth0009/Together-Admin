@@ -21,6 +21,7 @@
           <div class="profile-pic">
             <avatar
               :height="60"
+              :url="selectedPerson.personImageThumbnailURL"
               :title="selectedPerson.fullName"/>
           </div>
           <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
@@ -232,6 +233,7 @@ export default {
         const person = this.people[index];
         const newPerson = {
           id: person.id,
+          profile: person.personImageThumbnailURL,
           title: person.firstName + ' ' + person.lastName,
           subtext: person.account.username !== '' ? '@' + person.account.username : ''
           // profile: thread.threadImageThumbnailURL,          

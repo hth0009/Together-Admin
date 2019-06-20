@@ -54,7 +54,7 @@ export default {
   #login-page{
     width: 100%;
     height: 100%;
-    background: url(/static/image/blue-sky.jpg);
+    background: url(https://s3.wasabisys.com/cdn.togetheradmin.com/login.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: left center;
@@ -64,7 +64,7 @@ export default {
     /* font-family: 'Sorts Mill Goudy', serif; */
     letter-spacing: 3px;
     font-weight: 100;
-    color: #84DBBC;
+    color: #00cec9;
     position: relative;
     top: 20%;
     text-align: center;
@@ -165,7 +165,7 @@ export default {
     /* background: white; */
     background-size: 50%;
     background-size: cover;
-    background-position: bottom right;
+    background-position: center center;
   }
 }
 
@@ -174,7 +174,7 @@ export default {
     /* background: white; */
     background-size: 50%;    
     background-size: cover;
-    background-position: bottom right;
+    background-position: center center;
   }
 }
 

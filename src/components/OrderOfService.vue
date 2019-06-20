@@ -17,7 +17,7 @@
             </div>
         </Draggable>
       </Container>
-      <!-- <div class="service-items no-items noselect" v-if="serviceItems.length == 0">
+      <!-- <div class="service-items no-items noselect" v-if="eventServiceItems.length == 0">
         <h4>NO ITEMS YET</h4>
       </div> -->
       <div class="service-items">
@@ -26,14 +26,14 @@
           :behaviour="'drag'"
           :group-name="'item-list'" 
           :get-child-payload="getServiceItemsPayload" 
-          @drop="onDropItems('serviceItems', $event)">   
+          @drop="onDropItems('eventServiceItems', $event)">   
           <Draggable
           class="drag"
-            v-for="item in serviceItems"
+            v-for="item in eventServiceItems"
             v-bind:key="item.itemName">
                   <div class="item-bar noselect"
-                    @click="show(); selectedItem = item"
-                    :style="{background: item.itemType.color}"
+                    @click="selectedItem = item; $root.$emit('editEventItem', selectedItem)"
+                    :style="{background: item.color}"
                   >
                     <div class="item-bar-button">
                       <div class="item-name">{{item.itemName}}</div>
@@ -46,85 +46,7 @@
         </Container>  
       </div>    
       <!-- <button class="basic-button" @click="createNewItem">+</button> -->
-    </div>    
-    <!-- <modal
-      name="new-service-item"
-      height="75%">      
-      <div class="service-item-info-full">
-        <div class="service-item-info-full-content">
-          <h3>New Service Item</h3>
-          <h5>Section Type</h5>
-          <div class="item-types-container">
-            <label class="item-type"
-              v-for="itemType in itemTypes"
-              v-bind:key="itemType.itemName">
-              <input class="basic-radio"
-                name="itemType" type="radio" 
-                :style="{borderColor: itemType.color,
-                  background: itemType.color}"
-                v-model="selectedItem.itemType"
-              :value="itemType">
-              <i :for="itemType.typeName">{{itemType.typeName}}</i>
-            </label>
-            <div class="item-type">
-                <div class="basic-radio noselect add-type">+</div>
-            </div>
-          </div>
-          <input type="text" v-model="selectedItem.itemName" class="item-title basic-input" placeholder="Section Title">
-          <div class="item-options" 
-            v-if="selectedItem.itemType != undefined && selectedItem.itemType.typeName != ''">
-            <div class="item-lyrics"
-              v-if="selectedItem.itemType.hasLyrics">
-              <h5>Lyrics</h5>
-              <div v-html="selectedItem.itemType.lyrics"></div>
-              <hr>
-            </div>
-            <div class="item-songs"
-              v-if="selectedItem.itemType.hasSongUrl">
-              <h5>Song Links</h5>
-              <div class="link-address">
-                <label for="spotify">Spotify:</label>
-                <input name="spotify" type="text" class="basic-input"
-                  v-model="selectedItem.itemType.songUrls.spotify">
-              </div>
-              <div class="link-address">
-                <label for="apple">Apple Music:</label>
-                <input name="apple" type="text" class="basic-input"
-                  v-model="selectedItem.itemType.songUrls.apple">
-              </div>
-              <hr>
-            </div>
-            <div class="item-video"
-              v-if="selectedItem.itemType.hasVideo">  
-              <h5>Video Link</h5>            
-              <div class="link-address">
-                <label for="youtube">Youtube:</label>
-                <input name="youtube" type="text" class="basic-input"
-                  v-model="selectedItem.itemType.videoUrl">
-              </div>
-              <youtube
-                ref="youtube"
-                v-if="videoId != null"
-                :video-id="videoId"
-                :width = "'100%'"
-                :resize="true"
-                ></youtube>
-            <hr>            
-            </div>
-            <div class="item-picture"
-              v-if="selectedItem.itemType.hasPicture">
-            <hr>
-            </div>
-            <div class="item-notes"
-              v-if="selectedItem.itemType.hasNotes">   
-              <h5>Notes</h5>
-            <hr>
-            </div>
-            <button class="basic-button" @click="hide()">CONFIRM</button>
-          </div>        
-        </div>
-      </div>
-    </modal> -->
+    </div>
   </div>
 </template>
 
@@ -133,15 +55,18 @@
 
 import { Container, Draggable } from 'vue-smooth-dnd'
 import { applyDrag } from '@/utils/helpers'
+import Swatches from 'vue-swatches'
+import "vue-swatches/dist/vue-swatches.min.css"
 
 export default {
   name: 'OrderOfService',
   data () {
     return {
       title: 'Order of Service',
-      serviceItems: [],
+      eventServiceItems: this.value,
       newItem: {
         itemName: '',
+        color: '#00cec9',
         itemType: {
           typeName: '',
           color: '',
@@ -160,8 +85,8 @@ export default {
       },
       selectedItem: {},
       itemTypes: [{
-          typeName: 'Message',
-          color: '#CD5308',
+          typeName: 'Text',
+          color: '#00cec9',
           hasVideo: false,
           videoUrl: '',
           hasLyrics: false,
@@ -174,7 +99,7 @@ export default {
           notes: ''
         },{
           typeName: 'Song',
-          color: '#008891',
+          color: '#00cec9',
           hasVideo: true,
           videoUrl: '',
           hasLyrics: true,
@@ -187,33 +112,7 @@ export default {
           notes: ''  
         },{
           typeName: 'Video',
-          color: '#EFB920',
-          hasVideo: false,
-          videoUrl: '',
-          hasLyrics: false,
-          lyrics: '',
-          hasSongUrl: false,
-          songUrls: {spotify: '', apple: ''},
-          hasPicture: false,
-          pictureUrl: '',
-          hasNotes: true,
-          notes: ''
-        },{
-          typeName: 'Offering',
-          color: '#434649',
-          hasVideo: false,
-          videoUrl: '',
-          hasLyrics: false,
-          lyrics: '',
-          hasSongUrl: false,
-          songUrls: {spotify: '', apple: ''},
-          hasPicture: false,
-          pictureUrl: '',
-          hasNotes: true,
-          notes: ''
-        },{
-          typeName: 'Announcements',
-          color: '#3B7511',
+          color: '#00cec9',
           hasVideo: false,
           videoUrl: '',
           hasLyrics: false,
@@ -230,7 +129,7 @@ export default {
     }
   },
   components: {
-    Container, Draggable
+    Container, Draggable, Swatches
   },
   methods: {
     onDropItems (collection, dropResult) {
@@ -238,7 +137,7 @@ export default {
       this[collection] = applyDrag(this[collection], dropResult) 
       if (this[collection].length > this.numberOfItems) {
         this.selectedItem = payload
-        this.show()
+        this.$root.$emit('input', this.eventServiceItems)
         this.numberOfItems ++
       }
     },       
@@ -248,14 +147,15 @@ export default {
       return newItem
     },    
     getServiceItemsPayload (index) {
-      return this.serviceItems[index]
+      return this.eventServiceItems[index]
     },  
     createNewItem () {
       this.selectedItem = {...this.newItem}
-      this.show()
+      // this.show()
+      this.$root.$emit('edit', this.selectedItem)
     },
     show () {
-      this.$modal.show('new-service-item');
+      // this.$modal.show('new-service-item');
     },
     hide () {
       this.$modal.hide('new-service-item');
@@ -263,12 +163,19 @@ export default {
     addItem (item) {
       var newItem = {...this.newItem}
       newItem.itemType = {...item}
-      this.serviceItems.push(newItem)
+      this.eventServiceItems.push(newItem)
       this.selectedItem = newItem
       this.show()
+      this.$root.$emit('editEventItem', this.selectedItem)
     }
   },
   props: {
+    value: {
+      type: Array,
+      default: function() {
+        return []
+      }
+    }
   }, 
   mounted() {    
   },
@@ -298,12 +205,12 @@ export default {
   justify-content: left;
   color: white;
   font-size: 12px;
-  padding: 5px;
+  padding: 5px 0px;
   flex-wrap: wrap;
 }
 .item-list-button {
   padding: 7.5px 10px;
-  margin: 5px;
+  margin-right: 10px;
   cursor: grab;
   border-radius: 3px;
 }
@@ -344,7 +251,7 @@ export default {
 .order-of-service .add {
   margin: 0px;
   padding: 10px;
-  border: 1px rgba(190, 190, 190, 0.493) solid;
+  border: 1px #bebebe7e solid;
   cursor: pointer;
   max-width: 30px;
 }
@@ -352,11 +259,11 @@ export default {
 .item-bar {
   display: flex;
   flex-direction: row;
-  padding: 10px 10px;
   margin-top: 5px;
   font-size: 15px;
 }
 .item-bar-button {
+  padding: 10px 10px;
   cursor: grab;
   flex: 1;
   display: flex;

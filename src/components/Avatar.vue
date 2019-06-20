@@ -74,7 +74,7 @@ export default {
   /* background: grey; */
   border-radius: 50%;
   
-  background-color: #356d75;
+  background-color: #eeeeee;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

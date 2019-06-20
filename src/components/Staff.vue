@@ -1,85 +1,124 @@
 <template>
   <div class="staff-container">
-    <div id="staff-and-volunteer-wrapper">
-      <div id="staff-group">
-        <h2>Staff</h2>
-        <div class="card-view-grid">
-          <div class="card noselect"
-          @click="recieveID(person.id)"
-            v-for="(person, index) in staff"
-            v-bind:key="index">
-            <div class="profile-pic"
-            :style="{backgroundImage: 'url(' +  person.profile + ')'}"></div>
-            <div class="name">
-              {{person.name}}
-            </div>
-            <div class="title">
-              {{person.title}}
-            </div>
-          </div>
-        </div>
+    <div class="main-wrapper">
+      <div class="page-card-wrapper"
+        :class="{'inactive': selectedID != ''}">        
+        <cards
+          :cardList="formatedPeople"
+          :loading="peopleLoading"
+          :selectedID="selectedID + ''"
+          :hasAddNew="true"
+          @selected="recieveID"
+          @onAddNew="createNewItem"
+          />
       </div>
-      <div id="volunteer-group">
-        <h2>Validated Volunteers</h2>
-        <div class="card-view-grid">
-          <div class="card noselect"
-          @click="recieveID(person.id)"
-            v-for="(person, index) in staff"
-            v-bind:key="index">
-            <div class="profile-pic"
-            :style="{backgroundImage: 'url(' +  person.profile + ')'}"></div>
-            <div class="name">
-              {{person.name}}
-            </div>
-            <div class="title">
-              {{person.title}}
-            </div>
+      <div class="selected-view" v-if="selectedID != '' && !creatingNewItem">
+        <div class="header"> 
+          <!-- <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
+          class="profile-pic"></div> -->
+          <!-- <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
+          class="profile-pic"></div> -->
+          <div class="profile-pic">
+            <avatar
+              :height="60"
+              :url="selectedPerson.personImageThumbnailURL"
+              :title="selectedPerson.fullName"/>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="person-view" v-show="selectedID != ''">
-      <div class="person-header"> 
-          <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
+          <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
           class="profile-pic"></div>
-          <h3>{{selectedPerson.name}}</h3>
-      </div>
-      <div class="person-info">
-        <div class="general-info-panel">
-          <h4>General Info</h4>
-          <p class="username">username: {{selectedPerson.username}}</p>
-          <p class="email">email: {{selectedPerson.email}}</p>
-          <p class="phone">phone: {{selectedPerson.phone}}</p>
-          <p class="address">address: {{selectedPerson.address}}</p>
+          <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
+          <div class="subtitle">{{selectedPerson.account.username !== '' ? '@' + selectedPerson.account.username : ''}}</div>
         </div>
-        <div class="teams-panel">
-          <h4>Teams</h4>
-          <div class="teams">
-            <div class="team-box" v-for="team in selectedPerson.teams" :key="team.id">
-              <div class="icon" :style="{backgroundImage: 'url(' +  team.icon + ')'}"></div>
-              <div class="team-info">
-                <div class="name">{{team.name}}</div>
-                <div v-if="team.isLeader" class="leader">Team Leader</div>
+        <div class="details">
+          <!-- <button class="section-toggle">Teams</button> -->
+          <div class="panel">
+            <h4 class="noselect">General Info</h4>
+            <div class="item">
+              <i class="material-icons noselect">email</i>
+              <div class="label noselect">Email</div>
+                {{selectedPerson.accountEmail}}
+              </div>
+            <div class="item">
+              <i class="material-icons noselect">event</i>
+              <div class="label noselect">Birthday</div>
+              {{selectedPerson.birthday}}
+            </div>
+            <div class="item">
+              <i class="material-icons noselect">place</i>
+              <div class="label noselect">Address</div>
+              {{selectedPerson.address}}
+            </div>
+          </div>
+          <div class="panel">
+            <h4 class="noselect">Skills</h4>
+            <div class="explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
+            <div class="skills noselect">
+              <div class="skill" 
+                v-for="(skill, index) in skills"
+                :key="skill.title"
+                :class="{'confirmed': skill.confirmed}"
+                @click="toggleSkill(index)">
+                {{ skill.title }}
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <h4>Teams</h4>
+            <div class="teams">
+              <div class="team-box" v-for="team in selectedPersonTeams" :key="team.id">
+                <div class="icon" :style="{backgroundImage: 'url(' +  team.icon + ')'}"></div>
+                <div class="team-info">
+                  <div class="name">{{team.name}}</div>
+                  <div v-if="team.isLeader" class="leader">Team Leader</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="roles-panel">
-          <h4>Role</h4>
-            <p class="role-title">
-              {{selectedPerson.staff.isStaff ? selectedPerson.staff.staffRole : 'Member'}}
-            </p>
-        </div>
-        <div class="skills-panel">
-          <h4>Skills</h4>
-          <div class="skills">
-            <div class="skill noselect" 
-              v-for="skill in selectedPerson.skills" :key="skill.title"                
-              :class="{confirmed: skill.confirmed}"
-              @click="skill.confirmed = !skill.confirmed">
-              {{skill.title}}
+      </div>
+      <div class="new-item" v-if="creatingNewItem">
+        <div class="title">Add Person to Staff</div>
+        <div class="details">
+          <div class="type">            
+            <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio>
+          </div>
+          <div class="detailed" v-show="newItemType == 0">
+           <div style="width: 45%; display: inline-block">
+              <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="First Name"
+              required name="none"></ejs-textbox>
+            </div>
+            <div style="width: 45%; display: inline-block; float: right">
+              <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Last Name" v-bind:enableRtl="true"
+              name="none"></ejs-textbox>
+            </div>
+            <div>
+              <ejs-textbox autocomplete="off" floatLabelType="Auto" type="email" placeholder="Email"
+              name="none"></ejs-textbox>
+            </div>
+            <!-- <div class="section">
+              mailing
+            </div> -->
+            <div>
+              <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Street"
+              name="none"></ejs-textbox>
+            </div>
+            <div style="width: 50%; display: inline-block;">
+              <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="City"
+              name="none"></ejs-textbox>
+            </div>
+            <div style="width: 19%; display: inline-block;">
+              <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="St"
+              name="none"></ejs-textbox>
+            </div>
+            <div style="width: 28%; display: inline-block; float: right">
+              <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Zip"
+              name="none"></ejs-textbox>
             </div>
           </div>
+        </div>
+        <div class="footer">
+          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
+          <button class="basic-button green">CREATE</button>
         </div>
       </div>
     </div>
@@ -87,162 +126,155 @@
 </template>
 
 <script>
+import Cards from '@/components/CardList'
+import VueTable from '@/components/Table'
+import People from '@/services/people'
+import Teams from '@/services/teams'
+import CustomRadio from '@/components/CustomRadio'
+import Avatar from '@/components/Avatar'
+import { Container, Draggable } from 'vue-smooth-dnd'
+import { applyDrag } from '@/utils/helpers'
+// import store from '../store'
+
 export default {
-  name: '',
+  name: 'People',
   data () {
     return {
-      staff: [
-        {
-          name: 'Jon Doe',
-          title: 'Pastor',
-          id: '3',
-          profile: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80'
-        }
+      searchQuery: '',
+      gridColumns: ['profile', 'name'],
+      columnType: {profile: 'profile', name: 'text'},
+      people: [],
+      peopleLoading: false,
+      peopleSearch: '',
+      selectedID: '',
+      selectedPerson: {},
+      selectedPersonTeams: [
       ],
-      selectedPerson: {}
+      creatingNewItem: false,
+      newItemType: 0,
+      skills: [
+        {title: 'Dancing',
+        confirmed: false},
+        {title: 'Preaching',
+        confirmed: false},
+        {title: 'CPR',
+        confirmed: true},
+        {title: 'Talking',
+        confirmed: false},
+        {title: 'Guitar',
+        confirmed: false},
+        {title: 'Singing',
+        confirmed: false},
+        {title: 'Cooking',
+        confirmed: true},
+        {title: 'Boating',
+        confirmed: false},
+        {title: 'Drums',
+        confirmed: false},
+        {title: 'Ukulele',
+        confirmed: true},
+      ]
     }
   },
   components: {
+    VueTable, Cards, CustomRadio, Container, Draggable, Avatar
   },
-  methods: {    
+  methods: {
+    async getPeople () {
+      const response = await People.getPeople()
+      this.people = response['person(s)']
+    },
+    async getPerson () {
+      var response = await People.getPerson(this.selectedID)
+      this.selectedPerson = response['person']
+    },
+    async getTeams() {   
+      const response = await Teams.getTeamsByID(this.selectedID)
+      this.selectedPersonTeams = response['team(s)']
+    },
+    toggleSkill(index) {
+      this.skills[index].confirmed = !this.skills[index].confirmed
+    },
     recieveID(id) {
-      this.selectedID = id
-      var key = 'username'
-      this.selectedPerson['address'] = '2202 Straford Park, Lexington Lexington 40505'
-      this.selectedPerson['phone'] = '(606) 637-0799'
-      this.selectedPerson['email'] = 'email@email.com'
-      this.selectedPerson['teams'] = [
-        {
-          "name": "Crazy Love",
-          "icon": "https://images.unsplash.com/photo-1532498551838-b7a1cfac622e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-          "isLeader": false,
-          "isServeTeam": false
-        },
-        {
-          "name": "Worship Team",
-          "icon": "https://images.unsplash.com/photo-1508349356983-7838c2b04eb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80",
-          "isLeader": true,
-          "isServeTeam": true
-        }
-      ]
-      this.selectedPerson["staff"] = {
-        "isStaff": true,
-        "staffRole": "Worship Leader",
-        "roleID": 239
+      if (id == undefined) {
+        return
       }
-      this.selectedPerson["skills"] = [
-        { 
-          title: 'Singing',
-          confirmed: false
-        }, { 
-          title: 'Drums',
-          confirmed: true
-        }, { 
-          title: 'Videography',
-          confirmed: false
-        }, { 
-          title: 'Preaching',
-          confirmed: false
-        }
-      ],
-      this.selectedPerson = {...this.selectedPerson}
+      this.creatingNewItem = false
+      this.$router.push(`/app/staff/${id}`)
+      this.selectedID = id
+      this.getPerson()
+      this.getTeams()
+    },
+    createNewItem() {
+      this.selectedThreadID = -1;
+      this.$router.push(`/app/staff/`)
+
+      this.creatingNewItem = !this.creatingNewItem
     }
   },
   props: {
   },
   mounted() {    
+    this.peopleLoading = true
+    this.recieveID(this.$route.params.id)
+    this.getPeople().then(() => {this.peopleLoading = false})
   },
   computed: {
-  },
-  created () {
-    // filler
-    const person = this.staff[0]
-    for (let index = 0; index < 6; index++) {
-      this.staff.push(person)      
-    }    
-    this.recieveID('smith123')
+    formatedPeople() {
+      var people = Array(this.people.length)
+      for (let index = 0; index < this.people.length; index++) {
+        const person = this.people[index];
+        const newPerson = {
+          id: person.id,
+          title: person.firstName + ' ' + person.lastName,
+          subtext: person.account.username !== '' ? '@' + person.account.username : '',
+          profile: person.personImageThumbnailURL
+          // profile: thread.threadImageThumbnailURL,          
+          // profile: this.profiles[index % 4],
+        }
+        people[index] = (newPerson)
+      }
+      return people
+    }
   }
 }
 </script>
 
 <style scoped>
 .staff-container {
-  height: calc(100vh - 40px);
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  overflow-y: hidden;
-}
-#staff-and-volunteer-wrapper {
-  overflow: auto;
+  height: 100%;
 }
 h2 {
   padding-top: 30px;
-  padding-left: 20px;
+  /* padding-left: 20px; */
   height: 40px;
 }
-.card-view-grid {
-  padding: 10px;
-  
+
+.staff-wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-
-  grid-gap: 15px;
+  grid-template-columns: 250px auto;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  /* overflow-x: auto; */
 }
 
-.card {
-  background: white;
-  
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-
-  padding: 10px;
-  cursor: pointer;
-
-  transition: all .3s ease;
+.people-card-wrapper {
+  overflow-y: auto;
+  width: 100%;
+  position: relative;
+  /* border-right: 1px #E6E9EC solid; */
 }
-
-.card:hover {
-  box-shadow: 0px 2px 2px 0px rgba(53, 53, 53, 0.295);
-}
-
-.card .profile-pic {
-  grid-column: 2/3;
-  justify-self: center;
-
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  
-  background-position: center center;
-  background-size: cover;
-  margin: 5px;
-}
-.card .name, .card .title {
-  grid-column: 1/4;
-  text-align: center;
-  padding-top: 5px;
-  font-size: 15px;
-}
-
-.card .title {
-  font-size: 13px;
-}
-
-
 
 .person-view {  
+  /* width: 100%; */
+  height: 100%;
   position: relative;
   padding-left: 30px;
-  flex: 1;
+  height: calc(100vh - 80px);
   overflow-y: auto;
-}
-.person-view::before {
-  content: '';
-  border-left: 1px solid #D0D3D6;
-  position: absolute;
-  height: 60vh;
-  left: 0;
-  top: 20%;
+  padding-top: 40px;
 }
 .person-header {  
   position: relative;
@@ -252,8 +284,8 @@ h2 {
   padding: 10px;
 }
 .person-header .profile-pic {
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   display: inline-flex;
   flex: 1;
@@ -314,15 +346,25 @@ h2 {
 }
 .skill {
   display: inline-block;
+  cursor: pointer;
   margin: 0px 5px 15px 5px;
-  padding: 5px;
-  border: 2px #B6B9BC solid;
+  padding: 10px;
+  color: white;
   cursor: pointer;
   font-size: 12px;
+  border-radius: 50px;
+  background: #b2bec3;
+  text-shadow: 0px 1px 8px #00000034;
+  transition: all .3s ease-out
 }
 .skill.confirmed {
-  border-color: #69CDCF;
+  background: #05e0a2;
 }
+
+.skills-container {
+  margin: 10px;
+}
+
 
 /* //////////////////////////
 //////  MEDIA QUERIES ///////
@@ -336,37 +378,29 @@ h2 {
    480-less    - phone landscape & smaller
 --------------------------------------------*/
 @media all and (min-width: 1024px) and (max-width: 1280px) {
-  .card-view-grid {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
  }
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
-  .card-view-grid {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  .staff-container {
-    grid-template-columns: 3fr 2fr;
-  }
  }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
-  .card-view-grid {
-    grid-template-columns: 1fr;
-  }
-  .staff-container {
-    grid-template-columns: 1fr 1fr;
+  .people-card-wrapper {
+    padding-top: 35px;
   }
  }
 
 @media all and (max-width: 480px) {
-  .card-view-grid {
-    grid-template-columns: 1fr 1fr;
-  }  
-  .staff-container {
+  .staff-wrapper {
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    /* height: calc(100% - 35px);     */
+    /* margin-top: 35px; */
   }
-  .person-view {
+  .people-card-wrapper {
+    margin-top: 35px;
+  }
+  .people-card-wrapper.inactive {
+    margin-top: 0px;
     display: none;
   }
  }

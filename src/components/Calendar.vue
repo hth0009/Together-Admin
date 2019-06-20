@@ -1,91 +1,98 @@
 <template>
-  <div>
-    <div id="events-content">
-      <div class="events-wrapper">
-        <div class="page-card-wrapper">
-          <cards
-            :cardList="formattedEvents"
-            :loading="eventsLoading"
-            :selectedID="selectedID + ''"
-            :hasAddNew="true"
-            @selected="recieveID"
-            @onAddNew="createNewItem"/>
+  <div id="events-content">
+    <div class="page-wrapper" :class="{'three-rows': editingItem}">
+      <div class="page-card-wrapper">
+        <cards
+          :cardList="formattedEvents"
+          :loading="eventsLoading"
+          :selectedID="selectedID + ''"
+          :hasAddNew="true"
+          @selected="recieveID"
+          @onAddNew="createNewItem"/>
+      </div>
+      <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
+        <div class="header">
+          <h3>{{eventInstance.eventBase.title}}</h3>
+          <div class="subtitle"
+            :style="{'color': '#' + eventInstance.eventBase.eventType.colorCode}">{{eventInstance.eventBase.eventType.name}}</div>
         </div>
-        <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
-          <div class="header">
-            <h3>{{eventInstance.eventBase.title}}</h3>
-            <div class="subtitle"
-              :style="{'color': '#' + eventInstance.eventBase.eventType.colorCode}">{{eventInstance.eventBase.eventType.name}}</div>
-          </div>
-          <div class="details">
-            <div class="panel">
-              <h4 class="noselect">General Info</h4>
-              <div class="item">
-                <i class="material-icons noselect">place</i>
-                <div class="label noselect">Start Time</div>
-                <div class="content">
-                  <ejs-datetimepicker id="start-time" :placeholder="'Start Time'" :value="eventInstance.startTime" :format="dateFormat"></ejs-datetimepicker>
-                </div>
-              </div>
-              <div class="item">
-                <i class="material-icons noselect">place</i>
-                <div class="label noselect">End Time</div>
-                <div class="content">
-                  <ejs-datetimepicker id="end-time" :placeholder="'End Time'" :value="eventInstance.endTime" :format="dateFormat"></ejs-datetimepicker>
-                </div>
+        <div class="details">
+          <div class="panel">
+            <h4 class="noselect">General Info</h4>
+            <div class="item">
+              <i class="material-icons noselect">place</i>
+              <div class="label noselect">Start Time</div>
+              <div class="content">
+                <ejs-datetimepicker id="start-time" :placeholder="'Start Time'" :value="eventInstance.startTime" :format="dateFormat"></ejs-datetimepicker>
               </div>
             </div>
-            <!-- <div class="panel">
-              <h4>Times</h4>
-              <times/>
-            </div> -->
-            <!-- <div class="panel">
-              <h4>Reminders</h4>
-              <reminders/>
-            </div> -->
-            <div class="panel">
-              <h4>Teams</h4>
-              <div class="explanation">This is where teams are. Let's describe this better</div>
-              <event-teams/>
-            </div>
-            <div class="panel">
-              <h4>Serve Teams</h4>
-              <event-serving/>
-            </div>
-            <div class="panel">
-              <h4>Order of Service</h4>
-              <order-of-service/>
+            <div class="item">
+              <i class="material-icons noselect">place</i>
+              <div class="label noselect">End Time</div>
+              <div class="content">
+                <ejs-datetimepicker id="end-time" :placeholder="'End Time'" :value="eventInstance.endTime" :format="dateFormat"></ejs-datetimepicker>
+              </div>
             </div>
           </div>
-        </div>        
-        <!-- <div class="calendar-holder">
-          <ejs-schedule height="100%" 
-            id="Schedule"
-            ref="ScheduleObj"
-            :selectedDate='selectedDate' 
-            :eventSettings='eventSettings'
-            >
-            <e-views>
-              <e-view option="Month"></e-view>
-              <e-view option="Day"></e-view>
-              <e-view option="Agenda"></e-view>
-            </e-views>
-          </ejs-schedule>
-        </div> -->        
-        <div class="new-item" v-if="creatingNewItem">
-          <div class="title">New Event</div>
-          <div class="details">
-            <div class="type">            
-              <!-- <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio> -->
-            </div>
-            <div class="detailed">
-              <new-event/>
-            </div>
+          <!-- <div class="panel">
+            <h4>Times</h4>
+            <times/>
+          </div> -->
+          <!-- <div class="panel">
+            <h4>Reminders</h4>
+            <reminders/>
+          </div> -->
+          <div class="panel">
+            <h4>Teams</h4>
+            <div class="explanation">This is where teams are. Let's describe this better</div>
+            <event-teams/>
           </div>
-          <div class="footer">
-            <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
-            <button class="basic-button green">CREATE</button>
+          <!-- <div class="panel">
+            <h4>Serve Teams</h4>
+            <event-serving/>
+          </div> -->
+          <div class="panel">
+            <h4>Order of Service</h4>
+            <order-of-service
+              v-model="tempOrderOfEvents"
+              @edit="selectedOrderItem = $event"/>
           </div>
+        </div>
+      </div>        
+      <!-- <div class="calendar-holder">
+        <ejs-schedule height="100%" 
+          id="Schedule"
+          ref="ScheduleObj"
+          :selectedDate='selectedDate' 
+          :eventSettings='eventSettings'
+          >
+          <e-views>
+            <e-view option="Month"></e-view>
+            <e-view option="Day"></e-view>
+            <e-view option="Agenda"></e-view>
+          </e-views>
+        </ejs-schedule>
+      </div> -->
+      <div class="editing-panel-wrapper" v-show="!!editingItem">
+        <div class="editing-panel">
+          <new-order-of-service-item v-show="editingItem == 'ORDER'"/>
+          <add-team-to-event v-if="editingItem == 'TEAM'"></add-team-to-event>
+        </div>
+      </div>
+
+      <div class="new-item" v-if="creatingNewItem">
+        <div class="title">New Event</div>
+        <div class="details">
+          <div class="type">            
+            <!-- <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio> -->
+          </div>
+          <div class="detailed">
+            <new-event/>
+          </div>
+        </div>
+        <div class="footer">
+          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
+          <button class="basic-button green">CREATE</button>
         </div>
       </div>
     </div>
@@ -98,12 +105,15 @@ import { DateTimePickerPlugin } from '@syncfusion/ej2-vue-calendars'
 import { extend } from '@syncfusion/ej2-base'
 import Events from '@/services/events'
 import Cards from '@/components/CardList'
+
 import NewEvent from '@/components/NewEvent'
+import AddTeamToEvent from '@/components/AddTeamToEvent'  
 
 // Event Components
 
 import EventServing from '@/components/EventServing'
 import OrderOfService from '@/components/OrderOfService'
+import NewOrderOfServiceItem from '@/components/NewOrderOfServiceItem'
 import Times from '@/components/Times'
 import TextField from '@/components/TextField'
 import Reminders from '@/components/Reminders'
@@ -131,11 +141,14 @@ export default {
       dateFormat: "dd MMMM yyyy hh:mm a",
       eventComponents: [],
       eventsLoading: true,
-      eventInstance: {}
+      eventInstance: {},
+      tempOrderOfEvents: [],
+      selectedOrderItem: {}
     }
   },
   components: {
-    Cards, Times, EventServing, OrderOfService, Reminders, EventTeams, NewEvent
+    Cards, Times, EventServing, OrderOfService, Reminders, EventTeams,
+    NewEvent, NewOrderOfServiceItem, AddTeamToEvent
   },
   provide: {
     schedule: [Day, Month, Agenda, Resize, DragAndDrop]
@@ -143,6 +156,10 @@ export default {
   mounted() {
     this.getEventInstances()
     this.getEventBases()
+   
+    this.$root.$on('editEventItem', data => {
+      this.selectedOrderItem = data
+    });
   },
   methods: {
     recieveID(id) {
@@ -186,7 +203,13 @@ export default {
       return data
     },
   },
-  computed: {   
+  computed: {
+    editingItem () {
+      if (Object.keys(this.selectedOrderItem).length > 0) {
+        return 'ORDER'
+      }
+      return ''
+    },
     formattedEvents() {
       if (this.events.length == 0) {
         return
@@ -228,18 +251,7 @@ export default {
 <style scoped>
   #events-content {
     height: 100vh;
-  }
-  .events-wrapper {
-    display: grid;
-    /* grid-template-columns: 250px 2fr 1fr; */
-    grid-template-columns: 250px 1fr;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    /* overflow-x: auto; */
-  }
-    
+  }    
   .event-card-wrapper {
     overflow-y: auto;
     width: 100%;
@@ -269,16 +281,8 @@ export default {
  }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
-  .event-card-wrapper {
-    padding-top: 35px;
-  }
  }
 
 @media all and (max-width: 480px) {
-  .events-wrapper {
-    grid-template-columns: 1fr;
-    height: calc(100vh - 35px);    
-    margin-top: 35px;
-  }
  }
 </style>

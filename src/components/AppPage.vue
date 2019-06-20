@@ -38,8 +38,8 @@
           >prayer</router-link>
         <router-link :key="6"  v-on:click.native="showSidebar = false" to="/app/calendar" class="noselect"
           >calendar</router-link>
-        <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/drafting" class="noselect"
-          >drafting</router-link>
+        <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/staff" class="noselect"
+          >staff</router-link>
         <!-- <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
           >this sunday</router-link> -->
       </transition-group>
@@ -123,6 +123,7 @@ import Home from '@/components/Home'
   /* grid-template-rows: 100px 1fr 100px; */
 
   transition: min-width .3s ease;
+  padding-right: 10px;
 }
 #app-navbar-buttons {  
   grid-row: 2/3;
@@ -269,7 +270,7 @@ import Home from '@/components/Home'
   position: relative;
   overflow: hidden;
   /* padding-top: 2.5%; */
-  padding-left: 4%;
+  /* padding-left: 4%; */
 }
 #app-navbar-header {
   background: white;
@@ -345,7 +346,7 @@ import Home from '@/components/Home'
     padding: 0px;
   }
   #app-page-content.toggled {
-    padding-left: 0px;
+    /* padding-left: 0px; */
   }
   #app-navbar.toggled {
     display: grid;
@@ -377,7 +378,7 @@ import Home from '@/components/Home'
 
 @media all and (max-width: 480px) {
   #app-page-content {
-    padding-top: 10px;
+    /* padding-top: 10px; */
   }
   #app-header .brand{
     margin-top: 20px;
@@ -421,17 +422,66 @@ import Home from '@/components/Home'
 ////////////  FOR SUB PAGES /////////////////
 ////////////////////////////////////////// */
 
+
+  #app-page-content >>> .main-wrapper {
+    display: grid;
+    grid-template-columns: 250px auto;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    /* overflow-x: auto; */
+  }
+  
+  #app-page-content >>> .page-wrapper {
+    /* padding-left: 35px; */
+    /* grid-gap: 35px; */
+    display: grid;
+    grid-template-columns: 250px auto;
+    /* grid-template-columns: 250px auto minmax(auto, 0px); */
+    /* grid-auto-columns: 250px; */
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    /* overflow-x: auto; */
+  }
+  #app-page-content >>> .page-wrapper.three-rows {
+    grid-template-columns: 250px minmax(auto, 675px) auto;
+  }
+
+  #app-page-content >>> .card-list-wrapper {
+    overflow-y: auto;
+    width: 100%;
+    position: relative;
+    padding: 0px 15px;
+    /* border-right: 1px #E6E9EC solid; */
+  }
   #app-page-content >>> .page-card-wrapper {
     height: calc(100vh - 4vh);
-    padding-top: 4vh;
+    padding: 4vh 10px 0px 15px;
+  }
+  
+  #app-page-content >>> .card-header{
+    color: #555555;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 20px 0px 10px 0px
+  }
+  #app-page-content >>> .section-header{
+    color: #505050;
+    font-size: .9rem;
+    font-weight: 600;
+    margin: 20px 0px 10px 0px
   }
 
   #app-page-content >>> .selected-view {
     /* margin-top: 40px; */
-    padding-left: 20px;
+    padding: 0px 15px;
     position: relative;
     /* height: calc(100vh - 80px); */
     overflow-y: auto;
+    min-width: 550px;
   }
   #app-page-content >>> .selected-view h1,
   #app-page-content >>> .selected-view h2,
@@ -467,14 +517,20 @@ import Home from '@/components/Home'
     color: #707070;
   }
   #app-page-content >>> .selected-view .details {
-    max-width: 700px;
+    max-width: 600px;
+    min-width: 450px;
   }
   #app-page-content >>> .selected-view .panel {
     margin-bottom: 10px;
     border-radius: 10px;
     padding: 30px 30px;
-    margin: 30px 20px;
+    margin: 30px 7.5px;
     box-shadow: 0px 3px 12px -2px #00000050;
+    max-width: 550px;
+    min-width: 400px;
+  }
+  #app-page-content >>> .selected-view .panel:last-child {
+    margin-bottom: calc(4.5vh + 10px);
   }
   #app-page-content >>> .selected-view .panel h4{
     font-size: 20px;
@@ -589,4 +645,65 @@ import Home from '@/components/Home'
     font-weight: 600;
     padding: 5px;
   }
+
+
+  #app-page-content >>> .editing-panel-wrapper {
+    height: 100vh;
+    overflow: auto;
+  }
+
+  #app-page-content >>> .editing-panel {
+    position: relative; 
+    left: 30px;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 5vh 15px;
+    /* height: calc(90vh - 60px); */
+    box-shadow: 0px 3px 12px -2px #00000050;
+    max-width: 550px;
+    min-width: 350px;
+  }
+
+  
+/* //////////////////////////
+//////  MEDIA QUERIES ///////
+////////////////////////// */
+
+/*------------------------------------------
+  Responsive Grid Media Queries - 1280, 1024, 768, 480
+   1280-1024   - desktop (default grid)
+   1024-768    - tablet landscape
+   768-480     - tablet 
+   480-less    - phone landscape & smaller
+--------------------------------------------*/
+@media all and (min-width: 1024px) and (max-width: 1280px) {
+ }
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+ }
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  #app-page-content >>> .card-list-wrapper {
+    padding-top: 35px;
+  }
+ }
+
+@media all and (max-width: 480px) {
+  #app-page-content >>> .main-wrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  #app-page-content >>> .page-wrapper {
+    grid-template-columns: 1fr 0px;
+    height: calc(100vh - 35px);    
+    margin-top: 35px;
+  }
+    #app-page-content >>> .card-list-wrapper {
+    margin-top: 35px;
+  }
+    #app-page-content >>> .card-list-wrapper.inactive {
+    margin-top: 0px;
+    display: none;
+  }
+ }
 </style>

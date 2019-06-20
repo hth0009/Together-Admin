@@ -172,9 +172,17 @@ let router = new Router({
           }
         },
         {
-          path: 'drafting/',
-          component: NewEvent,
-          name: 'NewEvent',
+          path: 'staff/',
+          component: Staff,
+          name: 'Staff',
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'staff/:id',
+          component: Staff,
+          name: 'Staff',
           meta: {
             requiresAuth: true
           }

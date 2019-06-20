@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import VModal from 'vue-js-modal'
+import VModal from 'vue-js-modal'
 import VueYoutube from 'vue-youtube'
 import store from './store'
 import VueFuse from 'vue-fuse'
@@ -19,6 +19,7 @@ import { TextBoxPlugin } from '@syncfusion/ej2-vue-inputs'
 import { CheckBoxPlugin } from '@syncfusion/ej2-vue-buttons'
 import { RecurrenceEditorPlugin } from '@syncfusion/ej2-vue-schedule'
 import { TooltipPlugin } from "@syncfusion/ej2-vue-popups"
+import { RichTextEditorPlugin } from "@syncfusion/ej2-vue-richtexteditor"
 
 // import { TabPlugin } from '@syncfusion/ej2-vue-navigations'
 
@@ -39,6 +40,7 @@ Vue.use(MultiSelectPlugin)
 Vue.use(DateRangePickerPlugin)
 Vue.use(TimePickerPlugin)
 Vue.use(TooltipPlugin)
+Vue.use(RichTextEditorPlugin)
 // Vue.use(TabPlugin)
 
 /* ///////////////////////
@@ -46,7 +48,7 @@ Vue.use(TooltipPlugin)
 /////////////////////// */
 
 Vue.config.productionTip = false
-// Vue.use(VModal)
+Vue.use(VModal)
 Vue.use(VueYoutube)
 Vue.use(VueFuse)
 

@@ -1,5 +1,8 @@
 <template>
   <div id="splash-container">
+    <router-link to="login" id="login">
+      login
+    </router-link>
     <div id="video-board">
       <div id="main-video-container">
       <!-- <video-bg :sources="[mainVideoURL]" :img="mainImageURL"></video-bg> -->
@@ -261,6 +264,21 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+#login {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  background: #00cec9;
+  color: white;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 100;
+  text-decoration: none;
+  /* border: 3px white solid; */
+}
+
 h1 {
   font-weight: lighter;
 }
@@ -316,7 +334,10 @@ h1 {
 }
 #together{
   font-size: 50px;
+  /* font-family: serif; */
   font-weight: 700;
+  /* text-transform: lowercase; */
+  /* font-stretch: expanded; */
 }
 #join{
   margin: 10px auto;

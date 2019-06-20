@@ -1,13 +1,9 @@
 <template>
   <div class="event-teams-container">
-    <add-team-to-event
-      v-if="addingTeam"/>
   </div>
 </template>
 
 <script>
-
-import AddTeamToEvent from '@/components/AddTeamToEvent'  
 
 export default {
   name: 'EventTeams',
@@ -17,7 +13,6 @@ export default {
     }
   },
   components: {
-    AddTeamToEvent
   },
   methods: {
   },
