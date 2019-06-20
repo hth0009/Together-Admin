@@ -19,11 +19,12 @@
         <div class="details">
           <div class="panel">
             <div class="card-header noselect">General Info</div>
-            <div class="item">
-              <i class="material-icons noselect">place</i>
-              <div class="label noselect">Start Time</div>
+            <div class="card-item">
+              <div class="label noselect">
+                <i class="material-icons">place</i>Start Time
+              </div>
               <div class="content">
-                <ejs-datetimepicker id="start-time" :placeholder="'Start Time'" :value="eventInstance.startTime" :format="dateFormat"></ejs-datetimepicker>
+                <ejs-datepicker id="start-time" :showClearButton="false" :allowEdit="false" :placeholder="'Start Time'" :value="eventInstance.startTime" :format="dateFormat"></ejs-datepicker>
               </div>
             </div>
             <div class="item">
@@ -138,7 +139,7 @@ export default {
       views: ['Month', 'Day', 'Agenda'],
       eventHash: {},
       creatingNewItem: false,
-      dateFormat: "dd MMMM yyyy hh:mm a",
+      dateFormat: "dd MMMM yyyy",
       eventComponents: [],
       eventsLoading: true,
       eventInstance: {},
@@ -187,6 +188,7 @@ export default {
       this.$router.push(`/app/calendar/`)
 
       this.creatingNewItem = !this.creatingNewItem
+      this.$root.$emit('currentlyEditing', '')
     },
     async getEventInstances () {
       const response = await Events.getEventInstancesByChurch()

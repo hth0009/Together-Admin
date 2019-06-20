@@ -472,7 +472,7 @@ import Home from '@/components/Home'
     margin-bottom: 0px;
   } */
   #app-page-content >>> .card-explanation{
-    font-size: 1rem;
+    font-size: .9rem;
     color: #a1a1a1;
     margin-bottom: 10px;
     font-weight: 500;
@@ -488,6 +488,27 @@ import Home from '@/components/Home'
     font-size: .85rem;
     font-weight: 500;
     margin: 0px 0px 10px 0px
+  }
+  #app-page-content >>> .card-item {
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+    grid-gap: 10px;
+    align-items: center;
+  }
+  #app-page-content >>> .card-item .label{
+    display: inline-flex;
+    vertical-align: middle;
+    
+    color: #505050;
+    font-size: 1rem;
+    font-weight: 600;
+    justify-self: flex-end;
+  }
+  #app-page-content >>> .card-item .label i{
+    font-size: 1rem;
+    margin-right: 2.5px;
+    color: #d3d3d3;
+    line-height: normal;
   }
   #app-page-content >>> .item-description{
     color: #6b6b6b;

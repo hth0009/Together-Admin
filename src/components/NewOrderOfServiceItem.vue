@@ -173,7 +173,6 @@ export default {
     this.$root.$on('editEventItem', data => {
       this.selectedItem = data
       const duration = data.duration
-      console.log(duration.length)
       if (duration.length == 8) {        
         this.splitDuration =  {
           hours: parseInt(duration.substring(0,2)),
@@ -195,7 +194,6 @@ export default {
       return this.$youtube.getIdFromUrl(this.selectedItem.itemType.videoUrl)
     },
     computedDuration() {
-      console.log('00' && '03')
       var duration = this.splitDuration.hours.split(1)
       return this.splitDuration.hours
     }

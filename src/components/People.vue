@@ -33,7 +33,7 @@
           <!-- <button class="section-toggle">Teams</button> -->
           <div class="panel">
             <div class="card-header noselect">General Info</div>
-            <div class="item">
+            <!-- <div class="item">
               <i class="material-icons noselect">email</i>
               <div class="label noselect">Email</div>
                 {{selectedPerson.accountEmail}}
@@ -47,7 +47,14 @@
               <i class="material-icons noselect">place</i>
               <div class="label noselect">Address</div>
               {{selectedPerson.address}}
-            </div>
+            </div> -->            
+            <ejs-textbox floatLabelType="Auto" placeholder="Email"
+              name="" v-model="selectedPerson.accountEmail"></ejs-textbox>
+            <ejs-datepicker floatLabelType="Auto" :showClearButton="false" :allowEdit="false"
+              :placeholder="'Birthday'" v-model="selectedPerson.birthday"
+              :format="'MMMM dd, yyyy'"></ejs-datepicker>
+            <ejs-textbox floatLabelType="Auto" placeholder="Address"
+              name="" v-model="selectedPerson.address"></ejs-textbox>
           </div>
           <div class="panel">
             <div class="card-header noselect">Skills</div>
@@ -194,6 +201,7 @@ export default {
     async getPerson () {
       var response = await People.getPerson(this.selectedID)
       this.selectedPerson = response['person']
+      this.selectedPerson.birthday = new Date(this.selectedPerson.birthday)
     },
     async getTeams() {   
       const response = await Teams.getTeamsByID(this.selectedID)
