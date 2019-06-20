@@ -447,7 +447,7 @@ import Home from '@/components/Home'
     /* overflow-x: auto; */
   }
   #app-page-content >>> .page-wrapper.three-rows {
-    grid-template-columns: 250px minmax(auto, 675px) auto;
+    grid-template-columns: 250px minmax(auto, 575px) auto;
   }
 
   #app-page-content >>> .card-list-wrapper {
@@ -464,9 +464,18 @@ import Home from '@/components/Home'
   
   #app-page-content >>> .card-header{
     color: #555555;
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    margin: 20px 0px 10px 0px
+    margin-bottom: 10px
+  }
+  /* #app-page-content >>> .card-explanation ~ .card-header {
+    margin-bottom: 0px;
+  } */
+  #app-page-content >>> .card-explanation{
+    font-size: 1rem;
+    color: #a1a1a1;
+    margin-bottom: 10px;
+    font-weight: 500;
   }
   #app-page-content >>> .section-header{
     color: #505050;
@@ -529,7 +538,7 @@ import Home from '@/components/Home'
     color: #707070;
   }
   #app-page-content >>> .selected-view .details {
-    max-width: 600px;
+    max-width: 525px;
     min-width: 450px;
   }
   #app-page-content >>> .selected-view .panel {

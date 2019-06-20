@@ -18,7 +18,7 @@
         </div>
         <div class="details">
           <div class="panel">
-            <h4 class="noselect">General Info</h4>
+            <div class="card-header noselect">General Info</div>
             <div class="item">
               <i class="material-icons noselect">place</i>
               <div class="label noselect">Start Time</div>
@@ -35,24 +35,24 @@
             </div>
           </div>
           <!-- <div class="panel">
-            <h4>Times</h4>
+            <div class="card-header">Times</div>
             <times/>
           </div> -->
           <!-- <div class="panel">
-            <h4>Reminders</h4>
+            <div class="card-header">Reminders</div>
             <reminders/>
           </div> -->
           <div class="panel">
-            <h4>Teams</h4>
-            <div class="explanation">This is where teams are. Let's describe this better</div>
+            <div class="card-header">Teams</div>
+            <div class="card-explanation">This is where teams are. Let's describe this better</div>
             <event-teams/>
           </div>
           <!-- <div class="panel">
-            <h4>Serve Teams</h4>
+            <div class="card-header">Serve Teams</div>
             <event-serving/>
           </div> -->
           <div class="panel">
-            <h4>Order of Service</h4>
+            <div class="card-header">Order of Service</div>
             <order-of-service
               v-model="tempOrderOfEvents"
               @edit="selectedOrderItem = $event"/>

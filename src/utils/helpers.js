@@ -63,7 +63,6 @@ export const formatDigits = (val) => {
 }
 export const HHMMSSToReadable = (val) => {
   var result = ''
-  console.log(val)
   if (val.length != 8) {
     return val
   }
@@ -117,4 +116,12 @@ export const checkIfObjNotFilled = (obj) => {
     }
   }
   return false
+}
+
+export const generateGUID = () => {
+  var u = (new Date()).getTime().toString(16) + 
+    Math.random().toString(16).substring(2) + "0".repeat(16);
+  var guid = u.substr(0,8) + '-' + u.substr(8,4) + '-4000-8' + 
+    u.substr(12,3) + '-' + u.substr(15,12);
+  return guid
 }

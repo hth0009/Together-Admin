@@ -29,8 +29,8 @@
           @drop="onDropItems('eventServiceItems', $event)">   
           <Draggable
           class="drag"
-            v-for="item in eventServiceItems"
-            v-bind:key="item.itemName">
+            v-for="(item) in eventServiceItems"
+            v-bind:key="item.id">
                   <div class="item-bar noselect"
                     :class="{selected: item == selectedItem}"
                     @click="onItemClick(item)"
@@ -58,16 +58,17 @@ import { Container, Draggable } from 'vue-smooth-dnd'
 import { applyDrag, HHMMSSToReadable } from '@/utils/helpers'
 import Swatches from 'vue-swatches'
 import "vue-swatches/dist/vue-swatches.min.css"
+import { generateGUID } from '../utils/helpers';
 
 export default {
   name: 'OrderOfService',
   data () {
     return {
-      title: 'Order of Service',
       eventServiceItems: this.value,
       newItem: {
         itemName: '',
         color: '#00cec9',
+        id: '',
         itemType: {
           typeName: '',
           color: '',
@@ -137,6 +138,8 @@ export default {
       var payload = dropResult.payload
       this[collection] = applyDrag(this[collection], dropResult) 
       if (this[collection].length > this.numberOfItems) {
+        this.numberOfItems ++
+        dropResult.payload.id = generateGUID()
         this.emitItem(dropResult.payload)
       }
     },       
@@ -161,6 +164,7 @@ export default {
     addItem (item) {
       var newItem = {...this.newItem}
       newItem.itemType = {...item}
+      newItem.id = generateGUID()
       this.eventServiceItems.push(newItem)
       this.selectedItem = newItem
       this.numberOfItems++

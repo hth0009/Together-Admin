@@ -32,7 +32,7 @@
         <div class="details">
           <!-- <button class="section-toggle">Teams</button> -->
           <div class="panel">
-            <h4 class="noselect">General Info</h4>
+            <div class="card-header noselect">General Info</div>
             <div class="item">
               <i class="material-icons noselect">email</i>
               <div class="label noselect">Email</div>
@@ -50,8 +50,8 @@
             </div>
           </div>
           <div class="panel">
-            <h4 class="noselect">Skills</h4>
-            <div class="explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
+            <div class="card-header noselect">Skills</div>
+            <div class="card-explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
             <div class="skills noselect">
               <div class="skill" 
                 v-for="(skill, index) in skills"
@@ -63,7 +63,7 @@
             </div>
           </div>
           <div class="panel">
-            <h4>Teams</h4>
+            <div class="card-header">Teams</div>
             <div class="teams">
               <div class="team-box" v-for="team in selectedPersonTeams" :key="team.id">
                 <div class="icon" :style="{backgroundImage: 'url(' +  team.icon + ')'}"></div>
@@ -305,7 +305,7 @@ h2 {
   right: 20px;
   top: 0px; */
 }
-.person-info h4{
+.person-info div{
   margin-top: 20px; 
   margin-bottom: 15px;
 }
@@ -349,12 +349,12 @@ h2 {
   padding-left: 10px;
 }
 .skills {
-  padding-left: 5px;
+  /* padding-left: 5px; */
 }
 .skill {
   display: inline-block;
   cursor: pointer;
-  margin: 0px 5px 15px 5px;
+  margin: 0px 10px 15px 0px;
   padding: 10px;
   color: white;
   cursor: pointer;
