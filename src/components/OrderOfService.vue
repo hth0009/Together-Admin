@@ -174,7 +174,6 @@ export default {
   },
   filters: {
     formatTime(val) {
-      console.log(val)
       return HHMMSSToReadable(val)
     }
   },
