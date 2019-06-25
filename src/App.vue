@@ -35,6 +35,20 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
   }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #fafafa;
+  }
+  ::-webkit-scrollbar-track {
+    /* box-shadow: 0px 0px 6px 0px #0000004d; */
+    opacity: 0;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    /* outline: 1px solid slategrey; */
+  }
+
   #app-content {
     height: 100%;
     position: relative;

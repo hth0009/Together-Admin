@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="card-boxes"
+    <div data-simplebar class="card-boxes"
       v-if="!loading"
       v-on:scroll="manageScroll">
     <div class="nothing-here noselect" v-if="filteredCards.length == 0">

@@ -437,7 +437,7 @@ import Home from '@/components/Home'
     /* padding-left: 35px; */
     /* grid-gap: 35px; */
     display: grid;
-    grid-template-columns: 250px auto;
+    grid-template-columns: 240px auto;
     /* grid-template-columns: 250px auto minmax(auto, 0px); */
     /* grid-auto-columns: 250px; */
     position: relative;
@@ -447,7 +447,7 @@ import Home from '@/components/Home'
     /* overflow-x: auto; */
   }
   #app-page-content >>> .page-wrapper.three-rows {
-    grid-template-columns: 250px 530px auto;
+    grid-template-columns: 240px minmax(auto, 530px) auto;
   }
 
   #app-page-content >>> .card-list-wrapper {
@@ -566,8 +566,8 @@ import Home from '@/components/Home'
   #app-page-content >>> .selected-view .panel {
     margin-bottom: 10px;
     border-radius: 10px;
-    padding: 30px 30px;
-    margin: 10px 7.5px;
+    padding: 25px 25px;
+    margin: 15px 7.5px;
     box-shadow: 0px 3px 13px -2px #00000040;
     max-width: 550px;
     min-width: 400px;

@@ -93,6 +93,7 @@ export default {
       this.$router.push(`/app/prayer/${id}`)
       this.selectedID = id
       this.selectedID = id
+      this.response = ''
       this.getPrayer()
     },
     createNewItem() {
@@ -152,15 +153,20 @@ export default {
 .response input{
   padding: 0px;
 }
+.response button i{
+  font-size: inherit;
+}
 .response:not(.responding) button{
+  font-size: 5px;
   width: 0px;
   height: 0px;
   padding: 0px;
   opacity: 0;
   visibility: hidden;
-  transition: width .3s ease-out, height .3s ease-out, opacity .3s ease-out, visibility .3s
+  transition: width .3s ease-out, height .3s ease-out, opacity .3s ease-out, visibility .3s, font-size .3s;
 }
 .response.responding button{  
+  font-size: 15px;
   transition: width .3s ease-out, height .3s ease-out, opacity .3s ease-out, visibility .3s step-start
 }
 /* //////////////////////////

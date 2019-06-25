@@ -41,5 +41,19 @@ export default {
     }).catch((e) => {
       return e
     })
+  },
+  postEventBase (baseInfo) {
+    return Api().post('eventbases', baseInfo).then((response) => {
+      return response.data
+    }).catch((e) => {
+      console.error(e)
+    })
+  },
+  postEventInstance (instanceInfo) {
+    return Api().post('eventinstances', instanceInfo).then((response) => {
+      return response.data
+    }).catch((e) => {
+      console.error(e)
+    })
   }
 }

@@ -113,6 +113,7 @@ import Carousel from '@/components/Carousel'
 import CustomRadio from '@/components/CustomRadio'
 import QuickCreate from '@/components/QuickCreate'
 import Teams from '@/services/teams'
+import Events from '@/services/events'
 import store from '../store'
 import { getHHMMArray, formatDigits } from '../utils/helpers';
 import { install } from 'vuex';
@@ -291,16 +292,28 @@ export default {
 
         eventBase.eventDuration = formatDigits(newEvent.duration[0]) + ':' 
           + formatDigits(newEvent.duration[1]) + ':00'
-      }    
-      for (let index = 0; index < eventInstances.length; index++) {
-        let event = eventInstances[index]
-        eventInstances[index].startTime = event.startTime.toISOString()
-        eventInstances[index].endTime = event.endTime.toISOString()
-        console.log(eventInstances[index])
       }
-      console.log(eventBase)
-      console.log(eventInstances)
-    }
+
+      
+      this.postBase(eventBase).then(function(response) {
+        for (let index = 0; index < eventInstances.length; index++) {
+          let event = eventInstances[index]
+          eventInstances[index].startTime = event.startTime.toISOString()
+          eventInstances[index].endTime = event.endTime.toISOString()
+          eventInstances[index].eventBaseID = response.newResourceID
+          this.postInstance(eventInstances[index])
+        }
+      }.bind(this))
+      
+    },
+    async postBase(eventBase) {
+      const response = await Events.postEventBase(eventBase)
+      return response
+    },
+    async postInstance(eventInstance) {
+      const response = await Events.postEventInstance(eventInstance)
+      return response
+    },
   },
   props: {
   },

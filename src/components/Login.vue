@@ -40,10 +40,16 @@ export default {
   },
   methods: {
     login: function () {
-        const {username, password} = this
+        const {lowerCaseUsername, password} = this
+        const username = lowerCaseUsername
         this.$store.dispatch('login', { username, password })
        .then(() => this.$router.push('/app/inbox'))
        .catch(err => console.error(err))
+    }
+  },
+  computed: {
+    lowerCaseUsername() {
+      return this.username.toLowerCase()
     }
   }
 }

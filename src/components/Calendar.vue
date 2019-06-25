@@ -19,21 +19,12 @@
         <div class="details">
           <div class="panel">
             <div class="card-header noselect">General Info</div>
-            <div class="card-item">
-              <div class="label noselect">
-                <i class="material-icons">place</i>Start Time
-              </div>
-              <div class="content">
-                <ejs-datepicker id="start-time" :showClearButton="false" :allowEdit="false" :placeholder="'Start Time'" :value="eventInstance.startTime" :format="dateFormat"></ejs-datepicker>
-              </div>
-            </div>
-            <div class="item">
-              <i class="material-icons noselect">place</i>
-              <div class="label noselect">End Time</div>
-              <div class="content">
-                <ejs-datetimepicker id="end-time" :placeholder="'End Time'" :value="eventInstance.endTime" :format="dateFormat"></ejs-datetimepicker>
-              </div>
-            </div>
+            <ejs-datepicker
+              :showClearButton="false"
+              :floatLabelType="'Auto'"
+              :allowEdit="false" :placeholder="'Start Time'"
+              :value="eventInstance.startTime"
+              :format="dateFormat"></ejs-datepicker>
           </div>
           <!-- <div class="panel">
             <div class="card-header">Times</div>
@@ -197,14 +188,12 @@ export default {
     },
     async getEventInstance (instanceID) {
       const response = await Events.getEventInstance(instanceID)
-      console.log(response)
       const data = response['eventInstance']
       this.eventInstance = data
       return data
     },
     async getEventBases () {
       const response = await Events.getEventBasesByChurch()
-      console.log(response)
       const data = response['eventBase(s)']
       // this.events = data
       // this.eventsLoading = false
