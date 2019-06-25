@@ -37,6 +37,13 @@ export const getHHMM = (dt) => {
   return res
 }
 
+export const getHHMMArray = (dt) => {
+  var res = []
+  res.push(dt.getHours())
+  res.push(dt.getMinutes())
+  return res
+}
+
 export const getDayOfWeek = (dt) => {
   var res = ''
 

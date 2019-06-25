@@ -1,26 +1,41 @@
 <template>
   <div class="prayer-container">
-    <div class="prayer-wrapper">  
+    <div class="page-wrapper">  
       <div class="page-card-wrapper">
         <cards
           :cardList="formattedPrayers"
           :loading="prayersLoading"
           :selectedID="selectedID + ''"
           :hasAddNew="true"
+          :profilePicFillerValue="'subtext'"
           @selected="recieveID"
           @onAddNew="createNewItem"/>
       </div>
       <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
         <div class="header"> 
-          <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1483884105135-c06ea81a7a80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)'}"
-          class="profile-pic"></div>
+          <!-- <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1483884105135-c06ea81a7a80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)'}"
+          class="profile-pic"></div> -->
           <!-- <div :style="{backgroundImage: 'url(' +  selectedPrayer.iconURL + ')'}"
           class="profile-pic"></div> -->
+          <div class="profile-pic">
+            <avatar
+              :height="60"
+              :title="selectedPrayer.personName"/>
+          </div>
           <h3 class="">{{selectedPrayer.subject}}</h3>
           <div class="subtitle" v-if="selectedPrayer.isAnonymousPrayer">Annonymous</div>
+          <div class="subtitle" v-else>{{selectedPrayer.personName}}</div>
         </div>
-        <div class="prayer-info">
-          <p>{{selectedPrayer.content}}</p>
+        <div class="details">
+          <div class="panel">
+            <div class="prayer-info">
+              <p>{{selectedPrayer.content}}</p>
+            </div>
+            <div class="response" :class="{'responding': response.length > 0}">
+              <input type="text" v-model="response" class="basic-input" placeholder="Message">
+              <button class="basic-button icon"><i class="material-icons">send</i></button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="new-item" v-if="creatingNewItem">
@@ -48,6 +63,7 @@
 import Prayers from '@/services/prayers'
 import CustomRadio from '@/components/CustomRadio'
 import Cards from '@/components/CardList'
+import Avatar from '@/components/Avatar'
 
 export default {
   name: 'Prayer',
@@ -62,10 +78,11 @@ export default {
       selectedID: -1,
       creatingNewItem: false,
       newItemType: 0,
+      response: ''
     }
   },
   components: {
-    Cards, CustomRadio
+    Cards, CustomRadio, Avatar
   },
   methods: {
     recieveID(id) {
@@ -126,99 +143,26 @@ export default {
 .prayer-container {
   height: 100%;
 }
-h2 {
-  padding-top: 30px;
-  /* padding-left: 20px; */
-  height: 40px;
-}
-.prayer-wrapper {
+.response {
+  width: 100%;
   display: grid;
-  grid-template-columns: 250px 1fr;
-  position: relative;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  /* overflow-x: auto; */
+  grid-template-columns: 1fr 40px;
+  padding-top: 30px;
 }
-.prayer-card-wrapper {
-  overflow-y: auto;
-  width: 100%;
-  position: relative;
-  /* border-right: 1px #E6E9EC solid; */
+.response input{
+  padding: 0px;
 }
-
-#add-new-prayer {
-  width: 25px;
-  height: 25px;
-  padding: 7.5px;
-  position: absolute;
-  top: 40px;
-  right: 15px;
-  background: #00cec9;
-  border-radius: 50px;
-  cursor: pointer;
+.response:not(.responding) button{
+  width: 0px;
+  height: 0px;
+  padding: 0px;
+  opacity: 0;
+  visibility: hidden;
+  transition: width .3s ease-out, height .3s ease-out, opacity .3s ease-out, visibility .3s
 }
-#add-new-prayer i {    
-  color: white;
+.response.responding button{  
+  transition: width .3s ease-out, height .3s ease-out, opacity .3s ease-out, visibility .3s step-start
 }
-
-.prayer-view {  
-  /* width: 100%; */
-  height: 100%;
-  position: relative;
-  padding-left: 30px;
-  height: 100vh;
-  overflow-y: auto;
-  padding-top: 40px;
-}
-.prayer-view::before {
-  content: '';
-  border-left: 1px solid #f0f0f0 ;
-  position: absolute;
-  height: 20vh;
-  left: 0;
-  top: 0%;
-}
-.prayer-header .prayer-type{
-  font-size: 11px;
-  font-weight: lighter;
-  padding: 2.5px 5px;
-  border-radius: 3px;
-  display: inline;
-}
-.prayer-header .prayer-type.anonymous{
-  border: 2px #69CDCF solid;
-}
-.prayer-header {  
-  position: relative;
-}
-.prayer-header h3 {
-  display: inline;
-  padding: 10px;
-}
-.prayer-header .profile-pic {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  display: inline-flex;
-  flex: 1;
-
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-
-  /* position: absolute;
-  right: 20px;
-  top: 0px; */
-}
-.prayer-info h4{
-  margin-top: 20px; 
-  margin-bottom: 15px;
-}
-.prayer-info p{
-  margin: 10px 10px;
-}
-
 /* //////////////////////////
 //////  MEDIA QUERIES ///////
 ////////////////////////// */
@@ -237,16 +181,8 @@ h2 {
  }
 
 @media all and (min-width: 480px) and (max-width: 768px) {
-  .prayer-card-wrapper {
-    padding-top: 35px;
-  }
  }
 
 @media all and (max-width: 480px) {
-  .prayer-wrapper {
-    grid-template-columns: 1fr;
-    height: calc(100% - 35px);    
-    margin-top: 35px;
-  }
  }
 </style>

@@ -30,7 +30,7 @@
         </div>
         <div class="section-header">Color</div>
         <div class="colors">
-          <swatches :inline="true" :shapes="'circles'" :swatchSize="25" :colors="colors" v-model="selectedItem.color" />
+          <swatches :showBorder="false" :inline="true" :shapes="'circles'" :swatchSize="25" :colors="colors" v-model="selectedItem.color" />
         </div>
         <div class="item-options" 
           v-if="selectedItem.itemType != undefined && selectedItem.itemType.typeName != ''">

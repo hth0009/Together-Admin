@@ -85,12 +85,14 @@ export default {
       type: Array,
       default: () => {return []}
     },
-    // name: name of variable
-    // type: INPUT, DROPDOWN,
-    // placeholder: 'insert text',
-    // list: if drop, list that dropdown pulls from
     itemStructure: {
       type: Array,
+      /*
+        name: name of variable
+        type: INPUT, DROPDOWN,
+        placeholder: 'insert text',
+        list: if drop, list that dropdown pulls from
+      */
       default: () => {return [{
         name: '',
         type: '',
@@ -108,6 +110,13 @@ export default {
     this.itemTemplate = {...template}
   },
   computed: {
+  },
+  watch: {
+    newItems: {
+      handler() {
+        this.onChange()
+      }, deep: true
+    }
   }
 }
 </script>

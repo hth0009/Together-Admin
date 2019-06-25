@@ -19,6 +19,8 @@
 @import "../node_modules/@syncfusion/ej2-vue-inplace-editor/styles/material.css";
 </style>
 
+<style src="./assets/css/material.css"></style> 
+
 <style>
   #app{
     width: 100%;
@@ -78,13 +80,23 @@
     width: auto;
     border: none;
     cursor: pointer;
-    padding: 15px 18px;
+    padding: 12px 14px 11px 14px;
+    font-size: .8rem;
     border-radius: 30px;
     /* line-height: 1; */
     transition: all .2s ease;
     font-weight: 600;    
     line-height: inherit;
     margin: 2.5px;
+
+    
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
   }
 .basic-button.icon{
   width: 30px;
@@ -205,7 +217,7 @@
   /* /////////////////////////////
   ///////////People List//////////
   ///////////////////////////// */
-  
+/*   
 .people-list-panel .people {
   max-height: 400px;
   overflow-y: auto;
@@ -245,7 +257,7 @@
 .people-list-panel .people-box .person-info{
   flex: 1;
   padding-left: 10px;
-}
+} */
 
   /* /////////////////////////////
   ////////////Checkbox////////////

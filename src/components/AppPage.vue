@@ -447,7 +447,7 @@ import Home from '@/components/Home'
     /* overflow-x: auto; */
   }
   #app-page-content >>> .page-wrapper.three-rows {
-    grid-template-columns: 250px minmax(auto, 575px) auto;
+    grid-template-columns: 250px 530px auto;
   }
 
   #app-page-content >>> .card-list-wrapper {
@@ -459,7 +459,7 @@ import Home from '@/components/Home'
   }
   #app-page-content >>> .page-card-wrapper {
     height: calc(100vh - 4vh);
-    padding: 4vh 10px 0px 15px;
+    padding: 4vh 0px 0px 0px;
   }
   
   #app-page-content >>> .card-header{
@@ -489,6 +489,7 @@ import Home from '@/components/Home'
     font-weight: 500;
     margin: 0px 0px 10px 0px
   }
+
   #app-page-content >>> .card-item {
     display: grid;
     grid-template-columns: 2fr 5fr;
@@ -519,11 +520,11 @@ import Home from '@/components/Home'
 
   #app-page-content >>> .selected-view {
     /* margin-top: 40px; */
-    padding: 0px 15px;
+    /* padding: 0px 15px; */
     position: relative;
     /* height: calc(100vh - 80px); */
     overflow-y: auto;
-    min-width: 550px;
+    min-width: 530px;
   }
   #app-page-content >>> .selected-view h1,
   #app-page-content >>> .selected-view h2,
@@ -559,15 +560,15 @@ import Home from '@/components/Home'
     color: #707070;
   }
   #app-page-content >>> .selected-view .details {
-    max-width: 525px;
+    max-width: 530px;
     min-width: 450px;
   }
   #app-page-content >>> .selected-view .panel {
     margin-bottom: 10px;
     border-radius: 10px;
     padding: 30px 30px;
-    margin: 30px 7.5px;
-    box-shadow: 0px 3px 12px -2px #00000050;
+    margin: 10px 7.5px;
+    box-shadow: 0px 3px 13px -2px #00000040;
     max-width: 550px;
     min-width: 400px;
   }
@@ -628,7 +629,8 @@ import Home from '@/components/Home'
     font-weight: 600;
   }
   #app-page-content >>> .new-item .footer {
-    height: 40px;
+    height: 60px;
+    padding: 5px;
     grid-row: 3;
     grid-column: 1/3;
     justify-self: flex-end;
@@ -668,10 +670,10 @@ import Home from '@/components/Home'
     height: 350px;
   }
   #app-page-content >>> .new-item .section-header{
-    margin-top: 10px;
+    /* margin-top: 10px;
     color: #555555;
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 600; */
   }
   #app-page-content >>> .new-item .section-header-info{
     margin-bottom: 20px;
@@ -696,12 +698,12 @@ import Home from '@/components/Home'
 
   #app-page-content >>> .editing-panel {
     position: relative; 
-    left: 30px;
+    /* left: 30px; */
     border-radius: 10px;
     padding: 30px;
-    margin: 5vh 15px;
+    margin: 5vh 20px 4vh 7.5px;
     /* height: calc(90vh - 60px); */
-    box-shadow: 0px 3px 12px -2px #00000050;
+    box-shadow: 0px 3px 13px -2px #00000040;
     max-width: 550px;
     min-width: 350px;
   }

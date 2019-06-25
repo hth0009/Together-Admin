@@ -1,6 +1,6 @@
 <template>
   <div id='home'>
-    <div id="home-cards">
+    <!-- <div id="home-cards">
       <div class="card medium">
         <h4>Carousel</h4>
         <carousel>
@@ -23,7 +23,7 @@
         <h4>Pinned Events</h4>
         <pinned-events/>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

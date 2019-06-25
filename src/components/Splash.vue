@@ -9,13 +9,16 @@
       <video autoplay muted loop id="main-video" type="video/mp4" src="https://s3.wasabisys.com/cdn.togetheradmin.com/website_background.mp4"></video>      
         <!-- <img id="main-video" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80"> -->
       </div>
+      <img id="scribble-circle" class="noselect" src="@/assets/svg/scribble-circle.svg">
       <div id="main-title" class="">
         <h1 id="bringing">BRINGING YOUR CHURCH</h1>
-        <h1 id="together">TOGETHER</h1>
-        <div id="join" class="noselect">
+        <!-- <h1 id="together">together</h1> -->
+        <img id="together" src="http://cdn.togetheradmin.com.global.prod.fastly.net/website_title.png" alt="" srcset="">
+        <!-- <div id="join" class="basic-button noselect">
           JOIN
-        </div>
+        </div> -->
       </div>
+      <!-- <button id="join" class="basic-button green">JOIN</button> -->
       <div class="next-page noselect">
         <i class="material-icons">keyboard_arrow_down</i>
       </div>
@@ -256,6 +259,10 @@ export default {
 }
 </script>
 
+<style>
+@import url('https://fonts.googleapis.com/css?family=Bad+Script&display=swap');
+</style>
+
 <style scoped>
 
 #splash-container {
@@ -314,32 +321,61 @@ h1 {
   transform: translate(-50%,-50%);
   z-index: 0;
 }
+#scribble-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  top: 45vh;
+  width: 600px;
+  height: 300px;
+  pointer-events: none;
+  /* mix-blend-mode: difference; */
+}
 #main-title {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  color: white;
+  color: #ffffff;
   width: 90vw;
   font-weight: 100;
   top: 45vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   mix-blend-mode: difference;
+  align-items: center;
 }
 #main-title h1{
   width: 100%;
-  text-align: center
+  text-align: center;
+  /* text-shadow: 0px 1px 9px #00000042; */
 }
 #bringing{
   font-size: 22.5px;
+  mix-blend-mode: difference;
 }
 #together{
   font-size: 50px;
   /* font-family: serif; */
-  font-weight: 700;
+  font-family: 'Bad Script', cursive;
+  text-transform: uppercase;
+  padding: 5px 0px;
+  letter-spacing: 10px;
+  vertical-align: middle;
+  mix-blend-mode: difference;
+  height: 45px;
   /* text-transform: lowercase; */
   /* font-stretch: expanded; */
 }
-#join{
+#join {  
+  position: absolute;
+  top: 60vh;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+/* #join{
   margin: 10px auto;
   text-align: center;
   width: 120px;
@@ -358,7 +394,6 @@ h1 {
   content: "";
   position: absolute;
   z-index: -1;
-  /* width: 120px; */
   height: 1px;
   bottom: -2px;
   border-radius: 2px;
@@ -371,7 +406,7 @@ h1 {
 }
 #join:hover::before {
   height: 32px;
-}
+} */
 .next-page {
   cursor: pointer;
   font-size: 30px;
@@ -712,7 +747,13 @@ input[type=number]::-webkit-outer-spin-button {
     overflow-y: visible;
   }
   #main-video {
-    display: none
+    display: none;
+  }
+  #main-title h1{
+    color: black;
+  }
+  #main-title #together{
+    filter: invert(100%);
   }
 }
 

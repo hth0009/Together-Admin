@@ -92,8 +92,6 @@
           </div>
         </div>
         <div class="footer">
-          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
-          <button class="basic-button green">CREATE</button>
         </div>
       </div>
     </div>

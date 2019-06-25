@@ -6,7 +6,7 @@
       <input type="text" class="basic-input"
         placeholder="search"
         v-model="cardSearch">
-      <div class="filter-section-toggle">
+      <div class="filter-section-toggle" v-if="filters.length > 0">
         <i class="material-icons noselect" @click="toggleFilterSection = !toggleFilterSection"
           :class="{selected: toggleFilterSection}">filter_list</i>
       </div>
@@ -68,7 +68,7 @@
             class="profile-pic"
             :height="30"
             :url="card['profile']"
-            :title="card['title']"/>
+            :title="card[profilePicFillerValue]"/>
           <div class="card-info"
               :style="{
                 backgroundImage: card['photoHeader'] != undefined ? 'url(' + card['photoHeader'] + ')' : ''
@@ -224,6 +224,10 @@ export default {
       type: Boolean,
       default: false
     },
+    profilePicFillerValue: {
+      type: String,
+      default: 'title'
+    },
     /*[
       {
         type: 'Type',
@@ -273,7 +277,8 @@ export default {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 50px auto minmax(0, 1fr);
-    box-shadow: 0px 2px 7px 0px #00000049;
+    // box-shadow: 0px 2px 7px 0px #00000049;
+    box-shadow: 0px 3px 13px -2px #00000040;
     background: none;
     border-radius: 10px;
     position: relative;
@@ -386,8 +391,7 @@ export default {
     font-size: 18px;
     font-weight: 500;
     color: #636e72;
-    padding-left: 7.5px;
-    padding-bottom: 7.5px;
+    padding: 7.5px;
   }
   .card-wrapper {
     overflow: visible;

@@ -24,8 +24,8 @@
               :url="selectedPerson.personImageThumbnailURL"
               :title="selectedPerson.fullName"/>
           </div>
-          <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
-          class="profile-pic"></div>
+          <!-- <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
+          class="profile-pic"></div> -->
           <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
           <div class="subtitle">{{selectedPerson.account.username !== '' ? '@' + selectedPerson.account.username : ''}}</div>
         </div>
@@ -48,13 +48,13 @@
               <div class="label noselect">Address</div>
               {{selectedPerson.address}}
             </div> -->            
-            <ejs-textbox floatLabelType="Auto" placeholder="Email"
-              name="" v-model="selectedPerson.accountEmail"></ejs-textbox>
+            <ejs-textbox floatLabelType="Auto" placeholder="Email" autocomplete="off"
+              name="none" v-model="selectedPerson.accountEmail"></ejs-textbox>
             <ejs-datepicker floatLabelType="Auto" :showClearButton="false" :allowEdit="false"
               :placeholder="'Birthday'" v-model="selectedPerson.birthday"
               :format="'MMMM dd, yyyy'"></ejs-datepicker>
-            <ejs-textbox floatLabelType="Auto" placeholder="Address"
-              name="" v-model="selectedPerson.address"></ejs-textbox>
+            <ejs-textbox floatLabelType="Auto" placeholder="Address" autocomplete="off"
+              name="none" v-model="selectedPerson.address"></ejs-textbox>
           </div>
           <div class="panel">
             <div class="card-header noselect">Skills</div>

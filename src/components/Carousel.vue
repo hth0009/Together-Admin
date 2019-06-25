@@ -121,6 +121,7 @@ export default {
 .carousel-button.selected {
   box-shadow: 0px 1px 6px 2px #00cecb77;
   background-color: #00dad6;
+  margin-left: 3px; 
 }
 .carousel-button.queued {
   background: #81eeec;
