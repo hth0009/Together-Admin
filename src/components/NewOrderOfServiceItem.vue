@@ -135,7 +135,7 @@ export default {
         },{
           typeName: 'Video',
           color: '#00cec9',
-          hasVideo: false,
+          hasVideo: true,
           videoUrl: '',
           hasLyrics: false,
           lyrics: '',

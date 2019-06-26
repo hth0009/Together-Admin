@@ -224,7 +224,12 @@ export default {
       this.creatingNewItem = !this.creatingNewItem
     },
     selectThread(id) {
-      if (id == undefined || id == -1) {
+      if (id == undefined) {
+        return
+      }
+      if (id == '-1') {
+        this.selectedThreadID = id
+        this.$router.push(`/app/inbox/`)
         return
       }
       

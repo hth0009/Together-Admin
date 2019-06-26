@@ -115,12 +115,9 @@ import Home from '@/components/Home'
   /* flex-basis: 300px auto */
 }
 #app-navbar {
-  /* min-width: 145px; */
-  flex: 0 0 200px;
-  /* padding: 10px 20px; */
+  flex: 0 0 10vw;
   z-index: 800;
   display: grid;
-  /* grid-template-rows: 100px 1fr 100px; */
 
   transition: min-width .3s ease;
   padding-right: 10px;
@@ -438,8 +435,6 @@ import Home from '@/components/Home'
     /* grid-gap: 35px; */
     display: grid;
     grid-template-columns: 240px auto;
-    /* grid-template-columns: 250px auto minmax(auto, 0px); */
-    /* grid-auto-columns: 250px; */
     position: relative;
     height: 100%;
     width: 100%;
@@ -447,7 +442,7 @@ import Home from '@/components/Home'
     /* overflow-x: auto; */
   }
   #app-page-content >>> .page-wrapper.three-rows {
-    grid-template-columns: 240px minmax(auto, 530px) auto;
+    grid-template-columns: 240px minmax(auto, 500px) auto;
   }
 
   #app-page-content >>> .card-list-wrapper {
@@ -464,9 +459,9 @@ import Home from '@/components/Home'
   
   #app-page-content >>> .card-header{
     color: #555555;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: 600;
-    margin-bottom: 10px
+    margin-bottom: 5px
   }
   /* #app-page-content >>> .card-explanation ~ .card-header {
     margin-bottom: 0px;
@@ -524,7 +519,8 @@ import Home from '@/components/Home'
     position: relative;
     /* height: calc(100vh - 80px); */
     overflow-y: auto;
-    min-width: 530px;
+    /* max-width: 600px; */
+    min-width: 490px;
   }
   #app-page-content >>> .selected-view h1,
   #app-page-content >>> .selected-view h2,
@@ -537,7 +533,7 @@ import Home from '@/components/Home'
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: 5px auto 15px auto 5px;
-    margin: 40px 0px 20px 10px;
+    margin: 40px 0px 00px 10px;
   }
   #app-page-content >>> .selected-view .profile-pic {
     grid-row: 1/5;
@@ -552,28 +548,52 @@ import Home from '@/components/Home'
     padding-top: 10px;
     font-size: 32px;
   }
+
+  #app-page-content >>> .selected-view h3,
+  #app-page-content >>> .selected-view .subtitle {
+    margin-left: 15px;
+  }
+  #app-page-content >>> .selected-view .profile-pic + h3,
+  #app-page-content >>> .selected-view .profile-pic + h3 + .subtitle {
+    margin-left: 0px; 
+  }
   #app-page-content >>> .selected-view .subtitle {
     grid-row: 3;
     grid-column: 2;
     font-size: 18px;
     font-weight: 600;
     color: #707070;
+  }  
+  #app-page-content >>> .selected-view .quick-actions {
+    margin-left: 20px;
+  }
+  #app-page-content >>> .selected-view .quick-actions button{
+    background: none;
+    box-shadow: none;
+    text-shadow: none;
+    color: #d3d3d3;
+    padding: 0px;
+    margin-right: 10px;
+  }
+  #app-page-content >>> .selected-view .quick-actions button:hover{
+    color: #00cec9;
+  }
+  #app-page-content >>> .selected-view .quick-actions button.red:hover{
+    color: #ff7675;
   }
   #app-page-content >>> .selected-view .details {
-    max-width: 530px;
-    min-width: 450px;
+    max-width: 600px;
+    min-width: 400px;
+    margin: 15px 0px calc(4.5vh + 10px) 0px;
   }
   #app-page-content >>> .selected-view .panel {
     margin-bottom: 10px;
     border-radius: 10px;
-    padding: 25px 25px;
+    padding: 25px;
     margin: 15px 7.5px;
     box-shadow: 0px 3px 13px -2px #00000040;
     max-width: 550px;
     min-width: 400px;
-  }
-  #app-page-content >>> .selected-view .panel:last-child {
-    margin-bottom: calc(4.5vh + 10px);
   }
   #app-page-content >>> .selected-view .panel h4{
     font-size: 20px;
@@ -700,7 +720,7 @@ import Home from '@/components/Home'
     position: relative; 
     /* left: 30px; */
     border-radius: 10px;
-    padding: 30px;
+    padding: 25px;
     margin: 5vh 20px 4vh 7.5px;
     /* height: calc(90vh - 60px); */
     box-shadow: 0px 3px 13px -2px #00000040;

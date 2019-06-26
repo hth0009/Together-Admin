@@ -1,5 +1,6 @@
 <template>
   <div class="avatar-container noselect"
+    :class="{'white-background': (url == '' || url == undefined) && title == ''}"
     :style="{
       height: height + 'px',
       width: height + 'px',
@@ -84,6 +85,10 @@ export default {
   opacity: .9;
   font-weight: 600;
   text-transform: uppercase;
+}
+.avatar-container.white-background {
+  background-image: none !important;
+  background-color: #ffffff00 !important;
 }
 
 </style>

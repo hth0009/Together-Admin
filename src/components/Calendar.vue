@@ -1,12 +1,13 @@
 <template>
   <div id="events-content">
-    <div class="page-wrapper" :class="{'three-rows': !!currentlyEditing}">
+    <div class="page-wrapper" :class="{'three-rows': selectedID != -1}">
       <div class="page-card-wrapper">
         <cards
           :cardList="formattedEvents"
           :loading="eventsLoading"
           :selectedID="selectedID + ''"
           :hasAddNew="true"
+          :hasDates="true"
           @selected="recieveID"
           @onAddNew="createNewItem"/>
       </div>
@@ -15,6 +16,9 @@
           <h3>{{eventInstance.eventBase.title}}</h3>
           <div class="subtitle"
             :style="{'color': '#' + eventInstance.eventBase.eventType.colorCode}">{{eventInstance.eventBase.eventType.name}}</div>
+        </div>
+        <div class="quick-actions">
+          <button class="basic-button red"><i class="material-icons">delete</i></button>
         </div>
         <div class="details">
           <div class="panel">
@@ -25,6 +29,8 @@
               :allowEdit="false" :placeholder="'Start Time'"
               :value="eventInstance.startTime"
               :format="dateFormat"></ejs-datepicker>
+            <ejs-textbox autocomplete="off" :multiline="true" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
+              required></ejs-textbox>
           </div>
           <!-- <div class="panel">
             <div class="card-header">Times</div>
@@ -34,6 +40,16 @@
             <div class="card-header">Reminders</div>
             <reminders/>
           </div> -->
+          <div class="panel">
+            <div class="card-header">Speaker</div>
+            <speaker
+              v-model="tempSpeaker"/>
+          </div>
+          <div class="panel">
+            <div class="card-header">Contact</div>
+            <contact
+              v-model="tempContact"/>
+          </div>
           <div class="panel">
             <div class="card-header">Teams</div>
             <div class="card-explanation">This is where teams are. Let's describe this better</div>
@@ -51,20 +67,21 @@
           </div>
         </div>
       </div>        
-      <!-- <div class="calendar-holder">
-        <ejs-schedule height="100%" 
-          id="Schedule"
-          ref="ScheduleObj"
-          :selectedDate='selectedDate' 
-          :eventSettings='eventSettings'
-          >
-          <e-views>
-            <e-view option="Month"></e-view>
-            <e-view option="Day"></e-view>
-            <e-view option="Agenda"></e-view>
-          </e-views>
-        </ejs-schedule>
-      </div> -->
+      <div class="calendar-holder" v-show="!!!currentlyEditing && !creatingNewItem">
+        <div class="calendar">
+          <ejs-schedule 
+            style="min-height: 80vh"
+            ref="ScheduleObj"
+            id="Schedule"
+            :selectedDate='selectedDate' 
+            :eventSettings='eventSettings'>
+            <e-views>
+              <e-view option="Month"></e-view>
+              <!-- <e-view option="Day"></e-view> -->
+            </e-views>
+          </ejs-schedule>
+        </div>
+      </div>
       <div class="editing-panel-wrapper" v-if="!!currentlyEditing">
         <div class="editing-panel">
           <new-order-of-service-item v-if="currentlyEditing == 'ORDER'"/>
@@ -75,12 +92,7 @@
       <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Event</div>
         <div class="details">
-          <div class="type">            
-            <!-- <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio> -->
-          </div>
-          <div class="detailed">
-            <new-event/>
-          </div>
+          <new-event/>
         </div>
         <div class="footer">
         </div>
@@ -90,7 +102,7 @@
 </template>
 
 <script>
-import { SchedulePlugin, Day, Month, Agenda, Resize, DragAndDrop, EJ2Instances } from "@syncfusion/ej2-vue-schedule"
+import { SchedulePlugin, Day, Month, Resize, DragAndDrop, EJ2Instances } from "@syncfusion/ej2-vue-schedule"
 import { DateTimePickerPlugin } from '@syncfusion/ej2-vue-calendars'
 import { extend } from '@syncfusion/ej2-base'
 import Events from '@/services/events'
@@ -108,8 +120,10 @@ import Times from '@/components/Times'
 import TextField from '@/components/TextField'
 import Reminders from '@/components/Reminders'
 import EventTeams from '@/components/EventTeams'
+import Speaker from '@/components/EventSpeaker'
+import Contact from '@/components/EventContact'
 
-import {getHHMM, getDayOfWeek} from '../utils/helpers'
+import {getHHMM, getDayOfWeekMonthDay} from '../utils/helpers'
 
 import Vue from 'vue'
 Vue.use(SchedulePlugin, DateTimePickerPlugin)
@@ -122,10 +136,10 @@ export default {
       eventSettings: { dataSource: extend([], this.events, null, true) },
       dataManageer: {},
       // selectedDate: new Date(),
-      selectedDate: new Date('2018-08-19T12:00:00'),
+      selectedDate: new Date(),
       selectedID: -1,
       selectedEvent: {},
-      views: ['Month', 'Day', 'Agenda'],
+      views: ['Month', 'Day'],
       eventHash: {},
       creatingNewItem: false,
       dateFormat: "dd MMMM yyyy",
@@ -136,44 +150,46 @@ export default {
       selectedOrderItem: {},
       selectedTeamToEvent: {},
       currentlyEditing: '',
+      tempSpeaker: {},
+      tempContact: {}
     }
   },
   components: {
     Cards, Times, EventServing, OrderOfService, Reminders, EventTeams,
-    NewEvent, NewOrderOfServiceItem, AddTeamToEvent
+    NewEvent, NewOrderOfServiceItem, AddTeamToEvent, Speaker, Contact
   },
   provide: {
-    schedule: [Day, Month, Agenda, Resize, DragAndDrop]
+    schedule: [Day, Month, Resize, DragAndDrop]
   },
   mounted() {
+    this.recieveID(this.$route.params.id)
     this.getEventInstances()
     this.getEventBases()
-   
-    // this.$root.$on('editEventItem', data => {
-    //   this.selectedOrderItem = data
-    // });
-    // this.$root.$on('addTeamToEvent', data => {
-    //   this.selectedTeamToEvent = data
-    // });
+    
     this.$root.$on('currentlyEditing', data => {
       this.currentlyEditing = data
     });
   },
   methods: {
-    recieveID(id) {
+    async recieveID(id) {
       if (id == undefined) {
+        return
+      }
+      if (id == '-1') {
+        this.selectedID = id
+        this.$router.push(`/app/calendar/`)
         return
       }
 
       this.$router.push(`/app/calendar/${id}`)
 
-      this.selectedID = id
       this.creatingNewItem = false
 
-      this.getEventInstance(id)
+      await this.getEventInstance(id)      
+      this.selectedID = id
     },    
     createNewItem() {
-      this.selectedID = -1;
+      this.selectedID = -1
       this.$router.push(`/app/calendar/`)
 
       this.creatingNewItem = !this.creatingNewItem
@@ -217,20 +233,23 @@ export default {
 
       var events = Array(this.events.length)
       for (let index = 0; index < this.events.length; index++) {
-        const event = this.events[index];
+        const event = this.events[index]
         const newEvent = {
           id: event.id,
           title: event.eventBase.title,
           color: '#' + event.eventBase.eventType.colorCode,
           subtext: getHHMM(new Date(event.startTime)),
-          header: getDayOfWeek(new Date(event.startTime)),
+          header: getDayOfWeekMonthDay(new Date(event.startTime)),
           Id: event.id,
-          Subject: event.eventName,
+          Subject: event.eventBase.title,
           StartTime: event.startTime,
-          EndTime: event.endTime       
+          EndTime: event.endTime,
+          startTime: event.startTime,
+          endTime: event.endTime
           // profile:'https://images.unsplash.com/photo-1483884105135-c06ea81a7a80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
           // subtext: prayer.personID + '',
-        }        
+        }
+        events[index] = newEvent
 
         // Pass Events to Scheduler
         if (this.eventHash[event.id] == true) {
@@ -238,9 +257,8 @@ export default {
         }
         else {          
           this.eventHash[event.id] = true          
-          // this.$refs.ScheduleObj.addEvent(newEvent)
+          this.$refs.ScheduleObj.addEvent(newEvent)
         }
-        events[index] = newEvent        
       }
       return events
     }
@@ -260,7 +278,18 @@ export default {
   }
 
   .calendar-holder {
-    height: 100vh;
+    overflow: auto;
+    height: 92vh;
+    padding: 4vh 0px;
+    position: relative;
+  }
+  .calendar {    
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px 7.5px;
+    box-shadow: 0px 3px 13px -2px #00000040;
+    max-width: 750px;
+    min-width: 500px;
   }
 
 /* //////////////////////////

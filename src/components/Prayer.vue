@@ -89,6 +89,11 @@ export default {
       if (id == undefined) {
         return
       }
+      if (id == '-1') {
+        this.selectedID = id
+        this.$router.push(`/app/prayer/`)
+        return
+      }
       this.creatingNewItem = false
       this.$router.push(`/app/prayer/${id}`)
       this.selectedID = id

@@ -47,16 +47,29 @@ export default {
 }
 .radio-buttons label span{
   display: inline-block;
-  margin: 5px 10px 5px 0px;
-  font-size: .9rem;
-  text-shadow: 0px 1px 9px #0000006c;
-  padding: 10px 15px;
-  color: white; 
-  background: #b6b6b6;
-  border-radius: 30px;
+  margin: 5px 0px 10px 0px;
+  font-size: .8rem;
+  padding: 10px 10px;
+  background: #f0f0f0;
+  color: #797979;
+  font-weight: 500;
+  transition: all .2s ease-in;
+  /* border-radius: 30px; */
+}
+.radio-buttons label:first-child span{
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
+  padding-left: 15px;
+}
+.radio-buttons label:last-child span{
+  border-bottom-right-radius: 30px;
+  border-top-right-radius: 30px;
+  padding-right: 15px;
 }
 .radio-buttons input:checked ~ span{
   background: #00cec9;
+  text-shadow: 0px 1px 9px #00000041;
+  color: #ffffff;
 }
 
 .radio-buttons label:focus {

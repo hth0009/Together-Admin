@@ -12,7 +12,7 @@
           @onAddNew="createNewItem"
           />
       </div>
-      <div class="selected-view" v-if="selectedID != '' && !creatingNewItem">
+      <div class="selected-view" v-if="selectedID != '' && selectedID != -1 && !creatingNewItem">
         <div class="header"> 
           <!-- <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
           class="profile-pic"></div> -->
@@ -28,6 +28,10 @@
           class="profile-pic"></div> -->
           <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
           <div class="subtitle">{{selectedPerson.account.username !== '' ? '@' + selectedPerson.account.username : ''}}</div>
+        </div>
+        <div class="quick-actions">
+          <button class="basic-button"><i class="material-icons">send</i></button>
+          <button class="basic-button red"><i class="material-icons">delete</i></button>
         </div>
         <div class="details">
           <!-- <button class="section-toggle">Teams</button> -->
@@ -70,6 +74,11 @@
             </div>
           </div>
           <div class="panel">
+            <div class="card-header">Notes</div>
+            <div class="card-explanation">These notes are visible to anyone on the admin site.</div>
+            <textarea style="padding: 0px; width: 100%" class="basic-textarea" placeholder="Notes" rows="10"></textarea>
+          </div>
+          <div class="panel">
             <div class="card-header">Teams</div>
             <div class="teams">
               <div class="team-box" v-for="team in selectedPersonTeams" :key="team.id">
@@ -86,8 +95,8 @@
       <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Person</div>
         <div class="details">
-          <div class="type">            
-            <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio>
+          <div class="type">
+            <!-- <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio> -->
           </div>
           <div class="detailed" v-show="newItemType == 0">
            <div style="width: 45%; display: inline-block">
@@ -212,6 +221,11 @@ export default {
     },
     recieveID(id) {
       if (id == undefined) {
+        return
+      }
+      if (id == '-1') {
+        this.selectedID = id
+        this.$router.push(`/app/people/`)
         return
       }
       this.creatingNewItem = false

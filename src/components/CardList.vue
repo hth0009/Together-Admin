@@ -54,7 +54,7 @@
         class="card-box noselect"
         :class="{
           unread: card['unread'] != undefined && card['unread'] > 0,
-          selected: card['id'] == selectedID,
+          selected: card['id'] == highlightedID,
           'photo-header': card['photoHeader'] != undefined
         }"
         :style="{
@@ -114,6 +114,7 @@ export default {
       filteredCards: [],
       maxHeight: 100,
       previousScroll: -1,
+      highlightedID: -1,
       searchOptions: {
         shouldSort: true,
         threshold: .4,
@@ -134,7 +135,7 @@ export default {
       listFilters: this.filters,
       selectedFilters: {},
       filterHash: {},
-      toggleFilterSection: false,
+      toggleFilterSection: false
     }
   },
   components: {
@@ -142,6 +143,12 @@ export default {
   },
   methods: {
     selectCard(id) {
+      console.log(id +'  ' + this.selectedID)
+      if (this.selectedID == id) {
+        this.$emit('selected', '-1')
+        return
+      }
+      this.highlightedID = id
       this.$emit('selected', id)
     },
     addNew() {
@@ -188,6 +195,13 @@ export default {
           this.filteredCards = results
         })
       }
+      if (this.hasDates) {
+        this.filteredCards.sort(function(a, b) {
+          a = new Date(a['startTime'])
+          b = new Date(b['startTime'])
+          return a - b
+        });
+      }
       this.filteredCards = this.filteredCards.filter(function(item) {
         for (var key in this.selectedFilters) {
           if (item[key] === undefined || item[key] != this.selectedFilters[key])
@@ -224,6 +238,10 @@ export default {
       type: Boolean,
       default: false
     },
+    hasDates: {
+      type: Boolean,
+      default: false
+    },
     profilePicFillerValue: {
       type: String,
       default: 'title'
@@ -255,6 +273,7 @@ export default {
     cardList: {
       handler(n, o) {
         this.filteredCards = this.cardList
+        this.filterAndSearchCards()
       }, deep: true
     },
     cardSearch() {
@@ -264,6 +283,11 @@ export default {
       handler(n) {
         this.filterAndSearchCards()
       }, deep: true
+    },
+    selectedID: {
+      handler(n) {
+        this.highlightedID = n
+      }
     }
   }
 }
@@ -388,10 +412,10 @@ export default {
   }
   .card-boxes .header{
     /* text-align: center; */
-    font-size: 18px;
-    font-weight: 500;
+    font-size: .9rem;
+    font-weight: 600;
     color: #636e72;
-    padding: 7.5px;
+    padding: 5px 10px;
   }
   .card-wrapper {
     overflow: visible;

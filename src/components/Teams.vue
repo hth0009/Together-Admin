@@ -14,32 +14,24 @@
       </div>
       <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
         <div class="header"> 
-          <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1496275068113-fff8c90750d1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'}"
-          class="profile-pic"></div>
-          <!-- <div :style="{backgroundImage: 'url(' +  selectedTeam.iconURL + ')'}"
-          class="profile-pic"></div> -->
+          <div class="profile-pic">
+            <avatar
+              :height="60"
+              :url="selectedTeam.teamImageURL"
+              :title="selectedTeam.name"/>
+          </div>
           <h3>{{selectedTeam.name}}</h3>
-          <!-- <div class="team-type noselect serve" v-if="selectedTeam.isServe">Serve Team</div>
-          <div class="team-type noselect annonymous" v-if="selectedTeam.isAnnonymous">Annonymous</div> -->
           <div class="subtitle" v-if="selectedTeam.isAnonymous">anonymous</div>
           <div class="subtitle" v-else-if="selectedTeam.isServeTeam">serve team</div>
           <div class="subtitle" v-else>community group</div>
+        </div>        
+        <div class="quick-actions">
+          <button class="basic-button"><i class="material-icons">send</i></button>
+          <button class="basic-button red"><i class="material-icons">delete</i></button>
         </div>
-        <div class="team-info">
-          <div class="annonymous-team"
-            v-if="selectedTeam.isAnnonymous">            
-            <div class="description-panel">
-              <h4>Description</h4>
-              <p>{{selectedTeam.description}}</p>
-            </div>            
-            <div class="contact-panel">
-              <h4>Contact</h4>
-              <p>Please email us at: herchoicetoheal.acc@gmail.com</p>
-            </div>
-          </div>
-          <div v-else>
-            <div class="description-panel">
-              <h4>Description</h4>
+        <div class="details">
+            <div class="panel">
+            <div class="card-header noselect">Description</div>
               <p>{{selectedTeam.description}}</p>              
             </div>    
             <!-- <div class="team-leader-panel">   
@@ -52,8 +44,8 @@
                 </div>
                 <p>Reach out to John at (606) 637-0799</p>
             </div> -->
-            <div class="people-list-panel">
-              <h4>Members <span>| {{selectedTeam.members.total}}</span></h4>
+            <div class="panel">
+              <div class="card-header noselect">Members <span>| {{selectedTeam.members.total}}</span></div>
               <div class="people">
                 <div class="people-box" v-for="person in selectedTeam.members['teamMembers(s)']" :key="person.personID">
                   <div class="icon" :style="{backgroundImage: 'url(' +  person.icon + ')'}"></div>
@@ -65,7 +57,6 @@
             </div>   
           </div>
         </div>
-      </div>
       <div class="new-item" v-if="creatingNewItem" :model="7">
         <div class="title">New Team</div>
         <div class="details">
@@ -222,12 +213,12 @@
 <script>
 import NewTeams from '@/components/NewTeam'
 import Cards from '@/components/CardList'
-import VueTable from '@/components/Table'
 import Teams from '@/services/teams'
 import People from '@/services/people'
 import CustomRadio from '@/components/CustomRadio'
 import ImageUploader from 'vue-image-crop-upload'
 import Carousel from '@/components/Carousel'
+import Avatar from '@/components/Avatar'
 import QuickCreate from '@/components/QuickCreate'
 import { checkIfObjNotFilled } from '../utils/helpers'
 import store from '../store'
@@ -349,11 +340,16 @@ export default {
     }
   },
   components: {
-    VueTable, NewTeams, Cards, CustomRadio, ImageUploader, Carousel, QuickCreate
+    NewTeams, Cards, CustomRadio, ImageUploader, Carousel, QuickCreate, Avatar
   },
   methods: {
     recieveID(id) {
       if (id == undefined) {
+        return
+      }
+      if (id == '-1') {
+        this.selectedID = id
+        this.$router.push(`/app/teams/`)
         return
       }
       this.creatingNewItem = false

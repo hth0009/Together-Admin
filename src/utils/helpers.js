@@ -60,6 +60,27 @@ export const getDayOfWeek = (dt) => {
 
   return res
 }
+export const getMonthOfYear = (dt) => {
+  var res = ''
+
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  res = monthNames[dt.getMonth()]
+
+  return res
+}
+
+export const getDayOfWeekMonthDay = (dt) => {
+  var res = ''
+
+  res = getDayOfWeek(dt) + ', '
+  + getMonthOfYear(dt) + ' '
+  + dt.getDay()
+
+  return res
+}
 
 export const formatDigits = (val) => {
   val = val.toString()

@@ -45,7 +45,8 @@
     opacity: 0;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: darkgrey;
+    background-color: #e2e2e2;
+    border-radius: 10px;
     /* outline: 1px solid slategrey; */
   }
 
