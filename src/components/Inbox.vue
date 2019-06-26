@@ -11,8 +11,8 @@
         @onAddNew="createNewItem"
         />
     </div>
-    <div class="thread-wrapper">
-      <div class="thread"  v-if="!creatingNewItem">
+    <div class="thread-wrapper" v-if="!creatingNewItem">
+      <div class="thread">
         <div class="thread-header">{{thread.title}}</div>
         <div class="messages">
           <div class="message-box-wrapper" v-if="displayThread == 2">
@@ -340,19 +340,24 @@ export default {
   }
   .thread-wrapper {
     /* height: calc(100vh - 40px); */
-    height: 100vh;
+    height: calc(92vh);
     position: relative;
     /* background: red; */
     flex: 1;
+    border-radius: 10px;
+    margin: 4vh 7.5px;
+    box-shadow: 0px 3px 13px -2px #00000040;
+    max-width: 600px;
+    min-width: 400px;
   }
   .thread {
     display: grid;
     grid-template-rows: 35px auto 47px;
-    height: 100vh;
+    height: calc(92vh);
   }
   .thread-header {
     padding: 10px 15px;
-    background: white;
+    /* background: white; */
     /* border-left: #f0f0f0 1px solid; */
   }
   .new-message-box {
@@ -361,13 +366,17 @@ export default {
     display: grid;
     grid-template-columns: 1fr 50px;
     border-top: 1px #E6E9EC solid;
-    border-left: 1px #E6E9EC solid;
+    /* border-left: 1px #E6E9EC solid; */
     /* align-content: center; */
     /* justify-items: center; */
   }
   .new-message-box input{
     padding: 15px;  
-    padding-right: 0px; 
+    padding-right: 0px;
+    position: relative;
+    top: -1px;
+    border-top: 1px #E6E9EC solid;
+    border-radius: 10px;
   }
   .new-message-box input:active,
   .new-message-box input:focus{
@@ -383,7 +392,7 @@ export default {
     cursor: pointer;
   } 
   .messages {
-    height: calc(100vh - 97px);
+    height: calc(94vh - 97pv);
     display: flex;
     flex-direction: column-reverse;
     overflow-y: auto;
