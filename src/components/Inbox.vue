@@ -357,6 +357,7 @@ export default {
   }
   .thread-header {
     padding: 10px 15px;
+    font-weight: 600
     /* background: white; */
     /* border-left: #f0f0f0 1px solid; */
   }
@@ -392,7 +393,7 @@ export default {
     cursor: pointer;
   } 
   .messages {
-    height: calc(94vh - 97pv);
+    /* height: calc(94vh - 97px); */
     display: flex;
     flex-direction: column-reverse;
     overflow-y: auto;
