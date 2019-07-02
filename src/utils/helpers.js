@@ -77,7 +77,7 @@ export const getDayOfWeekMonthDay = (dt) => {
 
   res = getDayOfWeek(dt) + ', '
   + getMonthOfYear(dt) + ' '
-  + dt.getDay()
+  + dt.getDate()
 
   return res
 }

@@ -61,7 +61,7 @@
           backgroundImage: card['photoHeader'] != undefined ? 'url(' + card['photoHeader'] + ')' : '',          
           color: card['color'] != undefined ? card['color'] : ''
         }"
-        @click="selectCard(card['id'])">
+        @click="selectCard(card['id'], card)">
           <div v-if="card['superscript']" class="superscript">{{card['superscript']}}</div>
           <avatar
             v-if="!noProfile"
@@ -142,14 +142,18 @@ export default {
     Avatar
   },
   methods: {
-    selectCard(id) {
-      console.log(id +'  ' + this.selectedID)
+    selectCard(id, item) {
       if (this.selectedID == id) {
         this.$emit('selected', '-1')
         return
       }
       this.highlightedID = id
-      this.$emit('selected', id)
+      if (!this.returnObject) {
+        this.$emit('selected', id)
+      }
+      else {
+        this.$emit('selected', item)
+      }
     },
     addNew() {
       this.$emit('onAddNew')
@@ -245,6 +249,10 @@ export default {
     profilePicFillerValue: {
       type: String,
       default: 'title'
+    },
+    returnObject: {
+      type: Boolean,
+      default: false
     },
     /*[
       {

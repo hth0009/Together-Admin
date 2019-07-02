@@ -439,6 +439,7 @@ import Home from '@/components/Home'
     height: 100%;
     width: 100%;
     overflow: hidden;
+    padding: 0px 3px;
     /* overflow-x: auto; */
   }
   #app-page-content >>> .page-wrapper.three-rows {
@@ -566,6 +567,8 @@ import Home from '@/components/Home'
   }  
   #app-page-content >>> .selected-view .quick-actions {
     margin-left: 20px;
+    display: flex;
+    justify-content: flex-end;
   }
   #app-page-content >>> .selected-view .quick-actions button{
     background: none;

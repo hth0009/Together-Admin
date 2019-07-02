@@ -25,7 +25,7 @@
         <div v-show="newEvent.eventDateType == 1">
           <ejs-daterangepicker autocomplete="off" :showClearButton="false" :allowEdit="false"
             :format="dateFormat" v-model="newEvent.dates" floatLabelType="Auto" :placeholder="'Pick Dates'"
-          required></ejs-daterangepicker>          
+          required></ejs-daterangepicker>
           <div>
             <div style="width: 48%; float: left">
               <ejs-timepicker floatLabelType="Auto" v-model="newEvent.startTime" :placeholder="'Start Time'"></ejs-timepicker>
@@ -182,7 +182,7 @@ export default {
       const response = await Teams.getTeamsByChurch()
       this.teams = response['team(s)']
     },
-    createEvent() {
+    async createEvent() {
       const newEvent = this.newEvent
 
       // Populate Event Base
@@ -193,6 +193,21 @@ export default {
       eventBase.churchUsername = `${store.state.churchUsername}`
       eventBase.isAllChurch = newEvent.isForWholeChurch == 1
       eventBase.teamID = newEvent.isForWholeChurch == 0 ? `${newEvent.teamID}` : null
+      eventBase.components = [
+        {
+          component: {
+            order: 1,
+            componentType: "descriptionComponent",
+            isBase: true,
+            component: {
+              fields: {
+                contents: `${newEvent.description}`
+              }
+            }
+          }
+        }
+      ]
+      console.log(eventBase)
 
       // Create Event Instance(s)
       var eventInstances = []
@@ -295,15 +310,17 @@ export default {
       }
 
       
-      this.postBase(eventBase).then(function(response) {
+     await  this.postBase(eventBase).then(async function(response) {
         for (let index = 0; index < eventInstances.length; index++) {
           let event = eventInstances[index]
           eventInstances[index].startTime = event.startTime.toISOString()
           eventInstances[index].endTime = event.endTime.toISOString()
           eventInstances[index].eventBaseID = response.newResourceID
-          this.postInstance(eventInstances[index])
+          await this.postInstance(eventInstances[index])
         }
       }.bind(this))
+
+    this.$emit('created')
       
     },
     async postBase(eventBase) {

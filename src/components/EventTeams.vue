@@ -1,32 +1,62 @@
 <template>
   <div class="event-teams-container">
+    <div class="event-teams">
+      <custom-radio v-model="teamIndex" :chips="true" :options="teamNames"></custom-radio>
+    </div>
     <button class="basic-button icon"
       @click="addTeamToEvent()"><i class="material-icons">add</i></button>
   </div>
 </template>
 
 <script>
+import CustomRadio from '@/components/CustomRadio'
 
 export default {
   name: 'EventTeams',
   data () {
     return {
-      selectedTeam: {}
+      selectedTeam: {},
+      teams: this.value,
+      teamIndex: 0,
+      teamNames: []
     }
   },
   components: {
+    CustomRadio
   },
   methods: {
     addTeamToEvent() {
       this.$root.$emit('addTeamToEvent', this.selectedTeam)
       this.$root.$emit('currentlyEditing', 'EVENT_TEAMS')
+    },
+    assignTeams(n) {
+      this.teams = n
+      this.teamNames = []
+      for (let index = 0; index < n.length; index++) {
+        const team = n[index];
+        this.teamNames.push(team.teamName)
+      }
     }
   },
   props: {
+    value: {
+      defualt: {
+        type: Array,
+        default: () => {return []}
+      }
+    }
   },
   mounted() {
+    this.assignTeams(this.value)
   },
   computed: {
+  },
+  watch: {
+    value: {
+      handler(n) {
+        this.assignTeams(n)
+      }, deep: true
+    }
   }
 }
 </script>

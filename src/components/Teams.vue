@@ -1,5 +1,12 @@
 <template>
   <div class="teams-container">
+    <sweet-modal icon="warning" ref="deleteTeamModal">
+      <h3>Are you sure you want to delete {{selectedTeam.name}}?</h3>
+      <button slot="button" class="basic-button red" @click="deleteTeam">DELETE</button>
+    </sweet-modal>
+    <sweet-modal icon="success" ref="teamCreated">
+      <h3>{{newTeam.name}} created!!</h3>
+    </sweet-modal>
     <div class="teams-wrapper">      
       <div class="page-card-wrapper">
         <!-- <h2>Teams</h2> -->
@@ -27,7 +34,7 @@
         </div>        
         <div class="quick-actions">
           <button class="basic-button"><i class="material-icons">send</i></button>
-          <button class="basic-button red"><i class="material-icons">delete</i></button>
+          <button class="basic-button red" @click="deleteButtonClicked"><i class="material-icons">delete</i></button>
         </div>
         <div class="details">
             <div class="panel">
@@ -63,7 +70,37 @@
           <carousel>
             <div class="new-item-card">
               <div class="section-header">New Team Name</div>  
-              <div class="section-header-info">Step 1: Give this new team a name</div>       
+              <div class="section-header-info">Step 1: Give this new team a name</div>
+              <!-- <image-uploader
+                :debug="1"
+                :maxWidth="512"
+                :quality="0.7"
+                :autoRotate="true"
+                outputFormat="verbose"
+                :preview="false"
+                :className="['fileinput', { 'fileinput--loaded' : hasImage }]"
+                capture="environment"
+                accept="video/*,image/*"
+                doNotResize="['gif', 'svg']"
+                @input="setImage"
+                @onUpload="startImageResize"
+                @onComplete="endImageResize"
+              ></image-uploader> -->
+              <!-- <div class="image-cropper">
+                <clipper-fixed class="clipper" ref="clipper"
+                  :ratio="1"
+                  :wrapRatio="1"
+                  :border="0"
+                  :round="true"
+                  :grid="false"
+                  :min-scale=".55"
+                  :shadow="'#ffffffcc'"
+                  :src="'https://images.unsplash.com/photo-1561542515-6db9361a100d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2130&q=80'"
+                >    
+                  <div slot="placeholder">No image</div>
+                </clipper-fixed>        
+              </div>
+              <button @click="clipImage()">clip</button>     -->
               <div>
                 <ejs-textbox autocomplete="off" v-model="newTeam.name" floatLabelType="Auto" :placeholder="'Team Name'"
                 required></ejs-textbox>
@@ -73,7 +110,7 @@
               <div class="section-header">Team Type</div>  
               <div class="section-header-info">Step 2: What type of team is {{newTeam.name}}?</div>
                 <div class="type">            
-                  <custom-radio v-model="newTeam.type" :options="['public', 'serve', 'anonymous']"></custom-radio>
+                  <custom-radio v-model="newTeam.type" :options="['Public', 'Private', 'Anonymous']"></custom-radio>
                   <div v-show="newTeam.type == 0" name="public" class="item-description">
                     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima dolores excepturi, aliquid deleniti expedita eaque eligendi, voluptatum dolore obcaecati officia, architecto consequuntur odio. Obcaecati
                   </div>
@@ -90,7 +127,7 @@
               <div class="section-header-info">Step 3: Briefly explain what {{newTeam.name}} is about</div>
               <div>
                 <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Description" v-model="newTeam.description"
-                required name=""></ejs-textbox>
+                required name="" :multiline="true"></ejs-textbox>
                 <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
                   Since this team is annonymous, we will not be keeping a record of anyone participants. Therefore, the only way to reach to out to {{newTeam.name}} will be through traditional communication. We recommend including a phone number or email in the description.
                 </div>
@@ -99,7 +136,7 @@
             <div class="new-item-card">
               <div class="section-header">{{newTeam.name}} Leader</div>  
               <div class="section-header-info">Step 4: Select the leader of {{newTeam.name}}</div>            
-                <div v-if="newTeam.type != 2">
+                <div v-show="newTeam.type != 2">
                 <ejs-dropdownlist
                   :dataSource='formatedPeople' 
                   :fields="{ value: 'name'}"
@@ -115,7 +152,7 @@
             <div class="new-item-card">
               <div class="section-header">{{newTeam.name}} Location</div>  
               <div class="section-header-info">Step 5: Does {{newTeam.name}} have a meeting location?</div>            
-                <div v-if="newTeam.type != 2">
+                <div v-show="newTeam.type != 2">
                   <custom-radio v-model="newTeam.hasMeetings" :options="['Has Location', 'No Location']"></custom-radio>
                   <div v-show="newTeam.hasMeetings == 0">
                     <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Address"
@@ -132,7 +169,7 @@
             <div class="new-item-card">
               <div class="section-header">{{newTeam.name}} Meeting Recurrence</div>  
               <div class="section-header-info">Step 6: Does {{newTeam.name}} meet on a regular basis?</div>            
-                <div v-if="newTeam.type != 2">
+                <div v-show="newTeam.type != 2">
                   <div class="type">
                     <custom-radio v-model="newTeam.hasRecurrence" :options="['Meets Regualarly', 'Does Not Meet Regularly']"></custom-radio>
                   </div>
@@ -147,7 +184,7 @@
             <div class="new-item-card">
               <div class="section-header">{{newTeam.name}} Subteams</div>  
               <div class="section-header-info">Step 7: Does {{newTeam.name}} have subteams? Details can be added to the subteams later.</div>            
-                <div v-if="newTeam.type != 2" style="height: 250px">
+                <div v-show="newTeam.type != 2" style="height: 250px">
                   <quick-create
                     :model="newTeam.leaders"
                     :itemStructure="subTeamStructure"
@@ -216,11 +253,14 @@ import Cards from '@/components/CardList'
 import Teams from '@/services/teams'
 import People from '@/services/people'
 import CustomRadio from '@/components/CustomRadio'
-import ImageUploader from 'vue-image-crop-upload'
+// import ImageUploader from 'vue-image-crop-upload'
 import Carousel from '@/components/Carousel'
 import Avatar from '@/components/Avatar'
 import QuickCreate from '@/components/QuickCreate'
 import { checkIfObjNotFilled } from '../utils/helpers'
+import ImageUploader from 'vue-image-upload-resize'
+import { SweetModal } from 'sweet-modal-vue'
+// import VuejsClipper from 'vuejs-clipper'
 import store from '../store'
 
 const subTeamStructureTemplate = [
@@ -246,12 +286,12 @@ const teamFiltersTemplate = [
     key: 'subtext',
     options: [
       {
-        value: 'Community Group',
+        value: 'Public',
         title: 'Public',
         icon: 'public'
       },
       {
-        value: 'Serve Team',
+        value: 'Private',
         title: 'Private',
         icon: 'lock'
       },
@@ -306,6 +346,18 @@ const teamFiltersTemplate = [
   },
 ]
 
+const newTeamTemplate = {
+  name: '',
+  description: '',
+  hasMeetings: 0,
+  address: "",
+  location: "",
+  hasRecurrence: 0,
+  recurrence: '',
+  type: 0,
+  leaderID: ''
+}
+
 export default {
   name: 'Teams',
   data () {
@@ -324,23 +376,13 @@ export default {
       creatingNewItem: false,
       people: [],
       uploadingPhoto: false,
-      newTeam: {
-        name: '',
-        description: '',
-        hasMeetings: 0,
-        address: "",
-        location: "",
-        hasRecurrence: 0,
-        recurrence: '',
-        type: 0,
-        leaderID: ''
-      },
+      newTeam: newTeamTemplate,
       subTeamStructure: subTeamStructureTemplate,
       teamFilters: teamFiltersTemplate
     }
   },
   components: {
-    NewTeams, Cards, CustomRadio, ImageUploader, Carousel, QuickCreate, Avatar
+    NewTeams, Cards, CustomRadio, ImageUploader, Carousel, QuickCreate, Avatar,	SweetModal
   },
   methods: {
     recieveID(id) {
@@ -373,11 +415,22 @@ export default {
       this.people = people
       this.subTeamStructure[1].list = this.people;
     },
+    async deleteTeam() {
+      this.$refs.deleteTeamModal.close()
+      Teams.deleteTeam(this.selectedID).then(function(response) {
+        this.recieveID(-1)
+        this.getTeams()
+      }.bind(this))
+    },
+    deleteButtonClicked() {
+      this.$refs.deleteTeamModal.open()
+    },
     createNewItem() {
       this.selectedID = -1;
       this.$router.push(`/app/teams/`)
 
       this.creatingNewItem = !this.creatingNewItem
+      this.newTeam = {...newTeamTemplate}
     },
     assignLeader (member) {
       this.newTeam.leaderID = member.itemData.id
@@ -386,6 +439,8 @@ export default {
       console.log(e)
       this.newTeam.recurrence = e.value
       console.log(this.newTeam)
+    },
+    clipImage() {
     }
   },
   props: {
@@ -411,13 +466,13 @@ export default {
         // Find Team Type
         var teamType = ''
         if (team.isServeTeam ) {
-          teamType = "Serve Team"
+          teamType = "Private"
         }
         else if (team.isAnonymous ) {
           teamType = "Anonymous"
         }
         else {
-          teamType = "Community Group"
+          teamType = "Public"
         }
 
         const newTeam = {
@@ -446,6 +501,9 @@ export default {
         "teamImageThumbnailURL": "",
         "leaderID": this.newTeam.leaderID,
         "members": [
+          {
+            "personID": this.newTeam.leaderID
+          }
         ],
         "isAnonymous": this.newTeam.type == 2,
         "description": this.newTeam.description,
@@ -457,7 +515,14 @@ export default {
         "serveTeamRoles": [
         ]
       }
-      Teams.postTeam(newTeam)
+      Teams.postTeam(newTeam).then(function(result) {
+        this.$refs.teamCreated.open()
+        this.getTeams()
+        this.creatingNewItem = false
+        this.recieveID(result.newResourceID)
+        // console.log(result)
+        // this.selectedTeam
+      }.bind(this))
     }
   }
 }
@@ -569,6 +634,18 @@ h2 {
 }
 .skill.confirmed {
   border-color: #69CDCF;
+}
+.image-cropper {
+  height: 100px;
+  width: 100px;
+  overflow: hidden;
+}
+.image-cropper .clipper{
+  height: 150px;
+  width: 150px;
+  position: relative;
+  left: -25px;
+  top: -25px;
 }
 
 /* //////////////////////////

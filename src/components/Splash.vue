@@ -1,7 +1,7 @@
 <template>
   <div id="splash-container">
     <router-link to="login" id="login">
-      login
+      LOGIN
     </router-link>
     <div id="video-board">
       <div id="main-video-container">
@@ -9,7 +9,7 @@
       <video autoplay muted loop id="main-video" type="video/mp4" src="https://s3.wasabisys.com/cdn.togetheradmin.com/website_background.mp4"></video>      
         <!-- <img id="main-video" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80"> -->
       </div>
-      <img id="scribble-circle" class="noselect" src="@/assets/svg/scribble-circle.svg">
+      <!-- <img id="scribble-circle" class="noselect" src="@/assets/svg/scribble-circle.svg"> -->
       <div id="main-title" class="">
         <h1 id="bringing">BRINGING YOUR CHURCH</h1>
         <!-- <h1 id="together">together</h1> -->
@@ -273,16 +273,18 @@ export default {
 }
 
 #login {
-  padding: 10px;
+  padding: 7.5px 15px;
   text-align: center;
   cursor: pointer;
   background: #00cec9;
   color: white;
   position: absolute;
-  left: 0px;
-  top: 0px;
+  left: 10px;
+  top: 10px;
   z-index: 100;
   text-decoration: none;
+  border-radius: 25px;
+  border: 5px #00cec9 solid;
   /* border: 3px white solid; */
 }
 

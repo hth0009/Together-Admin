@@ -7,6 +7,9 @@ import VModal from 'vue-js-modal'
 import VueYoutube from 'vue-youtube'
 import store from './store'
 import VueFuse from 'vue-fuse'
+import VuejsClipper from 'vuejs-clipper'
+import { SweetModal } from 'sweet-modal-vue'
+
 /* ///////////////////////////////
 ///////SYNC FUSION IMPORTS////////
 /////////////////////////////// */
@@ -48,9 +51,11 @@ Vue.use(RichTextEditorPlugin)
 /////////////////////// */
 
 Vue.config.productionTip = false
+Vue.use(VuejsClipper)
 Vue.use(VModal)
 Vue.use(VueYoutube)
 Vue.use(VueFuse)
+Vue.use(SweetModal)
 // Vue.use(SimpleBar)
 
 /* eslint-disable no-new */

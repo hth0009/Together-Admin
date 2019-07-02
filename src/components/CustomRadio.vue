@@ -1,10 +1,11 @@
 <template>
-  <form class="radio-buttons noselect">
+  <form class="radio-buttons noselect" :class="{'chips': chips, 'overflow': overflow}">
     <label v-for="(option, index) in options" :key="index" tabindex="0">
       <input type="radio" name="select"
         :value="index" v-model="selectedIndex" tabindex="0">
       <span>{{option}}</span>
     </label>
+    <div v-if="overflow" class="overflow-shadow"></div>
   </form>
 </template>
 
@@ -31,12 +32,40 @@ export default {
       type: Number,
       default: 0
     },
+    chips: {
+      tpye: Boolean,
+      default: false
+    },
+    overflow: {
+      tpye: Boolean,
+      default: false
+    }
   }
 }
 </script>
 
 <style scoped>
 
+.radio-buttons.overflow{
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: block;
+  white-space: nowrap;
+  /* box-shadow: 0px 0px 17px 10px inset red; */
+  /* box-shadow: -13px 0px 17px -20px inset white; */
+  position: relative;
+}
+.radio-buttons.overflow::after{
+  content: '';
+  /* position: absolute; */
+  /* top: -75%; */
+  /* left: 0px; */
+  /* position: relative; */
+  width: 100%;
+  height: 250%;
+  box-shadow: 0px 0px 17px 10px inset red;
+  z-index: 100
+}
 .radio-buttons label{
   position: relative;
   cursor: pointer;
@@ -74,6 +103,12 @@ export default {
 
 .radio-buttons label:focus {
   outline: none
+}
+
+.radio-buttons.chips label span{
+  border-radius: 30px;
+  margin-right: 5px;
+  padding: 10px 15px;
 }
 
 

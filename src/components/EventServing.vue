@@ -25,21 +25,12 @@
         <Draggable
           v-for="group in selectedGroups"
           v-bind:key="group.title">
-            <!-- <Container>
-              <Draggable
-              :behaviour="'drag'"
-              :group-name="'1'" 
-              > -->
                 <div class="group-bar noselect"
                   :style="{background: group.color}"
                 >
                   <div class="selected-group-list-button" 
                   >{{group.title}}
                   </div>
-                  <!-- <div class="group-details-toggle"
-                    @click="group.editing = !group.editing">v</div> -->
-                  <!-- <div class="group-details-toggle"
-                    @click="group.editing = !group.editing">&#x2636;</div> -->
                 </div>
                 <transition name="height" >
                   <div class="group-details"
@@ -47,8 +38,6 @@
                     <h5>People</h5>
                   </div>
                 </transition>
-              <!-- </Draggable>
-            </Container> -->
         </Draggable>   
       </Container>
       <div class="expanded-day-background">
@@ -57,63 +46,8 @@
           <div class="time noselect">{{time}}
           </div>
         </ul>
-        <!-- <div class="add noselect">
-          +
-        </div> -->
       </div>
     </div>    
-    <!-- <modal
-      name="hello-world"
-      height="75%">
-      <div class="group-info-full">
-      <h3 :style="{color: selectedGroup.color}">{{selectedGroup.title}}</h3>
-      <div class="all-people-groups noselect">
-        <div class="avaliable-group people-group">
-          <h5>Avaliable People</h5>
-          <input type="text" class="basic-input" placeholder="search">
-          <Container group-name="selectPeople" 
-            :get-child-payload="getChildPayloadAvaliablePeople"
-            @drop="onDropPeople('avaliablePeople', $event)">
-            <Draggable v-for="person in selectedGroup.avaliablePeople" :key="person.name">
-              <div class="draggable-item basic-drag">
-                {{person.name}}<span>lorem ipsum asdfa</span>
-              </div>
-            </Draggable>
-          </Container>
-        </div>
-        <div class="selected-people people-group">
-          <h5>Selected People</h5>
-          <div class="container-holder">
-          <Container group-name="selectPeople" 
-            :get-child-payload="getChildPayloadSelectedPeople"
-            @drop="onDropPeople('selectedPeople', $event)"            
-            :drag-handle-selector="'.basic-drag-bar'">
-            <Draggable v-for="person in selectedGroup.selectedPeople"
-              :key="person.name"
-              ref="selected-people-container">
-              <div class="draggable-item basic-drag" :style="{borderColor: selectedGroup.color}">
-                <div class="basic-drag-bar" :style="{background: selectedGroup.color, 
-                  width: resizeAndPos(person).width}">
-                {{person.name}}<span> lorem ipsum asdfa</span>
-                </div>
-              </div>
-            </Draggable>
-          </Container> 
-          </div>         
-          <div class="expanded-day-background">
-            <ul class='time-block' v-for="time in times"
-              v-bind:key="time" >
-              <div class="time noselect">{{time}}
-              </div>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <h5>Message</h5>
-      <textarea name="message" class="basic-textarea" v-model="selectedGroup.message"></textarea>
-      <button class="basic-button">SEND</button>
-      </div>
-    </modal> -->
   </div>
 </template>
 

@@ -1,5 +1,12 @@
 <template>
   <div id="events-content">
+    <sweet-modal icon="warning" ref="deleteTeamModal">
+      <!-- <h3>Are you sure you want to delete {{selectedTeam.name}}?</h3> -->
+      <!-- <button slot="button" class="basic-button red" @click="deleteTeam">DELETE</button> -->
+    </sweet-modal>
+    <sweet-modal icon="success" ref="eventCreated">
+      <h3>New event created!!</h3>
+    </sweet-modal>
     <div class="page-wrapper" :class="{'three-rows': selectedID != -1}">
       <div class="page-card-wrapper">
         <cards
@@ -8,7 +15,8 @@
           :selectedID="selectedID + ''"
           :hasAddNew="true"
           :hasDates="true"
-          @selected="recieveID"
+          :returnObject="true"
+          @selected="recieveItem"
           @onAddNew="createNewItem"/>
       </div>
       <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
@@ -17,20 +25,45 @@
           <div class="subtitle"
             :style="{'color': '#' + eventInstance.eventBase.eventType.colorCode}">{{eventInstance.eventBase.eventType.name}}</div>
         </div>
+        <div class="time-chip-holder">
+          <!-- <custom-radio :options="times" :chips="true" :overflow="true" class="chips"></custom-radio> -->
+        </div>
         <div class="quick-actions">
           <button class="basic-button red"><i class="material-icons">delete</i></button>
         </div>
         <div class="details">
           <div class="panel">
             <div class="card-header noselect">General Info</div>
-            <ejs-datepicker
-              :showClearButton="false"
-              :floatLabelType="'Auto'"
-              :allowEdit="false" :placeholder="'Start Time'"
-              :value="eventInstance.startTime"
-              :format="dateFormat"></ejs-datepicker>
-            <ejs-textbox autocomplete="off" :multiline="true" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
-              required></ejs-textbox>
+            <div v-show="eventInstance.startTime.toDateString() == eventInstance.endTime.toDateString()">
+              <ejs-datepicker
+                :showClearButton="false"
+                :floatLabelType="'Auto'"
+                :allowEdit="false" :placeholder="'Date'"
+                :value="eventInstance.startTime"
+                :format="dateFormat"
+              ></ejs-datepicker>              
+            </div>
+            <div v-show="eventInstance.startTime.toDateString() != eventInstance.endTime.toDateString()">
+              <ejs-daterangepicker
+                :showClearButton="false"
+                :floatLabelType="'Auto'"
+                :allowEdit="false" :placeholder="'Dates'"
+                :value="eventInstance.dates"
+                :format="dateFormat"
+              ></ejs-daterangepicker>              
+            </div>
+            <div style="display: flow-root">
+              <div style="width: 48%; float: left">
+                <ejs-timepicker floatLabelType="Auto" v-model="eventInstance.startTime" :placeholder="'Start Time'"></ejs-timepicker>
+              </div>
+              <div style="width: 48%; float: right">
+                <ejs-timepicker floatLabelType="Auto" v-model="eventInstance.endTime" :placeholder="'End Time'" :min="eventInstance.startTime"></ejs-timepicker>
+              </div>
+            </div>
+            <!-- <ejs-textbox autocomplete="off" v-model="eventInstance.components['component(s)'][0].fields.contents" :multiline="true" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
+              required></ejs-textbox> -->
+            <!-- <ejs-textbox autocomplete="off" v-model="eventInstance.components['component(s)'][0].fields.contents" :multiline="true" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
+              required></ejs-textbox> -->
           </div>
           <!-- <div class="panel">
             <div class="card-header">Times</div>
@@ -53,7 +86,9 @@
           <div class="panel">
             <div class="card-header">Teams</div>
             <div class="card-explanation">This is where teams are. Let's describe this better</div>
-            <event-teams/>
+            <event-teams
+              v-model="tempTeams"
+            />
           </div>
           <!-- <div class="panel">
             <div class="card-header">Serve Teams</div>
@@ -92,7 +127,8 @@
       <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Event</div>
         <div class="details">
-          <new-event/>
+          <new-event
+            @created="onEventCreated()"/>
         </div>
         <div class="footer">
         </div>
@@ -109,7 +145,9 @@ import Events from '@/services/events'
 import Cards from '@/components/CardList'
 
 import NewEvent from '@/components/NewEvent'
-import AddTeamToEvent from '@/components/AddTeamToEvent'  
+import AddTeamToEvent from '@/components/AddTeamToEvent'
+import CustomRadio from '@/components/CustomRadio'
+import { SweetModal } from 'sweet-modal-vue'
 
 // Event Components
 
@@ -135,10 +173,12 @@ export default {
       events: [],  
       eventSettings: { dataSource: extend([], this.events, null, true) },
       dataManageer: {},
+      times: [],
       // selectedDate: new Date(),
       selectedDate: new Date(),
       selectedID: -1,
       selectedEvent: {},
+      selectedEvents: [],
       views: ['Month', 'Day'],
       eventHash: {},
       creatingNewItem: false,
@@ -151,12 +191,19 @@ export default {
       selectedTeamToEvent: {},
       currentlyEditing: '',
       tempSpeaker: {},
-      tempContact: {}
+      tempContact: {},
+      tempTeams: [
+        {teamName: 'Worship Team',
+        members: [
+          {}
+        ]}
+      ]
     }
   },
   components: {
     Cards, Times, EventServing, OrderOfService, Reminders, EventTeams,
-    NewEvent, NewOrderOfServiceItem, AddTeamToEvent, Speaker, Contact
+    NewEvent, NewOrderOfServiceItem, AddTeamToEvent, Speaker, Contact,
+    CustomRadio, SweetModal
   },
   provide: {
     schedule: [Day, Month, Resize, DragAndDrop]
@@ -171,6 +218,11 @@ export default {
     });
   },
   methods: {
+    recieveItem(item) {
+      console.log(item.id)
+      this.recieveID(item.id)
+      this.getEventInstancesByBase(item.eventBaseID)
+    },
     async recieveID(id) {
       if (id == undefined) {
         return
@@ -185,9 +237,10 @@ export default {
 
       this.creatingNewItem = false
 
+
       await this.getEventInstance(id)      
       this.selectedID = id
-    },    
+    },
     createNewItem() {
       this.selectedID = -1
       this.$router.push(`/app/calendar/`)
@@ -202,10 +255,29 @@ export default {
       this.eventsLoading = false
       return data
     },
+    async getEventInstancesByBase (eventBaseID) {
+      const response = await Events.getEventInstancesByBase(eventBaseID)
+      const data = response['eventInstance(s)']
+      this.selectedEvents = data
+      console.log(data)
+      this.times = ['all']
+      for (let index = 0; index < data.length; index++) {
+        const event = data[index];
+        const date = new Date(event.startTime)
+        this.times.push(getDayOfWeekMonthDay(date) + ', ' + getHHMM(date))
+      }
+      return data
+    },
     async getEventInstance (instanceID) {
       const response = await Events.getEventInstance(instanceID)
       const data = response['eventInstance']
       this.eventInstance = data
+      this.eventInstance.startTime = new Date(data.startTime)
+      this.eventInstance.endTime = new Date(data.endTime)
+      this.eventInstance.dates = [        
+        this.eventInstance.startTime,
+        this.eventInstance.endTime
+      ]
       return data
     },
     async getEventBases () {
@@ -215,6 +287,11 @@ export default {
       // this.eventsLoading = false
       return data
     },
+    onEventCreated() {
+      this.$refs.eventCreated.open()
+      this.createNewItem = false
+      this.getEventInstances()
+    }
   },
   computed: {
     editingItem () {
@@ -245,7 +322,8 @@ export default {
           StartTime: event.startTime,
           EndTime: event.endTime,
           startTime: event.startTime,
-          endTime: event.endTime
+          endTime: event.endTime,
+          eventBaseID: event.eventBaseID
           // profile:'https://images.unsplash.com/photo-1483884105135-c06ea81a7a80?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
           // subtext: prayer.personID + '',
         }
@@ -262,6 +340,9 @@ export default {
       }
       return events
     }
+  },
+  watch: {
+
   }
 }
 </script>
@@ -290,6 +371,17 @@ export default {
     box-shadow: 0px 3px 13px -2px #00000040;
     max-width: 750px;
     min-width: 500px;
+  }
+  .time-chip-holder {
+    width: 95%;
+    overflow-x: auto;
+  }
+  .chips {
+    margin-left: 25px;
+    width: auto;
+    display: inline-block;
+    overflow-x: visible;
+    min-width: 90%;
   }
 
 /* //////////////////////////

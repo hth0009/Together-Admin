@@ -1,5 +1,17 @@
 <template>
   <div id='home'>
+    <!-- <item-page>
+      <template #card>
+        <div>
+          hi
+        </div>
+      </template>
+      <template #card>
+        <div>
+          bye
+        </div>
+      </template>
+    </item-page> -->
     <!-- <div id="home-cards">
       <div class="card medium">
         <h4>Carousel</h4>
@@ -34,6 +46,7 @@ import People from '@/components/People'
 import PinnedEvents from '@/components/PinnedEvents'
 import Carousel from '@/components/Carousel'
 import Avatar from '@/components/Avatar'
+import ItemPage from '@/components/ItemPage'
 
   export default {
     name: 'Home',
@@ -45,7 +58,7 @@ import Avatar from '@/components/Avatar'
       }
     },
     components: {
-      Notifications, People, PinnedEvents, Carousel, Avatar
+      Notifications, People, PinnedEvents, Carousel, Avatar, ItemPage
     }
   }
 </script>

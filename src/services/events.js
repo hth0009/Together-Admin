@@ -16,6 +16,18 @@ export default {
       return e
     })
   },
+  getEventInstancesByBase (baseID) {
+    return Api().get('eventinstances',
+      {
+        params: {
+          eventBaseID: `${baseID}`
+        }
+      }).then((response) => {
+      return response.data
+    }).catch((e) => {
+      return e
+    })
+  },
   getEventBasesByChurch (churchUsername = store.state.churchUsername) {
     return Api().get('eventbases',
       {

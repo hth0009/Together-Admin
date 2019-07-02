@@ -7,7 +7,7 @@
           :cardList="formatedPeople"
           :loading="peopleLoading"
           :selectedID="selectedID + ''"
-          :hasAddNew="true"
+          :hasAddNew="false"
           @selected="recieveID"
           @onAddNew="createNewItem"
           />
@@ -31,7 +31,7 @@
         </div>
         <div class="quick-actions">
           <button class="basic-button"><i class="material-icons">send</i></button>
-          <button class="basic-button red"><i class="material-icons">delete</i></button>
+          <!-- <button class="basic-button red"><i class="material-icons">delete</i></button> -->
         </div>
         <div class="details">
           <!-- <button class="section-toggle">Teams</button> -->
@@ -92,11 +92,10 @@
           </div>
         </div>
       </div>
-      <div class="new-item" v-if="creatingNewItem">
+      <!-- <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Person</div>
         <div class="details">
           <div class="type">
-            <!-- <custom-radio v-model="newItemType" :options="['detailed', 'bulk', 'upload']"></custom-radio> -->
           </div>
           <div class="detailed" v-show="newItemType == 0">
            <div style="width: 45%; display: inline-block">
@@ -111,9 +110,6 @@
               <ejs-textbox autocomplete="off" floatLabelType="Auto" type="email" placeholder="Email"
               name="none"></ejs-textbox>
             </div>
-            <!-- <div class="section">
-              mailing
-            </div> -->
             <div>
               <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Street"
               name="none"></ejs-textbox>
@@ -136,7 +132,7 @@
           <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
           <button class="basic-button green">CREATE</button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

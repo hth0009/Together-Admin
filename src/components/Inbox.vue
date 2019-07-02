@@ -43,6 +43,7 @@
             <i @click="sendMessage" class="material-icons noselect">send</i>
           </form>
       </div>
+    </div>
       <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Message</div>
         <div class="details">
@@ -85,7 +86,6 @@
           <button class="basic-button green" @click="createThread">SEND</button>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -345,7 +345,7 @@ export default {
     /* background: red; */
     flex: 1;
     border-radius: 10px;
-    margin: 4vh 7.5px;
+    margin: calc( 10px + 4vh) 7.5px;
     box-shadow: 0px 3px 13px -2px #00000040;
     max-width: 600px;
     min-width: 400px;
@@ -382,8 +382,7 @@ export default {
   .new-message-box input:active,
   .new-message-box input:focus{
     outline: none;
-  }
-  
+  }  
   .new-message-box i{
     text-align: center;
     font-size: 20px;

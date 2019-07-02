@@ -7,7 +7,7 @@ export default {
       {
         params: {
           // personID: `${store.state.personID}`
-          orderByDescending: 'lastMessageAt'
+          "orderByDescending": 'lastMessageAt'
         }
       }).then((response) => {
       return response.data

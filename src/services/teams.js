@@ -47,5 +47,19 @@ export default {
     }).catch((e) => {
       console.error(e)
     })
+  },
+  deleteTeam (teamID) {
+    return Api().delete('teams',
+    {data: {
+      "elements": [
+        {
+          "id": `${teamID}`
+        }
+      ]
+    }}).then((response) => {
+      return response
+    }).catch((e) => {
+      console.error(e)
+    })
   }
 }
