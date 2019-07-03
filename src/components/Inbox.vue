@@ -354,6 +354,7 @@ export default {
     display: grid;
     grid-template-rows: 35px auto 47px;
     height: calc(92vh);
+    position: relative;
   }
   .thread-header {
     padding: 10px 15px;
@@ -407,12 +408,12 @@ export default {
     /* display: flex; */
     display: grid;
     grid-template-rows: auto auto;
-    grid-template-columns: 35px auto;
+    grid-template-columns: 35px minmax(0, 1fr);
     padding: 5px;
     margin-top: 20px;
   }
   .message-box.self {
-    grid-template-columns: auto 35px;
+    grid-template-columns: minmax(0, 1fr) 35px;
     text-align: right;
   }
   .message-box .profile-pic {
@@ -453,8 +454,11 @@ export default {
     font-size: 14px;    
     padding-left: 0px;
     padding-right: 60px;
+    word-wrap: break-word;
+    line-height: 1.05;
   }
   .message-box.self .message-info {
+    position: relative;
     grid-column: 1/2;
   }
   .message-box.self .profile-pic {
