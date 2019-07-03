@@ -48,6 +48,13 @@ export default {
       console.error(e)
     })
   },
+  patchTeam (teamInfo) {
+    return Api().patch('teams', teamInfo).then((response) => {
+      return response.data
+    }).catch((e) => {
+      console.error(e)
+    })
+  },
   deleteTeam (teamID) {
     return Api().delete('teams',
     {data: {

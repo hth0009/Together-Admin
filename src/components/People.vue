@@ -29,11 +29,11 @@
           <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
           <div class="subtitle">{{selectedPerson.account.username !== '' ? '@' + selectedPerson.account.username : ''}}</div>
         </div>
-        <div class="quick-actions">
-          <button class="basic-button"><i class="material-icons">send</i></button>
-          <!-- <button class="basic-button red"><i class="material-icons">delete</i></button> -->
-        </div>
         <div class="details">
+          <div class="quick-actions">
+            <button class="basic-button"><i class="material-icons">send</i></button>
+            <!-- <button class="basic-button red"><i class="material-icons">delete</i></button> -->
+          </div>
           <!-- <button class="section-toggle">Teams</button> -->
           <div class="panel">
             <div class="card-header noselect">General Info</div>

@@ -31,13 +31,13 @@
           <div class="subtitle" v-if="selectedTeam.isAnonymous">anonymous</div>
           <div class="subtitle" v-else-if="selectedTeam.isServeTeam">serve team</div>
           <div class="subtitle" v-else>community group</div>
-        </div>        
-        <div class="quick-actions">
-          <button class="basic-button"><i class="material-icons">send</i></button>
-          <button class="basic-button red" @click="deleteButtonClicked"><i class="material-icons">delete</i></button>
         </div>
-        <div class="details">
-            <div class="panel">
+        <div class="details">    
+          <div class="quick-actions">
+            <button class="basic-button"><i class="material-icons">send</i></button>
+            <button class="basic-button red" @click="deleteButtonClicked"><i class="material-icons">delete</i></button>
+          </div>
+          <div class="panel">
             <div class="card-header noselect">Description</div>
               <p>{{selectedTeam.description}}</p>              
             </div>    
@@ -52,7 +52,18 @@
                 <p>Reach out to John at (606) 637-0799</p>
             </div> -->
             <div class="panel">
-              <div class="card-header noselect">Members <span>| {{selectedTeam.members.total}}</span></div>
+              <div class="card-header noselect">
+                <div>Members <span>| {{selectedTeam.members.total}}</span></div>
+                <button class="basic-button icon"
+                @click="addPeopleToTeam"
+                ><i class="material-icons">add</i></button>
+              </div>
+              <div :key="selectedID">
+                <ejs-multiselect :dataSource='peopleNotInTeam' 
+                  :fields="{value: 'id', text: 'fullName'}"
+                  v-model="peopleToAdd" :placeholder="'Add People'"
+                ></ejs-multiselect>
+              </div>
               <div class="people">
                 <div class="people-box" v-for="person in selectedTeam.members['teamMembers(s)']" :key="person.personID">
                   <div class="icon" :style="{backgroundImage: 'url(' +  person.icon + ')'}"></div>
@@ -378,7 +389,10 @@ export default {
       uploadingPhoto: false,
       newTeam: newTeamTemplate,
       subTeamStructure: subTeamStructureTemplate,
-      teamFilters: teamFiltersTemplate
+      teamFilters: teamFiltersTemplate,
+      peopleInTeam: [],
+      peopleNotInTeam: [],
+      peopleToAdd: []
     }
   },
   components: {
@@ -407,6 +421,8 @@ export default {
       this.selectedID = id
       const response = await Teams.getTeam(id)
       this.selectedTeam = response['team']
+      this.peopleInTeam = response['team'].members['teamMembers(s)']
+      this.getPeopleNotInTeam()
     },
     async getPeople() {
       // const response = await Teams.getTeamsByID(this.personID)
@@ -441,6 +457,45 @@ export default {
       console.log(this.newTeam)
     },
     clipImage() {
+    },
+    async getPeopleNotInTeam () {
+      this.peopleToAdd = []
+      const peopleInTeam = await this.peopleInTeam.map(person =>
+      person.personID)
+      const people = this.people
+
+      const toRemoveMap = await peopleInTeam.reduce(
+        function(ids, item) {
+          ids[item] = item || true;
+          return ids;
+        },
+        {} // initialize an empty object
+      )
+      console.log(toRemoveMap)
+
+      const filteredArray = await people.filter(function (x) {
+        return !toRemoveMap[x.id];
+      })
+      console.log(filteredArray)
+
+      this.peopleNotInTeam = filteredArray
+    },
+    async addPeopleToTeam() {
+      // Reformat People Ids
+      const members = this.peopleToAdd.map(function(id) {
+        return {"personID": `${id}`}
+      })
+
+      const patchData = 
+      {
+        "identifier":{
+          "id": `${this.selectedID}`
+        },
+        "values":{
+          "membersAdd": members
+        }
+      }
+      Teams.patchTeam(patchData)
     }
   },
   props: {

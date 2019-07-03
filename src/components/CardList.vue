@@ -413,6 +413,7 @@ export default {
     overflow-x: visible;
     padding-bottom: 40px;
     // margin-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
   }
   .nothing-here {
     text-align: center;
@@ -427,7 +428,14 @@ export default {
   }
   .card-wrapper {
     overflow: visible;
+    background: white;
   }
+  // .card-wrapper:last-child {
+  //   padding-bottom: 30px;
+  //   border-bottom-right-radius: 10px;
+  //   border-bottom-left-radius: 10px;
+  //   margin-bottom: 40px;
+  // }
   .card-box {
     // margin: 5px 0px;
     /* height: 30px; */

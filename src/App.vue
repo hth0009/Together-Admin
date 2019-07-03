@@ -24,7 +24,8 @@
 <style>
   #app{
     width: 100%;
-    height: 100%;
+    height: 100%;    
+    -webkit-overflow-scrolling: touch;
   }
   .noselect {
   -webkit-touch-callout: none; /* iOS Safari */

@@ -460,9 +460,23 @@ import Home from '@/components/Home'
   
   #app-page-content >>> .card-header{
     color: #555555;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    margin-bottom: 5px
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+  }
+  #app-page-content >>> .card-header .basic-button.icon {
+    padding: 5px;
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+  }
+  #app-page-content >>> .card-header .basic-button.icon i{
+    font-size: .8rem;
   }
   /* #app-page-content >>> .card-explanation ~ .card-header {
     margin-bottom: 0px;
