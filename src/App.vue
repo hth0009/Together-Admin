@@ -118,7 +118,7 @@
   width: 30px;
   height: 30px;
   padding: 5px 3px 3px 3px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 .basic-button.icon i{
   font-size: 20px;

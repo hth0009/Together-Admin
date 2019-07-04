@@ -416,6 +416,34 @@ import Home from '@/components/Home'
  }
  
 /* //////////////////////////////////////////
+//////////////  ANIMATIONS //////////////////
+////////////////////////////////////////// */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+    /* transform: translateZ(5px); */
+    box-shadow: 0px 0px 0px 0px black;
+  }
+  35% {    
+    box-shadow: 0px -3px 0px -4px #00000049;
+  }
+  45% {
+    transform: translateY(5px);
+  }
+  70% {    
+    opacity: 1;
+  }
+  100% {
+    transform: translateZ(0px);   
+    transform: translateY(0px);
+  }
+}
+
+
+ 
+/* //////////////////////////////////////////
 ////////////  FOR SUB PAGES /////////////////
 ////////////////////////////////////////// */
 
@@ -465,6 +493,7 @@ import Home from '@/components/Home'
     margin-bottom: 5px;
     display: flex;
     align-items: center;
+    opacity: inherit;
   }
   #app-page-content >>> .card-header .basic-button.icon {
     padding: 5px;
@@ -486,6 +515,7 @@ import Home from '@/components/Home'
     color: #a1a1a1;
     margin-bottom: 10px;
     font-weight: 500;
+    opacity: inherit;
   }
   #app-page-content >>> .section-header{
     color: #505050;
@@ -550,7 +580,7 @@ import Home from '@/components/Home'
     grid-template-rows: 5px auto 15px auto 5px;
     margin: 40px 0px 00px 10px;
   }
-  #app-page-content >>> .selected-view .profile-pic {
+  #app-page-content >>> .selected-view .header .profile-pic {
     grid-row: 1/5;
 
     margin: 7.5px;
@@ -608,25 +638,32 @@ import Home from '@/components/Home'
     border-radius: 10px;
     padding: 25px;
     margin: 15px 7.5px;
-    box-shadow: 0px 3px 13px -2px #00000040;
+    box-shadow: 0px 5px 13px -2px #00000040;
     max-width: 550px;
     min-width: 400px;
+    background: white;
+
+    /* ANIMATION */
+    animation: .5s ease-out 0s 1 fadeIn;
   }
   #app-page-content >>> .selected-view .panel h4{
     font-size: 20px;
     color: #424242;
     margin-bottom: 10px;
+    opacity: inherit;
   }
   #app-page-content >>> .selected-view .panel .explanation{
     font-size: 16px;
     color: #a1a1a1;
     margin-bottom: 10px;
-    margin-left: 10px;
+    margin-left: 10px;    
+    opacity: inherit;
   }
   #app-page-content >>> .selected-view .panel .item{
     margin: 0px 0px 10px 10px;
     display: flex;
     align-items: flex-end;
+    opacity: inherit;
   }
   #app-page-content >>> .selected-view .panel .item i{
     font-size: 18px;

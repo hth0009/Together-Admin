@@ -32,7 +32,8 @@
           <div class="subtitle" v-else-if="selectedTeam.isServeTeam">serve team</div>
           <div class="subtitle" v-else>community group</div>
         </div>
-        <div class="details">    
+        <div class="details"
+        :key="selectedID">    
           <div class="quick-actions">
             <button class="basic-button"><i class="material-icons">send</i></button>
             <button class="basic-button red" @click="deleteButtonClicked"><i class="material-icons">delete</i></button>
@@ -54,23 +55,33 @@
             <div class="panel">
               <div class="card-header noselect">
                 <div>Members <span>| {{selectedTeam.members.total}}</span></div>
+              </div>
+              <div :key="selectedID" class="add-people">
+                <ejs-multiselect :dataSource='peopleNotInTeam' 
+                  :fields="{value: 'id', text: 'fullName'}"
+                  v-model="peopleToAdd" :placeholder="'Add People'"
+                ></ejs-multiselect>                
                 <button class="basic-button icon"
                 @click="addPeopleToTeam"
                 ><i class="material-icons">add</i></button>
               </div>
-              <div :key="selectedID">
-                <ejs-multiselect :dataSource='peopleNotInTeam' 
-                  :fields="{value: 'id', text: 'fullName'}"
-                  v-model="peopleToAdd" :placeholder="'Add People'"
-                ></ejs-multiselect>
-              </div>
               <div class="people">
-                <div class="people-box" v-for="person in selectedTeam.members['teamMembers(s)']" :key="person.personID">
-                  <div class="icon" :style="{backgroundImage: 'url(' +  person.icon + ')'}"></div>
-                  <div class="person-info">
-                    <div class="name">{{person.firstName + " " + person.lastName}}</div>
-                  </div>
-                </div>
+                <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :hasButtonOnCard="true"
+                  :buttonColor="'#ff7675'"
+                  :buttonIcon="'close'"
+                  :cardList="peopleInTeam"
+                  :cardSelectable="false"
+                  @buttonClicked="removePersonFromTeam"
+                  profilePicFillerValue="firstName"
+                  :fields="{
+                    title: 'fullName',
+                    id: 'id'
+                  }"
+                />
               </div>
             </div>   
           </div>
@@ -403,6 +414,7 @@ export default {
       if (id == undefined) {
         return
       }
+      this.selectedTeam = {}
       if (id == '-1') {
         this.selectedID = id
         this.$router.push(`/app/teams/`)
@@ -421,7 +433,12 @@ export default {
       this.selectedID = id
       const response = await Teams.getTeam(id)
       this.selectedTeam = response['team']
-      this.peopleInTeam = response['team'].members['teamMembers(s)']
+      this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
+        fullName: member.firstName + ' ' + member.lastName,
+        id: member.personID,
+        firstName: member.firstName,
+        lastName: member.lastName,
+      }))
       this.getPeopleNotInTeam()
     },
     async getPeople() {
@@ -460,25 +477,39 @@ export default {
     },
     async getPeopleNotInTeam () {
       this.peopleToAdd = []
-      const peopleInTeam = await this.peopleInTeam.map(person =>
-      person.personID)
+      const peopleInTeam = this.peopleInTeam.map(person =>
+      person.id)
       const people = this.people
 
-      const toRemoveMap = await peopleInTeam.reduce(
+      const toRemoveMap = peopleInTeam.reduce(
         function(ids, item) {
           ids[item] = item || true;
           return ids;
         },
         {} // initialize an empty object
       )
-      console.log(toRemoveMap)
 
-      const filteredArray = await people.filter(function (x) {
-        return !toRemoveMap[x.id];
+      const filteredArray = people.filter(function (x) {
+        return !!!toRemoveMap[x.id + ''];
       })
-      console.log(filteredArray)
 
       this.peopleNotInTeam = filteredArray
+    },
+    async removePersonFromTeam(personID) {
+      const patchData = 
+      {
+        "identifier":{
+          "id": `${this.selectedID}`
+        },
+        "values":{
+          "membersRemove": [
+            {"personID": `${personID}`}
+          ]
+        }
+      }      
+      Teams.patchTeam(patchData).then(() => {
+        this.recieveID(this.selectedID)
+      })
     },
     async addPeopleToTeam() {
       // Reformat People Ids
@@ -496,15 +527,47 @@ export default {
         }
       }
       Teams.patchTeam(patchData)
+    },    
+    postTeam() {
+      const newTeam = {
+        "churchUsername": store.state.churchUsername,
+        "name": this.newTeam.name,
+        "teamImageURL": "",
+        "teamImageThumbnailURL": "",
+        "leaderID": this.newTeam.leaderID,
+        "members": [
+          {
+            "personID": this.newTeam.leaderID
+          }
+        ],
+        "isAnonymous": this.newTeam.type == 2,
+        "description": this.newTeam.description,
+        "hasMeetings": this.newTeam.hasMeetings == 1,
+        "meetingRecurrence": this.newTeam.recurrence,
+        "meetingAddress": this.newTeam.address,
+        "meetingLocationDescription": this.newTeam.location,
+        "isServeTeam": this.newTeam.type == 1,
+        "serveTeamRoles": [
+        ]
+      }
+      Teams.postTeam(newTeam).then(function(result) {
+        this.$refs.teamCreated.open()
+        this.getTeams()
+        this.creatingNewItem = false
+        this.recieveID(result.newResourceID)
+        // console.log(result)
+        // this.selectedTeam
+      }.bind(this))
     }
   },
   props: {
   },
   mounted() {
     this.teamsLoading = true
-    this.recieveID(this.$route.params.id)
     this.getTeams().then(() => {this.teamsLoading = false})
-    this.getPeople()
+    this.getPeople().then(() =>{      
+      this.recieveID(this.$route.params.id)
+    })
   },
   created() {
   },
@@ -547,37 +610,6 @@ export default {
         people[index]['name'] = person.firstName + " " + person.lastName
       }
       return people
-    },
-    postTeam() {
-      const newTeam = {
-        "churchUsername": store.state.churchUsername,
-        "name": this.newTeam.name,
-        "teamImageURL": "",
-        "teamImageThumbnailURL": "",
-        "leaderID": this.newTeam.leaderID,
-        "members": [
-          {
-            "personID": this.newTeam.leaderID
-          }
-        ],
-        "isAnonymous": this.newTeam.type == 2,
-        "description": this.newTeam.description,
-        "hasMeetings": this.newTeam.hasMeetings == 1,
-        "meetingRecurrence": this.newTeam.recurrence,
-        "meetingAddress": this.newTeam.address,
-        "meetingLocationDescription": this.newTeam.location,
-        "isServeTeam": this.newTeam.type == 1,
-        "serveTeamRoles": [
-        ]
-      }
-      Teams.postTeam(newTeam).then(function(result) {
-        this.$refs.teamCreated.open()
-        this.getTeams()
-        this.creatingNewItem = false
-        this.recieveID(result.newResourceID)
-        // console.log(result)
-        // this.selectedTeam
-      }.bind(this))
     }
   }
 }
@@ -676,20 +708,6 @@ h2 {
 .team-info p{
   margin: 10px 20px 10px 10px;
 }
-.skills {
-  padding-left: 5px;
-}
-.skill {
-  display: inline-block;
-  margin: 0px 5px 15px 5px;
-  padding: 5px;
-  border: 2px #B6B9BC solid;
-  cursor: pointer;
-  font-size: 12px;
-}
-.skill.confirmed {
-  border-color: #69CDCF;
-}
 .image-cropper {
   height: 100px;
   width: 100px;
@@ -701,6 +719,19 @@ h2 {
   position: relative;
   left: -25px;
   top: -25px;
+}
+.add-people {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.add-people button {
+  width: 25px;
+  height: 25px;
+  padding: 6px 5px;
+}
+.add-people button i{
+  font-size: .8rem
 }
 
 /* //////////////////////////

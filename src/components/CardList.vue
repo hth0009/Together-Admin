@@ -1,7 +1,9 @@
 <template>
   <div class="cards"
     :style="{maxHeight: 'calc(' + maxHeight + '% - 10px)',
-      boxShadow: hasShadow ? '': 'none'}">
+      boxShadow: hasShadow ? '': 'none'}"
+    :class="{'inline': inline}"
+  >
     <div class="search-wrapper">
       <input type="text" class="basic-input"
         placeholder="search"
@@ -11,7 +13,7 @@
           :class="{selected: toggleFilterSection}">filter_list</i>
       </div>
     </div>
-    <div class="filter-wrapper">
+    <div class="filter-wrapper" v-if="!!filters.length">
       <div class="selected-filters" :class="{toggled: toggleFilterSection}">
         <div class="filters">
           <div v-for="(filterKey, index) in Object.keys(selectedFilters)" :key="index" class="filter" @click="toggleFilter(filterKey, selectedFilters[filterKey], '', '', '')"
@@ -44,48 +46,57 @@
     <div data-simplebar class="card-boxes"
       v-if="!loading"
       v-on:scroll="manageScroll">
-    <div class="nothing-here noselect" v-if="filteredCards.length == 0">
+    <div class="nothing-here noselect" v-if="filteredCards.length == 0 && !!!cardSearch">
       nothing here
     </div>
-    <div class="card-wrapper" v-for="(card, index) in filteredCards" :key="card['id']">
+    <div class="card-wrapper" v-for="(card, index) in filteredCards" :key="card[fields.id]">
       <div class="header"
-        v-if="card['header'] && (index == 0 || filteredCards[index - 1].header != card.header)">{{card.header}}</div>
+        v-if="card['header'] && (index == 0 || filteredCards[index - 1][fields.header] != card[fields.header])">{{card.header}}</div>
       <div
         class="card-box noselect"
         :class="{
-          unread: card['unread'] != undefined && card['unread'] > 0,
-          selected: card['id'] == highlightedID,
-          'photo-header': card['photoHeader'] != undefined
+          'not-selectable': !cardSelectable,
+          unread: card[fields.unread] != undefined && card[fields.header] > 0,
+          selected: card[fields.id] == highlightedID,
+          'photo-header': card[fields.photoHeader] != undefined
         }"
         :style="{
-          backgroundImage: card['photoHeader'] != undefined ? 'url(' + card['photoHeader'] + ')' : '',          
+          backgroundImage: card[fields.photoHeader] != undefined ? 'url(' + card[fields.photoHeader] + ')' : '',          
           color: card['color'] != undefined ? card['color'] : ''
         }"
         @click="selectCard(card['id'], card)">
-          <div v-if="card['superscript']" class="superscript">{{card['superscript']}}</div>
+          <!-- <div v-if="card['superscript']" class="superscript">{{card['superscript']}}</div> -->
           <avatar
             v-if="!noProfile"
             class="profile-pic"
             :height="30"
-            :url="card['profile']"
+            :url="card[fields.profile]"
             :title="card[profilePicFillerValue]"/>
           <div class="card-info"
               :style="{
-                backgroundImage: card['photoHeader'] != undefined ? 'url(' + card['photoHeader'] + ')' : ''
+                backgroundImage: card[fields.photoHeader] != undefined ? 'url(' + card[fields.photoHeader] + ')' : ''
               }">
-            <div class="title"> {{card['title']}} </div>
-            <div v-if="card['subtext']" class="subtext"> {{card['subtext'].substring(0, 30) + ""}} </div>
-            <div v-if="card['subtext2']" class="subtext-2"> {{card['subtext2'].substring(0, 30) + ""}} </div>
+            <div class="title"> {{card[fields.title]}} </div>
+            <div v-if="card[fields.subtitle]" class="subtext"> {{card[fields.subtitle].substring(0, 30) + ""}} </div>
+            <div v-if="card[fields.subtitle2]" class="subtext-2"> {{card[fields.subtitle2].substring(0, 30) + ""}} </div>
           </div>
-          <div v-if="card['body']" class="body">
+          <!-- <div v-if="card['body']" class="body">
             {{card['body'].substring(0, 250) + ""}}
-          </div>
-          <div v-if="hasAddButtonOnCard"            
+          </div> -->
+          <div v-if="hasButtonOnCard && !!!buttonColor"         
+            @click="$emit('buttonClicked', card[fields.id])"   
            :style="{
-            boxShadow: card['color'] != undefined ? '0px 1px 4px ' + card['color'] + 'A5' : '',
-            backgroundColor: card['color'] != undefined ? card['color'] : ''
+            boxShadow: card[fields.color] != undefined ? '0px 1px 4px ' + card[fields.subtitle] + 'A5' : '',
+            backgroundColor: card[fields.color] != undefined ? card[fields.color] : ''
             }" class="add-button">
-            <i class="material-icons">add</i></div>
+            <i class="material-icons">{{buttonIcon}}</i></div>
+          <div v-else-if="hasButtonOnCard"         
+            @click="$emit('buttonClicked', card[fields.id])"   
+           :style="{
+            color: buttonColor,
+            backgroundColor: card[fields.color] != undefined ? card[fields.color] : ''
+            }" class="card-button">
+            <i class="material-icons">{{buttonIcon}}</i></div>
       </div>
     </div>
     </div>  
@@ -122,13 +133,13 @@ export default {
         maxPatternLength: 32,
         minMatchCharLength: 1,
         keys: [{
-          name: 'title',
+          name: this.fields.title,
           weight: 0.7
         }, {
-          name: 'subtext',
+          name: this.fields.subtitle,
           weight: 0.4
         }, {
-          name: 'subtext2',
+          name: this.fields.subtitle2,
           weight: 0.3
         }]
       },
@@ -143,6 +154,9 @@ export default {
   },
   methods: {
     selectCard(id, item) {
+      if (!this.cardSelectable) {
+        return
+      }
       if (this.selectedID == id) {
         this.$emit('selected', '-1')
         return
@@ -221,6 +235,21 @@ export default {
   },
   props: {
     cardList: Array,
+    fields: 
+    {
+      type: Object,
+      default: () => ({
+        id: 'id',
+        title: 'title',
+        subtitle: 'subtext',
+        subtitle2: 'subtext2',
+        color: 'color',
+        profile: 'profile',
+        header: 'header',
+        unread: 'unread',
+        photoHeader: 'photoHeader'
+      })
+    },
     selectedID: String,
     loading: {
       type: Boolean,
@@ -234,13 +263,25 @@ export default {
       type: Boolean,
       default: true
     },
+    inline: {
+      type: Boolean,
+      default: false
+    },
     hasAddNew: {
       type: Boolean,
       default: false
     },
-    hasAddButtonOnCard: {
+    hasButtonOnCard: {
       type: Boolean,
       default: false
+    },
+    buttonColor: {
+      type: String,
+      default: ''
+    },
+    buttonIcon: {
+      type: String,
+      default: 'add'
     },
     hasDates: {
       type: Boolean,
@@ -253,6 +294,10 @@ export default {
     returnObject: {
       type: Boolean,
       default: false
+    },
+    cardSelectable: {
+      type: Boolean,
+      default: true
     },
     /*[
       {
@@ -317,6 +362,10 @@ export default {
     border-bottom: 10px white solid;
     /* border-right: 1px #E6E9EC solid; */
   }
+  .cards.inline {
+    margin: 0px;
+    // box-shadow: 0px 2px 7px 0px #00000049;
+  }
   .search-wrapper {
     /* border-bottom: 1px #E6E9EC solid; */
     height: 57px;
@@ -330,6 +379,11 @@ export default {
     padding-left: 20px;
     padding-right: 0px;
     border-top-left-radius: 10px;
+  }
+  .cards.inline .search-wrapper .basic-input {
+    margin-top: 0px;
+    padding: 0px;
+    border-top-left-radius: 0px;
   }
   .search-wrapper .filter-section-toggle {
     // padding-top: 5px;
@@ -415,6 +469,9 @@ export default {
     // margin-bottom: 10px;
     -webkit-overflow-scrolling: touch;
   }
+  .cards.inline .card-boxes{
+    padding-bottom: 0px;
+  }
   .nothing-here {
     text-align: center;
     padding: 150px 0px;
@@ -444,6 +501,7 @@ export default {
     transition: all .3s ease;
     display: grid;
     grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
     align-items: center;
     // border-left: 2px white solid;
     cursor: pointer;
@@ -468,6 +526,14 @@ export default {
   }
   .card-box:hover {
     background-color: #f3f3f3;
+    box-shadow: 0px 3px 7px -6px #8080804f;
+  }
+  .card-box.not-selectable {
+    padding-left: 0px;
+    cursor: default;
+  }
+  .card-box.not-selectable:hover {
+    background-color: white;
     box-shadow: 0px 3px 7px -6px #8080804f;
   }
   .card-box.selected {
@@ -609,6 +675,20 @@ export default {
     font-size: .75em;
     z-index: 10;
     position: relative;
+  }
+  .card-box .card-button{
+    
+    position: absolute;
+    right: 10px;
+    bottom: 12.5px;
+    z-index: 50;
+
+    padding: 8px;
+    cursor: pointer;
+  }
+  .card-box .card-button i{
+    font-size: 1rem;
+    font-weight: bold;
   }
   .card-box .add-button{
     background-color: inherit;
