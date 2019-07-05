@@ -13,7 +13,7 @@
           :class="{selected: toggleFilterSection}">filter_list</i>
       </div>
     </div>
-    <div class="filter-wrapper" v-if="!!filters.length">
+    <div class="filter-wrapper">
       <div class="selected-filters" :class="{toggled: toggleFilterSection}">
         <div class="filters">
           <div v-for="(filterKey, index) in Object.keys(selectedFilters)" :key="index" class="filter" @click="toggleFilter(filterKey, selectedFilters[filterKey], '', '', '')"
@@ -350,7 +350,7 @@ export default {
 
   .cards {
     max-height: calc(100% - 10px);
-    margin: 10px 7.5px 0px 7.5px;
+    margin: 10px 12px 0px 12px;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 50px auto minmax(0, 1fr);
@@ -360,6 +360,7 @@ export default {
     border-radius: 10px;
     position: relative;
     border-bottom: 10px white solid;
+    background: white;
     /* border-right: 1px #E6E9EC solid; */
   }
   .cards.inline {
@@ -405,6 +406,9 @@ export default {
     display: grid;    
     grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
     grid-auto-rows: 25px;
+  }
+  .filters:empty {
+    padding: 0px;
   }
   .selected-filters {  
     display: grid;  
@@ -685,6 +689,9 @@ export default {
 
     padding: 8px;
     cursor: pointer;
+  }
+  .cards.inline .card-box .card-button{
+    right: 0px;
   }
   .card-box .card-button i{
     font-size: 1rem;

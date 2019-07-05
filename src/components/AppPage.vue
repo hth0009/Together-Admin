@@ -27,19 +27,19 @@
       </div>
       <transition-group name="fadeLeft" id="app-navbar-buttons">
         <router-link :key="1" v-on:click.native="showSidebar = false" to="/app/home" class="noselect"
-          >home</router-link>
+          ><div class="title">home</div><i class="material-icons">home</i></router-link>
         <router-link :key="2" v-on:click.native="showSidebar = false" to="/app/inbox" class="noselect"
-          >inbox</router-link>
+          ><div class="title">inbox</div><i class="material-icons">mail</i></router-link>
         <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
-          >people</router-link>
+          ><div class="title">people</div><i class="material-icons">person</i></router-link>
         <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
-          >teams</router-link>
+          ><div class="title">teams</div><i class="material-icons">people</i></router-link>
         <router-link :key="5"  v-on:click.native="showSidebar = false" to="/app/prayer" class="noselect"
-          >prayer</router-link>
+          ><div class="title">prayer</div><i class="material-icons">keyboard_arrow_up</i></router-link>
         <router-link :key="6"  v-on:click.native="showSidebar = false" to="/app/calendar" class="noselect"
-          >calendar</router-link>
-        <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/staff" class="noselect"
-          >staff</router-link>
+          ><div class="title">calendar</div><i class="material-icons">event</i></router-link>
+        <!-- <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/staff" class="noselect"
+          >staff<i class="material-icons">home</i></router-link> -->
         <!-- <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
           >this sunday</router-link> -->
       </transition-group>
@@ -136,12 +136,19 @@ import Home from '@/components/Home'
   text-decoration: none;
   margin-bottom: 20px;
   display: inline-flex;
+  align-items: flex-end;
   font-size: 15px;
   text-align: right;
   
   position: relative;
   text-decoration: none;
   z-index: 100;
+}
+#app-navbar-buttons i{
+  font-size: .9rem;
+  padding-left: 0px;
+  color: #b8b8b8;
+  display: none
 }
 #app-navbar-buttons a:hover {
   color: #444444;
@@ -165,7 +172,8 @@ import Home from '@/components/Home'
   visibility: visible;
   width: 100%;
 }
-#app-navbar-buttons a.router-link-active {
+#app-navbar-buttons a.router-link-active,
+#app-navbar-buttons a.router-link-active i {
   color: white;
 }
 #app-navbar-buttons a.router-link-active:before {
@@ -333,14 +341,31 @@ import Home from '@/components/Home'
   #app-page-content {
     /* padding-top: 10px; */
   }
+  #app-header {
+    width: 30px;
+  }
   #app-header .brand{
     margin-top: 20px;
     margin-left: 10px;
   }
   #app-navbar {
-    display: none;
+    /* display: none; */
     min-width: 0px;
     padding: 0px;
+    max-width: 30px;
+  }
+  #app-navbar .title{
+    display: none;
+  }
+  #app-navbar i{
+    display: block;
+  }
+  #app-navbar-buttons {
+    width: 30px;
+  }
+  #app-footer {
+    visibility: hidden;
+    width: 0px;
   }
   #app-page-content.toggled {
     /* padding-left: 0px; */
@@ -505,7 +530,7 @@ import Home from '@/components/Home'
     margin-left: 10px;
   }
   #app-page-content >>> .card-header .basic-button.icon i{
-    font-size: .8rem;
+    font-size: .9rem;
   }
   /* #app-page-content >>> .card-explanation ~ .card-header {
     margin-bottom: 0px;
@@ -578,7 +603,7 @@ import Home from '@/components/Home'
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: 5px auto 15px auto 5px;
-    margin: 40px 0px 00px 10px;
+    margin: 40px 0px 0px 10px;
   }
   #app-page-content >>> .selected-view .header .profile-pic {
     grid-row: 1/5;
@@ -637,7 +662,7 @@ import Home from '@/components/Home'
     margin-bottom: 10px;
     border-radius: 10px;
     padding: 25px;
-    margin: 15px 7.5px;
+    margin: 15px 12px;
     box-shadow: 0px 5px 13px -2px #00000040;
     max-width: 550px;
     min-width: 400px;

@@ -80,14 +80,19 @@
           </div>
           <div class="panel">
             <div class="card-header">Teams</div>
-            <div class="teams">
-              <div class="team-box" v-for="team in selectedPersonTeams" :key="team.id">
-                <div class="icon" :style="{backgroundImage: 'url(' +  team.icon + ')'}"></div>
-                <div class="team-info">
-                  <div class="name">{{team.name}}</div>
-                  <div v-if="team.isLeader" class="leader">Team Leader</div>
-                </div>
-              </div>
+            <div class="teams">              
+                <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :cardList="selectedPersonTeams"
+                  :cardSelectable="false"
+                  profilePicFillerValue="name"
+                  :fields="{
+                    title: 'name',
+                    id: 'id'
+                  }"
+                />
             </div>
           </div>
         </div>

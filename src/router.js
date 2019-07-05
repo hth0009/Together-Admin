@@ -208,14 +208,14 @@ let router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth === false) {
     next()
   } else {
     if (store.getters.authStatus) {
       next()
     } else {
-      store.dispatch('checkLogin')
+      await store.dispatch('checkLogin')
       if (!store.getters.authStatus) {
         next('/login')
       }

@@ -26,6 +26,7 @@
     width: 100%;
     height: 100%;    
     -webkit-overflow-scrolling: touch;
+    /* background: red; */
   }
   .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
