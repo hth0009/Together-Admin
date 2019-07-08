@@ -146,11 +146,11 @@
             <div class="card-explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
             <div class="skills noselect">
               <div class="skill" 
-                v-for="(skill, index) in skills"
-                :key="skill.title"
+                v-for="(skill, index) in selectedPerson.skills['personSkill(s)']"
+                :key="skill.id"
                 :class="{'confirmed': skill.confirmed}"
                 @click="toggleSkill(index)">
-                {{ skill.title }}
+                {{ skill.skill.name }}
               </div>
             </div>
           </div>
@@ -446,7 +446,8 @@ h2 {
   border-radius: 50px;
   background: #b2bec3;
   text-shadow: 0px 1px 8px #00000034;
-  transition: all .3s ease-out
+  transition: all .3s ease-out;
+  text-transform: capitalize;
 }
 .skill.confirmed {
   background: #05e0a2;

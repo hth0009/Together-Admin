@@ -79,7 +79,7 @@
                   profilePicFillerValue="firstName"
                   :fields="{
                     title: 'fullName',
-                    id: 'id'
+                    id: 'relationshipID'
                   }"
                 />
               </div>
@@ -504,7 +504,7 @@ export default {
         },
         "values":{
           "membersRemove": [
-            {"personID": `${relationshipID}`}
+            {"id": `${relationshipID}`}
           ]
         }
       }      
