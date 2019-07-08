@@ -527,7 +527,9 @@ export default {
           "membersAdd": members
         }
       }
-      Teams.patchTeam(patchData)
+      Teams.patchTeam(patchData).then(() => {
+        this.recieveID(this.selectedID)
+      })
     },    
     postTeam() {
       const newTeam = {
