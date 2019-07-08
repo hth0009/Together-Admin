@@ -57,7 +57,7 @@
         class="card-box noselect"
         :class="{
           'not-selectable': !cardSelectable,
-          unread: card[fields.unread] != undefined && card[fields.header] > 0,
+          'unread': card[fields.unread] != undefined && card[fields.unread],
           selected: card[fields.id] == highlightedID,
           'photo-header': card[fields.photoHeader] != undefined
         }"

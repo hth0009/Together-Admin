@@ -28,6 +28,21 @@ export default {
       return e
     })
   },
+  patchMessageRead (threadPersonID) {
+    return Api().patch('messagethreadspeople',
+      {
+        "identifier":{
+          "id": `${threadPersonID}`
+        },
+        "values":{
+          "unreadMessages": 0
+        }
+      }).then((response) => {
+      return response.data
+    }).catch((e) => {
+      return e
+    })
+  },
   postDirectThread (senderID, recipientID, title, descpription) {
     return Api().post('threads',
       {

@@ -190,7 +190,9 @@ export default {
     },
     async getThread(id) {
       const response = await Threads.getThread(id)
+      // console.log(thread)
       let thread = response.thread
+      Threads.patchMessageRead(thread.threadPersonID)
       let members = thread.members['threadMembers(s)']
       this.peopleHash = []
       for (let index = 0; index < members.length; index++) {
