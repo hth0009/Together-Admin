@@ -1,6 +1,6 @@
 <template>
   <div class="people-container">
-    <div class="people-wrapper">
+    <div class="page-wrapper">
       <div class="page-card-wrapper"
         :class="{'inactive': selectedID != ''}">        
         <cards
@@ -12,7 +12,7 @@
           @onAddNew="createNewItem"
           />
       </div>
-      <div class="selected-view" v-if="selectedID != '' && selectedID != -1 && !creatingNewItem">
+      <div class="selected-view" id="selected-view" v-if="selectedID != '' && selectedID != -1 && !creatingNewItem" ref="selectedView">
         <div class="header"> 
           <!-- <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
           class="profile-pic"></div> -->
@@ -29,6 +29,24 @@
           <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
           <div class="subtitle">{{selectedPerson.account.username !== '' ? '@' + selectedPerson.account.username : ''}}</div>
         </div>
+        <static-header class="static-header"
+          :parentDivID="'selected-view'"
+          :displayScrollValue="100"
+        > 
+          <!-- <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
+          class="profile-pic"></div> -->
+          <!-- <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
+          class="profile-pic"></div> -->
+          <div class="profile-pic">
+            <avatar
+              :height="30"
+              :url="selectedPerson.personImageThumbnailURL"
+              :title="selectedPerson.fullName"/>
+          </div>
+          <!-- <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
+          class="profile-pic"></div> -->
+          <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
+        </static-header>
         <div class="details">
           <div class="quick-actions">
             <button class="basic-button"><i class="material-icons">send</i></button>
@@ -57,8 +75,70 @@
             <ejs-datepicker floatLabelType="Auto" :showClearButton="false" :allowEdit="false"
               :placeholder="'Birthday'" v-model="selectedPerson.birthday"
               :format="'MMMM dd, yyyy'"></ejs-datepicker>
-            <ejs-textbox floatLabelType="Auto" placeholder="Address" autocomplete="off"
+            <ejs-textbox floatLabelType="Auto" placeholder="Home Address" autocomplete="off"
               name="none" v-model="selectedPerson.address"></ejs-textbox>
+            <ejs-textbox floatLabelType="Auto" placeholder="Mailing Address" autocomplete="off"
+              name="none" v-model="selectedPerson.address"></ejs-textbox>
+            <ejs-textbox floatLabelType="Auto" placeholder="Phone Number" autocomplete="off" type="tel"
+              name="none" v-model="selectedPerson.phoneNumber"></ejs-textbox>
+          </div>
+          <!-- <div class="panel">
+            <div class="card-header">Roles</div>
+            <div class="search">              
+                <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :cardList="[]"
+                  :cardSelectable="false"
+                  :hasSearch="false"
+                  :profilePicFillerValue="'name'"
+                  :fields="{
+                    title: 'name',
+                    id: 'id'
+                  }"
+                />
+            </div>
+          </div> -->
+          <!-- <div class="panel">
+            <div class="card-header">Family</div>
+            <div class="search">              
+                <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :cardList="[]"
+                  :cardSelectable="false"
+                  :hasSearch="false"
+                  :profilePicFillerValue="'name'"
+                  :fields="{
+                    title: 'name',
+                    id: 'id'
+                  }"
+                />
+            </div>
+          </div> -->
+          <div class="panel">
+            <div class="card-header">Teams</div>
+            <div class="teams">              
+                <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :cardList="selectedPersonTeams"
+                  :cardSelectable="false"
+                  :profilePicFillerValue="'name'"
+                  :fields="{
+                    title: 'name',
+                    id: 'id'
+                  }"
+                />
+            </div>
+          </div>
+          <div class="panel">
+            <div class="card-header">Notes</div>
+            <div class="card-explanation">These notes are visible to anyone on the admin site.</div>
+            <textarea style="padding: 0px; width: 100%" class="basic-textarea" placeholder="Notes" rows="10"></textarea>
           </div>
           <div class="panel">
             <div class="card-header noselect">Skills</div>
@@ -71,28 +151,6 @@
                 @click="toggleSkill(index)">
                 {{ skill.title }}
               </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="card-header">Notes</div>
-            <div class="card-explanation">These notes are visible to anyone on the admin site.</div>
-            <textarea style="padding: 0px; width: 100%" class="basic-textarea" placeholder="Notes" rows="10"></textarea>
-          </div>
-          <div class="panel">
-            <div class="card-header">Teams</div>
-            <div class="teams">              
-                <cards
-                  :hasShadow="false"
-                  :loading="false"
-                  :inline="true"
-                  :cardList="selectedPersonTeams"
-                  :cardSelectable="false"
-                  profilePicFillerValue="name"
-                  :fields="{
-                    title: 'name',
-                    id: 'id'
-                  }"
-                />
             </div>
           </div>
         </div>
@@ -148,6 +206,7 @@ import VueTable from '@/components/Table'
 import People from '@/services/people'
 import Teams from '@/services/teams'
 import CustomRadio from '@/components/CustomRadio'
+import StaticHeader from '@/components/StaticHeader'
 import Avatar from '@/components/Avatar'
 import { Container, Draggable } from 'vue-smooth-dnd'
 import { applyDrag } from '@/utils/helpers'
@@ -201,7 +260,8 @@ export default {
     }
   },
   components: {
-    VueTable, Cards, CustomRadio, Container, Draggable, Avatar
+    VueTable, Cards, CustomRadio, Container, Draggable, Avatar,
+    StaticHeader
   },
   methods: {
     async getPeople () {

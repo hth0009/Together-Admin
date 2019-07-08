@@ -605,6 +605,15 @@ import Home from '@/components/Home'
     grid-template-rows: 5px auto 15px auto 5px;
     margin: 40px 0px 0px 10px;
   }
+  #app-page-content >>> .selected-view .static-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 10px;
+    align-items: center;
+    padding: 15px 20px;
+    width: 100%;
+  }
   #app-page-content >>> .selected-view .header .profile-pic {
     grid-row: 1/5;
 
@@ -612,7 +621,7 @@ import Home from '@/components/Home'
     margin-right: 15px;
   }
 
-  #app-page-content >>> .selected-view  h3 {
+  #app-page-content >>> .selected-view .header h3 {
     grid-row: 2;
     grid-column: 2;
     padding-top: 10px;

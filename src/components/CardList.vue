@@ -7,6 +7,7 @@
     <div class="search-wrapper">
       <input type="text" class="basic-input"
         placeholder="search"
+        v-if="hasSearch"
         v-model="cardSearch">
       <div class="filter-section-toggle" v-if="filters.length > 0">
         <i class="material-icons noselect" @click="toggleFilterSection = !toggleFilterSection"
@@ -263,6 +264,10 @@ export default {
       type: Boolean,
       default: true
     },
+    hasSearch: {
+      type: Boolean,
+      default: true
+    },
     inline: {
       type: Boolean,
       default: false
@@ -353,9 +358,9 @@ export default {
     margin: 10px 12px 0px 12px;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 50px auto minmax(0, 1fr);
+    grid-template-rows: minmax(0px, auto) auto minmax(0, 1fr);
     // box-shadow: 0px 2px 7px 0px #00000049;
-    box-shadow: 0px 3px 13px -2px #00000040;
+    box-shadow: 0px 5px 13px -2px #00000040;
     background: none;
     border-radius: 10px;
     position: relative;
@@ -369,21 +374,25 @@ export default {
   }
   .search-wrapper {
     /* border-bottom: 1px #E6E9EC solid; */
-    height: 57px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     display: grid;
     grid-template-columns: auto 50px;
+  }
+  .search-wrapper:empty {
+    height: 0px;
   }
   .search-wrapper .basic-input {
     margin-top: 10px;
     padding-left: 20px;
     padding-right: 0px;
     border-top-left-radius: 10px;
+    // height: 30px;
   }
   .cards.inline .search-wrapper .basic-input {
     margin-top: 0px;
-    padding: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
     border-top-left-radius: 0px;
   }
   .search-wrapper .filter-section-toggle {

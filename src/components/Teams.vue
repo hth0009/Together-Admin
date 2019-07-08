@@ -7,7 +7,7 @@
     <sweet-modal icon="success" ref="teamCreated">
       <h3>{{newTeam.name}} created!!</h3>
     </sweet-modal>
-    <div class="teams-wrapper">      
+    <div class="page-wrapper">      
       <div class="page-card-wrapper">
         <!-- <h2>Teams</h2> -->
         <cards
