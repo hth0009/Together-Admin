@@ -143,7 +143,8 @@
           </div>
           <div class="panel">
             <div class="card-header noselect">Skills</div>
-            <div class="card-explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
+            <div class="card-explanation">Track your members talents with the skills feature.</div>
+            <!-- <div class="card-explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div> -->
             <div class="skills noselect">
               <div class="skill" 
                 v-for="(skill, index) in selectedPerson.skills['personSkill(s)']"
