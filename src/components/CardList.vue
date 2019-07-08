@@ -48,7 +48,7 @@
       v-if="!loading"
       v-on:scroll="manageScroll">
     <div class="nothing-here noselect" v-if="filteredCards.length == 0 && !!!cardSearch">
-      nothing here
+      {{emptyMessage}}
     </div>
     <div class="card-wrapper" v-for="(card, index) in filteredCards" :key="card[fields.id]">
       <div class="header"
@@ -259,6 +259,10 @@ export default {
     noProfile: {
       type: Boolean,
       default: false,
+    },
+    emptyMessage: {
+      type: String,
+      default: 'nothing here',
     },
     hasShadow: {
       type: Boolean,

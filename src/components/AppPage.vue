@@ -684,11 +684,11 @@ import Home from '@/components/Home'
   
 
   #app-page-content >>> .fadeOut-leave-active {
-    transition: opacity .4s ease, transform .4s ease-in 
+    transition: opacity 1s ease, transform 1s ease-in 
   }
     #app-page-content >>> .fadeOut-leave-to {
     opacity: 0;
-    transform: translateY(5px)
+    transform: translateY(0px)
   }
   #app-page-content >>> .selected-view .panel h4{
     font-size: 20px;

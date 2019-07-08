@@ -42,11 +42,13 @@ export default {
     }
   },
   mounted() {
-    this.parentDiv = document.getElementById(this.parentDivID)
-    this.onParentScroll(this.parentDiv.scrollTop)
-    this.parentDiv.addEventListener('scroll', function() {
+    this.$nextTick(function() {
+      this.parentDiv = document.getElementById(this.parentDivID)
       this.onParentScroll(this.parentDiv.scrollTop)
-    }.bind(this), false)
+      this.parentDiv.addEventListener('scroll', function() {
+        this.onParentScroll(this.parentDiv.scrollTop)
+      }.bind(this), false)
+    }.bind(this))
   },
   created() {
     if (this.displayScrollValue > 0) {

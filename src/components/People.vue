@@ -130,6 +130,7 @@
                   :cardList="selectedPersonTeams"
                   :cardSelectable="false"
                   :profilePicFillerValue="'name'"
+                  :emptyMessage="'Not in any teams'"
                   :fields="{
                     title: 'name',
                     id: 'id'
