@@ -100,9 +100,10 @@
                 />
             </div>
           </div> -->
-          <!-- <div class="panel">
+          <div class="panel">
             <div class="card-header">Family</div>
-            <div class="search">              
+            <div class="card-explanation">COMING SOON</ asdfdiv>
+            <!-- <div class="search">              
                 <cards
                   :hasShadow="false"
                   :loading="false"
@@ -116,8 +117,8 @@
                     id: 'id'
                   }"
                 />
-            </div>
-          </div> -->
+            </div> -->
+          </div>
           <div class="panel">
             <div class="card-header">Teams</div>
             <div class="teams">              

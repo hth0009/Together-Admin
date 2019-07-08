@@ -370,6 +370,7 @@ export default {
   }
   .cards.inline {
     margin: 0px;
+    border: none;
     // box-shadow: 0px 2px 7px 0px #00000049;
   }
   .search-wrapper {

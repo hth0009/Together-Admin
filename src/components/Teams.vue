@@ -54,7 +54,7 @@
             </div> -->
             <div class="panel">
               <div class="card-header noselect">
-                <div>Members <span>| {{selectedTeam.members.total}}</span></div>
+                <div>Members <span>| {{selectedTeam.members ? selectedTeam.members.total : ''}}</span></div>
               </div>
               <div :key="selectedID" class="add-people">
                 <ejs-multiselect :dataSource='peopleNotInTeam' 
@@ -436,6 +436,7 @@ export default {
       this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
         fullName: member.firstName + ' ' + member.lastName,
         id: member.personID,
+        relationshipID: member.id,
         firstName: member.firstName,
         lastName: member.lastName,
       }))
@@ -495,7 +496,7 @@ export default {
 
       this.peopleNotInTeam = filteredArray
     },
-    async removePersonFromTeam(personID) {
+    async removePersonFromTeam(relationshipID) {
       const patchData = 
       {
         "identifier":{
@@ -503,7 +504,7 @@ export default {
         },
         "values":{
           "membersRemove": [
-            {"personID": `${personID}`}
+            {"personID": `${relationshipID}`}
           ]
         }
       }      
