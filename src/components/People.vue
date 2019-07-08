@@ -102,7 +102,7 @@
           </div> -->
           <div class="panel">
             <div class="card-header">Family</div>
-            <div class="card-explanation">COMING SOON</ asdfdiv>
+            <div class="card-explanation">COMING SOON</div>
             <!-- <div class="search">              
                 <cards
                   :hasShadow="false"
