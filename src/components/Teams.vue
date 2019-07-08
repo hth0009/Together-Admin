@@ -324,48 +324,48 @@ const teamFiltersTemplate = [
       }
     ]
   },
-  {
-    type: 'Grade',
-    key: 'ageGroup',
-    options: [
-      {
-        value: '1',
-        title: 'First',
-        icon: '',
-        short: '1'
-      },
-      {
-        value: '2',
-        title: 'Second',
-        icon: '',
-        short: '2'
-      },
-      {
-        value: '3',
-        title: 'Third',
-        icon: '',
-        short: '3'
-      },
-      {
-        value: '4',
-        title: 'Fourth',
-        icon: '',
-        short: '4'
-      },
-      {
-        value: '5',
-        title: 'Fifth',
-        icon: '',
-        short: '5'
-      },
-      {
-        value: '6',
-        title: 'Sixth',
-        icon: '',
-        short: '6'
-      },
-    ]
-  },
+  // {
+  //   type: 'Grade',
+  //   key: 'ageGroup',
+  //   options: [
+  //     {
+  //       value: '1',
+  //       title: 'First',
+  //       icon: '',
+  //       short: '1'
+  //     },
+  //     {
+  //       value: '2',
+  //       title: 'Second',
+  //       icon: '',
+  //       short: '2'
+  //     },
+  //     {
+  //       value: '3',
+  //       title: 'Third',
+  //       icon: '',
+  //       short: '3'
+  //     },
+  //     {
+  //       value: '4',
+  //       title: 'Fourth',
+  //       icon: '',
+  //       short: '4'
+  //     },
+  //     {
+  //       value: '5',
+  //       title: 'Fifth',
+  //       icon: '',
+  //       short: '5'
+  //     },
+  //     {
+  //       value: '6',
+  //       title: 'Sixth',
+  //       icon: '',
+  //       short: '6'
+  //     },
+  //   ]
+  // },
 ]
 
 const newTeamTemplate = {
@@ -414,7 +414,9 @@ export default {
       if (id == undefined) {
         return
       }
-      this.selectedTeam = {}
+      if (this.selectedID != id) {
+        this.selectedTeam = {}
+      }
       if (id == '-1') {
         this.selectedID = id
         this.$router.push(`/app/teams/`)
