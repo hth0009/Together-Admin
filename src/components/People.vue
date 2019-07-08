@@ -12,7 +12,8 @@
           @onAddNew="createNewItem"
           />
       </div>
-      <div class="selected-view" id="selected-view" v-if="selectedID != '' && selectedID != -1 && !creatingNewItem" ref="selectedView">
+      <transition name="fadeOut">
+      <div class="selected-view" id="selected-view" v-if="selectedID != '' && Object.keys(selectedPerson).length != 0 && selectedID != -1 && !creatingNewItem" ref="selectedView">
         <div class="header"> 
           <!-- <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
           class="profile-pic"></div> -->
@@ -27,7 +28,7 @@
           <!-- <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
           class="profile-pic"></div> -->
           <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
-          <div class="subtitle">{{selectedPerson.account.username !== '' ? '@' + selectedPerson.account.username : ''}}</div>
+          <div class="subtitle" v-if="!!selectedPerson.account">{{selectedPerson.account.username !== '' ? '@' + selectedPerson.account.username : ''}}</div>
         </div>
         <static-header class="static-header"
           :parentDivID="'selected-view'"
@@ -156,7 +157,8 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>      
+      </transition>
       <!-- <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Person</div>
         <div class="details">
@@ -284,13 +286,16 @@ export default {
     },
     recieveID(id) {
       if (id == undefined) {
+        this.selectedPerson = {}
         return
       }
       if (id == '-1') {
         this.selectedID = id
         this.$router.push(`/app/people/`)
+        this.selectedPerson = {}
         return
       }
+      this.selectedPerson = {}
       this.creatingNewItem = false
       this.$router.push(`/app/people/${id}`)
       this.selectedID = id

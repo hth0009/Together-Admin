@@ -467,6 +467,7 @@ import Home from '@/components/Home'
 }
 
 
+
  
 /* //////////////////////////////////////////
 ////////////  FOR SUB PAGES /////////////////
@@ -679,6 +680,15 @@ import Home from '@/components/Home'
 
     /* ANIMATION */
     animation: .5s ease-out 0s 1 fadeIn;
+  }
+  
+
+  #app-page-content >>> .fadeOut-leave-active {
+    transition: opacity .4s ease, transform .4s ease-in 
+  }
+    #app-page-content >>> .fadeOut-leave-to {
+    opacity: 0;
+    transform: translateY(5px)
   }
   #app-page-content >>> .selected-view .panel h4{
     font-size: 20px;
