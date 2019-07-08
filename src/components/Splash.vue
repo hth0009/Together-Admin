@@ -13,7 +13,7 @@
       <div id="main-title" class="">
         <h1 id="bringing">BRINGING YOUR CHURCH</h1>
         <!-- <h1 id="together">together</h1> -->
-        <img id="together" src="http://cdn.togetheradmin.com.global.prod.fastly.net/website_title.png" alt="" srcset="">
+        <img id="together" src="https://togethercdn.global.ssl.fastly.net/website_title.png" alt="" srcset="">
         <!-- <div id="join" class="basic-button noselect">
           JOIN
         </div> -->
