@@ -186,6 +186,14 @@
   .basic-drag:hover {
     box-shadow: 0px 3px 5px -2px rgba(128, 128, 128, 0.507);
   }
+  .basic-inline {
+    width: 100%;
+    min-height: 1.6rem;
+  }
+  .basic-inline .e-editable-value-wrapper{
+    padding: .4rem .2rem .4rem 0px;
+  }
+  
   .basic-radio{
     border-color: #00cec9;
     background: #00cec9;

@@ -29,5 +29,19 @@ export default {
     }).catch((e) => {
       console.error(e)
     })
-  }
+  },  
+  patchPersonValue (personID, valueKey, value) {
+    return Api().patch('people', {
+      "identifier":{
+        "id": `${personID}`
+      },
+      "values": {
+        [valueKey]: `${value}`
+      }
+    }).then((response) => {
+      return response.data
+    }).catch((e) => {
+      console.error(e)
+    })
+  },
 }

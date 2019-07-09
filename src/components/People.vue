@@ -70,18 +70,25 @@
               <i class="material-icons noselect">place</i>
               <div class="label noselect">Address</div>
               {{selectedPerson.address}}
-            </div> -->            
-            <ejs-textbox floatLabelType="Auto" placeholder="Email" autocomplete="off"
-              name="none" v-model="selectedPerson.accountEmail"></ejs-textbox>
-            <ejs-datepicker floatLabelType="Auto" :showClearButton="false" :allowEdit="false"
-              :placeholder="'Birthday'" v-model="selectedPerson.birthday"
-              :format="'MMMM dd, yyyy'"></ejs-datepicker>
-            <ejs-textbox floatLabelType="Auto" placeholder="Home Address" autocomplete="off"
-              name="none" v-model="selectedPerson.address"></ejs-textbox>
-            <ejs-textbox floatLabelType="Auto" placeholder="Mailing Address" autocomplete="off"
-              name="none" v-model="selectedPerson.address"></ejs-textbox>
-            <ejs-textbox floatLabelType="Auto" placeholder="Phone Number" autocomplete="off" type="tel"
-              name="none" v-model="selectedPerson.phoneNumber"></ejs-textbox>
+            </div> -->
+            <div class="input-label">Email</div>
+            <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Email'" autocomplete="off" :mode="'Inline'" 
+              name="none" v-model="selectedPerson.accountEmail" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+            <div class="input-label">Birthday</div>
+            <ejs-inplaceeditor floatLabelType="Auto" :model="{allowEdit: false, showClearButton: false}"
+              :emptyText="'Birthday'" v-model="selectedPerson.birthday" :type="'Date'"
+              :format="'MMMM dd, yyyy'" :mode="'Inline'" data-underline='false' :cssClass="'basic-inline'"
+              @actionSuccess="patchPersonValue('birthday', $event.value)"  
+            ></ejs-inplaceeditor>
+            <div class="input-label">Home Address</div>
+            <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Home Address'" autocomplete="off" :mode="'Inline'" 
+              name="none" v-model="selectedPerson.address" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+            <div class="input-label">Mailing Address</div>            
+            <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Mailing Address'" autocomplete="off" :mode="'Inline'" 
+              name="none" v-model="selectedPerson.address" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+            <div class="input-label">Phone Number</div>
+            <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Phone Number'" autocomplete="off" :mode="'Inline'" 
+              name="none" v-model="selectedPerson.phoneNumber" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
           </div>
           <!-- <div class="panel">
             <div class="card-header">Roles</div>
@@ -141,7 +148,8 @@
           <div class="panel">
             <div class="card-header">Notes</div>
             <div class="card-explanation">These notes are visible to anyone on the admin site.</div>
-            <textarea style="padding: 0px; width: 100%" class="basic-textarea" placeholder="Notes" rows="10"></textarea>
+            <ejs-inplaceeditor :emptyText="'Notes'" autocomplete="off" :mode="'Inline'" :model="{multiline: true}"
+              name="none" :type="'Text'" v-model="selectedPerson.notes" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
           </div>
           <div class="panel">
             <div class="card-header noselect">Skills</div>
@@ -231,37 +239,8 @@ export default {
       selectedPerson: {},
       selectedPersonTeams: [
       ],
-      profiles: [
-        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-        'https://images.unsplash.com/photo-1486645725491-57c86b563b91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
-        'https://images.unsplash.com/photo-1485811904074-04513843270c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-        'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-        'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
-        ],
       creatingNewItem: false,
       newItemType: 0,
-      skills: [
-        {title: 'Dancing',
-        confirmed: false},
-        {title: 'Preaching',
-        confirmed: false},
-        {title: 'CPR',
-        confirmed: true},
-        {title: 'Talking',
-        confirmed: false},
-        {title: 'Guitar',
-        confirmed: false},
-        {title: 'Singing',
-        confirmed: false},
-        {title: 'Cooking',
-        confirmed: true},
-        {title: 'Boating',
-        confirmed: false},
-        {title: 'Drums',
-        confirmed: false},
-        {title: 'Ukulele',
-        confirmed: true},
-      ]
     }
   },
   components: {
@@ -277,6 +256,12 @@ export default {
       var response = await People.getPerson(this.selectedID)
       this.selectedPerson = response['person']
       this.selectedPerson.birthday = new Date(this.selectedPerson.birthday)
+    },
+    async patchPersonValue (valueKey, value) {
+      console.log(value)
+      var response = await People.patchPersonValue(this.selectedID, valueKey, value)
+      // this.selectedPerson = response['person']
+      // this.selectedPerson.birthday = new Date(this.selectedPerson.birthday)
     },
     async getTeams() {   
       const response = await Teams.getTeamsByID(this.selectedID)

@@ -542,7 +542,14 @@ import Home from '@/components/Home'
     margin-bottom: 10px;
     font-weight: 500;
     opacity: inherit;
-  }
+  }  
+  #app-page-content >>> .input-label{
+    font-size: .8rem;
+    color: #8d8d8d;
+    margin-top: 10px;
+    font-weight: 400;
+    opacity: inherit;
+  }  
   #app-page-content >>> .section-header{
     color: #505050;
     font-size: 1rem;
@@ -681,15 +688,14 @@ import Home from '@/components/Home'
     /* ANIMATION */
     animation: .5s ease-out 0s 1 fadeIn;
   }
-  
-
   #app-page-content >>> .fadeOut-leave-active {
     transition: opacity 1s ease, transform 1s ease-in 
   }
-    #app-page-content >>> .fadeOut-leave-to {
+  #app-page-content >>> .fadeOut-leave-to {
     opacity: 0;
     transform: translateY(0px)
   }
+
   #app-page-content >>> .selected-view .panel h4{
     font-size: 20px;
     color: #424242;
