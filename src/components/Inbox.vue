@@ -54,9 +54,9 @@
       <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Message</div>
         <div class="details">
-          <div class="type">            
+          <!-- <div class="type">            
             <custom-radio v-model="newThread.type" :options="['direct', 'team']"></custom-radio>
-          </div>
+          </div> -->
           <div class="members">
             <div v-show="newThread.type == 0">
               <ejs-dropdownlist
@@ -218,7 +218,10 @@ export default {
       const response = await Message.postMessage(fromID, threadID, content)
     },
     async postDirectThread(senderID, recipientID, title) {
-      const response = await Threads.postDirectThread(senderID, recipientID, title)
+      const response = await Threads.postDirectThread(senderID, recipientID, title).then((response) => {
+        this.postMessage('', response.newResourceID, this.newThread.firstMessage)
+        console.log(response)
+      })
     },
     // On new thread member selected
     assignMember (member) {
