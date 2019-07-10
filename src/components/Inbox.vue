@@ -1,5 +1,8 @@
 <template>
-  <div class="inbox-container">
+  <div class="inbox-container">    
+    <sweet-modal icon="success" ref="newMessageSelect">
+      <h3>New Message Created!</h3>
+    </sweet-modal>
     <div class="page-card-wrapper"
       :class="{'inactive': selectedThreadID != '' || -1}">
       <cards
@@ -105,6 +108,7 @@ import Message from '@/services/messages'
 import Cards from '@/components/CardList'
 import CustomRadio from '@/components/CustomRadio'
 import Avatar from '@/components/Avatar'
+import { SweetModal } from 'sweet-modal-vue'
 
 import store from '../store'
 import {formatDate} from '../utils/helpers'
@@ -142,7 +146,7 @@ export default {
     }
   },
   components: {
-    Cards, CustomRadio, Avatar
+    Cards, CustomRadio, Avatar, SweetModal
   },
   mounted() {
     this.personID = store.state.personID
@@ -219,7 +223,11 @@ export default {
     },
     async postDirectThread(senderID, recipientID, title) {
       const response = await Threads.postDirectThread(senderID, recipientID, title).then((response) => {
-        this.postMessage('', response.newResourceID, this.newThread.firstMessage)
+        const newID = response.newResourceID
+        this.postMessage('', newID, this.newThread.firstMessage).then(() => {
+          this.$refs.newMessageSelect.open()
+          this.selectThread(newID)
+        })
         console.log(response)
       })
     },
