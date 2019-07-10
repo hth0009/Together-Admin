@@ -13,6 +13,7 @@ export default new Vuex.Store({
     token: '',
     personID: -1,
     churchUsername: localStorage.getItem('churchUsername') || '',
+    personName: '',
     churchIcon: 'http://static1.squarespace.com/static/563fb2d1e4b07f78f2db4c32/t/5c3621a9352f53339f36df51/1552577214769/?format=1500w',
     userIcon: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
   },
@@ -25,6 +26,8 @@ export default new Vuex.Store({
       state.token = payload.token
       // state.personID = 1
       state.personID = payload.personID
+      console.log()
+      state.personName = payload.personName
       state.churchUsername = payload.churchUsername
     },
     auth_error (state) {
@@ -59,7 +62,9 @@ export default new Vuex.Store({
             // Local Storage
             var idToken = result.getIdToken().getJwtToken()
             var personID = result.getIdToken().payload.person_id
+            const personName = result.getIdToken().payload.given_name + " " + result.getIdToken().payload.family_name
             var churchUsername = result.getIdToken().payload['custom:churchUsernam']
+            console.log(result.getIdToken().payload)
 
             // Set Header
             axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`
@@ -68,7 +73,8 @@ export default new Vuex.Store({
             commit('auth_success', {
               token: idToken,
               personID: personID,
-              churchUsername: churchUsername
+              churchUsername: churchUsername,
+              personName: personName
             })
             resolve()
           },
@@ -97,6 +103,8 @@ export default new Vuex.Store({
             var idToken = session.getIdToken().getJwtToken()
             var personID = session.getIdToken().payload.person_id
             var churchUsername = session.getIdToken().payload['custom:churchUsernam']
+            const personName = session.getIdToken().payload.given_name + " " + session.getIdToken().payload.family_name
+
             
             // Set Header
             axios.defaults.headers.common['Authorization'] = `Bearer ${idToken}`
@@ -104,7 +112,8 @@ export default new Vuex.Store({
             commit('auth_success', {
               token: idToken,
               personID: personID,
-              churchUsername: churchUsername
+              churchUsername: churchUsername,
+              personName: personName
             })
             resolve()
           })

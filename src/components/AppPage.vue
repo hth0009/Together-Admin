@@ -26,16 +26,16 @@
         <div class="brand noselect">TOGETHER</div>
       </div>
       <transition-group name="fadeLeft" id="app-navbar-buttons">
-        <router-link :key="1" v-on:click.native="showSidebar = false" to="/app/home" class="noselect"
-          ><div class="title">home</div><i class="material-icons">home</i></router-link>
+        <!-- <router-link :key="1" v-on:click.native="showSidebar = false" to="/app/home" class="noselect"
+          ><div class="title">home</div><i class="material-icons">home</i></router-link> -->
         <router-link :key="2" v-on:click.native="showSidebar = false" to="/app/inbox" class="noselect"
           ><div class="title">inbox</div><i class="material-icons">mail</i></router-link>
         <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
           ><div class="title">people</div><i class="material-icons">person</i></router-link>
         <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
           ><div class="title">teams</div><i class="material-icons">people</i></router-link>
-        <router-link :key="5"  v-on:click.native="showSidebar = false" to="/app/prayer" class="noselect"
-          ><div class="title">prayer</div><i class="material-icons">keyboard_arrow_up</i></router-link>
+        <!-- <router-link :key="5"  v-on:click.native="showSidebar = false" to="/app/prayer" class="noselect"
+          ><div class="title">prayer</div><i class="material-icons">keyboard_arrow_up</i></router-link> -->
         <router-link :key="6"  v-on:click.native="showSidebar = false" to="/app/calendar" class="noselect"
           ><div class="title">calendar</div><i class="material-icons">event</i></router-link>
         <!-- <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/staff" class="noselect"
@@ -49,7 +49,10 @@
             <div class="profile-pic" :style="{backgroundImage: 'url(' + $store.state.churchIcon +')'}"></div>
           </router-link>
           <router-link  v-on:click.native="showSidebar = false" to="/app/me" class="noselect">
-            <div class="profile-pic" :style="{backgroundImage: 'url(' + $store.state.userIcon +')'}"></div>
+            <avatar
+              :height="30"
+              :title="$store.state.personName"
+            />
           </router-link>
         </div>
         <div class="links">
@@ -80,6 +83,7 @@ import Prayer from '@/components/Prayer'
 import EventDetails from '@/components/EventDetails'
 import Events from '@/components/Calendar'
 import Home from '@/components/Home'
+import Avatar from '@/components/Avatar'
 
 // import AudioPage from '@/components/AudioPage'
 // import ReadingPlan from '@/components/ReadingPlan'
@@ -93,7 +97,7 @@ import Home from '@/components/Home'
       }
     },
     components: {
-      Inbox, People, Teams, Prayer, EventDetails, Events, Home
+      Inbox, People, Teams, Prayer, EventDetails, Events, Home, Avatar
       // AudioPage, ReadingPlan
     },
     mounted() {

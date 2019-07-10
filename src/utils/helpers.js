@@ -110,8 +110,6 @@ export const HHMMSSToReadable = (val) => {
 }
 
 export const formatDate = (messageDate, nextDate = '') => {
-  messageDate += 'Z'
-  nextDate += 'Z'
   const date1 = new Date(messageDate)
   const date2 = new Date(nextDate)
   var diffTime = Math.abs(date2.getTime() - date1.getTime())

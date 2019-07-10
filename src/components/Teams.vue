@@ -52,7 +52,7 @@
                 </div>
                 <p>Reach out to John at (606) 637-0799</p>
             </div> -->
-            <div class="panel">
+            <div class="panel" v-if="!selectedTeam.isAnonymous">
               <div class="card-header noselect">
                 <div>Members <span>| {{selectedTeam.members ? selectedTeam.members.total : ''}}</span></div>
               </div>
@@ -377,7 +377,7 @@ const newTeamTemplate = {
   hasRecurrence: 0,
   recurrence: '',
   type: 0,
-  leaderID: ''
+  leaderID: null
 }
 
 export default {
@@ -539,12 +539,12 @@ export default {
         "name": this.newTeam.name,
         "teamImageURL": "",
         "teamImageThumbnailURL": "",
-        "leaderID": this.newTeam.leaderID,
-        "members": [
+        "leaderID":  this.newTeam.type != 2 ? this.newTeam.leaderID : null,
+        "members":  this.newTeam.type != 2 ? [
           {
             "personID": this.newTeam.leaderID
           }
-        ],
+        ] : [],
         "isAnonymous": this.newTeam.type == 2,
         "description": this.newTeam.description,
         "hasMeetings": this.newTeam.hasMeetings == 1,
@@ -555,11 +555,14 @@ export default {
         "serveTeamRoles": [
         ]
       }
+      if (this.newTeam.type == 2) {
+        
+      }
       Teams.postTeam(newTeam).then(function(result) {
         this.$refs.teamCreated.open()
         this.getTeams()
         this.creatingNewItem = false
-        this.recieveID(result.newResourceID)
+        this.recieveID(result.data.newResourceID)
         // console.log(result)
         // this.selectedTeam
       }.bind(this))

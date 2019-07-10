@@ -50,7 +50,7 @@
         </static-header>
         <div class="details">
           <div class="quick-actions">
-            <button class="basic-button"><i class="material-icons">send</i></button>
+            <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
             <!-- <button class="basic-button red"><i class="material-icons">delete</i></button> -->
           </div>
           <!-- <button class="section-toggle">Teams</button> -->

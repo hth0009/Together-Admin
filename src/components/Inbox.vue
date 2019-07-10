@@ -13,7 +13,7 @@
     </div>
     <div class="thread-wrapper" v-if="!creatingNewItem">
       <div class="thread">
-        <div class="thread-header">{{thread.title}}</div>
+        <div class="thread-header noselect">{{thread.title}}</div>
         <div class="messages">
           <div class="message-box-wrapper" v-if="displayThread == 2">
             <div v-for="(message, index) in reversedMessages" :key="message.id"
@@ -27,7 +27,14 @@
               <div class="time" v-if="index == 0">{{getDateFormate(message.sentAt)}}</div>
               <div class="time" v-else>{{getDateFormate(message.sentAt, reversedMessages[index - 1].sentAt)}}</div>
               <div
-                class="profile-pic" :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1536562833330-a59dc2305a5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80)'}"></div>
+                class="profile-pic"
+              >
+                <avatar
+                  :height="30"
+                  :url="peopleHash[message.fromID].personImageThumbnailURL"
+                  :title="peopleHash[message.fromID].fullName"
+                />
+              </div>
               <div class="message-info">
                 <div
                   class="user">{{peopleHash[message.fromID].firstName + " " + peopleHash[message.fromID].lastName}}</div>
@@ -97,6 +104,7 @@ import People from '@/services/people'
 import Message from '@/services/messages'
 import Cards from '@/components/CardList'
 import CustomRadio from '@/components/CustomRadio'
+import Avatar from '@/components/Avatar'
 
 import store from '../store'
 import {formatDate} from '../utils/helpers'
@@ -134,7 +142,7 @@ export default {
     }
   },
   components: {
-    Cards, CustomRadio
+    Cards, CustomRadio, Avatar
   },
   mounted() {
     this.personID = store.state.personID
@@ -292,13 +300,15 @@ export default {
       for (let index = 0; index < this.threads.length; index++) {
         const thread = this.threads[index];
         const lastMessage = thread.lastMessage != null ? thread.lastMessage.contents : ''
+        const lastMessageSentAt = thread.lastMessage != null ? formatDate(thread.lastMessage.sentAt) : ''
         const newThread = {
           id: thread.id,
           title: thread.title,
           // profile: thread.threadImageThumbnailURL,
-          profile: 'https://images.unsplash.com/photo-1536562833330-a59dc2305a5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+          profile: thread.threadImageThumbnailURL,
           // superscript: 'thead.sentTime',
           subtext: lastMessage,
+          subtext2: lastMessageSentAt,
           unread: thread.unreadMessages > 0
         }
         threads[index] = (newThread)

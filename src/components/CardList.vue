@@ -375,6 +375,7 @@ export default {
   .cards.inline {
     margin: 0px;
     border: none;
+    background: none;
     // box-shadow: 0px 2px 7px 0px #00000049;
   }
   .search-wrapper {
@@ -662,12 +663,23 @@ export default {
     margin-bottom: 2px;
   }
   .card-box .subtext{
-    font-size: 11px;
+    font-size: 12px;
+    z-index: 10;
+    position: relative;
+    margin-bottom: 2px;
+    font-weight: 500;
+    color: #303030;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
+  }
+  .card-box .subtext-2{
+    font-size: 10px;
     z-index: 10;
     position: relative;
     margin-bottom: 2px;
     font-weight: 600;
-    color: #303030;
+    color: #838383;
   }
   .card-box.photo-header .subtext{
     color: white;

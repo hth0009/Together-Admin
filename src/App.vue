@@ -188,7 +188,11 @@
   }
   .basic-inline {
     width: 100%;
-    min-height: 1.6rem;
+    min-height: 2.2rem;
+    /* margin-bottom: 10px; */
+  }
+  .basic-inline .e-editable-value-wrapper{
+    padding: .4rem .2rem .4rem 0px;
   }
   .basic-inline .e-editable-value-wrapper{
     padding: .4rem .2rem .4rem 0px;
