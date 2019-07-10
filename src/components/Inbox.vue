@@ -14,7 +14,7 @@
         @onAddNew="createNewItem"
         />
     </div>
-    <div class="thread-wrapper" v-if="!creatingNewItem">
+    <div class="thread-wrapper" v-if="!creatingNewItem && selectedThreadID != -1 && displayThread > 0">
       <div class="thread">
         <div class="thread-header noselect">{{thread.title}}</div>
         <div class="messages">
