@@ -44,7 +44,7 @@ import Me from '@/components/Me'
 
 import NewEvent from '@/components/NewEvent'
 
-import store from '@/store'
+import store from './store'
 
 Vue.use(Router)
 
