@@ -64,7 +64,7 @@
           </div>    
             <div class="panel" v-if="!selectedTeam.isAnonymous">
               <div class="card-header noselect">
-                <div>Members <span>| {{selectedTeam.members ? selectedTeam.members.total : ''}}</span></div>
+                <div>Members <span>| {{selectedTeam.members ? selectedTeam.members.total - 1: ''}}</span></div>
               </div>
               <div :key="selectedID" class="add-people">
                 <ejs-multiselect :dataSource='peopleNotInTeam' 
@@ -83,6 +83,7 @@
                   :hasButtonOnCard="true"
                   :buttonColor="'#ff7675'"
                   :buttonIcon="'close'"
+                  :emptyMessage="'No Members'"
                   :cardList="peopleInTeam"
                   :cardSelectable="false"
                   @buttonClicked="removePersonFromTeam"
@@ -456,11 +457,11 @@ export default {
         lastName: member.lastName,
       }))
       this.peopleInTeam = this.peopleInTeam.filter(( person ) => {
-        const isLeader = person.id !== this.selectedTeam.leaderID
+        const isLeader = person.id == this.selectedTeam.leaderID
         if (isLeader) {
           this.selectedTeamLeader = [person]
         }
-        return isLeader
+        return !isLeader
       });
       this.getPeopleNotInTeam()
       return this.selectedTeam
