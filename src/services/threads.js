@@ -43,7 +43,7 @@ export default {
       return e
     })
   },
-  postDirectThread (senderID, recipientID, title, descpription) {
+  postDirectThread (senderID, recipientID, title) {
     return Api().post('threads',
       {
         'title': `${title}`,
@@ -58,10 +58,6 @@ export default {
             'personID': `${recipientID}`
           }
         ]
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      return e
-    })
+      })
   }
 }

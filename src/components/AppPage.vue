@@ -46,11 +46,16 @@
       <div id="app-footer">
         <div class="profiles">
           <router-link  v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
-            <div class="profile-pic" :style="{backgroundImage: 'url(' + $store.state.churchIcon +')'}"></div>
+            <avatar
+              :height="30"
+              :url="churchPic"
+              :title="churchName"
+            />
           </router-link>
           <router-link  v-on:click.native="showSidebar = false" to="/app/me" class="noselect">
             <avatar
               :height="30"
+              :url="profilePic"
               :title="$store.state.personName"
             />
           </router-link>
@@ -85,6 +90,9 @@ import Events from '@/components/Calendar'
 import Home from '@/components/Home'
 import Avatar from '@/components/Avatar'
 
+import ChurchAPI from '@/services/church'
+import PeopleAPI from '@/services/people'
+
 // import AudioPage from '@/components/AudioPage'
 // import ReadingPlan from '@/components/ReadingPlan'
 
@@ -93,7 +101,9 @@ import Avatar from '@/components/Avatar'
     data() {
       return {
         showSidebar: false,
-        profilePic: ''
+        profilePic: '',
+        churchPic: '',
+        churchName: ''
       }
     },
     components: {
@@ -102,10 +112,21 @@ import Avatar from '@/components/Avatar'
     },
     mounted() {
       this.profilePic = this.$store.state.profilePic
+      this.getInfo()
     },
     methods: {
       hideSidebar() {
         this.showSidebar = false
+      },
+      getInfo() {
+        ChurchAPI.getChurch(this.$store.state.churchUsername).then(result => {
+          const church = result.data.church
+          this.churchPic = church.churchImageThumbnailURL
+          this.churchName = church.nickname
+        })
+        PeopleAPI.getPerson(this.$store.state.personID).then(result => {
+          this.profilePic = result.person.personImageThumbnailURL
+        })
       }
     },
   }

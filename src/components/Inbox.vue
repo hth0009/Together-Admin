@@ -222,8 +222,9 @@ export default {
       const response = await Message.postMessage(fromID, threadID, content)
     },
     async postDirectThread(senderID, recipientID, title) {
-      const response = await Threads.postDirectThread(senderID, recipientID, title).then((response) => {
-        const newID = response.newResourceID
+      const response = await Threads.postDirectThread(senderID, recipientID, title).then(response => {
+        console.log(response)
+        const newID = response.data.newResourceID
         this.postMessage('', newID, this.newThread.firstMessage).then(() => {
           this.$refs.newMessageSelect.open()
           this.selectThread(newID)
@@ -234,6 +235,8 @@ export default {
             type: 0
           }
         })
+      }).catch(error => {
+        console.log(error)
       })
     },
     // On new thread member selected

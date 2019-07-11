@@ -6,7 +6,7 @@
     <div id="video-board">
       <div id="main-video-container">
       <!-- <video-bg :sources="[mainVideoURL]" :img="mainImageURL"></video-bg> -->
-      <video autoplay muted loop id="main-video" type="video/mp4" src="https://s3.wasabisys.com/cdn.togetheradmin.com/website_background.mp4"></video>      
+      <video autoplay muted loop id="main-video" type="video/mp4" src="https://togethercdn.global.ssl.fastly.net/website_background.mp4"></video>      
         <!-- <img id="main-video" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80"> -->
       </div>
       <!-- <img id="scribble-circle" class="noselect" src="@/assets/svg/scribble-circle.svg"> -->
