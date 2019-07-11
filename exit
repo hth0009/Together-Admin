@@ -1,0 +1,343 @@
+[33mcommit 707b274d1cba1aee6d347a669bb771cabb4bedd5[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jul 10 16:15:40 2019 -0500
+
+    fixed store import
+
+[33mcommit 2927eb53472e69405936d8fc178b477d610a2c1a[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jul 10 16:11:32 2019 -0500
+
+    hide message panel before one selected
+
+[33mcommit 88afc7dda0d891f52a61b5541f55db0d78f962b9[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jul 10 16:09:34 2019 -0500
+
+    New message popup added
+
+[33mcommit b42db749fe90fdca807b48d689edd839fdbed206[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jul 10 15:59:12 2019 -0500
+
+    Send message in new thread. Removed new team mess
+
+[33mcommit de0406bf72fbc08202e5d76e571429b4b915ec8a[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jul 10 15:45:30 2019 -0500
+
+    changed profile on inbox to Avatar component
+
+[33mcommit 30463832fcd68c531ad82203ff22df85254f55ea[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Tue Jul 9 14:59:15 2019 -0500
+
+    added inline editor to people. can patch birthday
+
+[33mcommit 9843f3f0d734afba131958ea4877152558b5806e[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 18:57:51 2019 -0500
+
+    unread messages works
+
+[33mcommit 2fc828028b86c9b2bf02bcd943281918ee6c0f7b[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 17:25:36 2019 -0500
+
+    fixed static header issure
+
+[33mcommit 416063afb5181cba5663ea672aa773d258d04391[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 17:08:52 2019 -0500
+
+    transiton for people change
+
+[33mcommit 34754001a26cc887c21a11b09a7ac28d623d6e56[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 16:25:56 2019 -0500
+
+    Removed confirm text from skills description
+
+[33mcommit 1d7d0691e876d024b0bdb344244a2f8a38a21dd0[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 16:23:46 2019 -0500
+
+    changed TOGETHER base url
+
+[33mcommit 58f7ed516126294f41be98461fe9b1c5ec3f0c9a[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 16:23:30 2019 -0500
+
+    Removed grades from team filters
+
+[33mcommit 7e7e6d4b3acd3049087a8d0ac12423c0a4242492[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 16:15:18 2019 -0500
+
+    Reload page after adding person to team
+
+[33mcommit e8e500792a49c88577ac1e89474f921ebd14de91[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 16:12:25 2019 -0500
+
+    added skills and can add and remove from team
+
+[33mcommit 2b9db39bd608e112d53860dd31f46698fdaaf612[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 16:03:03 2019 -0500
+
+    fixed issue on people page
+
+[33mcommit 9221d80f563047ef00330ed0e35fd1ad5c10f661[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 16:02:27 2019 -0500
+
+    added skills back (just ui)
+
+[33mcommit c1a65a5fdea4ed75aab37e7dd53592a89eca6cb6[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jul 8 15:38:52 2019 -0500
+
+    Add static header to poeple
+
+[33mcommit 74d51e194a4bff70b73b3002223843235fc396d9[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Fri Jul 5 13:46:28 2019 -0500
+
+    Fixed scroll issue & added side button
+
+[33mcommit 3336cd8d9caf8778a6341425d6889de81c754ef9[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Thu Jul 4 12:45:20 2019 -0500
+
+    Added Team Members and card fade in :/
+
+[33mcommit 64c0793931900385691f441fc26d53b022b2cee2[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jul 3 13:22:54 2019 -0500
+
+    fix message content width overlow
+
+[33mcommit 551af93a212f53a242681c5e140379c9a272d87e[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jul 3 13:10:17 2019 -0500
+
+    Add people list populated
+
+[33mcommit 9d70a63125d2dfdd7324627a53ac392eb644e250[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Tue Jul 2 11:59:25 2019 -0500
+
+    Checks login before every API call
+
+[33mcommit 488bbaba13884e2c74a5fe3dbe73f559143b47d1[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jun 26 18:31:38 2019 -0500
+
+    FIxed height
+
+[33mcommit 826eb78960ed3d7a82577eff31cc344ee81d5bb5[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jun 26 18:25:41 2019 -0500
+
+    rounded corners of messages
+
+[33mcommit ccfd69a9b8ad8574192e7cebe414887d2040af8d[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jun 26 18:06:19 2019 -0500
+
+    Added Contact and Speaker
+
+[33mcommit 334a74796573f3fe7721bc3bb0f21811f9e38e4e[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Tue Jun 25 14:16:26 2019 -0500
+
+    username to lowercase on login
+
+[33mcommit ba47ae17ae449f6bbafd7968d933255999d1273e[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Tue Jun 25 11:27:09 2019 -0500
+
+    added messaging for prayers
+
+[33mcommit 99dae86b3ce4a2edaf758efb41b610f983b8bf1e[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Thu Jun 20 17:16:48 2019 -0500
+
+    Changed person general info
+
+[33mcommit 4bcd72705c7c4f39cf784577ed319fd9b17890d5[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Thu Jun 20 15:13:37 2019 -0500
+
+    Also this
+
+[33mcommit 24574b23d9040f75c88b185b60dc0298400b59e6[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Thu Jun 20 15:13:28 2019 -0500
+
+    Edited Styles
+
+[33mcommit 290be586d424f4840062cb6d6df8ca70ff5aa6d1[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Thu Jun 20 14:19:00 2019 -0500
+
+    Fixed double click to show event bug
+
+[33mcommit 4679da8f64ef0fcde11ff0cb3d4fea4170551dab[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Thu Jun 20 14:04:08 2019 -0500
+
+    Cleaned up some stuff
+
+[33mcommit e2b2e5fcda8c2c8bc984170ee8161019cf6e8784[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Wed Jun 19 19:32:55 2019 -0500
+
+    New Service Item In Side Window
+
+[33mcommit fba8e9e64509b6fac5d1ae1e0cb3ff94df4c841f[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jun 17 16:42:56 2019 -0500
+
+    add window.clearInterval
+
+[33mcommit 2caae6a7196cd62428a18e0ef9c441e366a9ea12[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jun 17 16:20:38 2019 -0500
+
+    fixed clear interval bug on messages
+
+[33mcommit a6090d755495f4a68ca5db7bf18f0676b999f03d[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jun 17 14:51:57 2019 -0500
+
+    Added Filter Option
+
+[33mcommit 2f325790ec7644a5f4bbb794ad37370c3c32dcac[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jun 17 10:36:56 2019 -0500
+
+    Added message and thread reload intercal
+
+[33mcommit a83879eecdf38840777c92c43298c2c330bfca55[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Mon Jun 17 10:36:27 2019 -0500
+
+    Set thread and message reload interval
+
+[33mcommit 49590711a2611044fe630bff44f347b0b3088a1f[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Fri Jun 14 12:15:38 2019 -0500
+
+    FIXED EVERYTHING, THIS IS A GOOD ONE
+
+[33mcommit d067e1ab600678e7c7fed97f4fa9ad43f4928003[m
+Merge: 458ce4a e0865c7
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Fri Jun 14 11:51:07 2019 -0500
+
+    Merge fixed, I'm bad at git
+
+[33mcommit 458ce4ad4afcf4e8df0f6af19e05dd0b8639aadd[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Fri Jun 14 11:09:12 2019 -0500
+
+    Migrated to Vue 3
+
+[33mcommit 2a3f383fd5e1b9ad94ee8b0033aeb9fcbca24fd7[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Thu Jun 13 16:14:24 2019 -0500
+
+    Updated to Vue 3 just bc
+
+[33mcommit 91be43c4455f92c0682ff356189bae28b331ded4[m
+Author: Harrison Haigler <harrison.haigler@is4s.com>
+Date:   Thu Jun 13 10:26:33 2019 -0500
+
+    init
+
+[33mcommit e0865c7f40dd07f1e8db6cba82bb46d4fc7844cf[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Thu Jun 6 18:37:43 2019 -0500
+
+    got carried away with drop shadows
+
+[33mcommit 385bad4714e190501323c9c86f114b320bf02009[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Thu Jun 6 14:32:33 2019 -0500
+
+    Add Teams Carousel
+
+[33mcommit d30246e0bb6bec4694a65199f4303f3b0f5c7ce1[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Tue Jun 4 14:22:15 2019 -0500
+
+    Create Pinned Events
+
+[33mcommit 3efa07b0e09414b4f592408b166997ce6142e79c[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Wed May 22 17:13:37 2019 -0500
+
+    add new people and messages
+
+[33mcommit 1c602982e5b2cae61ac9960c79071637c5e0caf9[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Mon May 20 11:14:07 2019 -0500
+
+    implementing router history for ids
+
+[33mcommit 5be0fb1818030efbb3fd3c1057b5ceecde2223bc[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Fri May 17 12:02:45 2019 -0500
+
+    changed layout to strictly sidebar
+
+[33mcommit 6bdfdd0fc9874c9970f971f92829a157f6733bdb[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Tue May 14 12:18:07 2019 -0500
+
+    CardList component for uniform design of lists
+
+[33mcommit d0fae2f0a19635305006be04f52f402cfde0257f[m
+Merge: 9969fef fc62cf8
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Wed May 1 16:57:33 2019 -0500
+
+    Merge branch 'master' of https://github.com/hth0009/Together-Admin
+
+[33mcommit 9969fef106a8e7ec3ddb8ea921ccedbbb1489715[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Wed May 1 16:52:47 2019 -0500
+
+    connected messages api
+
+[33mcommit 3f9491d8da647dd635dc1f490bfcec89f166242f[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Sat Apr 20 15:19:01 2019 -0500
+
+    haven't commited in a while my b
+
+[33mcommit 4e0bf6beb864dbb1ffdf7e24872f8861f4e7b587[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Sat Mar 16 14:46:09 2019 -0400
+
+    Login and Firebase Setup
+
+[33mcommit fc62cf84289d0c9630d16486986140a6ad4cf414[m
+Author: hth0009 <45971354+hth0009@users.noreply.github.com>
+Date:   Sat Feb 9 20:00:39 2019 -0600
+
+    Deleting Key
+
+[33mcommit 6c8069752b9b2004355169b9aca41663bad25608[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Sat Feb 9 19:58:54 2019 -0600
+
+    I'm stupid and masaved a key here
+
+[33mcommit ade0df452f277cb39521740ff9765a3bebfab948[m
+Author: hth0009 <hth0009@auburn.edu>
+Date:   Sat Feb 9 17:02:59 2019 -0600
+
+    First Commit

@@ -19,7 +19,8 @@
           @onAddNew="createNewItem"
           :filters="teamFilters"/>
       </div>
-      <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem">
+      <transition name="fadeOut">
+      <div class="selected-view" v-if="selectedID != -1 && !creatingNewItem && Object.keys(selectedTeam).length != 0">
         <div class="header"> 
           <div class="profile-pic">
             <avatar
@@ -40,18 +41,27 @@
           </div>
           <div class="panel">
             <div class="card-header noselect">Description</div>
-              <p>{{selectedTeam.description}}</p>              
-            </div>    
-            <!-- <div class="team-leader-panel">   
-              <h4>Team Leader</h4>           
-                <div class="people-box">
-                  <div class="icon" :style="{backgroundImage: 'url(' +  selectedTeam.leader.icon + ')'}"></div>
-                  <div class="person-info">
-                    <div class="name">{{selectedTeam.leader.name}}</div>
-                  </div>
-                </div>
-                <p>Reach out to John at (606) 637-0799</p>
-            </div> -->
+            <p>{{selectedTeam.description}}</p>              
+          </div>    
+          <div class="panel" 
+            v-if="!selectedTeam.isAnonymous"
+            style="height: 80px">
+            <div class="card-header noselect">Leader</div>
+              <cards
+                v-if="this.selectedTeamLeader != undefined"
+                :hasShadow="false"
+                :hasSearch="false"
+                :loading="false"
+                :inline="true"
+                :cardList="this.selectedTeamLeader"
+                :cardSelectable="false"
+                profilePicFillerValue="fullName"
+                :fields="{
+                  title: 'fullName',
+                  id: 'id'
+                }"
+              />
+          </div>    
             <div class="panel" v-if="!selectedTeam.isAnonymous">
               <div class="card-header noselect">
                 <div>Members <span>| {{selectedTeam.members ? selectedTeam.members.total : ''}}</span></div>
@@ -76,7 +86,7 @@
                   :cardList="peopleInTeam"
                   :cardSelectable="false"
                   @buttonClicked="removePersonFromTeam"
-                  profilePicFillerValue="firstName"
+                  profilePicFillerValue="fullName"
                   :fields="{
                     title: 'fullName',
                     id: 'relationshipID'
@@ -86,6 +96,7 @@
             </div>   
           </div>
         </div>
+      </transition>
       <div class="new-item" v-if="creatingNewItem" :model="7">
         <div class="title">New Team</div>
         <div class="details">
@@ -403,7 +414,8 @@ export default {
       teamFilters: teamFiltersTemplate,
       peopleInTeam: [],
       peopleNotInTeam: [],
-      peopleToAdd: []
+      peopleToAdd: [],
+      selectedTeamLeader: [{}]
     }
   },
   components: {
@@ -426,7 +438,7 @@ export default {
       this.$router.push(`/app/teams/${id}`)
       this.selectedID = id
       this.getTeam(id)
-    },    
+    },
     async getTeams() {
       const response = await Teams.getTeamsByChurch()
       this.teams = response['team(s)']
@@ -435,6 +447,7 @@ export default {
       this.selectedID = id
       const response = await Teams.getTeam(id)
       this.selectedTeam = response['team']
+
       this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
         fullName: member.firstName + ' ' + member.lastName,
         id: member.personID,
@@ -442,7 +455,15 @@ export default {
         firstName: member.firstName,
         lastName: member.lastName,
       }))
+      this.peopleInTeam = this.peopleInTeam.filter(( person ) => {
+        const isLeader = person.id !== this.selectedTeam.leaderID
+        if (isLeader) {
+          this.selectedTeamLeader = [person]
+        }
+        return isLeader
+      });
       this.getPeopleNotInTeam()
+      return this.selectedTeam
     },
     async getPeople() {
       // const response = await Teams.getTeamsByID(this.personID)
@@ -450,6 +471,12 @@ export default {
       let people = response['person(s)']
       this.people = people
       this.subTeamStructure[1].list = this.people;
+    },
+    async getPerson(personID) {
+      // const response = await Teams.getTeamsByID(this.personID)
+      const response = await People.getPerson(personID)
+      let person = response['person']
+      return person
     },
     async deleteTeam() {
       this.$refs.deleteTeamModal.close()
@@ -581,7 +608,6 @@ export default {
   },
   computed: {
     newTeamReady () {
-      console.log(this.newTeam)
       return !checkIfObjNotFilled(this.newTeam)
     },
     formattedTeams() {      
@@ -612,10 +638,12 @@ export default {
       return teams
     },    
     formatedPeople() {
+      var newPeople = []
       var people = this.people
       for (let index = 0; index < people.length; index++) {
-        const person = people[index]
-        people[index]['name'] = person.firstName + " " + person.lastName
+        var person = people[index]
+        person['name'] = person.firstName + " " + person.lastName
+        newPeople.push(person)
       }
       return people
     }

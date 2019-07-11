@@ -227,8 +227,13 @@ export default {
         this.postMessage('', newID, this.newThread.firstMessage).then(() => {
           this.$refs.newMessageSelect.open()
           this.selectThread(newID)
+          this.newThread = {
+            recipientID: -1,
+            teamID: -1,
+            firstMessage: '',
+            type: 0
+          }
         })
-        console.log(response)
       })
     },
     // On new thread member selected

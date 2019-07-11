@@ -18,7 +18,6 @@
       @click="selected(option)">  
         {{item.message}}
       </li>
-      
     </ul>
   </div>
 </template>

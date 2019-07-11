@@ -258,7 +258,6 @@ export default {
       this.selectedPerson.birthday = new Date(this.selectedPerson.birthday)
     },
     async patchPersonValue (valueKey, value) {
-      console.log(value)
       var response = await People.patchPersonValue(this.selectedID, valueKey, value)
       // this.selectedPerson = response['person']
       // this.selectedPerson.birthday = new Date(this.selectedPerson.birthday)
