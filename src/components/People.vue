@@ -82,13 +82,20 @@
             ></ejs-inplaceeditor>
             <div class="input-label">Home Address</div>
             <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Home Address'" autocomplete="off" :mode="'Inline'" 
-              name="none" v-model="selectedPerson.address" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+              name="none" v-model="selectedPerson.homeAddress" data-underline='false' :cssClass="'basic-inline'"
+              @actionSuccess="patchPersonValue('homeAddress', $event.value)"  
+            ></ejs-inplaceeditor>
             <div class="input-label">Mailing Address</div>            
             <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Mailing Address'" autocomplete="off" :mode="'Inline'" 
-              name="none" v-model="selectedPerson.address" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+              name="none" v-model="selectedPerson.mailingAddress" data-underline='false' :cssClass="'basic-inline'"
+              @actionSuccess="patchPersonValue('mailingAddress', $event.value)"  
+            ></ejs-inplaceeditor>
             <div class="input-label">Phone Number</div>
             <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Phone Number'" autocomplete="off" :mode="'Inline'" 
-              name="none" v-model="selectedPerson.phoneNumber" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+              name="none" v-model="selectedPerson.phoneNumber" data-underline='false' :cssClass="'basic-inline'"
+              :type="'Mask'" :model="{mask: '(000) 000-0000'}" value="(123) 456-7890"
+              @actionSuccess="patchPersonValue('phoneNumber', $event.value)"  
+            ></ejs-inplaceeditor>
           </div>
           <!-- <div class="panel">
             <div class="card-header">Roles</div>
