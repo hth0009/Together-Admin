@@ -100,6 +100,15 @@
               v-model="tempOrderOfEvents"
               @edit="selectedOrderItem = $event"/>
           </div>
+
+          <button class="basic-button icon"
+            style="margin: 10px 0px 0px 20px"><i class="material-icons">add</i></button>
+            
+          <div class="panel">
+            <div class="card-header">New Component</div>
+            <div class="card-explanation">Select component to add to event</div>
+            <add-event-component/>
+          </div>
         </div>
       </div>        
       <div class="calendar-holder" v-show="!!!currentlyEditing && !creatingNewItem">
@@ -161,6 +170,8 @@ import EventTeams from '@/components/EventTeams'
 import Speaker from '@/components/EventSpeaker'
 import Contact from '@/components/EventContact'
 
+import AddEventComponent from '@/components/AddEventComponent'
+
 import {getHHMM, getDayOfWeekMonthDay} from '../utils/helpers'
 
 import Vue from 'vue'
@@ -203,7 +214,7 @@ export default {
   components: {
     Cards, Times, EventServing, OrderOfService, Reminders, EventTeams,
     NewEvent, NewOrderOfServiceItem, AddTeamToEvent, Speaker, Contact,
-    CustomRadio, SweetModal
+    CustomRadio, SweetModal, AddEventComponent
   },
   provide: {
     schedule: [Day, Month, Resize, DragAndDrop]
