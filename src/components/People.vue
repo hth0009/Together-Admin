@@ -152,11 +152,28 @@
                 />
             </div>
           </div>
-          <div class="panel">
+          <div class="panel"
+            style="min-height: 300px">
             <div class="card-header">Notes</div>
             <div class="card-explanation">These notes are visible to anyone on the admin site.</div>
-            <ejs-inplaceeditor :emptyText="'Notes'" autocomplete="off" :mode="'Inline'" :model="{multiline: true}"
-              name="none" :type="'Text'" v-model="selectedPerson.notes" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+            <ejs-inplaceeditor :emptyText="'Notes'" width="100%" autocomplete="off" :mode="'Inline'" :submitOnEnter="false" 
+              v-model="selectedPerson.notes"
+              :model="{
+                editorMode: 'Markdown',               
+                placeholder: 'Notes',
+                toolbarSettings: {
+                  items: []
+                },
+                height: 500,
+                pasteCleanupSettings: 'plainTextFormatting'
+              }"
+              name="none" type="RTE" data-underline='false' :cssClass="'basic-inline'"
+              @actionSuccess="patchPersonValue('notes', $event.value)"  
+            ></ejs-inplaceeditor>
+             <!-- <ejs-richtexteditor v-model="selectedPerson.notes" :height="600"
+              :editorMode="'Markdown'" :placeholder="'Notes'" :toolbarSettings="{items: []}"
+              @blur="patchPersonValue('notes', $event.value)"
+              ></ejs-richtexteditor> -->
           </div>
           <div class="panel">
             <div class="card-header noselect">Skills</div>
@@ -230,6 +247,10 @@ import StaticHeader from '@/components/StaticHeader'
 import Avatar from '@/components/Avatar'
 import { Container, Draggable } from 'vue-smooth-dnd'
 import { applyDrag } from '@/utils/helpers'
+
+import { Rte } from '@syncfusion/ej2-vue-inplace-editor'
+import { PasteCleanup, MarkdownEditor } from "@syncfusion/ej2-vue-richtexteditor";
+
 // import store from '../store'
 
 export default {
@@ -250,6 +271,7 @@ export default {
       newItemType: 0,
     }
   },
+  provide: {"inplaceeditor":[Rte, MarkdownEditor], richtextEditor:[PasteCleanup, MarkdownEditor]},
   components: {
     VueTable, Cards, CustomRadio, Container, Draggable, Avatar,
     StaticHeader
@@ -266,8 +288,6 @@ export default {
     },
     async patchPersonValue (valueKey, value) {
       var response = await People.patchPersonValue(this.selectedID, valueKey, value)
-      // this.selectedPerson = response['person']
-      // this.selectedPerson.birthday = new Date(this.selectedPerson.birthday)
     },
     async getTeams() {   
       const response = await Teams.getTeamsByID(this.selectedID)
