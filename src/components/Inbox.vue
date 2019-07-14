@@ -1,59 +1,60 @@
 <template>
-  <div class="inbox-container">    
+  <div class="inbox-container">
     <sweet-modal icon="success" ref="newMessageSelect">
       <h3>New Message Created!</h3>
-    </sweet-modal>
-    <div class="page-card-wrapper"
-      :class="{'inactive': selectedThreadID != '' || -1}">
-      <cards
-        :cardList="sortedThreads"
-        :loading="threadsLoading"
-        :selectedID="selectedThreadID + ''"
-        :hasAddNew="true"
-        @selected="selectThread"
-        @onAddNew="createNewItem"
-        />
-    </div>
-    <div class="thread-wrapper" v-if="!creatingNewItem && selectedThreadID != -1 && displayThread > 0">
-      <div class="thread">
-        <div class="thread-header noselect">{{thread.title}}</div>
-        <div class="messages">
-          <div class="message-box-wrapper" v-if="displayThread == 2">
-            <div v-for="(message, index) in reversedMessages" :key="message.id"
-            class="message-box"
-            :class="{
-                'self': personID == message.fromID,
-                'repeat': index > 0 && reversedMessages[index - 1].fromID == reversedMessages[index].fromID 
-              }">
-              <!-- <div
-                class="profile-pic" :style="{backgroundImage: 'url(' +  message.fromIDIcon + ')'}"></div> -->
-              <div class="time" v-if="index == 0">{{getDateFormate(message.sentAt)}}</div>
-              <div class="time" v-else>{{getDateFormate(message.sentAt, reversedMessages[index - 1].sentAt)}}</div>
-              <div
-                class="profile-pic"
-              >
-                <avatar
-                  :height="30"
-                  :url="peopleHash[message.fromID].personImageThumbnailURL"
-                  :title="peopleHash[message.fromID].fullName"
-                />
-              </div>
-              <div class="message-info">
+    </sweet-modal>    
+    <div class="page-wrapper">
+      <div class="page-card-wrapper"
+        :class="{'inactive': selectedThreadID != '' || -1}">
+        <cards
+          :cardList="sortedThreads"
+          :loading="threadsLoading"
+          :selectedID="selectedThreadID + ''"
+          :hasAddNew="true"
+          @selected="selectThread"
+          @onAddNew="createNewItem"
+          />
+      </div>
+      <div class="thread-wrapper" v-if="!creatingNewItem && selectedThreadID != -1 && displayThread > 0">
+        <div class="thread">
+          <div class="thread-header noselect">{{thread.title}}</div>
+          <div class="messages">
+            <div class="message-box-wrapper" v-if="displayThread == 2">
+              <div v-for="(message, index) in reversedMessages" :key="message.id"
+              class="message-box"
+              :class="{
+                  'self': personID == message.fromID,
+                  'repeat': index > 0 && reversedMessages[index - 1].fromID == reversedMessages[index].fromID 
+                }">
+                <!-- <div
+                  class="profile-pic" :style="{backgroundImage: 'url(' +  message.fromIDIcon + ')'}"></div> -->
+                <div class="time" v-if="index == 0">{{getDateFormate(message.sentAt)}}</div>
+                <div class="time" v-else>{{getDateFormate(message.sentAt, reversedMessages[index - 1].sentAt)}}</div>
                 <div
-                  class="user">{{peopleHash[message.fromID].firstName + " " + peopleHash[message.fromID].lastName}}</div>
-                <div class="message-content">{{message.contents}}</div>
+                  class="profile-pic"
+                >
+                  <avatar
+                    :height="30"
+                    :url="peopleHash[message.fromID].personImageThumbnailURL"
+                    :title="peopleHash[message.fromID].fullName"
+                  />
+                </div>
+                <div class="message-info">
+                  <div
+                    class="user">{{peopleHash[message.fromID].firstName + " " + peopleHash[message.fromID].lastName}}</div>
+                  <div class="message-content">{{message.contents}}</div>
+                </div>
               </div>
             </div>
           </div>
+            <form class="new-message-box"
+              v-if="displayThread >= 0"
+              v-on:sumbit.prevent="">
+              <input type="text" v-model="newMessageContent"  @keypress.enter.prevent="sendMessage">
+              <i @click="sendMessage" class="material-icons noselect">send</i>
+            </form>
         </div>
-          <form class="new-message-box"
-            v-if="displayThread >= 0"
-            v-on:sumbit.prevent="">
-            <input type="text" v-model="newMessageContent"  @keypress.enter.prevent="sendMessage">
-            <i @click="sendMessage" class="material-icons noselect">send</i>
-          </form>
       </div>
-    </div>
       <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Message</div>
         <div class="details">
@@ -96,6 +97,7 @@
           <button class="basic-button green" @click="createThread">SEND</button>
         </div>
       </div>
+    </div>
   </div>
 </template>
 
@@ -356,10 +358,6 @@ export default {
 </script>
 
 <style scoped>
-  .inbox-container {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-  }
 
   .threads-card-wrapper {
     overflow-y: auto;
@@ -380,6 +378,7 @@ export default {
     box-shadow: 0px 3px 13px -2px #00000040;
     max-width: 600px;
     min-width: 400px;
+    overflow: hidden;
   }
   .thread {
     display: grid;

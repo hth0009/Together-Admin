@@ -310,7 +310,7 @@ import PeopleAPI from '@/services/people'
   right: 0px;
   z-index: 900;
   width: 100%;
-  height: 40px;
+  height: 30px;
   display: none;
 }
 #app-navbar-toggle {
@@ -890,6 +890,9 @@ import PeopleAPI from '@/services/people'
     grid-template-columns: 1fr 0px;
     height: calc(100vh - 35px);    
     margin-top: 35px;
+  }
+  #app-page-content >>> .page-card-wrapper {
+    padding-top: 0px
   }
     #app-page-content >>> .card-list-wrapper {
     margin-top: 35px;
