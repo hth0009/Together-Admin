@@ -36,7 +36,7 @@
         <div class="details"
         :key="selectedID">    
           <div class="quick-actions">
-            <button class="basic-button"><i class="material-icons">send</i></button>
+            <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
             <button class="basic-button red" @click="deleteButtonClicked"><i class="material-icons">delete</i></button>
           </div>
           <div class="panel">
@@ -58,7 +58,8 @@
                 profilePicFillerValue="fullName"
                 :fields="{
                   title: 'fullName',
-                  id: 'id'
+                  id: 'id', 
+                  profile: 'personImageThumbnailURL'
                 }"
               />
           </div>    
@@ -90,7 +91,8 @@
                   profilePicFillerValue="fullName"
                   :fields="{
                     title: 'fullName',
-                    id: 'relationshipID'
+                    id: 'relationshipID',
+                    profile: 'personImageThumbnailURL'
                   }"
                 />
               </div>
@@ -455,6 +457,7 @@ export default {
         relationshipID: member.id,
         firstName: member.firstName,
         lastName: member.lastName,
+        personImageThumbnailURL: member.person.personImageThumbnailURL,
       }))
       this.peopleInTeam = this.peopleInTeam.filter(( person ) => {
         const isLeader = person.id == this.selectedTeam.leaderID
@@ -631,7 +634,7 @@ export default {
         const newTeam = {
           id: team.id,
           title: team.name,          
-          // profile: 'https://images.unsplash.com/photo-1496275068113-fff8c90750d1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+          profile: team.teamImageThumbnailURL,
           subtext: teamType
         }
         teams[index] = newTeam
