@@ -147,7 +147,8 @@
                   :emptyMessage="'Not in any teams'"
                   :fields="{
                     title: 'name',
-                    id: 'id'
+                    id: 'id',
+                    profile: 'teamImageThumbnailURL'
                   }"
                 />
             </div>
