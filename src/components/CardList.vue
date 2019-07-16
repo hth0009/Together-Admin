@@ -207,12 +207,19 @@ export default {
     },
     async filterAndSearchCards() {
       if (this.cardSearch == '') {
-        this.filteredCards = this.cardList
+        this.filteredCards = [...this.cardList]
       }
       else {
         await this.$search(this.cardSearch, this.cardList, this.searchOptions).then(results => {
           this.filteredCards = results
         })
+      }
+      if (this.alphabetical) {
+        this.filteredCards.sort((a, b) => {
+          var textA = a[this.fields.title].toUpperCase();
+          var textB = b[this.fields.title].toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        });
       }
       if (this.hasDates) {
         this.filteredCards.sort(function(a, b) {
@@ -255,6 +262,10 @@ export default {
     loading: {
       type: Boolean,
       default: true
+    },
+    alphabetical: {
+      type: Boolean,
+      default: false
     },
     noProfile: {
       type: Boolean,
@@ -328,13 +339,14 @@ export default {
   },
   mounted() {
     this.filteredCards = this.cardList
+    this.filterAndSearchCards()
   },
   computed: {
   },
   watch: {
     cardList: {
       handler(n, o) {
-        this.filteredCards = this.cardList
+        this.filteredCards = [...this.cardList]
         this.filterAndSearchCards()
       }, deep: true
     },

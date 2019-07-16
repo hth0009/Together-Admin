@@ -15,6 +15,7 @@
           :loading="teamsLoading"
           :selectedID="selectedID + ''"
           :hasAddNew="true"
+          :alphabetical="true"
           @selected="recieveID"
           @onAddNew="createNewItem"
           :filters="teamFilters"/>
@@ -87,6 +88,7 @@
                   :loading="false"
                   :inline="true"
                   :hasButtonOnCard="true"
+                  :alphabetical="true"
                   :buttonColor="'#ff7675'"
                   :buttonIcon="'close'"
                   :emptyMessage="'No Members'"
@@ -127,7 +129,7 @@
                 @onUpload="startImageResize"
                 @onComplete="endImageResize"
               ></image-uploader> -->
-              <!-- <div class="image-cropper">
+              <div class="image-cropper">
                 <clipper-fixed class="clipper" ref="clipper"
                   :ratio="1"
                   :wrapRatio="1"
@@ -141,7 +143,7 @@
                   <div slot="placeholder">No image</div>
                 </clipper-fixed>        
               </div>
-              <button @click="clipImage()">clip</button>     -->
+              <button @click="clipImage()">clip</button>    
               <div>
                 <ejs-textbox autocomplete="off" v-model="newTeam.name" floatLabelType="Auto" :placeholder="'Team Name'"
                 required></ejs-textbox>

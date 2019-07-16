@@ -8,6 +8,7 @@
           :loading="peopleLoading"
           :selectedID="selectedID + ''"
           :hasAddNew="false"
+          :alphabetical="true"
           @selected="recieveID"
           @onAddNew="createNewItem"
           />
