@@ -1,5 +1,5 @@
 import Api from './api'
-import store from '../store'
+// import store from '../store'
 
 export default {
   getThreads () {

@@ -73,7 +73,7 @@
             <div class="card-header">Reminders</div>
             <reminders/>
           </div> -->
-          <div class="panel">
+          <!-- <div class="panel">
             <div class="card-header">Speaker</div>
             <speaker
               v-model="tempSpeaker"/>
@@ -89,25 +89,28 @@
             <event-teams
               v-model="tempTeams"
             />
-          </div>
+          </div> -->
           <!-- <div class="panel">
             <div class="card-header">Serve Teams</div>
             <event-serving/>
           </div> -->
-          <div class="panel">
+          <!-- <div class="panel">
             <div class="card-header">Order of Service</div>
             <order-of-service
               v-model="tempOrderOfEvents"
               @edit="selectedOrderItem = $event"/>
-          </div>
+          </div> -->
 
-          <button class="basic-button icon"
+          <button class="basic-button icon" v-show="!addingNewComponent"
+            @click="addingNewComponent = true"
             style="margin: 10px 0px 0px 20px"><i class="material-icons">add</i></button>
             
-          <div class="panel">
+          <div class="panel" v-if="addingNewComponent">
             <div class="card-header">New Component</div>
             <div class="card-explanation">Select component to add to event</div>
-            <add-event-component/>
+            <add-event-component            
+              @canceled="addingNewComponent = false" 
+            />
           </div>
         </div>
       </div>        
@@ -208,7 +211,8 @@ export default {
         members: [
           {}
         ]}
-      ]
+      ],
+      addingNewComponent: false,
     }
   },
   components: {

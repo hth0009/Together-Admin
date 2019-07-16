@@ -21,7 +21,7 @@
           class="profile-pic"></div> -->
           <div class="profile-pic">
             <avatar
-              :height="60"
+              :height="100"
               :url="selectedPerson.personImageThumbnailURL"
               :title="selectedPerson.fullName"/>
           </div>

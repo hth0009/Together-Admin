@@ -24,7 +24,7 @@
         <div class="header"> 
           <div class="profile-pic">
             <avatar
-              :height="60"
+              :height="100"
               :url="selectedTeam.teamImageURL"
               :title="selectedTeam.name"/>
           </div>
