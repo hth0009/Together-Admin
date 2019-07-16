@@ -116,25 +116,6 @@
             </div>
           </div> -->
           <div class="panel">
-            <div class="card-header">Family</div>
-            <div class="card-explanation">COMING SOON</div>
-            <!-- <div class="search">              
-                <cards
-                  :hasShadow="false"
-                  :loading="false"
-                  :inline="true"
-                  :cardList="[]"
-                  :cardSelectable="false"
-                  :hasSearch="false"
-                  :profilePicFillerValue="'name'"
-                  :fields="{
-                    title: 'name',
-                    id: 'id'
-                  }"
-                />
-            </div> -->
-          </div>
-          <div class="panel">
             <div class="card-header">Teams</div>
             <div class="teams">              
                 <cards
@@ -178,17 +159,35 @@
           </div>
           <div class="panel">
             <div class="card-header noselect">Skills</div>
-            <div class="card-explanation">Track your members talents with the skills feature.</div>
-            <!-- <div class="card-explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div> -->
+            <div class="card-explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
             <div class="skills noselect">
               <div class="skill" 
                 v-for="(skill, index) in selectedPerson.skills['personSkill(s)']"
                 :key="skill.id"
                 :class="{'confirmed': skill.confirmed}"
-                @click="toggleSkill(index)">
+                @click="toggleSkill(index, skill.id)">
                 {{ skill.skill.name }}
               </div>
             </div>
+          </div>
+          <div class="panel">
+            <div class="card-header">Family</div>
+            <div class="card-explanation">COMING SOON</div>
+            <!-- <div class="search">              
+                <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :cardList="[]"
+                  :cardSelectable="false"
+                  :hasSearch="false"
+                  :profilePicFillerValue="'name'"
+                  :fields="{
+                    title: 'name',
+                    id: 'id'
+                  }"
+                />
+            </div> -->
           </div>
         </div>
       </div>      
@@ -242,6 +241,7 @@
 import Cards from '@/components/CardList'
 import VueTable from '@/components/Table'
 import People from '@/services/people'
+import Skills from '@/services/skills'
 import Teams from '@/services/teams'
 import CustomRadio from '@/components/CustomRadio'
 import StaticHeader from '@/components/StaticHeader'
@@ -294,8 +294,10 @@ export default {
       const response = await Teams.getTeamsByID(this.selectedID)
       this.selectedPersonTeams = response['team(s)']
     },
-    toggleSkill(index) {
-      this.skills[index].confirmed = !this.skills[index].confirmed
+    toggleSkill(index, skillID) {
+      const isConfirmed = !this.selectedPerson.skills['personSkill(s)'][index].confirmed
+      this.selectedPerson.skills['personSkill(s)'][index].confirmed = isConfirmed
+      Skills.patchSkill(skillID, isConfirmed)
     },
     recieveID(id) {
       if (id == undefined) {
