@@ -194,9 +194,6 @@
   .basic-inline .e-editable-value-wrapper{
     padding: .4rem .2rem .4rem 0px;
   }
-  .basic-inline .e-editable-value-wrapper{
-    padding: .4rem .2rem .4rem 0px;
-  }
   
   .basic-radio{
     border-color: #00cec9;

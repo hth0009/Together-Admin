@@ -41,7 +41,12 @@
           </div>
           <div class="panel">
             <div class="card-header noselect">Description</div>
-            <p>{{selectedTeam.description}}</p>              
+            <!-- <p>{{selectedTeam.description}}</p> -->
+            <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Description'" autocomplete="off" :mode="'Inline'"
+              :template="descriptionMultiline" :actionBegin="bindDescription"
+              name="none" :value="selectedTeam.description" data-underline='false' :cssClass="'basic-inline'"
+              @actionSuccess="patchTeamValue('description', $event.value)"    
+            ></ejs-inplaceeditor>
           </div>    
           <div class="panel" 
             v-if="!selectedTeam.isAnonymous"
@@ -65,7 +70,7 @@
           </div>    
             <div class="panel" v-if="!selectedTeam.isAnonymous">
               <div class="card-header noselect">
-                <div>Members <span>| {{selectedTeam.members ? selectedTeam.members.total - 1: ''}}</span></div>
+                <div>Members <span>| {{selectedTeam.members ? selectedTeam.members.total: ''}}</span></div>
               </div>
               <div :key="selectedID" class="add-people">
                 <ejs-multiselect :dataSource='peopleNotInTeam' 
@@ -299,6 +304,8 @@ import { SweetModal } from 'sweet-modal-vue'
 // import VuejsClipper from 'vuejs-clipper'
 import store from '../store'
 
+import Vue from 'vue'
+
 const subTeamStructureTemplate = [
   {
     name: 'teamName',
@@ -418,7 +425,15 @@ export default {
       peopleInTeam: [],
       peopleNotInTeam: [],
       peopleToAdd: [],
-      selectedTeamLeader: [{}]
+      selectedTeamLeader: [{}],
+      descriptionMultiline:  function () {
+        return {
+          template: Vue.component('DescriptionMultiline', {
+            template: '<ejs-textbox value="' + this.selectedTeam.description + '" style="height: 7rem" :multiline="true"></ejs-textbox>',
+            data() { return { }; }
+          })
+        }
+      }.bind(this)
     }
   },
   components: {
@@ -446,6 +461,10 @@ export default {
       const response = await Teams.getTeamsByChurch()
       this.teams = response['team(s)']
     },
+    async patchTeamValue (valueKey, value) {
+      Teams.patchTeamValue(this.selectedID, valueKey, value)
+      this.selectedTeam[valueKey] = value
+    },
     async getTeam(id) {
       this.selectedID = id
       const response = await Teams.getTeam(id)
@@ -464,7 +483,7 @@ export default {
         if (isLeader) {
           this.selectedTeamLeader = [person]
         }
-        return !isLeader
+        return true
       });
       this.getPeopleNotInTeam()
       return this.selectedTeam
@@ -508,6 +527,14 @@ export default {
       console.log(this.newTeam)
     },
     clipImage() {
+    },
+    bindDescription: function(args) {
+      const description = document.getElementsByClassName('e-input')[0].value;
+      console.log(description)
+      if(description != null && description != undefined) {
+          args.data.value = description;
+          return description
+      }
     },
     async getPeopleNotInTeam () {
       this.peopleToAdd = []

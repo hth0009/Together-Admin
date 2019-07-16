@@ -205,6 +205,9 @@ export default {
     VueSlider
   },
   methods: {
+    loadDrift() {
+      
+    }
   },
   props: {
   },
@@ -258,6 +261,7 @@ export default {
   }
 }
 </script>
+
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Bad+Script&display=swap');

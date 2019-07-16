@@ -29,7 +29,7 @@ export default {
     }).catch((e) => {
       console.error(e)
     })
-  },  
+  },
   patchPersonValue (personID, valueKey, value) {
     return Api().patch('people', {
       "identifier":{

@@ -55,6 +55,16 @@ export default {
       console.error(e)
     })
   },
+  patchTeamValue (personID, valueKey, value) {
+    return Api().patch('teams', {
+      "identifier":{
+        "id": `${personID}`
+      },
+      "values": {
+        [valueKey]: `${value}`
+      }
+    })
+  },
   deleteTeam (teamID) {
     return Api().delete('teams',
     {data: {
