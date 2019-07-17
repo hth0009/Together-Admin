@@ -22,6 +22,8 @@
 
 <script>
 import CustomRadio from '@/components/CustomRadio'
+import { orderOfEventComponentEmpty, speakerComponent } from '../utils/event-component-types'
+import Events from '../services/events'
 
 export default {
   name: '',
@@ -35,15 +37,21 @@ export default {
         }, 
         {
           title: 'Speaker',
-          type: 'SPEAKER'
+          type: 'SPEAKER',
+          template: speakerComponent
         }, 
-        {
-          title: 'Contact',
-          type: 'CONTACT'
-        },
+        // {
+        //   title: 'Contact',
+        //   type: 'CONTACT'
+        // },
         {
           title: 'Order of Service',
-          type: 'ORDER'
+          type: 'ORDER',
+          template: orderOfEventComponentEmpty
+        },
+        {
+          title: 'Check In (coming soon)',
+          type: 'CHECKIN'
         },
         {
           title: 'Video (coming soon)',
@@ -76,10 +84,15 @@ export default {
   },
   methods: {
     async addComponent() {
-      
+      if (this.forEventBase == 1) {
+
+      }
     },
     canceled() {
       this.$emit('canceled')
+    },
+    async patchEventBase(BaseID) {
+
     },
     selectType(typeIn) {
       this.selectedType = typeIn.type

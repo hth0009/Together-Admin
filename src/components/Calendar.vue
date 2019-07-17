@@ -82,14 +82,14 @@
             <div class="card-header">Contact</div>
             <contact
               v-model="tempContact"/>
-          </div>
+          </div> -->
           <div class="panel">
             <div class="card-header">Teams</div>
             <div class="card-explanation">This is where teams are. Let's describe this better</div>
             <event-teams
               v-model="tempTeams"
             />
-          </div> -->
+          </div>
           <!-- <div class="panel">
             <div class="card-header">Serve Teams</div>
             <event-serving/>

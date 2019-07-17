@@ -42,11 +42,7 @@ export default {
     })
   },
   postTeam (teamInfo) {
-    return Api().post('teams', teamInfo).then((response) => {
-      return response
-    }).catch((e) => {
-      console.error(e)
-    })
+    return Api().post('teams', teamInfo)
   },
   patchTeam (teamInfo) {
     return Api().patch('teams', teamInfo).then((response) => {

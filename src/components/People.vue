@@ -127,6 +127,7 @@
                   :cardSelectable="false"
                   :profilePicFillerValue="'name'"
                   :emptyMessage="'Not in any teams'"
+                  :alphabetical="true"
                   :fields="{
                     title: 'name',
                     id: 'id',

@@ -85,6 +85,19 @@ export const orderOfEventComponent = {
     }
   }
 }
+export const orderOfEventComponentEmpty = {
+  "component": {
+    "componentType": "orderOfEvent",
+    "component": {
+      "fields": {
+        "eventElements": {
+        "orderOfEventComponentMembers(s)": [
+          ]
+        }
+      }
+    }
+  }
+}
 
 export const pdfComponent = {
   "component": {
@@ -116,7 +129,7 @@ export const speakerComponent = {
       "fields": {
         "isInChurch": false,
         "speakerID": null,
-        "speakerName": "Andy Stanley"
+        "speakerName": ""
       }
     }
   }

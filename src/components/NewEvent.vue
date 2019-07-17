@@ -10,7 +10,7 @@
           required></ejs-textbox>
           <ejs-textbox autocomplete="off" v-model="newEvent.location" resize="none" floatLabelType="Auto" :placeholder="'Location'"
           required></ejs-textbox>
-          <ejs-textbox autocomplete="off" v-model="newEvent.locationDescription" resize="none" floatLabelType="Auto" :placeholder="'Location Description'"
+          <ejs-textbox autocomplete="off" v-model="newEvent.locationDescription" resize="none" floatLabelType="Auto" :placeholder="'Location Description (ex: Room 103, Front Office)'"
           required></ejs-textbox>
         </div>
       </div>

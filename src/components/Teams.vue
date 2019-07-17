@@ -129,7 +129,7 @@
                 @onUpload="startImageResize"
                 @onComplete="endImageResize"
               ></image-uploader> -->
-              <div class="image-cropper">
+              <!-- <div class="image-cropper">
                 <clipper-fixed class="clipper" ref="clipper"
                   :ratio="1"
                   :wrapRatio="1"
@@ -142,12 +142,27 @@
                 >    
                   <div slot="placeholder">No image</div>
                 </clipper-fixed>        
-              </div>
-              <button @click="clipImage()">clip</button>    
+              </div> -->              
               <div>
                 <ejs-textbox autocomplete="off" v-model="newTeam.name" floatLabelType="Auto" :placeholder="'Team Name'"
                 required></ejs-textbox>
               </div>
+            </div>
+            <div class="new-item-card" style="overflow-y: auto">
+              <div class="section-header">Team Type</div>  
+              <div class="section-header-info">Choose a profile picture for {{newTeam.name}}?</div>              
+              <div class="image-croppa">
+                <croppa v-model="teamPhotoCroppa"
+                  canvas-color="transparent"
+                  :disable-rotation="true"
+                  :prevent-white-space="true"
+                  :width="200"
+                  :height="200"
+                  :speed="7"
+                ></croppa>
+              </div>
+              <!-- <button @click="uploadTeamProfilePic()">clip</button>               -->
+              <!-- <img :src="teamPhotoCroppaDataUrl"> -->
             </div>
             <div class="new-item-card">
               <div class="section-header">Team Type</div>  
@@ -200,9 +215,9 @@
                   <div v-show="newTeam.hasMeetings == 0">
                     <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Address"
                     name="" v-model="newTeam.address"></ejs-textbox>
-                    <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Location Description"
+                    <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Location Description (ex: Room 103, Front Office)"
                     name="" v-model="newTeam.location"></ejs-textbox>
-                    <div class="item-description">(ex: Room 103, Front Office)</div>
+                    <!-- <div class="item-description">(ex: Room 103, Front Office)</div> -->
                   </div>
                 </div>
                 <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
@@ -295,18 +310,24 @@ import NewTeams from '@/components/NewTeam'
 import Cards from '@/components/CardList'
 import Teams from '@/services/teams'
 import People from '@/services/people'
+import CDN from '@/services/cdn'
 import CustomRadio from '@/components/CustomRadio'
 // import ImageUploader from 'vue-image-crop-upload'
 import Carousel from '@/components/Carousel'
 import Avatar from '@/components/Avatar'
 import QuickCreate from '@/components/QuickCreate'
-import { checkIfObjNotFilled } from '../utils/helpers'
-import ImageUploader from 'vue-image-upload-resize'
+import { checkIfObjNotFilled, generateGUID } from '../utils/helpers'
+// import ImageUploader from 'vue-image-upload-resize'
 import { SweetModal } from 'sweet-modal-vue'
 // import VuejsClipper from 'vuejs-clipper'
+import Croppa from 'vue-croppa'
+import 'vue-croppa/dist/vue-croppa.css'
+
 import store from '../store'
 
 import Vue from 'vue'
+
+Vue.use(Croppa)
 
 const subTeamStructureTemplate = [
   {
@@ -428,6 +449,9 @@ export default {
       peopleNotInTeam: [],
       peopleToAdd: [],
       selectedTeamLeader: [{}],
+      teamPhotoCroppa: {},
+      cdnKeys: {},
+      teamPhotoCroppaDataUrl: '',
       descriptionMultiline:  function () {
         return {
           template: Vue.component('DescriptionMultiline', {
@@ -439,7 +463,7 @@ export default {
     }
   },
   components: {
-    NewTeams, Cards, CustomRadio, ImageUploader, Carousel, QuickCreate, Avatar,	SweetModal
+    NewTeams, Cards, CustomRadio, Carousel, QuickCreate, Avatar,	SweetModal
   },
   methods: {
     recieveID(id) {
@@ -519,6 +543,11 @@ export default {
 
       this.creatingNewItem = !this.creatingNewItem
       this.newTeam = {...newTeamTemplate}
+      if (this.creatingNewItem == true) {
+        CDN.getKeys().then(response => {
+         this.cdnKeys = response.data
+        })
+      }
     },
     assignLeader (member) {
       this.newTeam.leaderID = member.itemData.id
@@ -528,11 +557,8 @@ export default {
       this.newTeam.recurrence = e.value
       console.log(this.newTeam)
     },
-    clipImage() {
-    },
     bindDescription: function(args) {
       const description = document.getElementsByClassName('e-input')[0].value;
-      console.log(description)
       if(description != null && description != undefined) {
           args.data.value = description;
           return description
@@ -592,13 +618,15 @@ export default {
       Teams.patchTeam(patchData).then(() => {
         this.recieveID(this.selectedID)
       })
-    },    
-    postTeam() {
+    }, 
+    async postTeam() {
+      var profilePic = await this.uploadTeamProfilePic()
+      profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/TeamPics/' + profilePic : ''
       const newTeam = {
         "churchUsername": store.state.churchUsername,
         "name": this.newTeam.name,
-        "teamImageURL": "",
-        "teamImageThumbnailURL": "",
+        "teamImageURL": profilePic,
+        "teamImageThumbnailURL": profilePic,
         "leaderID":  this.newTeam.type != 2 ? this.newTeam.leaderID : null,
         "members":  this.newTeam.type != 2 ? [
           {
@@ -615,9 +643,6 @@ export default {
         "serveTeamRoles": [
         ]
       }
-      if (this.newTeam.type == 2) {
-        
-      }
       Teams.postTeam(newTeam).then(function(result) {
         this.$refs.teamCreated.open()
         this.getTeams()
@@ -626,6 +651,24 @@ export default {
         // console.log(result)
         // this.selectedTeam
       }.bind(this))
+    },
+    async uploadTeamProfilePic() {
+      const { accessKeyID, secretAccessKey } = this.cdnKeys
+      const fileName = generateGUID() + '.jpg'
+      
+      if (!this.teamPhotoCroppa.hasImage()) {
+        return
+      }
+      var blob = await this.teamPhotoCroppa.promisedBlob('image/jpeg')
+      
+        // var fd = new FormData()
+        // const file = new File([blob], fileName)
+        // fd.append('file', blob, fileName)
+        // console.log(file)
+      var arrayBuffer = await new Response(blob).arrayBuffer();  
+      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileName).catch(() => {fileName = ''})
+
+      return fileName
     }
   },
   props: {
@@ -780,6 +823,12 @@ h2 {
 .image-cropper {
   height: 100px;
   width: 100px;
+  overflow: hidden;
+}
+.image-croppa {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
   overflow: hidden;
 }
 .image-cropper .clipper{
