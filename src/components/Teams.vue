@@ -666,7 +666,7 @@ export default {
         // fd.append('file', blob, fileName)
         // console.log(file)
       var arrayBuffer = await new Response(blob).arrayBuffer();  
-      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileName).catch(() => {fileName = ''})
+      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileName).then(() => {fileName = ''})
 
       return fileName
     }
