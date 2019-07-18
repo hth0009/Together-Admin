@@ -86,7 +86,7 @@ export default {
           "id": `${instanceID}`
         },
         "values":{
-          "componentsAdd": [componentData]
+          "instanceOverridesAdd": [componentData]
         }
     })
   },
