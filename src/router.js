@@ -73,7 +73,7 @@ let router = new Router({
       path: '/privacy-policy',
       name: 'PrivacyPolicy',
       component: PrivacyPolicy,
-      meta: { 
+      meta: {
         noNav: true,
         requiresAuth: false
       }
