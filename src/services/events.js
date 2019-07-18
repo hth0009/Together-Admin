@@ -67,5 +67,27 @@ export default {
     }).catch((e) => {
       console.error(e)
     })
-  }
+  },  
+  addComponentToBase (baseID, componentData) {
+    return Api().patch('eventbases',
+      {
+        "identifier":{
+          "id": `${baseID}`
+        },
+        "values":{
+          "componentsAdd": [componentData]
+        }
+    })
+  },
+  addComponentToInstance (instanceID, componentData) {
+    return Api().patch('eventinstances',
+      {
+        "identifier":{
+          "id": `${instanceID}`
+        },
+        "values":{
+          "componentsAdd": [componentData]
+        }
+    })
+  },
 }

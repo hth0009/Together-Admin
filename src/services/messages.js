@@ -7,7 +7,9 @@ export default {
       {
         params: {
           threadID: `${threadID}`,
-          orderByDescending: 'sentAt'
+          orderByDescending: 'sentAt',
+          pageSize: 100,
+          page: 0
         }
       }).then((response) => {
       return response.data

@@ -65,6 +65,13 @@
             <!-- <ejs-textbox autocomplete="off" v-model="eventInstance.components['component(s)'][0].fields.contents" :multiline="true" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
               required></ejs-textbox> -->
           </div>
+          <div v-for="eventComponent in eventComponents" :key="eventComponent.id">
+            <div class="panel" v-if="!!componentTypes[eventComponent.componentType]">
+              <div class="card-header">{{componentTypes[eventComponent.componentType].title}}</div>
+              <component v-if="!!componentTypes[eventComponent.componentType]" :is="componentTypes[eventComponent.componentType].component"/>
+              {{ component }}
+            </div>
+          </div>
           <!-- <div class="panel">
             <div class="card-header">Times</div>
             <times/>
@@ -109,7 +116,9 @@
             <div class="card-header">New Component</div>
             <div class="card-explanation">Select component to add to event</div>
             <add-event-component            
-              @canceled="addingNewComponent = false" 
+              @canceled="addingNewComponent = false"
+              :eventBaseID="eventInstance.eventBase.id"
+              :eventInstanceID="eventInstance.id"
             />
           </div>
         </div>
@@ -180,6 +189,17 @@ import {getHHMM, getDayOfWeekMonthDay} from '../utils/helpers'
 import Vue from 'vue'
 Vue.use(SchedulePlugin, DateTimePickerPlugin)
 
+const componentTypesTemplate = {
+  "orderOfEvent": {
+    component: OrderOfService,
+    title: "Order"
+  },
+  "speaker": {
+    component: Speaker,
+    title: "Speaker"
+  }
+}
+
 export default {
   name: 'Calender',
   data() {
@@ -191,7 +211,6 @@ export default {
       // selectedDate: new Date(),
       selectedDate: new Date(),
       selectedID: -1,
-      selectedEvent: {},
       selectedEvents: [],
       views: ['Month', 'Day'],
       eventHash: {},
@@ -213,6 +232,7 @@ export default {
         ]}
       ],
       addingNewComponent: false,
+      componentTypes: componentTypesTemplate
     }
   },
   components: {
@@ -293,6 +313,7 @@ export default {
         this.eventInstance.startTime,
         this.eventInstance.endTime
       ]
+      this.eventComponents = data.components['component(s)']
       return data
     },
     async getEventBases () {
@@ -382,7 +403,7 @@ export default {
   .calendar {    
     padding: 10px;
     border-radius: 10px;
-    margin: 10px 7.5px;
+    margin: 10px 12px;
     box-shadow: 0px 3px 13px -2px #00000040;
     max-width: 750px;
     min-width: 500px;

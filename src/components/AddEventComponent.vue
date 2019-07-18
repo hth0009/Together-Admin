@@ -14,7 +14,7 @@
       <div class="description">{{selectedType != '' ? description: ''}}</div>
       <div class="buttons">
         <button class="basic-button red" @click="canceled()">CANCEL</button>
-        <button class="basic-button green">ADD</button>
+        <button class="basic-button green" @click="addComponent()">ADD</button>
       </div>
     </div>
   </div>
@@ -22,7 +22,7 @@
 
 <script>
 import CustomRadio from '@/components/CustomRadio'
-import { orderOfEventComponentEmpty, speakerComponent } from '../utils/event-component-types'
+import { orderOfEventComponentEmpty, speakerComponent, eventComponentHash } from '../utils/event-component-types'
 import Events from '../services/events'
 
 export default {
@@ -84,15 +84,31 @@ export default {
   },
   methods: {
     async addComponent() {
-      if (this.forEventBase == 1) {
-
+      if (this.forEventBase == 0) {
+        this.patchEventInstance(this.eventInstanceID)
+      }
+      else if (this.forEventBase == 1) {
+        this.patchEventBase(this.eventBaseID)
       }
     },
     canceled() {
       this.$emit('canceled')
     },
-    async patchEventBase(BaseID) {
-
+    async patchEventBase(baseID) {
+      var componentData = {}
+      componentData = eventComponentHash[this.selectedTypeObject.type]
+      if (componentData == undefined) return
+      componentData.component.order = this.orderNumber
+      componentData.component.isBase = true
+      Events.addComponentToBase(baseID, componentData)
+    },
+    async patchEventInstance(instanceID) {
+      var componentData = {}
+      componentData = eventComponentHash[this.selectedTypeObject.type]
+      if (componentData == undefined) return
+      componentData.component.order = this.orderNumber
+      componentData.component.isBase = false
+      Events.addComponentToInstance(instanceID, componentData)
     },
     selectType(typeIn) {
       this.selectedType = typeIn.type
@@ -103,6 +119,10 @@ export default {
     eventInstanceID: {
       type: Number,
       default: null
+    },
+    orderNumber: {
+      type: Number,
+      default: 0
     },
     eventBaseID: {
       type: Number,

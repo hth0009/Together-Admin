@@ -31,8 +31,8 @@
           </div>
           <h3>{{selectedTeam.name}}</h3>
           <div class="subtitle" v-if="selectedTeam.isAnonymous">anonymous</div>
-          <div class="subtitle" v-else-if="selectedTeam.isServeTeam">serve team</div>
-          <div class="subtitle" v-else>community group</div>
+          <div class="subtitle" v-else-if="selectedTeam.isServeTeam">private group</div>
+          <div class="subtitle" v-else>public group</div>
         </div>
         <div class="details"
         :key="selectedID">    
@@ -158,10 +158,10 @@
                   :prevent-white-space="true"
                   :width="200"
                   :height="200"
-                  :speed="7"
+                  :speed="10"
                 ></croppa>
               </div>
-              <!-- <button @click="uploadTeamProfilePic()">clip</button>               -->
+              <!-- <button @click="uploadTeamProfilePic()">clip</button> -->
               <!-- <img :src="teamPhotoCroppaDataUrl"> -->
             </div>
             <div class="new-item-card">
@@ -654,7 +654,7 @@ export default {
     },
     async uploadTeamProfilePic() {
       const { accessKeyID, secretAccessKey } = this.cdnKeys
-      const fileName = generateGUID() + '.jpg'
+      var fileName = generateGUID() + '.jpg'
       
       if (!this.teamPhotoCroppa.hasImage()) {
         return
@@ -666,7 +666,7 @@ export default {
         // fd.append('file', blob, fileName)
         // console.log(file)
       var arrayBuffer = await new Response(blob).arrayBuffer();  
-      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileName).then(() => {fileName = ''})
+      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileName).catch(() => {fileName = ''})
 
       return fileName
     }

@@ -1,4 +1,64 @@
 
+export const orderOfEventComponent = {
+  "component": {
+    "componentType": "orderOfEvent",
+    "order": -1,
+    "isBase": false,
+    "component": {
+      "fields": {
+        "eventElements": {
+        "orderOfEventComponentMembers(s)": [
+            {
+              "title": "Introduction",
+              "order": 1,
+              "duration": "00:03:00Z",
+              "colorCode": "FF0000"
+            },
+            {
+              "title": "Worship",
+              "order": 2,
+              "duration": "00:06:00Z",
+              "colorCode": "00FF00"
+            },
+            {
+              "title": "Conclusion",
+              "order": 3,
+              "duration": "00:06:00Z",
+              "colorCode": "00FF00"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+export const orderOfEventComponentEmpty = {
+  "component": {
+    "componentType": "orderOfEventComponent",
+    "order": 1,
+    "isBase": false,
+    "component": {
+        "fields": {
+            "eventElements": []
+        }
+    }
+  }
+}
+export const speakerComponent = {
+  "component": {
+    "componentType": "speakerComponent",
+    "order": -1,
+    "isBase": false,
+    "component": {
+      "fields": {
+        "isInChurch": false,
+        "speakerID": null,
+        "speakerName": ""
+      }
+    }
+  }
+}
+
 export const timeComponent = {
   "component": {
     "componentType": "time",
@@ -54,51 +114,6 @@ export const audioComponent = {
   }
 }
 
-export const orderOfEventComponent = {
-  "component": {
-    "componentType": "orderOfEvent",
-    "component": {
-      "fields": {
-        "eventElements": {
-        "orderOfEventComponentMembers(s)": [
-            {
-              "title": "Introduction",
-              "order": 1,
-              "duration": "00:03:00Z",
-              "colorCode": "FF0000"
-            },
-            {
-              "title": "Worship",
-              "order": 2,
-              "duration": "00:06:00Z",
-              "colorCode": "00FF00"
-            },
-            {
-              "title": "Conclusion",
-              "order": 3,
-              "duration": "00:06:00Z",
-              "colorCode": "00FF00"
-            }
-          ]
-        }
-      }
-    }
-  }
-}
-export const orderOfEventComponentEmpty = {
-  "component": {
-    "componentType": "orderOfEvent",
-    "component": {
-      "fields": {
-        "eventElements": {
-        "orderOfEventComponentMembers(s)": [
-          ]
-        }
-      }
-    }
-  }
-}
-
 export const pdfComponent = {
   "component": {
     "componentType": "pdf",
@@ -122,18 +137,6 @@ export const reminderComponent = {
     }
   }
 }
-export const speakerComponent = {
-  "component": {
-    "componentType": "speaker",
-    "component": {
-      "fields": {
-        "isInChurch": false,
-        "speakerID": null,
-        "speakerName": ""
-      }
-    }
-  }
-}
 export const textFieldComponent = {
   "component": {
     "componentType": "textField",
@@ -144,4 +147,9 @@ export const textFieldComponent = {
       }
     }
   }
+}
+
+export const eventComponentHash = {
+  'ORDER': orderOfEventComponentEmpty,
+  'SPEAKER': speakerComponent
 }

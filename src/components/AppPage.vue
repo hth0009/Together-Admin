@@ -850,11 +850,12 @@ import PeopleAPI from '@/services/people'
     /* left: 30px; */
     border-radius: 10px;
     padding: 25px;
-    margin: 5vh 20px 4vh 7.5px;
+    margin: 5vh 12px 4vh 12px;
     /* height: calc(90vh - 60px); */
     box-shadow: 0px 3px 13px -2px #00000040;
     max-width: 550px;
     min-width: 350px;
+    background: white;
   }
 
   
