@@ -22,9 +22,8 @@
     </div>
     <transition
       name="fade">
-      <div v-show="speaker['fullName']" class="card-box noselect">
+      <div v-show="speaker['fullName'] && isInChurch == 1" class="card-box noselect">
         <avatar
-          v-if="!noProfile"
           class="card-profile-pic"
           :height="30"
           :url="speaker['personImageThumbnailURL']"

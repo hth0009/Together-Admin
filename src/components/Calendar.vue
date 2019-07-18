@@ -53,12 +53,28 @@
               ></ejs-daterangepicker>              
             </div>
             <div style="display: flow-root">
-              <div style="width: 48%; float: left">
+              <div style="width: 48%; float: left" :key="eventInstance.id + 1">
                 <ejs-timepicker floatLabelType="Auto" v-model="eventInstance.startTime" :placeholder="'Start Time'"></ejs-timepicker>
               </div>
-              <div style="width: 48%; float: right">
+              <div style="width: 48%; float: right" :key="eventInstance.id">
                 <ejs-timepicker floatLabelType="Auto" v-model="eventInstance.endTime" :placeholder="'End Time'" :min="eventInstance.startTime"></ejs-timepicker>
               </div>
+            </div>
+            <div v-if="!!descriptionComponent.component">
+              <div class="input-label noselect">Description</div>
+              <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Description'" autocomplete="off" :mode="'Inline'"
+                :template="descriptionMultiline" :actionBegin="bindDescription" :disabled="true"
+                name="none" :value="descriptionComponent.component.fields.contents" data-underline='false' :cssClass="'basic-inline'"
+                @actionSuccess="patchTeamValue('description', $event.value)"    
+              ></ejs-inplaceeditor>
+            </div>
+            <div v-if="!!locationComponent.component">              
+              <div class="input-label">Location</div>
+              <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Location'" autocomplete="off" :mode="'Inline'" :disabled="true"
+                name="none" v-model="locationComponent.component.fields.address" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+              <div class="input-label">Location Description</div>
+              <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Location Description'" autocomplete="off" :mode="'Inline'" :disabled="true"
+                name="none" v-model="locationComponent.component.fields.description" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
             </div>
             <!-- <ejs-textbox autocomplete="off" v-model="eventInstance.components['component(s)'][0].fields.contents" :multiline="true" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
               required></ejs-textbox> -->
@@ -90,13 +106,13 @@
             <contact
               v-model="tempContact"/>
           </div> -->
-          <div class="panel">
+          <!-- <div class="panel">
             <div class="card-header">Teams</div>
             <div class="card-explanation">This is where teams are. Let's describe this better</div>
             <event-teams
               v-model="tempTeams"
             />
-          </div>
+          </div> -->
           <!-- <div class="panel">
             <div class="card-header">Serve Teams</div>
             <event-serving/>
@@ -117,6 +133,8 @@
             <div class="card-explanation">Select component to add to event</div>
             <add-event-component            
               @canceled="addingNewComponent = false"
+              @componentAdded="recieveID(selectedID)"
+              @modalClosed="addingNewComponent = false"
               :eventBaseID="eventInstance.eventBase.id"
               :eventInstanceID="eventInstance.id"
             />
@@ -232,7 +250,17 @@ export default {
         ]}
       ],
       addingNewComponent: false,
-      componentTypes: componentTypesTemplate
+      componentTypes: componentTypesTemplate,    
+      descriptionComponent: {},
+      locationComponent: {},  
+      descriptionMultiline:  function () {
+        return {
+          template: Vue.component('DescriptionMultiline', {
+            template: '<ejs-textbox value="' + this.descriptionComponent.component.fields.contents + '" style="height: 7rem" :multiline="true"></ejs-textbox>',
+            data() { return { }; }
+          })
+        }
+      }.bind(this)
     }
   },
   components: {
@@ -254,7 +282,6 @@ export default {
   },
   methods: {
     recieveItem(item) {
-      console.log(item.id)
       this.recieveID(item.id)
       this.getEventInstancesByBase(item.eventBaseID)
     },
@@ -294,7 +321,6 @@ export default {
       const response = await Events.getEventInstancesByBase(eventBaseID)
       const data = response['eventInstance(s)']
       this.selectedEvents = data
-      console.log(data)
       this.times = ['all']
       for (let index = 0; index < data.length; index++) {
         const event = data[index];
@@ -302,6 +328,13 @@ export default {
         this.times.push(getDayOfWeekMonthDay(date) + ', ' + getHHMM(date))
       }
       return data
+    },
+    bindDescription: function(args) {
+      const description = document.getElementsByClassName('e-input')[0].value;
+      if(description != null && description != undefined) {
+          args.data.value = description;
+          return description
+      }
     },
     async getEventInstance (instanceID) {
       const response = await Events.getEventInstance(instanceID)
@@ -314,6 +347,16 @@ export default {
         this.eventInstance.endTime
       ]
       this.eventComponents = data.components['component(s)']
+      this.locationComponent = this.descriptionComponent = {}
+      for (let index = 0; index < this.eventComponents.length; index++) {
+        const eComp = this.eventComponents[index]
+        if (eComp.componentType == "description") {
+          this.descriptionComponent = eComp
+        }
+        else if (eComp.componentType == "location") {
+          this.locationComponent = eComp
+        }
+      }
       return data
     },
     async getEventBases () {

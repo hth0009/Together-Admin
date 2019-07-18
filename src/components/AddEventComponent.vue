@@ -1,5 +1,8 @@
 <template>
-  <div class="add-event-component-container">
+  <div class="add-event-component-container">    
+    <sweet-modal icon="success" ref="componentAdded">
+      <h3>{{selectedTypeObject.title}} component added!</h3>
+    </sweet-modal>
     <div class="component-type-wrapper">
       <custom-radio class="toggle" v-model="forEventBase" :options="['For This Event', 'For All Instances of This Event']"></custom-radio>
       <div class="component-types">
@@ -24,6 +27,8 @@
 import CustomRadio from '@/components/CustomRadio'
 import { orderOfEventComponentEmpty, speakerComponent, eventComponentHash } from '../utils/event-component-types'
 import Events from '../services/events'
+import { SweetModal } from 'sweet-modal-vue'
+import { setTimeout } from 'timers';
 
 export default {
   name: '',
@@ -80,7 +85,7 @@ export default {
     }
   },
   components: {
-    CustomRadio
+    CustomRadio, SweetModal
   },
   methods: {
     async addComponent() {
@@ -100,7 +105,15 @@ export default {
       if (componentData == undefined) return
       componentData.component.order = this.orderNumber
       componentData.component.isBase = true
-      Events.addComponentToBase(baseID, componentData)
+      Events.addComponentToBase(baseID, componentData).then(response => {
+        this.$refs.componentAdded.open()
+        setTimeout(() => {
+          this.$refs.componentAdded.close()
+          setTimeout(() => {
+            this.$emit('modalClosed')
+          }, 25)
+        }, 2000)
+      })
     },
     async patchEventInstance(instanceID) {
       var componentData = {}
@@ -108,7 +121,16 @@ export default {
       if (componentData == undefined) return
       componentData.component.order = this.orderNumber
       componentData.component.isBase = false
-      Events.addComponentToInstance(instanceID, componentData)
+      Events.addComponentToInstance(instanceID, componentData).then(response => {
+        this.$refs.componentAdded.open()
+        this.$emit('componentAdded')
+        setTimeout(() => {
+          this.$refs.componentAdded.close()
+          setTimeout(() => {
+            this.$emit('modalClosed')
+          }, 500)
+        }, 2000)
+      })
     },
     selectType(typeIn) {
       this.selectedType = typeIn.type

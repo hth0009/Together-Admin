@@ -205,7 +205,52 @@ export default {
               }
             }
           }
-        }
+        },
+        {
+          component: {
+            order: 2,
+            componentType: "committableComponent",
+            isBase: true,
+            component: {
+              fields: {
+                committable: {
+                  title: "",
+                  committableType: "AUTO",
+                  startTime: "",
+                  endTime: "",
+                  signUpMessage: "",
+                  invitations: [
+                    {
+                      message: "",
+                      teamID: newEvent.isForWholeChurch == 0 ? `${newEvent.teamID}` : null
+                    },
+                    {
+                      message: "",
+                      personID: null
+                    },
+                    {
+                      message: "",
+                      churchUsername: this.$store.state.churchUsername
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+            component: {
+                order: 3,
+                componentType: "locationComponent",
+                isBase: true,
+                component: {
+                    fields: {
+                        address: newEvent.location,
+                        description: newEvent.locationDescription
+                    }
+                }
+            }
+        },
       ]
       console.log(eventBase)
 
