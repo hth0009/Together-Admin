@@ -528,6 +528,7 @@ export default {
     // margin: 5px 0px;
     /* height: 30px; */
     padding: 14px;
+    overflow: hidden; 
     // border-radius: 5px;
     transition: all .3s ease;
     display: grid;
