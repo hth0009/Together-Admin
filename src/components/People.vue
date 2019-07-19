@@ -72,9 +72,11 @@
               <div class="label noselect">Address</div>
               {{selectedPerson.address}}
             </div> -->
-            <div class="input-label">Email</div>
+            <div class="input-label">Contact Email</div>
             <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Email'" autocomplete="off" :mode="'Inline'" 
-              name="none" v-model="selectedPerson.accountEmail" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+              name="none" v-model="selectedPerson.accountEmail" data-underline='false' :cssClass="'basic-inline'"              
+              @actionSuccess="patchPersonValue('accountEmail', $event.value)" :disabled="true"
+            ></ejs-inplaceeditor>
             <div class="input-label">Birthday</div>
             <ejs-inplaceeditor floatLabelType="Auto" :model="{allowEdit: false, showClearButton: false}"
               :emptyText="'Birthday'" v-model="selectedPerson.birthday" :type="'Date'"

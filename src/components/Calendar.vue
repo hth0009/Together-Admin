@@ -1,9 +1,16 @@
 <template>
   <div id="events-content">
-    <sweet-modal icon="warning" ref="deleteTeamModal">
-      <!-- <h3>Are you sure you want to delete {{selectedTeam.name}}?</h3> -->
-      <!-- <button slot="button" class="basic-button red" @click="deleteTeam">DELETE</button> -->
+    <sweet-modal icon="warning" ref="deleteRecurrenceEventModal">
+      <h3>Do you want to delete this event or all future events?</h3>
+      <button slot="button" class="basic-button" @click="deleteRecurrenceInstance">THIS EVENT</button>
+      <button slot="button" class="basic-button" @click="deleteRecurrenceInstanceAndFutureEvents">ALL EVENTS</button>
     </sweet-modal>
+    <div v-if="!!eventInstance.eventBase">
+      <sweet-modal icon="warning" ref="deleteSingleEventModal">
+        <h3>Are you sure you want to delete {{eventInstance.eventBase.title}}?</h3>
+        <button slot="button" class="basic-button red" @click="deleteEventBase">DELETE</button>
+      </sweet-modal>
+    </div>
     <sweet-modal icon="success" ref="eventCreated">
       <h3>New event created!!</h3>
     </sweet-modal>
@@ -29,12 +36,12 @@
           <!-- <custom-radio :options="times" :chips="true" :overflow="true" class="chips"></custom-radio> -->
         </div>
         <div class="quick-actions">
-          <button class="basic-button red"><i class="material-icons">delete</i></button>
+          <button class="basic-button red" @click="toggleDeleteEvent"><i class="material-icons">delete</i></button>
         </div>
         <div class="details">
           <div class="panel">
             <div class="card-header noselect">General Info</div>
-            <div v-show="eventInstance.startTime.toDateString() == eventInstance.endTime.toDateString()">
+            <div v-show="!eventMetadata.isMulipleDays">
               <ejs-datepicker
                 :showClearButton="false"
                 :floatLabelType="'Auto'"
@@ -43,7 +50,7 @@
                 :format="dateFormat"
               ></ejs-datepicker>              
             </div>
-            <div v-show="eventInstance.startTime.toDateString() != eventInstance.endTime.toDateString()">
+            <div v-show="eventMetadata.isMulipleDays">
               <ejs-daterangepicker
                 :showClearButton="false"
                 :floatLabelType="'Auto'"
@@ -249,6 +256,16 @@ export default {
           {}
         ]}
       ],
+      eventMetadataReset: {
+        isSingleEvent: false,
+        isRecurringEvent: false,
+        isMulipleDays: false,
+      },
+      eventMetadata: {
+        isSingleEvent: false,
+        isRecurringEvent: false,
+        isMulipleDays: false,
+      },
       addingNewComponent: false,
       componentTypes: componentTypesTemplate,    
       descriptionComponent: {},
@@ -295,6 +312,8 @@ export default {
         return
       }
 
+      this.eventMetadata = {...this.eventMetadataReset}
+
       this.$router.push(`/app/calendar/${id}`)
 
       this.creatingNewItem = false
@@ -302,6 +321,9 @@ export default {
 
       await this.getEventInstance(id)      
       this.selectedID = id
+      if (this.selectedEvents.length < 1) {
+        this.getEventInstancesByBase(this.eventInstance.eventBase.id)
+      }
     },
     createNewItem() {
       this.selectedID = -1
@@ -327,7 +349,21 @@ export default {
         const date = new Date(event.startTime)
         this.times.push(getDayOfWeekMonthDay(date) + ', ' + getHHMM(date))
       }
+      if (data.length > 1) {
+        this.eventMetadata.isRecurringEvent = true
+      }
+      else {
+        this.eventMetadata.isSingleEvent = true
+        if (new Date(data[0].startTime).toDateString() != new Date(data[0].endTime).toDateString()) {
+          this.eventMetadata.isMulipleDays = true
+        }
+      }
       return data
+    },
+    toggleDeleteEvent() {
+      if (this.eventMetadata.isSingleEvent) {
+        this.$refs.deleteSingleEventModal.open()
+      }
     },
     bindDescription: function(args) {
       const description = document.getElementsByClassName('e-input')[0].value;
@@ -358,6 +394,15 @@ export default {
         }
       }
       return data
+    },
+    deleteRecurrenceInstance () {
+
+    },
+    deleteRecurrenceInstanceAndFutureEvents () {
+
+    },
+    deleteEventBase () {
+      Events.deleteEventBase(this.eventInstance.eventBase.id)
     },
     async getEventBases () {
       const response = await Events.getEventBasesByChurch()

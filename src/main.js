@@ -65,11 +65,4 @@ new Vue({
   store,
   components: { App },
   template: '<App/>',
-  created () {
-    this.$store.dispatch('checkLogin').then(function () {
-      router.push("app/inbox")
-    }).catch(function (err) {
-      console.log(err)
-    })
-  }
 })

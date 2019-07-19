@@ -90,4 +90,14 @@ export default {
         }
     })
   },
+  deleteEventBase (baseID) {
+    return Api().delete('eventbases',
+    {data: {
+      "elements": [
+        {
+          "id": `${baseID}`
+        }
+      ]
+    }})
+  }
 }

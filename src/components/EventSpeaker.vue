@@ -1,6 +1,6 @@
 <template>
   <div class="speaker-container">
-    <custom-radio v-model="isInChurch" :options="['Church Memeber', 'Guest']"></custom-radio>    
+    <custom-radio v-model="isInChurch" :options="['Church Member', 'Guest']"></custom-radio>    
     <div v-show="isInChurch == 0"
       :key="isInChurch">
       <ejs-dropdownlist

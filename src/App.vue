@@ -1,8 +1,38 @@
 <template>
   <div id="app">
+    <loading :loading="loading"/>
     <router-view/>
   </div>
 </template>
+
+<script>
+import Loading from '@/components/Loading'
+
+export default {
+  name: 'App',
+  data () {
+    return {
+      loading: false
+    }
+  },
+  components: {
+    Loading
+  },
+  mounted() {
+    this.$root.$on('loading', data => {
+      this.loading = data
+    })
+  },
+  created () {
+    this.$store.dispatch('checkLogin').then(function () {
+      if (this.$route.path === '/') this.$router.push("/app/inbox")
+    }.bind(this)).catch(function (err) {
+      console.log(err)
+    })
+  }
+}
+</script>
+
 
 <style>
 @import '../node_modules/@syncfusion/ej2-base/styles/material.css';

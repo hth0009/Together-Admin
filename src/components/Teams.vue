@@ -619,7 +619,8 @@ export default {
         this.recieveID(this.selectedID)
       })
     }, 
-    async postTeam() {
+    async postTeam() {      
+      this.$root.$emit('loading', true)
       var profilePic = await this.uploadTeamProfilePic()
       profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/TeamPics/' + profilePic : ''
       const newTeam = {
@@ -643,7 +644,7 @@ export default {
         "serveTeamRoles": [
         ]
       }
-      Teams.postTeam(newTeam).then(function(result) {
+      await Teams.postTeam(newTeam).then(function(result) {
         this.$refs.teamCreated.open()
         this.getTeams()
         this.creatingNewItem = false
@@ -651,6 +652,8 @@ export default {
         // console.log(result)
         // this.selectedTeam
       }.bind(this))
+      
+      this.$root.$emit('loading', false)
     },
     async uploadTeamProfilePic() {
       const { accessKeyID, secretAccessKey } = this.cdnKeys
