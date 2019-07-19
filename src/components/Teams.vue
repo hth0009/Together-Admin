@@ -512,6 +512,9 @@ export default {
         return true
       });
       this.getPeopleNotInTeam()
+      
+      this.$root.$emit('loading', false)
+      
       return this.selectedTeam
     },
     async getPeople() {
@@ -601,6 +604,7 @@ export default {
       })
     },
     async addPeopleToTeam() {
+      this.$root.$emit('loading', true)
       // Reformat People Ids
       const members = this.peopleToAdd.map(function(id) {
         return {"personID": `${id}`}
@@ -615,9 +619,10 @@ export default {
           "membersAdd": members
         }
       }
-      Teams.patchTeam(patchData).then(() => {
+      await Teams.patchTeam(patchData).then(() => {
         this.recieveID(this.selectedID)
       })
+      
     }, 
     async postTeam() {      
       this.$root.$emit('loading', true)

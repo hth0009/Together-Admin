@@ -62,11 +62,7 @@ export default {
     })
   },
   postEventInstance (instanceInfo) {
-    return Api().post('eventinstances', instanceInfo).then((response) => {
-      return response.data
-    }).catch((e) => {
-      console.error(e)
-    })
+    return Api().post('eventinstances', instanceInfo)
   },  
   addComponentToBase (baseID, componentData) {
     return Api().patch('eventbases',

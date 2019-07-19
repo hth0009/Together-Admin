@@ -25,7 +25,9 @@ export default {
   },
   created () {
     this.$store.dispatch('checkLogin').then(function () {
-      if (this.$route.path === '/') this.$router.push("/app/inbox")
+      if (this.$route.path === '/') {
+        this.$router.push("/app/inbox")
+      }
     }.bind(this)).catch(function (err) {
       console.log(err)
     })

@@ -7,7 +7,8 @@
       </transition>
       <transition name="rise">
         <div id="loading-widget"  v-if="loading">
-          loading
+          <!-- loading -->
+          <img src="https://togethercdn.global.ssl.fastly.net/assets/t-logo-small-white.png" style="width: 60px; height: auto">
         </div>
       </transition>
     </div>
@@ -40,7 +41,7 @@ export default {
   transition: all .5s;
 }
 .rise-enter{
-  opacity: .25;
+  opacity: .5;
   /* bottom: -40px; */
   /* height: 80px;
   width: 80px; */
@@ -56,11 +57,10 @@ export default {
   left: 0px;
   width: 100vw;
   height: 100vw;
-  background-color: #ffffffc0;
-  /* opacity: .6; */
+  background-color: #ffffffda;
   z-index: 999;
   animation: .75s ease-out 0s 1 fallIn;
-  box-shadow: 0px 0px 1000px 0px #ffffffc0;
+  box-shadow: 0px 0px 1000px 0px white;
 }
 
 @keyframes fallIn {
@@ -69,33 +69,13 @@ export default {
   }
 }
 
-@-webkit-keyframes green-blue-gradient {
-    0%{
-      background-position:100% 0%}
-    100%{
-      background-position:0% 100%
-      }
-}
-@-moz-keyframes green-blue-gradient {
-    0%{
-      background-position:100% 0%}
-    100%{
-      background-position:0% 100%
-      }
-}
-@keyframes green-blue-gradient { 
-    0%{
-      background-position:100% 0%}
-    100%{
-      background-position:0% 100%
-      }
-}
-
 @keyframes fadeIn {
   0% {
     /* opacity: .5; */
     background: white;
     box-shadow: 0px -3px 0px -4px #00000049;
+    width: 0px;
+    height: 0px;
   }
   25% {   
     width: 50px;
@@ -140,17 +120,39 @@ export default {
   text-transform: uppercase;
   border: 7px white solid;
 
-  box-shadow: 0px 7px 13px -1px #00000048;
+  box-shadow: 0px 3px 12px -3px #00000048;
 
-  background: linear-gradient(45deg, #0cd6d3, #0cd6d3, #05e0a2, #05e0a2, #0cd6d3, #0cd6d3);
-  background-size: 1500% 1500%;
+  background: linear-gradient(90deg, #0cd6d3, #0cd6d3, #05e0a2, #05e0a2, #0cd6d3, #0cd6d3);
+  background-size: 500% 500%;
 
-  -webkit-animation: 3s cubic-bezier(0,.25, 1,.75) .5s infinite green-blue-gradient, .5s ease-out 0s 1 fadeIn;
-  -moz-animation: 3s cubic-bezier(0,.25, 1,.75) .5s infinite green-blue-gradient, .5s ease-out 0s 1 fadeIn;
-  animation: 3s cubic-bezier(0,.25, 1,.75) .5s infinite green-blue-gradient, .5s ease-out 0s 1 fadeIn;
+  -webkit-animation: 1s cubic-bezier(0,.25, 1,.75) infinite green-blue-gradient, .5s ease-out 0s 1 fadeIn;
+  -moz-animation: 1s cubic-bezier(0,.25, 1,.75) infinite green-blue-gradient, .5s ease-out 0s 1 fadeIn;
+  animation: 1s cubic-bezier(0,.25, 1,.75) infinite green-blue-gradient, .5s ease-out 0s 1 fadeIn;
 
 }
 
+
+@-webkit-keyframes green-blue-gradient {
+    0%{
+      background-position:100% 0%}
+    100%{
+      background-position:0% 100%
+      }
+}
+@-moz-keyframes green-blue-gradient {
+    0%{
+      background-position:100% 0%}
+    100%{
+      background-position:0% 100%
+      }
+}
+@keyframes green-blue-gradient { 
+    0%{
+      background-position:100% 0%}
+    100%{
+      background-position:0% 100%
+      }
+}
 
 
 /* //////////////////////////

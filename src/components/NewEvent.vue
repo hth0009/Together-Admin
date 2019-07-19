@@ -122,8 +122,8 @@ import { format } from 'path';
 
 const newEventTemplate = {
   name: '',
-  date: '',
-  dates: ['', ''],
+  date: new Date(),
+  dates: [new Date(), new Date()],
   recurrence: '',
   eventDateType: 0,
   description: '',
@@ -184,6 +184,8 @@ export default {
     },
     async createEvent() {
       const newEvent = this.newEvent
+
+      this.$root.$emit('loading', true)
 
       // Populate Event Base
       var eventBase = {...eventBaseTemplate}
@@ -252,7 +254,6 @@ export default {
             }
         },
       ]
-      console.log(eventBase)
 
       // Create Event Instance(s)
       var eventInstances = []
@@ -354,18 +355,25 @@ export default {
           + formatDigits(newEvent.duration[1]) + ':00'
       }
 
-      
-     await  this.postBase(eventBase).then(async function(response) {
+    var newInstanceID = ""
+
+     await this.postBase(eventBase).then(async function(response) {
         for (let index = 0; index < eventInstances.length; index++) {
           let event = eventInstances[index]
           eventInstances[index].startTime = event.startTime.toISOString()
           eventInstances[index].endTime = event.endTime.toISOString()
           eventInstances[index].eventBaseID = response.newResourceID
-          await this.postInstance(eventInstances[index])
+          await this.postInstance(eventInstances[index]).then(response => {
+            newInstanceID = !!!newInstanceID ? response.data.newResourceID : newInstanceID
+            console.log(newInstanceID)
+          })
         }
       }.bind(this))
 
-    this.$emit('created')
+    this.$emit('created', newInstanceID)
+    
+      
+    this.$root.$emit('loading', false)
       
     },
     async postBase(eventBase) {

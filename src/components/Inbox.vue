@@ -300,11 +300,13 @@ export default {
         this.messages = response
       })
     },
-    createThread() {
+    async createThread() {      
+      this.$root.$emit('loading', true)
       const thread = this.newThread
       if (thread.type == 0) {
-        this.postDirectThread(this.personID, thread.recipientID, 'New Direct Message: ' + new Date().toLocaleTimeString())
+        await this.postDirectThread(this.personID, thread.recipientID, 'New Direct Message: ' + new Date().toLocaleTimeString())
       }
+      this.$root.$emit('loading', false)
     },
     assignPersonToNewThread(event) {
       this.newThread.recipientID = event.itemData.id

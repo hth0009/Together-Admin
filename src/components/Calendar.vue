@@ -13,6 +13,7 @@
     </div>
     <sweet-modal icon="success" ref="eventCreated">
       <h3>New event created!!</h3>
+      <h3>Add Components</h3>
     </sweet-modal>
     <div class="page-wrapper" :class="{'three-rows': selectedID != -1}">
       <div class="page-card-wrapper">
@@ -155,7 +156,12 @@
             ref="ScheduleObj"
             id="Schedule"
             :selectedDate='selectedDate' 
-            :eventSettings='eventSettings'>
+            :eventSettings='eventSettings'
+            :allowDragAndDrop="false"
+            :allowResizing="false"
+            :select="false"
+            :readonly="true"
+          >
             <e-views>
               <e-view option="Month"></e-view>
               <!-- <e-view option="Day"></e-view> -->
@@ -174,7 +180,7 @@
         <div class="title">New Event</div>
         <div class="details">
           <new-event
-            @created="onEventCreated()"/>
+            @created="onEventCreated"/>
         </div>
         <div class="footer">
         </div>
@@ -188,6 +194,7 @@ import { SchedulePlugin, Day, Month, Resize, DragAndDrop, EJ2Instances } from "@
 import { DateTimePickerPlugin } from '@syncfusion/ej2-vue-calendars'
 import { extend } from '@syncfusion/ej2-base'
 import Events from '@/services/events'
+import Invitations from '@/services/invitations'
 import Cards from '@/components/CardList'
 
 import NewEvent from '@/components/NewEvent'
@@ -292,6 +299,10 @@ export default {
     this.recieveID(this.$route.params.id)
     this.getEventInstances()
     this.getEventBases()
+
+    Invitations.getMyInvitations(new Date().toISOString(), new Date('2020-02-02').toISOString()).then(result => {
+      console.log(result)
+    })
     
     this.$root.$on('currentlyEditing', data => {
       this.currentlyEditing = data
@@ -411,10 +422,12 @@ export default {
       // this.eventsLoading = false
       return data
     },
-    onEventCreated() {
+    onEventCreated(newInstanceID) {
       this.$refs.eventCreated.open()
       this.createNewItem = false
       this.getEventInstances()
+      console.log(newInstanceID)
+      this.recieveID(newInstanceID)
     }
   },
   computed: {
