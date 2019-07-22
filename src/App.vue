@@ -226,6 +226,9 @@ export default {
   .basic-inline .e-editable-value-wrapper{
     padding: .4rem .2rem .4rem 0px;
   }
+  .basic-inline >>> .e-editable-inline{
+    width: 100%;
+  }
   
   .basic-radio{
     border-color: #00cec9;

@@ -1,5 +1,7 @@
 <template>
-  <div class="new-event">
+  <div class="new-event new-item">
+    <div class="title">New Event</div>
+    <div class="details">
     <carousel v-model="currentCarouselPage" :cardHeight="450">
       <div class="new-item-card" style="overflow-y: auto">
         <div class="section-header">Basic Details</div>
@@ -101,8 +103,9 @@
         </div>
       </div>
     </carousel>
+    </div>
     <div class="footer">
-      <button class="basic-button red" @click="$root.$emit('currentlyCreate', '')">CANCEL</button>
+      <button class="basic-button red" @click="$root.$emit('currentlyCreate', ''); $emit('canceled')">CANCEL</button>
       <button class="basic-button green" @click="createEvent()">CREATE</button>
     </div>
   </div>

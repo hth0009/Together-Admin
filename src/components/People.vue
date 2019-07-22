@@ -139,23 +139,31 @@
             </div>
           </div>
           <div class="panel"
-            style="min-height: 300px">
+            style="min-height: 200px">
             <div class="card-header">Notes</div>
             <div class="card-explanation">These notes are visible to anyone on the admin site.</div>
-            <ejs-inplaceeditor :emptyText="'Notes'" width="100%" autocomplete="off" :mode="'Inline'" :submitOnEnter="false" 
-              v-model="selectedPerson.notes"
+            <div class="markdown">
+            <ejs-inplaceeditor ref="notes" :emptyText="'Notes'" width="100%" autocomplete="off" :mode="'Inline'" :submitOnEnter="false" 
+              :value="selectedPerson.notes"
               :model="{
                 editorMode: 'Markdown',               
                 placeholder: 'Notes',
                 toolbarSettings: {
-                  items: []
+                  items: [],
+                  enable: false
                 },
-                height: 500,
+                height: 400,
+                width:'100%',
                 pasteCleanupSettings: 'plainTextFormatting'
               }"
               name="none" type="RTE" data-underline='false' :cssClass="'basic-inline'"
-              @actionSuccess="patchPersonValue('notes', $event.value)"  
-            ></ejs-inplaceeditor>
+              @actionSuccess="patchNotes"
+              @created="formatNotes"
+            >
+            <!-- <div v-html="notesHTML"></div> -->
+            hi
+            </ejs-inplaceeditor>
+            </div>
              <!-- <ejs-richtexteditor v-model="selectedPerson.notes" :height="600"
               :editorMode="'Markdown'" :placeholder="'Notes'" :toolbarSettings="{items: []}"
               @blur="patchPersonValue('notes', $event.value)"
@@ -254,7 +262,14 @@ import { Container, Draggable } from 'vue-smooth-dnd'
 import { applyDrag } from '@/utils/helpers'
 
 import { Rte } from '@syncfusion/ej2-vue-inplace-editor'
-import { PasteCleanup, MarkdownEditor } from "@syncfusion/ej2-vue-richtexteditor";
+import { PasteCleanup, MarkdownEditor } from "@syncfusion/ej2-vue-richtexteditor"
+
+const marked = require('marked')
+marked.setOptions({
+  gfm: true,
+  breaks: true
+})
+const DOMPurify  = require('dompurify');
 
 // import store from '../store'
 
@@ -274,6 +289,7 @@ export default {
       ],
       creatingNewItem: false,
       newItemType: 0,
+      notesHTML: ''
     }
   },
   provide: {"inplaceeditor":[Rte, MarkdownEditor], richtextEditor:[PasteCleanup, MarkdownEditor]},
@@ -297,6 +313,22 @@ export default {
     async getTeams() {   
       const response = await Teams.getTeamsByID(this.selectedID)
       this.selectedPersonTeams = response['team(s)']
+    },
+    patchNotes(noteContent) {
+      // console.log(noteContent))
+      var val = noteContent.value
+      if (val === '') return
+      // noteContent.value = this.toMarkdown(val + '')
+      this.patchPersonValue ('notes', val)
+    },
+    formatNotes() {
+      // this.$refs.notes.value = this.toMarkdown(this.$refs.notes.value)
+    },
+    toMarkdown(val) {
+      console.log(val)
+      var markedVal = marked(val)
+      const clean = DOMPurify.sanitize(markedVal)      
+      return '<div class="markdown">' + clean + "</div>"
     },
     toggleSkill(index, skillID) {
       const isConfirmed = !this.selectedPerson.skills['personSkill(s)'][index].confirmed
@@ -355,6 +387,12 @@ export default {
   }
 }
 </script>
+
+<style>
+
+@import "../assets/css/markdown.css";
+
+</style>
 
 <style scoped>
 .people-container {

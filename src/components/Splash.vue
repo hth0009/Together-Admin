@@ -23,56 +23,8 @@
         <i class="material-icons">keyboard_arrow_down</i>
       </div>
     </div>
-    <div id="mockups">
-      <!-- <div class="floating-image"></div> -->
-    </div>
-    <!-- <div id="mission-vision" class='parallax-container'>
-      <div class="cards forefront-element parallax">
-        <div class="card one">
-          <h2>ORGANIZE</h2>
-            <div class="info">
-              <div class="svg-wrapper">
-                <svg height="135" width="225" transform="rotate()">
-                  <defs> 
-                    <linearGradient id="lgrad1" x1="0%" y1="100%" x2="100%" y2="0%" > 
-                      <stop offset="0%" style="stop-color:rgb(38,255,172);stop-opacity:1" />
-                      <stop offset="100%" style="stop-color:rgb(151,172,232);stop-opacity:1" />
-                    </linearGradient> 
-                    <linearGradient id="lgrad2" x1="100%" y1="2%" x2="0%" y2="98%" > 
-                      <stop offset="0%" style="stop-color:rgb(255,175,166);stop-opacity:1" />
-                      <stop offset="100%" style="stop-color:rgb(232,232,56);stop-opacity:1" />
-                    </linearGradient> 
-                    <linearGradient id="lgrad3" x1="100%" y1="72%" x2="0%" y2="28%" >
-                      <stop offset="0%" style="stop-color:rgb(28,255,240);stop-opacity:1" />
-                      <stop offset="100%" style="stop-color:rgb(232,232,56);stop-opacity:1" />
-                    </linearGradient> 
-                  </defs>
-                  <g>
-                    <title>computer</title>
-                    <rect rx="4" id="svg_1" height="125" width="200" y="2.5" x="13" stroke-width="7" stroke="#aaa" fill="none"/>
-                    <rect rx="4" id="svg_2" height="8" width="225" y="123" x="0" stroke-opacity="null" stroke-width="7" fill="#bbb"/>
-                  </g>
-                </svg>
-              </div>
-              <p>Accessible after creating a church account and logging onto togetheradmin.com. Here the church will be able to access and input their church’s data (such as serve teams, events, scheduling, push notifications, sermons, prayers, and more).</p>
-            </div>
-          </div>
-        <div class="card two">
-          <h2>ENGAGE</h2>
-          <div class="info">
-            <div class="svg-wrapper">
-              <svg height="235" width="120" transform="rotate(0)">
-                <g>
-                  <title>phone</title>
-                  <rect stroke="#aaa" rx="19" id="svg_1" height="225" width="110"  y="5" x="5" stroke-width="8" fill="none"/>
-                  <rect rx="2" id="svg_3" height="4" width="40" y="215" x="42" fill="#999"/>
-                </g>
-              </svg>
-            </div>
-            <p>This information will all then be transferred over to our mobile platform. Every church will have a unique “churchcode” for their administration and members to connect to the Together app. Once plugged in, this churchcode will allow all users to add people as friends, sign up for events and serve teams, see a running prayer wall, and soon access sermons and other provided church media..</p>
-          </div>
-        </div>
-      </div>
+    <!-- <div id="mockups">
+      <div class="floating-image"></div>
     </div> -->
     <div id="features">
       <h1>Everything your church needs</h1>
@@ -92,7 +44,7 @@
       </div>
     </div>
     <div id="pricing">
-      <h1>Priced to the size of your church!</h1>
+      <h1>Use it all for FREE!</h1>
       <div id="price-visualizer">
         <div class="church-size">
           <div for="" class="header">
@@ -116,14 +68,15 @@
           <div for="" class="header">
             You church will pay:
           </div>
-          <div type="number" class="number">{{'$' + monthlyPayment}}</div>
+          <!-- <div type="number" class="number">{{'$' + monthlyPayment}}</div> -->
+          <div type="number" class="number">{{'$0'}}</div>
           <div for="" class="footer">
             per month
           </div>
         </div>
       </div>
       <div class="explain">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi sunt, cumque omnis impedit ratione nulla quas et, magnam ipsam corrupti rerum dignissimos rem explicabo ipsum eos, id similique quidem. Quis?</div>
-      <button class="basic-button purple">FIND OUT MORE</button>
+      <button class="basic-button orange">FIND OUT MORE</button>
     </div>
   </div>
 </template>
@@ -311,7 +264,7 @@ h1 {
 #main-video-container{
   /* width: 100vw; */
   position: relative;
-  height: 90vh;
+  height: 100vh;
   overflow: hidden;
 }
 #main-video {  
@@ -420,16 +373,12 @@ h1 {
   position: absolute;
   color: white;
   padding: 10px;
-  background: -moz-linear-gradient(156deg, #a29bfe 0%, #55efc4 100%); /* ff3.6+ */
-  background: -webkit-linear-gradient(156deg, #a29bfe 0%, #55efc4 100%); /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(156deg, #a29bfe 0%, #55efc4 100%); /* opera 11.10+ */
-  background: -ms-linear-gradient(156deg, #a29bfe 0%, #55efc4 100%); /* ie10+ */
-  background: linear-gradient(294deg, #a29bfe 0%, #55efc4 100%); /* w3c */
+  background: linear-gradient(45deg, #05e0a2 20%, #00cec9 80%);
   transform: rotate(90deg);
   width: 25px;
   height: 25px;
   border-radius: 40px;
-  top: 90vh;
+  top: 95vh;
   left: 50vw;
   z-index: 200;
   transform: translate(-50%, -50%);
@@ -438,88 +387,6 @@ h1 {
   text-shadow: 0px 1px 9px #0000006e;
   /* line-height: .5; */
 }
-#mission-vision {
-  height: 500px;
-  /* background: rgb(191, 191, 192); */
-  /* width: 100vw; */
-  position: relative;
-  z-index: 200;
-}
-#mission-vision .cards{
-  position: relative;
-  padding: 0px 10%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 150px 150px 150px 300px 125px 250px;
-  grid-gap: 30px;
-}
-#mission-vision .card {
-  background: white;
-  /* border-radius: 5px; */
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-
-  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.267);
-}
-#mission-vision .card .info{
-  background: white;
-  /* width: 100%; */
-  display: flex;
-  flex-direction: column;
-  padding: 20px 30px 20px;
-  margin-top: 20px;
-  height: 600px;
-}
-#mission-vision .card .info .svg-wrapper{
-  height: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#mission-vision .card .info p{
-  margin-bottom: 20px;
-  padding: 5px;
-  font-size: 1.2rem;
-}
-.card h2{
-  text-align: center;
-  color: white;
-  font-size: 30px;
-  padding-top: 30px;
-}
-#mission-vision .card.one{
-  grid-column: 1/2;
-  grid-row: 1/5;
-  background: -moz-linear-gradient(156deg, #a29bfe 0%, #55efc4 100%); /* ff3.6+ */
-  background: -webkit-linear-gradient(156deg, #a29bfe 0%, #55efc4 100%); /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(156deg, #a29bfe 0%, #55efc4 100%); /* opera 11.10+ */
-  background: -ms-linear-gradient(156deg, #a29bfe 0%, #55efc4 100%); /* ie10+ */
-  background: linear-gradient(294deg, #a29bfe 0%, #55efc4 100%); /* w3c */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#55efc4', endColorstr='#a29bfe',GradientType=1 ); /* ie6-9 */
-  /* background-image: url('https://images.unsplash.com/photo-1496902526517-c0f2cb8fdb6a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'); */
-}
-#mission-vision .card.two{
-  grid-column: 2/3;
-  grid-row: 1/5;
-  background: -moz-linear-gradient(331deg, #74b9ff 0%, #74b9ff 1%, #d656ce 100%); /* ff3.6+ */
-  background: -webkit-linear-gradient(331deg, #74b9ff 0%, #74b9ff 1%, #d656ce 100%); /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(331deg, #74b9ff 0%, #74b9ff 1%, #d656ce 100%); /* opera 11.10+ */
-  background: -ms-linear-gradient(331deg, #74b9ff 0%, #74b9ff 1%, #d656ce 100%); /* ie10+ */
-  background: linear-gradient(119deg, #74b9ff 0%, #74b9ff 1%, #d656ce 100%); /* w3c */
-  /* background-image: url('https://images.unsplash.com/photo-1523626797181-8c5ae80d40c2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80') */
-}
-#mission-vision .card.three{
-  grid-column: 3/4;
-  grid-row: 1/5;
-  background: -moz-linear-gradient(331deg, #D656CE 0%, #55efc4 100%); /* ff3.6+ */
-  background: -webkit-linear-gradient(331deg, #D656CE 0%, #55efc4 100%); /* safari5.1+,chrome10+ */
-  background: -o-linear-gradient(331deg, #D656CE 0%, #55efc4 100%); /* opera 11.10+ */
-  background: -ms-linear-gradient(331deg, #D656CE 0%, #55efc4 100%); /* ie10+ */
-  background: linear-gradient(119deg, #D656CE 0%, #55efc4 100%); /* w3c */
-  /* background-image: url('https://images.unsplash.com/photo-1506869640319-fe1a24fd76dc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80') */
-}
-
 #mockups {
   height: 50vh;
   position: relative;
@@ -549,7 +416,7 @@ h1 {
 }
 #features h1{
   text-align: center;
-  color: #60b3f7;
+  color: #00cec9;
   margin-bottom: 100px;
   padding-top: 120px;
 }
@@ -571,8 +438,8 @@ h1 {
   grid-column: 1 / 1;
 }
 #feature-grid .feature{
-  border: 1px #60b3f7 solid;
-  color: #60b3f7;
+  border: 1px #00cec9 solid;
+  color: #00cec9;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -602,7 +469,7 @@ h1 {
   font-size: 1.1rem;
   text-align: center;
   font-weight: 600;
-  background: #60b3f7;
+  background: #00cec9;
   font-size: .7rem;
   width: 80px;
   border-radius: 30px;
@@ -612,9 +479,9 @@ h1 {
 }
 
 #pricing {
-  background: #60b3f7;
+  background: #00cec9;
 
-  min-height: 99.5vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;

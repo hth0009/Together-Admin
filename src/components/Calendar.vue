@@ -71,18 +71,22 @@
             <div v-if="!!descriptionComponent.component">
               <div class="input-label noselect">Description</div>
               <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Description'" autocomplete="off" :mode="'Inline'"
-                :template="descriptionMultiline" :actionBegin="bindDescription" :disabled="true"
+                :template="descriptionMultiline" :actionBegin="bindDescription"
                 name="none" :value="descriptionComponent.component.fields.contents" data-underline='false' :cssClass="'basic-inline'"
-                @actionSuccess="patchTeamValue('description', $event.value)"    
+                @actionSuccess="editComponentValue(descriptionComponent.id, 'contents', $event.value)" 
               ></ejs-inplaceeditor>
             </div>
             <div v-if="!!locationComponent.component">              
               <div class="input-label">Location</div>
-              <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Location'" autocomplete="off" :mode="'Inline'" :disabled="true"
-                name="none" v-model="locationComponent.component.fields.address" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+              <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Location'" autocomplete="off" :mode="'Inline'"
+                name="none" v-model="locationComponent.component.fields.address" data-underline='false' :cssClass="'basic-inline'"
+                @actionSuccess="editComponentValue(locationComponent.id, 'address', $event.value)" 
+              ></ejs-inplaceeditor>
               <div class="input-label">Location Description</div>
-              <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Location Description'" autocomplete="off" :mode="'Inline'" :disabled="true"
-                name="none" v-model="locationComponent.component.fields.description" data-underline='false' :cssClass="'basic-inline'"></ejs-inplaceeditor>
+              <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Location Description'" autocomplete="off" :mode="'Inline'" 
+                name="none" v-model="locationComponent.component.fields.description" data-underline='false' :cssClass="'basic-inline'"
+                @actionSuccess="editComponentValue(locationComponent.id, 'description', $event.value)" 
+              ></ejs-inplaceeditor>
             </div>
             <!-- <ejs-textbox autocomplete="off" v-model="eventInstance.components['component(s)'][0].fields.contents" :multiline="true" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
               required></ejs-textbox> -->
@@ -176,11 +180,11 @@
         </div>
       </div>
 
-      <div class="new-item" v-if="creatingNewItem">
-        <div class="title">New Event</div>
+      <div class="new-event" v-if="creatingNewItem">
         <div class="details">
           <new-event
-            @created="onEventCreated"/>
+            @created="onEventCreated"
+            @canceled="creatingNewItem = false"/>
         </div>
         <div class="footer">
         </div>
@@ -195,6 +199,7 @@ import { DateTimePickerPlugin } from '@syncfusion/ej2-vue-calendars'
 import { extend } from '@syncfusion/ej2-base'
 import Events from '@/services/events'
 import Invitations from '@/services/invitations'
+import EventComponents from '@/services/eventComponents'
 import Cards from '@/components/CardList'
 
 import NewEvent from '@/components/NewEvent'
@@ -377,10 +382,13 @@ export default {
       }
     },
     bindDescription: function(args) {
+      console.log(args)
+      console.log(document.getElementsByClassName('e-input')[0].value)
       const description = document.getElementsByClassName('e-input')[0].value;
       if(description != null && description != undefined) {
-          args.data.value = description;
-          return description
+          args.data.value = description
+        this.descriptionComponent.component.fields.contents = description
+        return description
       }
     },
     async getEventInstance (instanceID) {
@@ -411,6 +419,15 @@ export default {
     },
     deleteRecurrenceInstanceAndFutureEvents () {
 
+    },
+    editComponentValue(componentID, componentFieldKey, componentFieldValue) {
+      var fields = {}
+      fields[componentFieldKey] = componentFieldValue
+      EventComponents.patchComponent(componentID, fields)
+    },
+    editComponent(component) {
+      console.log(component)
+      EventComponents.patchComponent(component.id, component.component.fields)
     },
     deleteEventBase () {
       Events.deleteEventBase(this.eventInstance.eventBase.id)
