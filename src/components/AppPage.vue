@@ -12,7 +12,8 @@
         <transition name="rotate-fade">
           <i class="material-icons noselect"      
             v-if="showSidebar == true"
-            >
+            @click="moreToggled = false"
+          >
             clear
           </i>
         </transition>
@@ -24,6 +25,36 @@
       <div id="app-header" class="noselect">
         <!-- <img class="logo" src="/static/image/black-logo.png" alt="" srcset=""> -->
         <div class="brand noselect">TOGETHER</div>
+        <div class="profiles">
+          <router-link  v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
+            <avatar
+              :height="30"
+              :url="churchPic"
+              :title="churchName"
+            />
+          </router-link>
+          <router-link  v-on:click.native="showSidebar = false" to="/app/me" class="noselect">
+            <avatar
+              :height="30"
+              :url="profilePic"
+              :title="$store.state.personName"
+            />
+          </router-link>
+        </div>
+        <div class="more">   
+          <ul class="links" :class="{toggled: moreToggled}">
+          <li><router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
+            >about us</router-link></li>
+          <li><router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
+            >privacy</router-link></li>
+          <li><router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
+            >help</router-link></li>
+          </ul>
+          <div class="toggle-arrow" :class="{toggled: moreToggled}">
+            <i class="material-icons"
+              @click="moreToggled = !moreToggled; showSidebar = true">keyboard_arrow_down</i>
+          </div>
+        </div>
       </div>
       <transition-group name="fadeLeft" id="app-navbar-buttons">
         <!-- <router-link :key="1" v-on:click.native="showSidebar = false" to="/app/home" class="noselect"
@@ -44,7 +75,7 @@
           >this sunday</router-link> -->
       </transition-group>
       <div id="app-footer">
-        <div class="profiles">
+        <!-- <div class="profiles">
           <router-link  v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
             <avatar
               :height="30"
@@ -67,7 +98,7 @@
             >privacy</router-link>
           <router-link  v-on:click.native="showSidebar = false" to="/privacy-policy" class="noselect"
             >about us</router-link>
-        </div>
+        </div> -->
       </div>
     </div>
     <div id="app-page-content"
@@ -101,6 +132,7 @@ import PeopleAPI from '@/services/people'
     data() {
       return {
         showSidebar: false,
+        moreToggled: false,
         profilePic: '',
         churchPic: '',
         churchName: ''
@@ -143,9 +175,11 @@ import PeopleAPI from '@/services/people'
   flex: 0 0 10vw;
   z-index: 800;
   display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
 
-  transition: min-width .3s ease;
-  padding-right: 10px;
+  transition: min-width .3s ease-out;
+  /* padding-right: 10px; */
+  max-width: 125px;
 }
 #app-navbar-buttons {  
   grid-row: 2/3;
@@ -155,6 +189,8 @@ import PeopleAPI from '@/services/people'
   align-items: flex-end;
   flex-direction: column;
   flex: 1;  
+  
+  transition: visibility .3s;
 }
 #app-navbar-buttons a{
   color: #444444;
@@ -228,7 +264,7 @@ import PeopleAPI from '@/services/people'
 #app-header .brand{
   text-align: center;
   margin-top: 4px;
-  margin-left: 5px;
+  margin-left: 10px;
   color: #00cec9;
   font-weight: 500;
   writing-mode: vertical-rl;
@@ -251,16 +287,34 @@ import PeopleAPI from '@/services/people'
   align-items: flex-end;
 }
 
-#app-footer .profiles a{
+#app-footer .profiles a,
+#app-header .profiles a{
   padding: 0px;
   margin: 0px;
   margin-top: 10px;
   height: auto;
 }
-#app-footer .profiles{
+#app-footer .profiles,
+#app-header .profiles{
   /* padding: 2.5px; */
-  padding-left: 10px;
+  padding-left: 2.5px;
+  width: 35px;
 }
+
+#app-header a,
+#app-footer a{
+  color: #8a8a8a;
+  text-decoration: none;
+  margin-top: 10px;
+  display: inline-flex;
+  font-size: 14px;
+  text-align: right;
+  
+  position: relative;
+  text-decoration: none;
+  z-index: 100;
+}
+
 
 .profile-pic {
   cursor: pointer;
@@ -273,25 +327,33 @@ import PeopleAPI from '@/services/people'
   background-position: center center;
   background-size: cover;
 }
-#app-footer .links{
+#app-header .links{
   display: flex;
   justify-content: end;
-  align-items: flex-end;
+  align-items: flex-start;
   flex-direction: column;
   flex: 1;  
-}
 
-#app-footer a{
-  color: #8a8a8a;
-  text-decoration: none;
-  margin-top: 10px;
-  display: inline-flex;
-  font-size: 14px;
-  text-align: right;
+  padding-left: 5px;
+
+  height: 0px;
+  overflow: hidden;
+
+  transition: all .3s ease;
+}
+#app-header .links.toggled{
+  padding-top: 5px;
+  height: 75px;
+}
+.toggle-arrow {
+  display: inline-block;
+  padding: 0px 6px;
+  color: #3a3a3a;
   
-  position: relative;
-  text-decoration: none;
-  z-index: 100;
+  transition: all .5s ease-out;
+}
+.toggle-arrow.toggled {
+  transform: rotate(180deg)
 }
 
 #app-page-content {
@@ -315,8 +377,8 @@ import PeopleAPI from '@/services/people'
 }
 #app-navbar-toggle {
   position: relative;
-  left: 15px;
-  top: 10px;
+  left: 12.5px;
+  top: 12.5px;
   cursor: pointer;
   z-index: 500;
   display: none;
@@ -367,7 +429,12 @@ import PeopleAPI from '@/services/people'
     /* padding-top: 10px; */
   }
   #app-header {
-    width: 30px;
+    min-width: 30px;
+  }
+  #app-header .toggle-arrow,
+  #app-header .toggle-arrow i{
+    display: inline-block;    
+    text-align: left;
   }
   #app-header .brand{
     margin-top: 20px;
@@ -377,12 +444,12 @@ import PeopleAPI from '@/services/people'
     /* display: none; */
     min-width: 0px;
     padding: 0px;
-    max-width: 30px;
+    max-width: 35px;
   }
   #app-navbar .title{
     display: none;
   }
-  #app-navbar i{
+  #app-navbar #app-navbar-buttons i{
     display: block;
   }
   #app-navbar-buttons {
@@ -397,17 +464,23 @@ import PeopleAPI from '@/services/people'
   }
   #app-navbar.toggled {
     display: grid;
-    min-width: 100%;
+    min-width: 105px;
+  }
+  #app-navbar.toggled .title{
+    display: block;
+  }
+  #app-navbar.toggled #app-navbar-buttons i{
+    display: none;
   }
   #app-navbar.toggled #app-navbar-buttons {
-    justify-content: center;
-    align-items: center;
+    transition: width .3s ease-out .1s;
+    width: 100px;
   }
   #app-navbar-toggle {
     display: inline;
   }
   #app-header {
-    text-align: center;
+    /* text-align: center; */
     padding-top: 20px;
   }
   #app-footer {
@@ -416,6 +489,11 @@ import PeopleAPI from '@/services/people'
   #app-navbar-header {
     display: block;
     background: none;
+  }
+  #app-header .profiles{
+    display: block;
+    background: none;
+    /* padding: 0px; */
   }
 }
 
@@ -451,7 +529,7 @@ import PeopleAPI from '@/services/people'
     display: inline;
   }
   #app-header {
-    text-align: center;
+    /* text-align: center; */
     padding-top: 20px;
   } 
   #app-footer {
