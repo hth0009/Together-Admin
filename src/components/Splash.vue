@@ -23,9 +23,49 @@
         <i class="material-icons">keyboard_arrow_down</i>
       </div>
     </div>
-    <!-- <div id="mockups">
-      <div class="floating-image"></div>
-    </div> -->
+    <div id="showcase">
+      <h3 class="showcase-item-title">{{selectedShowcase}}</h3>
+      <transition-group class="phones" name="slide-left" mode="in-out">
+        <img key="a" v-show="selectedShowcase == 'PEOPLE'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-phone.png" class="phone-1">
+        <img key="b" v-show="selectedShowcase == 'PEOPLE'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/friends-phone.png" class="phone-2">
+
+        <img key="c" v-show="selectedShowcase == 'TEAMS'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-phone.png" class="phone-1">
+        <img key="d" v-show="selectedShowcase == 'TEAMS'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-details-phone.png" class="phone-2">
+
+        <img key="e" v-show="selectedShowcase == 'CALENDAR'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-phone.png" class="phone-1">
+        <img key="f" v-show="selectedShowcase == 'CALENDAR'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png" class="phone-2">
+
+        <img key="g" v-show="selectedShowcase == 'MESSAGING'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-phone.png" class="phone-1">
+        <img key="h" v-show="selectedShowcase == 'MESSAGING'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-details-phone.png" class="phone-2">
+      </transition-group>
+      <div class="toggle">
+        <button
+           @click="selectedShowcase = 'PEOPLE'"
+          :class="{'selected': selectedShowcase == 'PEOPLE'}"
+        ><i class="material-icons">person</i></button>
+        <button          
+          @click="selectedShowcase = 'TEAMS'"
+          :class="{'selected': selectedShowcase == 'TEAMS'}"
+        ><i class="material-icons">group</i></button>
+        <button
+          @click="selectedShowcase = 'CALENDAR'"
+          :class="{'selected': selectedShowcase == 'CALENDAR'}"
+        ><i class="material-icons">event</i></button>
+        <button
+          @click="selectedShowcase = 'MESSAGING'"
+          :class="{'selected': selectedShowcase == 'MESSAGING'}"
+        ><i class="material-icons">send</i></button>
+      </div>
+      <transition-group name="slide-right" class="computers">
+        <img key="1" v-show="selectedShowcase == 'PEOPLE'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-computer.png" class="computer-1">
+
+        <img key="2" v-show="selectedShowcase == 'TEAMS'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-computer.png" class="computer-1">
+
+        <img key="3" v-show="selectedShowcase == 'CALENDAR'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calender-computer.png" class="computer-1">
+        
+        <img key="4" v-show="selectedShowcase == 'MESSAGING'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-computer.png" class="computer-1">
+      </transition-group>
+    </div>
     <div id="features">
       <h1>Everything your church needs</h1>
       <div id="feature-grid">
@@ -89,6 +129,7 @@ export default {
   name: '',
   data () {
     return {
+      selectedShowcase: 'PEOPLE',
       mainVideoURL: 'http://media.w3.org/2010/05/sintel/trailer.mp4',
       mainImageURL: 'https://images.unsplash.com/photo-1463171379579-3fdfb86d6285?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
       features: [
@@ -222,6 +263,37 @@ export default {
 </style>
 
 <style scoped>
+.slide-left-enter-active {
+  transition: opacity .5s ease-in, transform .5s ease-out;  
+  transition-delay: .1s;
+}
+.slide-left-leave-active {
+  transition: opacity .5s ease-in-out, transform .5s ease-in-out;  
+}
+.slide-left-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
+  transform: translateX(-400px) rotate(5deg); 
+}
+.slide-left-enter {  
+  opacity: 0;
+  transform: translateX(400px) rotate(-5deg); 
+}
+
+.slide-right-enter-active {
+  transition: opacity .5s ease-in, transform .5s ease-out;  
+  transition-delay: .1s;
+}
+.slide-right-leave-active {
+  transition: opacity .5s ease-in-out, transform .5s ease-in-out;  
+}
+.slide-right-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
+  transform: translateX(400px) rotate(5deg); 
+}
+.slide-right-enter {  
+  opacity: 0;
+  transform: translateX(-400px) rotate(-5deg); 
+}
 
 #splash-container {
   /* perspective: 2px; */
@@ -387,27 +459,122 @@ h1 {
   text-shadow: 0px 1px 9px #0000006e;
   /* line-height: .5; */
 }
-#mockups {
-  height: 50vh;
+#showcase {
+  height: 100vh;
   position: relative;
-  background: #c2b2b22c;
 }
-#mockups .floating-image{  
+#showcase .showcase-item-title {
   width: 100%;
-  height: 80vh;
-
+  text-align: center;
   position: absolute;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%,-50%);
+  top: 15vh;
+}
+#showcase .phones {
+  width: 45vw;
+  position: absolute;
+  left: 0px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 75vh;
+}
+#showcase .phones .phone-1{
+  height: 40vh;
+  width: auto;
+  position: absolute;
+  right: 1vw;
+  z-index: 100
+}
+#showcase .phones .phone-2{
+  height: 50vh;
+  width: auto;
+  position: absolute;
+  right: 10vw;
+}
+#showcase .computers {
+  width: 45vw;
+  position: absolute;
+  right: 0px;
+  height: 100vh;
+}
+#showcase .computers .computer-1{
+  max-height: 35vh;
+  width: auto;
+  max-width: 45vw;
+  height: auto;
+  position: absolute;
+  top: 40vh;
+  left: 1vw;
+  z-index: 50
+}
+#showcase .toggle {
+  width: 100px;
+  height: 100%;
+  position: absolute;
+  left: 50vw;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 300;
+}
+#showcase .toggle button{
+  color: #9b9b9b;
+  text-decoration: none;
+  margin-bottom: 15px;
+  display: inline-flex;
+  align-items: flex-end;
+  font-size: 15px;
+  text-align: right;
+  background: none;
+  border: none;
+  outline: none;
+  
+  position: relative;
+  text-decoration: none;
   z-index: 100;
 
-  background-image: url('https://s3.wasabisys.com/cdn.togetheradmin.com/mockups.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center center;
+  transition: color .3s ease;
 }
-
+#showcase .toggle button i{
+  font-size: 1rem;
+}
+#showcase .toggle button:hover {
+  color: #888b8b;
+}
+#showcase .toggle button:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 0%;
+  height: .2rem;
+  bottom: -.1rem;
+  border-radius: 2px;
+  right: 0;
+  background-color: #00cec9;
+  border: 0px #00cec9 solid;
+  visibility: hidden;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+#showcase .toggle button:hover:before {
+  visibility: visible;
+  width: 100%;
+}
+#showcase .toggle button.selected,
+#showcase .toggle button.selected i {
+  color: white;
+}
+#showcase .toggle button.selected:before {
+  height: 1.5rem; 
+  bottom: -.25rem; 
+  right: -.1rem;
+  border: .1rem #00cec9 solid;
+  width: 100%;  
+  z-index: -1;
+  visibility: visible;
+}
 
 #features {
   background: #f1f1f1;

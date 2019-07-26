@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="type-title">{{selectedTypeObject.title}}</div>
-      <div class="description">{{selectedType != '' ? description: ''}}</div>
+      <div class="description">{{!!selectedTypeObject.description ? selectedTypeObject.description : ''}}</div>
       <div class="buttons">
         <button class="basic-button red" @click="canceled()">CANCEL</button>
         <button class="basic-button green" @click="addComponent()">ADD</button>
@@ -38,21 +38,24 @@ export default {
       cTypes: [
         {
           title: 'Teams',
-          type: 'TEAMS'
+          type: 'TEAMS',
+          description: '',
         }, 
         {
           title: 'Speaker',
           type: 'SPEAKER',
-          template: speakerComponent
+          template: speakerComponent,
+          description: 'Select an account as the speaker. If they\'re not in the together system, no problem - put down their name!'
         }, 
         // {
         //   title: 'Contact',
         //   type: 'CONTACT'
         // },
         {
-          title: 'Order of Service',
+          title: 'Order of Event',
           type: 'ORDER',
-          template: orderOfEventComponentEmpty
+          template: orderOfEventComponentEmpty,
+          description: 'From setting up a small get together to setting up your entire sunday service, you can do that here. Options include song, text, and video for the order of your event.'
         },
         {
           title: 'Check In (coming soon)',

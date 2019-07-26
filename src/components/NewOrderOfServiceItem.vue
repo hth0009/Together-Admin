@@ -3,7 +3,7 @@
     <div class="service-item-info-full">
       <div class="service-item-info-full-content">
         <div class="card-header">New Service Item</div>
-        <ejs-textbox autocomplete="off" class="item-title" v-model="selectedItem.itemName" floatLabelType="Auto" :placeholder="'Item Name'"
+        <ejs-textbox autocomplete="off" class="item-title" v-model="selectedItem.title" floatLabelType="Auto" :placeholder="'Item Name'"
           required></ejs-textbox>          
         <div class="section-header">Duration</div>
         <div class="duration">
@@ -14,7 +14,7 @@
           <ejs-textbox autocomplete="off" min="0" max="59" type="number" v-model="splitDuration.sec" floatLabelType="Auto" :placeholder="'Seconds'"
             required></ejs-textbox>
         </div>
-        <div class="section-header">Section Type</div>
+        <!-- <div class="section-header">Section Type</div>
         <div class="item-types-container">
           <label class="item-type"
             v-for="itemType in itemTypes"
@@ -27,34 +27,31 @@
             :value="itemType">
             <i :for="itemType.typeName">{{itemType.typeName}}</i>
           </label>
-        </div>
+        </div> -->
         <div class="section-header">Color</div>
         <div class="colors">
-          <swatches :showBorder="false" :inline="true" :shapes="'circles'" :swatchSize="25" :colors="colors" v-model="selectedItem.color" />
+          <swatches :showBorder="false" :inline="true" :shapes="'circles'" :swatchSize="25" :colors="colors" :value="'#' + selectedItem.colorCode"
+            @input="changeColor"/>
         </div>
-        <div class="item-options" 
-          v-if="selectedItem.itemType != undefined && selectedItem.itemType.typeName != ''">
-          <div class="item-lyrics"
-            v-if="selectedItem.itemType.hasLyrics">
-            <div class="section-header">Lyrics</div>            
+        <div class="item-options">
+          <div class="item-lyrics">
+            <div class="section-header">Lyrics</div>
             <ejs-richtexteditor
-              v-model="selectedItem.itemType.lyrics"
+              v-model="selectedItem.lyrics"
               :toolbarSettings="toolbarSettings"
               :maxLength="20"></ejs-richtexteditor>
             <!-- <div v-html="selectedItem.itemType.lyrics"></div> -->
           </div>
-          <div class="item-songs"
-            v-if="selectedItem.itemType.hasSongUrl">
+          <div class="item-songs">
             <div class="section-header">Song Links</div>
-            <ejs-textbox autocomplete="off" v-model="selectedItem.itemType.songUrls.spotify" floatLabelType="Auto" :placeholder="'Spotify'"
+            <ejs-textbox autocomplete="off" v-model="selectedItem.spotifyMusicURL" floatLabelType="Auto" :placeholder="'Spotify'"
               required></ejs-textbox>
-            <ejs-textbox autocomplete="off" v-model="selectedItem.itemType.songUrls.apple" floatLabelType="Auto" :placeholder="'Apple Music'"
+            <ejs-textbox autocomplete="off" v-model="selectedItem.appleMusicURL" floatLabelType="Auto" :placeholder="'Apple Music'"
               required></ejs-textbox>
           </div>
-          <div class="item-video"
-            v-if="selectedItem.itemType.hasVideo">
+          <div class="item-video">
             <div class="section-header">Video Link</div>
-            <ejs-textbox autocomplete="off" v-model="selectedItem.itemType.videoUrl" floatLabelType="Auto" :placeholder="'Youtube Link'"
+            <ejs-textbox autocomplete="off" v-model="selectedItem.videoUrl" floatLabelType="Auto" :placeholder="'Youtube Link'"
               required></ejs-textbox>
             <youtube
               ref="youtube"
@@ -65,12 +62,11 @@
               :resize="true"
               ></youtube>
           </div>
-          <div class="item-notes"
-            v-if="selectedItem.itemType.hasNotes">   
+          <div class="item-notes">   
             <div class="section-header">Notes</div>
             <!-- <ejs-richtexteditor ref="rteObj" :value="selectedItem.itemType.notes" :toolbarSettings="toolbarSettings" :showCharCount="showCharCount" :maxLength="maxLength"></ejs-richtexteditor> -->
             <ejs-richtexteditor
-              v-model="selectedItem.itemType.notes"
+              v-model="selectedItem.notes"
               :toolbarSettings="toolbarSettings"
               :maxLength="20"></ejs-richtexteditor>
             <!-- <ejs-richtexteditor ref="rteObj" :value="value" :toolbarSettings="toolbarSettings" :actionBegin="handleFullScreen" :actionComplete="actionCompleteHandler" :showCharCount="showCharCount" :maxLength="maxLength"></ejs-richtexteditor> -->
@@ -108,7 +104,7 @@ export default {
       },
       itemTypes: [{
           typeName: 'Text',
-          color: '#00cec9',
+          color: '00cec9',
           hasVideo: false,
           videoUrl: '',
           hasLyrics: false,
@@ -121,7 +117,7 @@ export default {
           notes: ''
         },{
           typeName: 'Song',
-          color: '#00cec9',
+          color: '00cec9',
           hasVideo: true,
           videoUrl: '',
           hasLyrics: true,
@@ -134,7 +130,7 @@ export default {
           notes: ''  
         },{
           typeName: 'Video',
-          color: '#00cec9',
+          color: '00cec9',
           hasVideo: true,
           videoUrl: '',
           hasLyrics: false,
@@ -164,6 +160,10 @@ export default {
       this.selectedItem = {...{}}
       this.$root.$emit('editEventItem', this.selectedItem)
       this.$root.$emit('currentlyEditing', '')
+    },
+    changeColor(val) {
+      console.log(val)
+      this.selectedItem.colorCode = val.substring(1,7)
     }
   },
   provide:{
@@ -191,7 +191,7 @@ export default {
   },
   computed: {
     videoId () {
-      return this.$youtube.getIdFromUrl(this.selectedItem.itemType.videoUrl)
+      return this.$youtube.getIdFromUrl(this.selectedItem.videoUrl)
     },
     computedDuration() {
       var duration = this.splitDuration.hours.split(1)

@@ -211,38 +211,38 @@ export default {
             }
           }
         },
-        {
-          component: {
-            order: 2,
-            componentType: "committableComponent",
-            isBase: true,
-            component: {
-              fields: {
-                committable: {
-                  title: "",
-                  committableType: "AUTO",
-                  startTime: "",
-                  endTime: "",
-                  signUpMessage: "",
-                  invitations: [
-                    {
-                      message: "",
-                      teamID: newEvent.isForWholeChurch == 0 ? `${newEvent.teamID}` : null
-                    },
-                    {
-                      message: "",
-                      personID: null
-                    },
-                    {
-                      message: "",
-                      churchUsername: this.$store.state.churchUsername
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
+        // {
+        //   component: {
+        //     order: 2,
+        //     componentType: "committableComponent",
+        //     isBase: true,
+        //     component: {
+        //       fields: {
+        //         committable: {
+        //           title: "",
+        //           committableType: "INVITE",
+        //           startTime: "12:00:00",
+        //           endTime: "14:00:00",
+        //           signUpMessage: "",
+        //           invitations: [
+        //             {
+        //               message: "",
+        //               teamID: newEvent.isForWholeChurch == 0 ? `${newEvent.teamID}` : null
+        //             },
+        //             {
+        //               message: "",
+        //               personID: null
+        //             },
+        //             {
+        //               message: "",
+        //               churchUsername: this.$store.state.churchUsername
+        //             }
+        //           ]
+        //         }
+        //       }
+        //     }
+        //   }
+        // },
         {
             component: {
                 order: 3,
@@ -366,6 +366,41 @@ export default {
           eventInstances[index].startTime = event.startTime.toISOString()
           eventInstances[index].endTime = event.endTime.toISOString()
           eventInstances[index].eventBaseID = response.newResourceID
+          console.log(eventInstances[index])
+          eventInstances[index].instanceOverrides.push(
+            {
+              component: {
+                order: 2,
+                componentType: "committableComponent",
+                isBase: false,
+                component: {
+                  fields: {
+                    committable: {
+                      title: "",
+                      committableType: "INVITE",
+                      startTime: "",
+                      endTime: "",
+                      signUpMessage: "",
+                      invitations: [
+                        {
+                          message: "",
+                          teamID: newEvent.isForWholeChurch == 0 ? `${newEvent.teamID}` : null
+                        },
+                        {
+                          message: "",
+                          personID: null
+                        },
+                        {
+                          message: "",
+                          churchUsername: this.$store.state.churchUsername
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          )
           await this.postInstance(eventInstances[index]).then(response => {
             newInstanceID = !!!newInstanceID ? response.data.newResourceID : newInstanceID
             console.log(newInstanceID)

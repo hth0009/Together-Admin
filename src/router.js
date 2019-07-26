@@ -52,7 +52,7 @@ let router = new Router({
   // mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/hello',
       name: 'Splash Screen',
       component: Splash,
       meta: {

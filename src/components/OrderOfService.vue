@@ -12,7 +12,7 @@
             <div 
             class="item-list-button noselect"            
             @click="addItem(item)"
-            :style="{background: item.color}">
+            :style="{background: '#' + item.color}">
               {{item.typeName}}
             </div>
         </Draggable>
@@ -34,12 +34,12 @@
                   <div class="item-bar noselect"
                     :class="{selected: item == selectedItem}"
                     @click="onItemClick(item)"
-                    :style="{background: item.color}"
+                    :style="{background: '#' + item.colorCode}"
                   >
                     <div class="item-bar-button">
-                      <div class="item-name">{{item.itemName}}</div>
+                      <div class="item-name">{{item.title != '' ? item.title : 'new item'}}</div>
                       <div class="item-duration">{{item.duration | formatTime}}</div>
-                      <div class="item-type">{{item.itemType.typeName}}</div>
+                      <!-- <div class="item-type">{{item.itemType.typeName}}</div> -->
                     </div>
                   </div>
                 <!-- </Draggable>
@@ -58,37 +58,30 @@ import { Container, Draggable } from 'vue-smooth-dnd'
 import { applyDrag, HHMMSSToReadable } from '@/utils/helpers'
 import Swatches from 'vue-swatches'
 import "vue-swatches/dist/vue-swatches.min.css"
-import { generateGUID } from '../utils/helpers';
+import { generateGUID } from '../utils/helpers'
+import EventComponents from '@/services/eventComponents'
 
 export default {
   name: 'OrderOfService',
   data () {
     return {
-      eventServiceItems: this.value,
+      eventComponent: this.value,
+      eventServiceItems: this.value.fields.eventElements['orderOfEventComponentMembers(s)'],
       newItem: {
-        itemName: '',
-        color: '#00cec9',
+        title: '',
+        colorCode: '00cec9',
         id: '',
-        itemType: {
-          typeName: '',
-          color: '',
-          hasVideo: false,
-          videoUrl: '',
-          hasLyrics: false,
-          lyrics: '',
-          hasSongUrl: false,
-          songUrls: [],
-          hasPicture: false,
-          pictureUrl: '',
-          hasNotes: false,
-          notes: ''
-        },
+        videoUrl: '',
+        lyrics: '',
+        spotifyMusicURL: '',
+        appleMusicURL: '',
+        notes: '',
         duration: '00:00:00',
       },
       selectedItem: {},
       itemTypes: [{
-          typeName: 'Text',
-          color: '#00cec9',
+          typeName: '+',
+          color: '00cec9',
           hasVideo: false,
           videoUrl: '',
           hasLyrics: false,
@@ -99,33 +92,34 @@ export default {
           pictureUrl: '',
           hasNotes: true,
           notes: ''
-        },{
-          typeName: 'Song',
-          color: '#00cec9',
-          hasVideo: true,
-          videoUrl: '',
-          hasLyrics: true,
-          lyrics: '',
-          hasSongUrl: true,
-          songUrls: {spotify: '', apple: ''},
-          hasPicture: false,
-          pictureUrl: '',
-          hasNotes: true,
-          notes: ''  
-        },{
-          typeName: 'Video',
-          color: '#00cec9',
-          hasVideo: false,
-          videoUrl: '',
-          hasLyrics: false,
-          lyrics: '',
-          hasSongUrl: false,
-          songUrls: {spotify: '', apple: ''},
-          hasPicture: false,
-          pictureUrl: '',
-          hasNotes: true,
-          notes: ''
-        }
+        },
+        // {
+        //   typeName: 'Song',
+        //   color: '00cec9',
+        //   hasVideo: true,
+        //   videoUrl: '',
+        //   hasLyrics: true,
+        //   lyrics: '',
+        //   hasSongUrl: true,
+        //   songUrls: {spotify: '', apple: ''},
+        //   hasPicture: false,
+        //   pictureUrl: '',
+        //   hasNotes: true,
+        //   notes: ''  
+        // },{
+        //   typeName: 'Video',
+        //   color: '00cec9',
+        //   hasVideo: false,
+        //   videoUrl: '',
+        //   hasLyrics: false,
+        //   lyrics: '',
+        //   hasSongUrl: false,
+        //   songUrls: {spotify: '', apple: ''},
+        //   hasPicture: false,
+        //   pictureUrl: '',
+        //   hasNotes: true,
+        //   notes: ''
+        // }
       ],
       numberOfItems: 0
     }
@@ -155,7 +149,7 @@ export default {
       this.$root.$emit('currentlyEditing', 'ORDER')
       this.$nextTick(() => {
         this.$root.$emit('editEventItem', item)
-      })      
+      })
     },
     onItemClick(item) {
       this.selectedItem = item      
@@ -169,6 +163,22 @@ export default {
       this.selectedItem = newItem
       this.numberOfItems++
 
+      var newItemPatchFields =
+      {
+        "eventElementsAdd": [
+          {
+            "title": '',
+            "order": this.numberOfItems,
+            "duration": newItem.duration,
+            "colorCode": newItem.color,
+            // "itemType": newItem.itemType.typeName
+          }
+        ]
+      }
+
+      EventComponents.patchComponent(this.id, newItemPatchFields)
+
+      console.log(newItemPatchFields)
       this.emitItem(this.selectedItem)
     }
   },
@@ -179,10 +189,14 @@ export default {
   },
   props: {
     value: {
-      type: Array,
+      type: Object,
       default: function() {
-        return []
+        return {}
       }
+    },    
+    id: {
+      type: Number,
+      default: -1
     }
   }, 
   mounted() {
@@ -283,7 +297,7 @@ export default {
   display: grid;
   justify-content: space-between;
   transition: all .2s ease;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 5fr 3fr;
   text-shadow: 0px 1px 6px #0000004b;
   transition: all .2s ease;
 }

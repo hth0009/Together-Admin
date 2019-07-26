@@ -24,9 +24,16 @@ export default {
     })
   },
   created () {
-    this.$store.dispatch('checkLogin').then(function () {
+    this.$store.dispatch('checkLogin').then(function (response) {
+      console.log(this.$store.getters.authStatus)
       if (this.$route.path === '/') {
-        this.$router.push("/app/inbox")
+        if (this.$store.getters.authStatus) {
+          this.$router.push("/app/inbox")
+        }
+        else {
+          console.log('hello')
+          this.$router.push("/hello")
+        }
       }
     }.bind(this)).catch(function (err) {
       console.log(err)

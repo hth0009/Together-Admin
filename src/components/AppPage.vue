@@ -453,7 +453,7 @@ import PeopleAPI from '@/services/people'
     display: block;
   }
   #app-navbar-buttons {
-    width: 30px;
+    width: 32px;
   }
   #app-footer {
     visibility: hidden;

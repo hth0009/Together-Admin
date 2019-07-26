@@ -12,9 +12,10 @@ export default() => {
   })
   // Checks credintials before every api call
   // If the access token is expired to refresh token will get a new one
-  API.interceptors.request.use(async (config) => {
-    await store.dispatch('checkLogin')
-    return config
+  API.interceptors.request.use(config => {
+    return store.dispatch('checkLogin').then(() => {
+      return config
+    })
   });
   return API
 }

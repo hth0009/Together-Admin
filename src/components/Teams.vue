@@ -113,7 +113,7 @@
           <carousel>
             <div class="new-item-card">
               <div class="section-header">New Team Name</div>  
-              <div class="section-header-info">Step 1: Give this new team a name</div>
+              <div class="section-header-info">Give this new team a name</div>
               <!-- <image-uploader
                 :debug="1"
                 :maxWidth="512"
@@ -166,23 +166,23 @@
             </div>
             <div class="new-item-card">
               <div class="section-header">Team Type</div>  
-              <div class="section-header-info">Step 2: What type of team is {{newTeam.name}}?</div>
+              <div class="section-header-info">What type of team is {{newTeam.name}}?</div>
                 <div class="type">            
                   <custom-radio v-model="newTeam.type" :options="['Public', 'Private', 'Anonymous']"></custom-radio>
                   <div v-show="newTeam.type == 0" name="public" class="item-description">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima dolores excepturi, aliquid deleniti expedita eaque eligendi, voluptatum dolore obcaecati officia, architecto consequuntur odio. Obcaecati
+                     This is a team that anyone within the church can sign up upon hitting the "sign up" button on the app. You are able to remove people from this team but there is no block from anybody entering this group. Leaders will be notified of new signs ups. Examples of this would be a community group, weekend serve team, or a sporting event team
                   </div>
                   <div v-show="newTeam.type == 1" name="serve" class="item-description">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima dolores excepturi, aliquid deleniti expedita eaque eligendi, voluptatum dolore obcaecati officia, architecto
+                    The difference between public and private is the ability to "request to sign up" button as opposed to the "sign up" button on the public. This means the leader can accept or deny requests to join the team. Examples for this include: a worship team, a staff team, or a team that you want to control who's a part of it.
                   </div>
                   <div v-show="newTeam.type == 2" name="annonymous" class="item-description">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima dolores excepturi, aliquid deleniti expedita eaque eligendi, voluptatum dolore obcaecati officia, architecto consequuntur odio. Obcaecati soluta nesciunt non in aliquid quasi
+                    With our anonymous team, Together chooses not to hold any information on our platform. We urge the individual who is the contact to handle everything on their side but offering a place for an individual within the church can get plugged in outside of our platform. Examples for this could be a same sex attraction group, an abortion group, or divorce group
                   </div>
                 </div>
             </div>
             <div class="new-item-card">
               <div class="section-header">{{newTeam.name}} Description</div>  
-              <div class="section-header-info">Step 3: Briefly explain what {{newTeam.name}} is about</div>
+              <div class="section-header-info">Briefly explain what {{newTeam.name}} is about</div>
               <div>
                 <ejs-textbox autocomplete="off" floatLabelType="Auto" placeholder="Description" v-model="newTeam.description"
                 required name="" :multiline="true"></ejs-textbox>
@@ -193,7 +193,7 @@
             </div>
             <div class="new-item-card">
               <div class="section-header">{{newTeam.name}} Leader</div>  
-              <div class="section-header-info">Step 4: Select the leader of {{newTeam.name}}</div>            
+              <div class="section-header-info">Select the leader of {{newTeam.name}}</div>            
                 <div v-show="newTeam.type != 2">
                 <ejs-dropdownlist
                   :dataSource='formatedPeople' 
@@ -209,7 +209,7 @@
             </div>
             <div class="new-item-card">
               <div class="section-header">{{newTeam.name}} Location</div>  
-              <div class="section-header-info">Step 5: Does {{newTeam.name}} have a meeting location?</div>            
+              <div class="section-header-info">Does {{newTeam.name}} have a meeting location?</div>            
                 <div v-show="newTeam.type != 2">
                   <custom-radio v-model="newTeam.hasMeetings" :options="['Has Location', 'No Location']"></custom-radio>
                   <div v-show="newTeam.hasMeetings == 0">
@@ -226,7 +226,7 @@
             </div>
             <div class="new-item-card">
               <div class="section-header">{{newTeam.name}} Meeting Recurrence</div>  
-              <div class="section-header-info">Step 6: Does {{newTeam.name}} meet on a regular basis?</div>            
+              <div class="section-header-info">Does {{newTeam.name}} meet on a regular basis?</div>            
                 <div v-show="newTeam.type != 2">
                   <div class="type">
                     <custom-radio v-model="newTeam.hasRecurrence" :options="['Meets Regualarly', 'Does Not Meet Regularly']"></custom-radio>
@@ -241,7 +241,7 @@
             </div>
             <div class="new-item-card">
               <div class="section-header">{{newTeam.name}} Subteams</div>  
-              <div class="section-header-info">Step 7: Does {{newTeam.name}} have subteams? Details can be added to the subteams later.</div>            
+              <div class="section-header-info">Does {{newTeam.name}} have subteams? Details can be added to the subteams later.</div>            
                 <div v-show="newTeam.type != 2" style="height: 250px">
                   <quick-create
                     :model="newTeam.leaders"

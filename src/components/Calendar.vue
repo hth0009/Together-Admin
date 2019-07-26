@@ -68,7 +68,7 @@
                 <ejs-timepicker floatLabelType="Auto" v-model="eventInstance.endTime" :placeholder="'End Time'" :min="eventInstance.startTime"></ejs-timepicker>
               </div>
             </div>
-            <div v-if="!!descriptionComponent.component">
+            <div v-if="!!descriptionComponent['component']">
               <div class="input-label noselect">Description</div>
               <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Description'" autocomplete="off" :mode="'Inline'"
                 :template="descriptionMultiline" :actionBegin="bindDescription"
@@ -76,7 +76,7 @@
                 @actionSuccess="editComponentValue(descriptionComponent.id, 'contents', $event.value)" 
               ></ejs-inplaceeditor>
             </div>
-            <div v-if="!!locationComponent.component">              
+            <div v-if="!!locationComponent['component']">              
               <div class="input-label">Location</div>
               <ejs-inplaceeditor floatLabelType="Auto" :emptyText="'Location'" autocomplete="off" :mode="'Inline'"
                 name="none" v-model="locationComponent.component.fields.address" data-underline='false' :cssClass="'basic-inline'"
@@ -88,16 +88,12 @@
                 @actionSuccess="editComponentValue(locationComponent.id, 'description', $event.value)" 
               ></ejs-inplaceeditor>
             </div>
-            <!-- <ejs-textbox autocomplete="off" v-model="eventInstance.components['component(s)'][0].fields.contents" :multiline="true" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
-              required></ejs-textbox> -->
-            <!-- <ejs-textbox autocomplete="off" v-model="eventInstance.components['component(s)'][0].fields.contents" :multiline="true" :rows="8" resize="none" floatLabelType="Auto" :placeholder="'Description'"
-              required></ejs-textbox> -->
           </div>
           <div v-for="eventComponent in eventComponents" :key="eventComponent.id">
             <div class="panel" v-if="!!componentTypes[eventComponent.componentType]">
               <div class="card-header">{{componentTypes[eventComponent.componentType].title}}</div>
-              <component v-if="!!componentTypes[eventComponent.componentType]" :is="componentTypes[eventComponent.componentType].component"/>
-              {{ component }}
+              <component v-if="!!componentTypes[eventComponent.componentType]" :is="componentTypes[eventComponent.componentType].component"
+                v-model="eventComponent.component" :id="eventComponent.id"/>
             </div>
           </div>
           <!-- <div class="panel">
@@ -229,7 +225,7 @@ Vue.use(SchedulePlugin, DateTimePickerPlugin)
 const componentTypesTemplate = {
   "orderOfEvent": {
     component: OrderOfService,
-    title: "Order"
+    title: "Order of Service"
   },
   "speaker": {
     component: Speaker,
@@ -252,7 +248,7 @@ export default {
       views: ['Month', 'Day'],
       eventHash: {},
       creatingNewItem: false,
-      dateFormat: "dd MMMM yyyy",
+      dateFormat: "MMMM dd, yyyy",
       eventComponents: [],
       eventsLoading: true,
       eventInstance: {},
@@ -305,8 +301,8 @@ export default {
     this.getEventInstances()
     this.getEventBases()
 
-    Invitations.getMyInvitations(new Date().toISOString(), new Date('2020-02-02').toISOString()).then(result => {
-      console.log(result)
+    Invitations.getMyInvitations(new Date('2018-02-02').toISOString(), new Date('2020-02-02').toISOString()).then(result => {
+      console.log(result.data['myInvitations(s)'])
     })
     
     this.$root.$on('currentlyEditing', data => {
@@ -382,8 +378,6 @@ export default {
       }
     },
     bindDescription: function(args) {
-      console.log(args)
-      console.log(document.getElementsByClassName('e-input')[0].value)
       const description = document.getElementsByClassName('e-input')[0].value;
       if(description != null && description != undefined) {
           args.data.value = description
@@ -426,7 +420,6 @@ export default {
       EventComponents.patchComponent(componentID, fields)
     },
     editComponent(component) {
-      console.log(component)
       EventComponents.patchComponent(component.id, component.component.fields)
     },
     deleteEventBase () {

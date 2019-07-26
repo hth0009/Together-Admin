@@ -6,6 +6,7 @@
       <ejs-dropdownlist
         :dataSource='people' 
         :fields='dropDownField'
+        :value="speaker.speakerID"
         floatLabelType="Auto" 
         :placeholder='"Select Speaker"'
         :allowFiltering="true"
@@ -14,7 +15,7 @@
     <div v-show="isInChurch == 1"
       :key="isInChurch - 1 + ''">
       <ejs-textbox
-        v-model="speaker['fullName']"
+        v-model="speaker['speakerName']"
         floatLabelType="Auto" 
         :placeholder='"Speaker Name"'
         :allowFiltering="true"
@@ -40,13 +41,14 @@
 <script>
 import Avatar from '@/components/Avatar'
 import People from '@/services/people'
+import EventComponents from '@/services/eventComponents'
 import CustomRadio from '@/components/CustomRadio'
 
 export default {
   name: 'EventSpeaker',
   data () {
     return {
-      speaker: this.value,
+      speaker: this.value.fields,
       isInChurch: 0,
       people: [],      
       dropDownField: { value: 'id', text: 'fullName' },
@@ -62,13 +64,20 @@ export default {
     },
     leaderSelected (event) {
       // this.speaker = event.itemData
-      this.$emit('input', event.itemData)
+      // this.$emit('input', event.itemData)
+      
+
+      EventComponents.patchComponent(this.id, this.speaker)
     }
   },
   props: {
     value: {
       type: Object,
       default: () => {return {}}
+    },
+    id: {
+      type: Number,
+      default: -1
     }
   },
   mounted() {
