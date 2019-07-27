@@ -24,6 +24,7 @@
       </div>
     </div>
     <div id="showcase">
+      <h1>How do we do it?</h1>
       <h3 class="showcase-item-title">{{selectedShowcase}}</h3>
       <transition-group class="phones" name="slide-left" mode="in-out">
         <img key="a" v-show="selectedShowcase == 'PEOPLE'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-phone.png" class="phone-1">
@@ -42,19 +43,19 @@
         <button
            @click="selectedShowcase = 'PEOPLE'"
           :class="{'selected': selectedShowcase == 'PEOPLE'}"
-        ><i class="material-icons">person</i></button>
+        ><i class="material-icons">person</i>people</button>
         <button          
           @click="selectedShowcase = 'TEAMS'"
           :class="{'selected': selectedShowcase == 'TEAMS'}"
-        ><i class="material-icons">group</i></button>
+        ><i class="material-icons">group</i>teams</button>
         <button
           @click="selectedShowcase = 'CALENDAR'"
           :class="{'selected': selectedShowcase == 'CALENDAR'}"
-        ><i class="material-icons">event</i></button>
+        ><i class="material-icons">event</i> calendar</button>
         <button
           @click="selectedShowcase = 'MESSAGING'"
           :class="{'selected': selectedShowcase == 'MESSAGING'}"
-        ><i class="material-icons">send</i></button>
+        ><i class="material-icons">send</i>messaging</button>
       </div>
       <transition-group name="slide-right" class="computers">
         <img key="1" v-show="selectedShowcase == 'PEOPLE'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-computer.png" class="computer-1">
@@ -67,18 +68,22 @@
       </transition-group>
     </div>
     <div id="features">
-      <h1>Everything your church needs</h1>
-      <div id="feature-grid">
-        <div class="feature noselect"
-        v-for="(feature, index) in features"
-        :key="index"
-        :class="{'selected': feature.selected}">
-          <i class="material-icons"
-          :class="{'coming-soon-padding': feature.inDev == true}">{{feature.icon}}</i>
-          <div class="title">{{feature.title}}</div>
-          <div class="coming-soon" v-if="feature.inDev">coming soon</div>
-          <div class="description">
-            {{feature.description}}
+      <h1>All of this to help your church</h1>
+      <div id="feature-wrapper">        
+        <div id="feature-description">
+          <h3>{{selectedFeature.title}}</h3>
+          <div class="description">{{selectedFeature.description}}</div>
+        </div>
+        <div id="feature-grid">
+          <div class="feature noselect"
+          v-for="(feature, index) in features"
+          :key="index"
+          :class="{'selected': selectedFeature.title == feature.title}"
+          @click="selectedFeature = feature">
+            <i class="material-icons"
+            :class="{'coming-soon-padding': feature.inDev == true}">{{feature.icon}}</i>
+            <div class="title">{{feature.title}}</div>
+            <div class="coming-soon" v-if="feature.inDev">coming soon</div>
           </div>
         </div>
       </div>
@@ -109,14 +114,14 @@
             You church will pay:
           </div>
           <!-- <div type="number" class="number">{{'$' + monthlyPayment}}</div> -->
-          <div type="number" class="number">{{'$0'}}</div>
+          <div type="number" class="number">{{'free'}}</div>
           <div for="" class="footer">
             per month
           </div>
         </div>
       </div>
       <div class="explain">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi sunt, cumque omnis impedit ratione nulla quas et, magnam ipsam corrupti rerum dignissimos rem explicabo ipsum eos, id similique quidem. Quis?</div>
-      <button class="basic-button orange">FIND OUT MORE</button>
+      <!-- <button class="basic-button orange">FIND OUT MORE</button> -->
     </div>
   </div>
 </template>
@@ -130,66 +135,72 @@ export default {
   data () {
     return {
       selectedShowcase: 'PEOPLE',
+      selectedFeature: {},
       mainVideoURL: 'http://media.w3.org/2010/05/sintel/trailer.mp4',
       mainImageURL: 'https://images.unsplash.com/photo-1463171379579-3fdfb86d6285?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
       features: [
         {
           title: 'People',
           icon: 'person',
-          // description: 'blah blah',
-          selected: true
+          description: 'Users create a personal account on the mobile side with their individual information which is shown to the administration of the church. These accounts allow them to sign up for events and teams, message other people, post personal prayers, add friends, and stay connected.',
         },
         {
           title: 'Events',
-          icon: 'event'
+          icon: 'event',
+          description: 'Announce event dates, times and locations that will allow for your members to sign up, serve, or RSVP for. By doing this, members can add specific events to their individual or group/team calendars and administrators can see all event attendees.An event can include the people of that event, order of service, videos and pictures, quick links, as well as an action step for the individual: whether the church wants them to sign up, serve, or RSVP.'
         },
         {
           title: 'Small Groups',
-          icon: 'people'
+          icon: 'people',
+          description: 'Establish your church’s small groups, as well as their topics and leaders. See the people in each group, as well as when and where that group meets '
         },
         {
           title: 'Serve Teams',
-          icon: 'people'
+          icon: 'people',
+          description: 'Organize your church’s serve teams by listing the descriptions of the various types and allowing for volunteer signups. Show when and where each team meets during the week or on Sundays.'
         },
         {
           title: 'Services',
-          icon: 'list'
+          icon: 'list',
+          description: 'Let your church know when and where you are meeting for Sunday services. Announce sermon series or even reading plans leading up to Sunday.'
         },
         {
           title: 'Giving',
           icon: 'panorama_fish_eye',
-          inDev: true,
+          description: 'Manage your tithes, offerings, and donations all in one place. We have parterned with Dime – Giving  (should be a link to their website) to offer an easy, safe, secure and fast option for mobile giving.'
         },
         {
           title: 'Financial',
           icon: 'credit_card',
           inDev: true,
+          description: 'While Partnering with Dime, they will display your church’s financial statements and the generosity of your members all in one place. They also can display your accounting information if you choose to partner with their services for that as well.'
         },
         {
           title: 'Messaging',
-          icon: 'message'
+          icon: 'message',
+          description: 'Allows for your people to connect between groups, teams and the general congregation. Users will be able to harness direct messaging, team messaging and individual messaging in discussion forums that will all appear on the message tab of the mobile app. Members can even direct message the church itself. Here, administration will be able to read it in their inbox on the website or on the mobile app.'
         },
         // {
         //   title: 'Meals',
         //   icon: 'message'
         // },
-        {
-          title: 'Push Notification',
-          icon: 'notifications'
-        },
-        {
-          title: 'Prayer Wall',
-          icon: 'notes'
-        },
-        {
-          title: 'Analyatics',
-          icon: 'bar_chart',
-          inDev: true
-        },
-        {
-          title: 'Safe Check In',
-          icon: 'child_friendly'
-        }
+        // {
+        //   title: 'Push Notification',
+        //   icon: 'notifications'
+        // },
+        // {
+        //   title: 'Prayer Wall',
+        //   icon: 'notes'
+        // },
+        // {
+        //   title: 'Analyatics',
+        //   icon: 'bar_chart',
+        //   inDev: true
+        // },
+        // {
+        //   title: 'Safe Check In',
+        //   icon: 'child_friendly'
+        // }
       ],
       churchSizePercentage: 20,
       maxChurchSize: 5000
@@ -205,7 +216,8 @@ export default {
   },
   props: {
   },
-  mounted() {    
+  mounted() {
+    this.selectedFeature = this.features[0] 
   },
   computed: {
     churchSize: {
@@ -271,12 +283,10 @@ export default {
   transition: opacity .5s ease-in-out, transform .5s ease-in-out;  
 }
 .slide-left-leave-to /* .fade-leave-active in <2.1.8 */ {
-  opacity: 0;
-  transform: translateX(-400px) rotate(5deg); 
+  transform: translateY(-800px) rotate(5deg); 
 }
 .slide-left-enter {  
-  opacity: 0;
-  transform: translateX(400px) rotate(-5deg); 
+  transform: translateY(800px) rotate(-5deg); 
 }
 
 .slide-right-enter-active {
@@ -287,12 +297,10 @@ export default {
   transition: opacity .5s ease-in-out, transform .5s ease-in-out;  
 }
 .slide-right-leave-to /* .fade-leave-active in <2.1.8 */ {
-  opacity: 0;
-  transform: translateX(400px) rotate(5deg); 
+  transform: translateY(800px) rotate(5deg); 
 }
 .slide-right-enter {  
-  opacity: 0;
-  transform: translateX(-400px) rotate(-5deg); 
+  transform: translateY(-800px) rotate(-5deg); 
 }
 
 #splash-container {
@@ -319,7 +327,10 @@ export default {
 }
 
 h1 {
+  padding-top: 50px;
   font-weight: lighter;
+  text-align: center;
+  color: #00cec9;
 }
 
 .parallax-container {  
@@ -382,6 +393,7 @@ h1 {
 #main-title h1{
   width: 100%;
   text-align: center;
+  color: white;
   /* text-shadow: 0px 1px 9px #00000042; */
 }
 #bringing{
@@ -470,59 +482,75 @@ h1 {
   top: 15vh;
 }
 #showcase .phones {
-  width: 45vw;
+  width: 47.5vw;
   position: absolute;
-  left: 0px;
+  right: 5vw;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  height: 75vh;
+  height: 100vh;
 }
 #showcase .phones .phone-1{
-  height: 40vh;
+  max-height: 40vh;
   width: auto;
-  position: absolute;
-  right: 1vw;
-  z-index: 100
-}
-#showcase .phones .phone-2{
-  height: 50vh;
-  width: auto;
-  position: absolute;
-  right: 10vw;
-}
-#showcase .computers {
-  width: 45vw;
+  max-width: 17.5vw;
+  height: auto;
   position: absolute;
   right: 0px;
+  z-index: 100;
+  bottom: 15vh;
+}
+#showcase .phones .phone-2{
+  max-height: 45vh;
+  width: auto;
+  max-width: 20vw;
+  height: auto;
+  position: absolute;
+  right: 120px;
+  bottom: 15vh;
+  z-index: 50;
+}
+#showcase .computers {
+  width: 47.5vw;
+  position: absolute;
+  right: 5vw;
   height: 100vh;
 }
 #showcase .computers .computer-1{
-  max-height: 35vh;
+  /* max-height: 75vh; */
   width: auto;
-  max-width: 45vw;
   height: auto;
+  max-height: 65vh;
+  max-width: 75vw;
+  /* min-height: 400px; */
+  min-width: 40vw;
   position: absolute;
-  top: 40vh;
-  left: 1vw;
-  z-index: 50
+  bottom: 15vh;
+  right: 0vw;
+  z-index: 25;
+
 }
 #showcase .toggle {
-  width: 100px;
-  height: 100%;
+  width: 50px;
+  height: 140px;
   position: absolute;
-  left: 50vw;
-  transform: translateX(-50%);
+  left: 5vw;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 300;
+
+  /* box-shadow: 0px 5px 13px -2px #00000040;
+  background: white;
+  border-radius: 10px; */
 }
 #showcase .toggle button{
   color: #9b9b9b;
   text-decoration: none;
-  margin-bottom: 15px;
+  margin: 7.5px 0px;
   display: inline-flex;
   align-items: flex-end;
   font-size: 15px;
@@ -539,6 +567,7 @@ h1 {
 }
 #showcase .toggle button i{
   font-size: 1rem;
+  margin-right: 5px;
 }
 #showcase .toggle button:hover {
   color: #888b8b;
@@ -577,61 +606,82 @@ h1 {
 }
 
 #features {
-  background: #f1f1f1;
+  border-top: 40px #f1f1f1 solid;
+  border-bottom: 40px #f1f1f1 solid;
 
   min-height: 100vh;
+  position: relative;
 }
 #features h1{
   text-align: center;
   color: #00cec9;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
   padding-top: 120px;
 }
+#feature-wrapper {
+  width: 100vw;
+}
+
+#feature-description {
+  width: 100vw;
+  height: 185px;
+}
+#feature-description h3{
+  padding-left: 15vw;
+}
+#feature-description .description{
+  padding: 25px 15vw 0px 15vw;
+  line-height: 1.5rem;
+  /* text-align: center; */
+}
 #feature-grid {
-  padding: 0px 15% 50px 15%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-auto-rows: 1fr;
-}
-#feature-grid::before {
-  content: '';
-  width: 0;
-  padding-bottom: 100%;
-  grid-row: 1 / 1;
-  grid-column: 1 / 1;
-}
-#feature-grid > *:first-child {
-  grid-row: 1 / 1;
-  grid-column: 1 / 1;
+  padding: 50px 15vw;
+  width: auto;
+  margin: 0px auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 #feature-grid .feature{
-  border: 1px #00cec9 solid;
-  color: #00cec9;
-  display: flex;
+  color: #818181;
+  box-shadow: 0px 5px 13px -2px #00000040;
+  border-radius: 10px;
+  padding: 5px;
+  
+  display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   font-weight: normal;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+
+  transition: box-shadow .2s ease;
+}
+#feature-grid .feature.selected{
+  box-shadow: 0px 2px 0px -2px #00000040;
 }
 #feature-grid .feature i{
   width: 100%;
-  font-size: 4rem;
+  font-size: 2rem;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   /* text-shadow: 0px 1px 6px #0000002c; */
 }
 #feature-grid .feature i.coming-soon-padding{
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 #feature-grid .feature .title{
   width: 100%;
-  font-size: 1.1rem;
+  font-size: .8rem;
   text-align: center;
-  font-weight: 600;
+  font-weight: 500;
   /* text-shadow: 0px 1px 6px #0000002c; */
 }
 #feature-grid .feature .coming-soon{
+  display: none;
   width: 100%;
   font-size: 1.1rem;
   text-align: center;

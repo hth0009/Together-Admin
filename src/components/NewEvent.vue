@@ -388,10 +388,6 @@ export default {
                         },
                         {
                           message: "",
-                          personID: null
-                        },
-                        {
-                          message: "",
                           churchUsername: this.$store.state.churchUsername
                         }
                       ]
