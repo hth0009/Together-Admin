@@ -129,9 +129,9 @@ export default new Vuex.Store({
               churchUsername: churchUsername,
               personName: personName
             })
-            resolve()
           })
         }
+        resolve()
       })
     },
     logout ({commit}) {

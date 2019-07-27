@@ -22,22 +22,28 @@ export default {
     this.$root.$on('loading', data => {
       this.loading = data
     })
+    this.checkLogin()
   },
   created () {
-    this.$store.dispatch('checkLogin').then(function (response) {
-      console.log(this.$store.getters.authStatus)
-      if (this.$route.path === '/') {
-        if (this.$store.getters.authStatus) {
-          this.$router.push("/app/inbox")
+  },
+  methods: {
+    checkLogin() {
+      console.log('hi')
+      this.$store.dispatch('checkLogin').then(function (response) {
+        console.log(this.$store.getters.authStatus)
+        if (this.$route.path === '/') {
+          if (this.$store.getters.authStatus) {
+            this.$router.push("/app/inbox")
+          }
+          else {
+            console.log('hello')
+            this.$router.push("/hello")
+          }
         }
-        else {
-          console.log('hello')
-          this.$router.push("/hello")
-        }
-      }
-    }.bind(this)).catch(function (err) {
-      console.log(err)
-    })
+      }.bind(this)).catch(function (err) {
+        console.log(err)
+      })
+    }
   }
 }
 </script>

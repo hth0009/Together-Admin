@@ -52,6 +52,14 @@ let router = new Router({
   // mode: 'history',
   routes: [
     {
+      path: '/',
+      name: '',
+      meta: {
+        noNav: true,
+        requiresAuth: false
+      }
+    },
+    {
       path: '/hello',
       name: 'Splash Screen',
       component: Splash,
