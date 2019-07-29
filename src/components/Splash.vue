@@ -67,7 +67,7 @@
 
             <img key="2" v-show="selectedShowcase == 'TEAMS'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-computer.png">
 
-            <img key="3" v-show="selectedShowcase == 'CALENDAR'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calender-computer.png">
+            <img key="3" v-show="selectedShowcase == 'CALENDAR'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calender-details-computer.png">
             
             <img key="4" v-show="selectedShowcase == 'MESSAGING'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-computer.png">
           </transition-group>        
