@@ -67,7 +67,7 @@
 
             <img key="2" v-show="selectedShowcase == 'TEAMS'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-computer.png">
 
-            <img key="3" v-show="selectedShowcase == 'CALENDAR'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calender-details-computer.png">
+            <img key="3" v-show="selectedShowcase == 'CALENDAR'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-computer.png">
             
             <img key="4" v-show="selectedShowcase == 'MESSAGING'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-computer.png">
           </transition-group>        
@@ -91,7 +91,7 @@
           <transition-group class="phone-screens" name="fade-left" mode="in-out">
             <img key="b" v-show="selectedShowcase == 'PEOPLE'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/friends-phone.png">
 
-            <img key="d" v-show="selectedShowcase == 'TEAMS'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-details-phone.png">
+            <img key="d" v-show="selectedShowcase == 'TEAMS'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/team-details-phone.png">
 
             <img key="f" v-show="selectedShowcase == 'CALENDAR'" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png">
 
