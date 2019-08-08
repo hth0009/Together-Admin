@@ -1,39 +1,32 @@
 <template>
   <div id="splash-container">
+    <register-church ref="register"></register-church>
     <router-link to="login" id="login">
       LOGIN
     </router-link>
     <div id="video-board">
       <div id="main-video-container">
-      <!-- <video-bg :sources="[mainVideoURL]" :img="mainImageURL"></video-bg> -->
       <video autoplay muted loop id="main-video" type="video/mp4" src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"></video>      
-        <!-- <img id="main-video" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80"> -->
       </div>
-      <!-- <img id="scribble-circle" class="noselect" src="@/assets/svg/scribble-circle.svg"> -->
       <div id="main-title" class="">
         <h1 id="bringing">BRINGING YOUR CHURCH</h1>
-        <!-- <h1 id="together">together</h1> -->
         <img id="together" src="https://togethercdn.global.ssl.fastly.net/website_title.png" alt="" srcset="">
       </div>
-      <button id="join" class="basic-button noselect">
+      <button id="join" class="basic-button noselect" @click="openRegisterWindow">
         JOIN
       </button>
-      <!-- <button id="join" class="basic-button green">JOIN</button> -->
-      <!-- <div class="next-page noselect">
-        <i class="material-icons">keyboard_arrow_down</i>
-      </div> -->
       <div class="next-page noselect">
         learn more
       </div>
     </div>
-    <div id="problems">
+    <!-- <div id="problems">
       <h1>Running a church can be complicated</h1>
       <div class="big-words">
       <div class="big-word">{{this.selectedProblem1}}</div>
       <div class="big-word">{{this.selectedProblem2}}</div>
       <div class="big-word">{{this.selectedProblem3}}</div>
       </div>
-    </div>
+    </div> -->
     <div id="showcase">
       <h1>We help your 
         <span :class="{'selected': selectedShowcase == 'PEOPLE' || selectedShowcase == 'TEAMS'}">church</span> do 
@@ -182,6 +175,8 @@
 import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/antd.css'
 
+import RegisterChurch from '@/components/RegisterChurch'
+
 export default {
   name: 'Hello',
   data () {
@@ -260,15 +255,21 @@ export default {
         // }
       ],
       churchSizePercentage: 20,
-      maxChurchSize: 5000
+      maxChurchSize: 5000,
+      registering: false
     }
   },
   components: {
-    VueSlider
+    VueSlider, RegisterChurch
   },
   methods: {
     loadDrift() {
       
+    },
+    openRegisterWindow() {
+      console.log(this.$refs)
+      this.$refs.register.open()
+      this.registering = true
     },
     handleScroll() {
       const index1 = Math.round((this.scrollWindow.scrollTop + 10) / 75) % this.problems.length
@@ -392,6 +393,10 @@ export default {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+}
+.no-scroll {
+  height: 100vh;
+  overflow: hidden;
 }
 
 #login {
@@ -1106,8 +1111,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 @media all and (max-width: 768px) {
   #splash-container {
-    perspective: 1px;
-    perspective-origin: center;
     overflow-x: hidden;
     overflow-y: visible;
   }
