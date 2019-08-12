@@ -3,27 +3,32 @@
     <register-church ref="register"></register-church>
     <router-link to="login" id="login">LOGIN</router-link>
     <div id="video-board">
+      <svg id="main-blob" xmlns="http://www.w3.org/2000/svg" width="1053.062" height="1044.218" viewBox="0 0 1053.062 1044.218"><path id="Path_25" data-name="Path 25" d="M-1414.081,65.147c172.7,74.657,237.793,198.227,258.3,445.549,23.247,280.41-68.954,137.076-72.732,324.065s-158.657,273.872-332.424,273.872-447.639-158.657-453.306-372.089c-4.4-165.835-133.1-221.062-190.392-344.012-.609,1.6.28-208.116-.455-210.129,33.888-50.5,98.285-89.822,176.867-117.988C-2027.524,64.453-1412.6,65.342-1414.081,65.147Z" transform="translate(2205.094 -64.415)" fill="#0ad2cf"/></svg>
+      <div class="main-computer-wrapper">
+        <div class="main-computer">
+          <img key="b" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-computer.png"/>
+        </div>
+      </div>
       <div id="main-video-container">
-        <video
+        <!-- <video
           autoplay
           muted
           loop
           id="main-video"
           type="video/mp4"
           src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
-        ></video>
+        ></video> -->
       </div>
       <div id="main-title" class>
-        <h1 id="bringing">BRINGING YOUR CHURCH</h1>
         <img
           id="together"
           src="https://togethercdn.global.ssl.fastly.net/website_title.png"
           alt
           srcset
         />
+        <div class="subtitle"><p>a church engagement platform that <br> provides your church all the tools they <br> need to connect with your people <br> <br> <br> for free</p></div>
       </div>
-      <button id="join" class="basic-button noselect" @click="openRegisterWindow">JOIN</button>
-      <div class="next-page noselect">learn more</div>
+      <button id="join" class="basic-button noselect" @click="openRegisterWindow">SIGN YOUR CHURCH UP</button>
     </div>
     <!-- <div id="problems">
       <h1>Running a church can be complicated</h1>
@@ -170,6 +175,43 @@
     </div>
     <div id="features">
       <h1>All of this to help your church</h1>
+      <div class="features-phone-wrapper">
+        <div class="phone-3-cutout phone-cutout">
+          <img
+            key="b"
+            src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+          />
+          <transition-group class="phone-screens" name="fade-left" mode="in-out">
+            <img
+              key="a"
+              v-show="selectedFeature.title == 'People'"
+              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-phone.png"
+            />
+
+            <img
+              key="c"
+              v-show="selectedFeature.title == 'Serve Teams'"
+              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-phone.png"
+            />
+
+            <img
+              key="e"
+              v-show="selectedFeature.title == 'Events'"
+              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-phone.png"
+            />
+
+            <img
+              key="g"
+              v-show="selectedFeature.title == 'Messaging'"
+              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-phone.png"
+            />
+          </transition-group>
+        </div>
+      </div>
+      <div class="feature-blobs">
+        <svg id="feature-blob-1" xmlns="http://www.w3.org/2000/svg" width="206.262" height="237.114" viewBox="0 0 206.262 237.114"><path id="Path_40" data-name="Path 40" d="M135.289,299.182C199.423,279.275,241.1,225.038,240.05,172.8c-.385-19.067-10.65-47.236-25.919-75.374-.32-.773-210.033.115-211.176-.048,8.4,35.844,32.295,53.187,32.295,104.222C35.25,264.919,71.155,319.089,135.289,299.182Z" transform="translate(303.368 -2.955) rotate(90)" fill="#00e55c"/></svg>
+        <svg id="feature-blob-2" xmlns="http://www.w3.org/2000/svg" width="768.643" height="861.623" viewBox="0 0 768.643 861.623"><path id="Path_39" data-name="Path 39" d="M-2011.439,215.264c326.406,91.381,370.521,169.455,368.3,279.142s-93.068,160.653-195,160.653-525.119-145.116-528.443-270.314S-2337.844,123.883-2011.439,215.264Z" transform="translate(-982.049 -1095.401) rotate(-120)" fill="#0ad2cf"/></svg>
+      </div>
       <div id="feature-wrapper">
         <div id="feature-description">
           <h3>{{selectedFeature.title}}</h3>
@@ -551,8 +593,8 @@ h1 {
   background: #00cec9;
   color: white;
   position: absolute;
-  left: 10px;
-  top: 10px;
+  right: 30px;
+  top: 20px;
   z-index: 100;
   text-decoration: none;
   border-radius: 25px;
@@ -577,6 +619,15 @@ h1 {
   position: relative;
   height: 100vh;
   overflow: hidden;
+}
+.main-computer-wrapper {
+  display: flex;
+  position: relative;
+  height: 500px;
+}
+.main-computer img {
+  height: 100%;
+  z-index: 100;
 }
 #main-video {
   /* min-width: 100vmin;
@@ -603,49 +654,41 @@ h1 {
   pointer-events: none;
   /* mix-blend-mode: difference; */
 }
+#main-blob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(.85) translate(-9%,-9%);
+  z-index: -1;
+}
 #main-title {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #ffffff;
-  width: 90vw;
-  font-weight: 100;
-  top: 45vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  mix-blend-mode: difference;
-  align-items: center;
+  top: 0;
+  margin-top: 30vh;
+  margin-left: 13vw;
 }
 #main-title h1 {
-  width: 100%;
-  text-align: center;
-  color: white;
-  /* text-shadow: 0px 1px 9px #00000042; */
+  
 }
-#bringing {
-  font-size: 22.5px;
-  mix-blend-mode: difference;
+.subtitle {
+  margin-left: 10px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 2rem;
+  color: white;
 }
 #together {
-  font-size: 50px;
-  /* font-family: serif; */
-  font-family: "Bad Script", cursive;
-  text-transform: uppercase;
-  padding: 5px 0px;
-  letter-spacing: 10px;
-  vertical-align: middle;
-  mix-blend-mode: difference;
-  height: 45px;
-  /* text-transform: lowercase; */
-  /* font-stretch: expanded; */
+  height: 70px;
+  margin-bottom: 10px;
 }
 #join {
   position: absolute;
-  top: calc(50vh + 50px);
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  margin-left: 13vw;
+  margin-top: 85vh;
+  font-size: 22px;
+  font-weight: 600;
+  box-shadow: 0px 5px 13px -2px #00000040
 }
 /* #join{
   margin: 10px auto;
@@ -784,7 +827,7 @@ h1 {
   display: block;
 }
 
-#showcase .computer-cutout-wrapper {
+.computer-cutout-wrapper {
   height: 500px;
 
   position: absolute;
@@ -863,13 +906,14 @@ h1 {
   left: 125px;
 }
 .phone-1-cutout img,
-.phone-2-cutout img {
+.phone-2-cutout img,
+.phone-3-cutout img {
   height: 100%;
   width: auto;
   position: relative;
   z-index: 200;
 }
-#showcase .phone-screens {
+.phone-screens {
   position: absolute;
   z-index: 50;
   right: 5%;
@@ -878,7 +922,7 @@ h1 {
   height: 94.5%;
   overflow: hidden;
 }
-#showcase .phone-screens img {
+.phone-screens img {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -992,27 +1036,61 @@ h1 {
 #features h1 {
   text-align: center;
   color: #00cec9;
-  margin-bottom: 50px;
-  padding-top: 120px;
+  margin-bottom: 60px;
+  padding-top: 110px;
+  font-weight: 400;
+  font-size: 40px;
 }
 #feature-wrapper {
   width: 100vw;
 }
+.features-phone-wrapper {
+  height: 350px;
 
+  position: absolute;
+  left: calc(12vw);
+  bottom: 36vh;
+  /* bottom: calc(10vh + 26px); */
+  z-index: 300;
+}
+.phone-3-cutout {
+  height: 100%;
+}
+.feature-blobs {
+  position: relative
+}
+#feature-blob-1 {
+  z-index: -1;
+  position: absolute;
+  right: 0;
+  top: 200px;
+  transform: scale(.9) translate(10%,0);
+}
+#feature-blob-2 {
+  z-index: -1;
+  position: absolute;
+  left: -110px;
+  top: -300px;
+  transform: scale(.85);
+}
 #feature-description {
-  width: 100vw;
-  height: 185px;
+  width: 90vw;
+  height: 380px;
+  font-size: 25px;
 }
 #feature-description h3 {
-  padding-left: 15vw;
+  padding-left: 28vw;
+  color: black;
+  font-size: 55px;
+  font-weight: 600;
 }
 #features h4 {
   text-align: center;
   font-weight: 400;
 }
 #feature-description .description {
-  padding: 25px 15vw 0px 15vw;
-  line-height: 1.5rem;
+  padding: 5px 0vw 0px 28vw;
+  line-height: 2rem;
   /* text-align: center; */
 }
 #feature-grid {
@@ -1037,7 +1115,7 @@ h1 {
   font-weight: normal;
   width: 6vw;
   height: 6vw;
-  margin: 10px;
+  margin: 12px;
 
   transition: box-shadow 0.2s ease;
 }
