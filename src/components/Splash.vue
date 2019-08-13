@@ -3,21 +3,37 @@
     <register-church ref="register"></register-church>
     <router-link to="login" id="login">LOGIN</router-link>
     <div id="video-board">
+      <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png">
       <svg id="main-blob" xmlns="http://www.w3.org/2000/svg" width="1053.062" height="1044.218" viewBox="0 0 1053.062 1044.218"><path id="Path_25" data-name="Path 25" d="M-1414.081,65.147c172.7,74.657,237.793,198.227,258.3,445.549,23.247,280.41-68.954,137.076-72.732,324.065s-158.657,273.872-332.424,273.872-447.639-158.657-453.306-372.089c-4.4-165.835-133.1-221.062-190.392-344.012-.609,1.6.28-208.116-.455-210.129,33.888-50.5,98.285-89.822,176.867-117.988C-2027.524,64.453-1412.6,65.342-1414.081,65.147Z" transform="translate(2205.094 -64.415)" fill="#0ad2cf"/></svg>
-      <div class="main-computer-wrapper">
-        <div class="main-computer">
-          <img key="b" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-computer.png"/>
+      <div class="computer-video-wrapper">
+        <div class="main-computer-wrapper">
+          <div class="main-computer">
+            <img key="b" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-computer.png"/>
+          </div>
         </div>
-      </div>
-      <div id="main-video-container">
-        <!-- <video
-          autoplay
-          muted
-          loop
-          id="main-video"
-          type="video/mp4"
-          src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
-        ></video> -->
+        <div id="main-video-container">
+          <video
+            autoplay
+            muted
+            loop
+            id="main-video"
+            type="video/mp4"
+            src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
+          ></video>
+        </div>
+        <div class="main-phone-wrapper">
+          <img src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-iphone.png">
+          <div class="main-phone-video-container">
+            <video
+            autoplay
+            muted
+            loop
+            id="main-video"
+            type="video/mp4"
+            src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
+            ></video>
+          </div>
+        </div>
       </div>
       <div id="main-title" class>
         <img
@@ -26,9 +42,22 @@
           alt
           srcset
         />
-        <div class="subtitle"><p>a church engagement platform that <br> provides your church all the tools they <br> need to connect with your people <br> <br> <br> for free</p></div>
+        <div class="subtitle">
+          <p>
+            a church engagement platform that
+            <br />provides your church all the tools they
+            <br />need to connect with your people
+            <br />
+            <br />
+            <br />for free
+          </p>
+        </div>
       </div>
-      <button id="join" class="basic-button noselect" @click="openRegisterWindow">SIGN YOUR CHURCH UP</button>
+      <button
+        id="join"
+        class="basic-button noselect"
+        @click="openRegisterWindow"
+      >SIGN YOUR CHURCH UP</button>
     </div>
     <!-- <div id="problems">
       <h1>Running a church can be complicated</h1>
@@ -39,6 +68,8 @@
       </div>
     </div>-->
     <div id="showcase">
+      <svg id="showcase-blob-blue" xmlns="http://www.w3.org/2000/svg" width="437.651" height="638.846" viewBox="0 0 437.651 638.846"><path id="Path_26" data-name="Path 26" d="M-1799.247,26.738c133.671,41.491,180.581,112.137,194.117,275.41s-40.15,79.815-42.349,188.692-92.38,159.466-193.559,159.466A204.055,204.055,0,0,1-1875.9,647.1c-54.969-9.588-118.438-40.077-164.694-84.265,1.037-.757,1.037-540.443.741-540.122C-1954.6,6.395-1859.935,7.9-1799.247,26.738Z" transform="translate(-1602.945 650.306) rotate(-180)" fill="#0ad2cf"/></svg>
+      <svg id="showcase-blob-green" xmlns="http://www.w3.org/2000/svg" width="303.368" height="240.069" viewBox="0 0 303.368 240.069"><path id="Path_38" data-name="Path 38" d="M-2024.086,18.791c64.134,19.907,105.816,74.144,104.76,126.382s-76.267,172.8-124.811,172.8-113.605-7.575-115.188-67.2,35.2-71.081,35.2-134.4S-2088.22-1.116-2024.086,18.791Z" transform="translate(317.973 2159.375) rotate(90)" fill="#00e55c"/></svg>
       <h1>
         We help your
         <span
@@ -130,7 +161,7 @@
             <img
               key="e"
               v-show="selectedShowcase == 'CALENDAR'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-phone.png"
+              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
             />
 
             <img
@@ -197,7 +228,7 @@
             <img
               key="e"
               v-show="selectedFeature.title == 'Events'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-phone.png"
+              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
             />
 
             <img
@@ -209,8 +240,36 @@
         </div>
       </div>
       <div class="feature-blobs">
-        <svg id="feature-blob-1" xmlns="http://www.w3.org/2000/svg" width="206.262" height="237.114" viewBox="0 0 206.262 237.114"><path id="Path_40" data-name="Path 40" d="M135.289,299.182C199.423,279.275,241.1,225.038,240.05,172.8c-.385-19.067-10.65-47.236-25.919-75.374-.32-.773-210.033.115-211.176-.048,8.4,35.844,32.295,53.187,32.295,104.222C35.25,264.919,71.155,319.089,135.289,299.182Z" transform="translate(303.368 -2.955) rotate(90)" fill="#00e55c"/></svg>
-        <svg id="feature-blob-2" xmlns="http://www.w3.org/2000/svg" width="768.643" height="861.623" viewBox="0 0 768.643 861.623"><path id="Path_39" data-name="Path 39" d="M-2011.439,215.264c326.406,91.381,370.521,169.455,368.3,279.142s-93.068,160.653-195,160.653-525.119-145.116-528.443-270.314S-2337.844,123.883-2011.439,215.264Z" transform="translate(-982.049 -1095.401) rotate(-120)" fill="#0ad2cf"/></svg>
+        <svg
+          id="feature-blob-1"
+          xmlns="http://www.w3.org/2000/svg"
+          width="206.262"
+          height="237.114"
+          viewBox="0 0 206.262 237.114"
+        >
+          <path
+            id="Path_40"
+            data-name="Path 40"
+            d="M135.289,299.182C199.423,279.275,241.1,225.038,240.05,172.8c-.385-19.067-10.65-47.236-25.919-75.374-.32-.773-210.033.115-211.176-.048,8.4,35.844,32.295,53.187,32.295,104.222C35.25,264.919,71.155,319.089,135.289,299.182Z"
+            transform="translate(303.368 -2.955) rotate(90)"
+            fill="#00e55c"
+          />
+        </svg>
+        <svg
+          id="feature-blob-2"
+          xmlns="http://www.w3.org/2000/svg"
+          width="768.643"
+          height="861.623"
+          viewBox="0 0 768.643 861.623"
+        >
+          <path
+            id="Path_39"
+            data-name="Path 39"
+            d="M-2011.439,215.264c326.406,91.381,370.521,169.455,368.3,279.142s-93.068,160.653-195,160.653-525.119-145.116-528.443-270.314S-2337.844,123.883-2011.439,215.264Z"
+            transform="translate(-982.049 -1095.401) rotate(-120)"
+            fill="#0ad2cf"
+          />
+        </svg>
       </div>
       <div id="feature-wrapper">
         <div id="feature-description">
@@ -237,26 +296,91 @@
     </div>
     <div id="personal-simple-free">
       <div class="bars">
-        <svg id="top-squig" xmlns="http://www.w3.org/2000/svg" width="1920" height="104.06" viewBox="0 0 1920 104.06"><path  data-name="Path 45" d="M0,0S129.838-38.447,391.9-43.358,1163.1,58.864,1448.467,60.506,1920,0,1920,0V60.506H0Z" transform="translate(0 43.522)" fill="#00cec9"/></svg>
+        <svg
+          id="top-squig"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1920"
+          height="104.06"
+          viewBox="0 0 1920 104.06"
+        >
+          <path
+            data-name="Path 45"
+            d="M0,0S129.838-38.447,391.9-43.358,1163.1,58.864,1448.467,60.506,1920,0,1920,0V60.506H0Z"
+            transform="translate(0 43.522)"
+            fill="#00cec9"
+          />
+        </svg>
         <!-- <svg id="top-squig" xmlns="http://www.w3.org/2000/svg" width="1920" height="55.117" viewBox="0 0 1920 55.117">
   <path id="Path_45" data-name="Path 45" d="M0,38.428S183.21,5.434,430.663,5.434s732.435,53.43,1017.8,55.072S1920,18.632,1920,18.632V60.506H0Z" transform="translate(0 -5.434)" fill="#00cec9"/>
-</svg> -->
+        </svg>-->
 
         <div class="bar left top" id="personal">
           <h2 class="title">Personal</h2>
           <div class="description">Get to know your people as they get involved</div>
         </div>
         <div class="earth-blob">
-          <svg xmlns="http://www.w3.org/2000/svg" width="568.568" height="782.572" viewBox="0 0 568.568 782.572"><path id="Path_44" data-name="Path 44" d="M-1946.022,972.694s-237.037,31.3-270.406-44.667c-101.005-465.805-361.073-334.27-284.139-501.97,71.508-111.586,247.211-67.735,311.576-156.057,68.489-93.008,242.969-71.288,242.969-71.288Z" transform="translate(2514.59 -196.51)" fill="#00e55c"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="568.568"
+            height="782.572"
+            viewBox="0 0 568.568 782.572"
+          >
+            <path
+              id="Path_44"
+              data-name="Path 44"
+              d="M-1946.022,972.694s-237.037,31.3-270.406-44.667c-101.005-465.805-361.073-334.27-284.139-501.97,71.508-111.586,247.211-67.735,311.576-156.057,68.489-93.008,242.969-71.288,242.969-71.288Z"
+              transform="translate(2514.59 -196.51)"
+              fill="#00e55c"
+            />
+          </svg>
         </div>
         <div class="cloud1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="316.299" height="98.448" viewBox="0 0 316.299 98.448"><path id="Path_51" data-name="Path 51" d="M-221.057,3738.179c-22.271-23.92-105.58-23.1-161.669-19.8S-521.3,3741.479-518,3781.071c2.158,25.893,75.885,32.994,112.178,19.8s69.939,9.773,112.178,13.2C-171.567,3823.963-198.787,3762.1-221.057,3738.179Z" transform="translate(518.096 -3716.68)" fill="#fff"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="316.299"
+            height="98.448"
+            viewBox="0 0 316.299 98.448"
+          >
+            <path
+              id="Path_51"
+              data-name="Path 51"
+              d="M-221.057,3738.179c-22.271-23.92-105.58-23.1-161.669-19.8S-521.3,3741.479-518,3781.071c2.158,25.893,75.885,32.994,112.178,19.8s69.939,9.773,112.178,13.2C-171.567,3823.963-198.787,3762.1-221.057,3738.179Z"
+              transform="translate(518.096 -3716.68)"
+              fill="#fff"
+            />
+          </svg>
         </div>
         <div class="cloud2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="106.847" height="99.709" viewBox="0 0 106.847 99.709"><path id="Path_50" data-name="Path 50" d="M-551.277,4111.007c-62.284,5.361-96.272,29.092-99.074,45.9-3.3,19.8-39.217,59.681,82.86,53.083,5.371-.291,10.537-.745,15.672-1.368C-552.417,4207.423-550.107,4111.541-551.277,4111.007Z" transform="translate(657.788 -4111.007)" fill="#fff"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="106.847"
+            height="99.709"
+            viewBox="0 0 106.847 99.709"
+          >
+            <path
+              id="Path_50"
+              data-name="Path 50"
+              d="M-551.277,4111.007c-62.284,5.361-96.272,29.092-99.074,45.9-3.3,19.8-39.217,59.681,82.86,53.083,5.371-.291,10.537-.745,15.672-1.368C-552.417,4207.423-550.107,4111.541-551.277,4111.007Z"
+              transform="translate(657.788 -4111.007)"
+              fill="#fff"
+            />
+          </svg>
         </div>
         <div class="cloud3">
-          <svg xmlns="http://www.w3.org/2000/svg" width="356.424" height="117.486" viewBox="0 0 356.424 117.486"><path id="Path_49" data-name="Path 49" d="M-384.628,4261.418c-93.225-4.368-115.422,28.1-124.3,30.8s-130.959,5.411-75.468,43.287,153.156,51.4,199.768,37.876,141.736-11.526,141.736-12.682,1.155-67,0-68.482S-384.628,4261.418-384.628,4261.418Z" transform="translate(598.804 -4261.014)" fill="#fff"/></svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="356.424"
+            height="117.486"
+            viewBox="0 0 356.424 117.486"
+          >
+            <path
+              id="Path_49"
+              data-name="Path 49"
+              d="M-384.628,4261.418c-93.225-4.368-115.422,28.1-124.3,30.8s-130.959,5.411-75.468,43.287,153.156,51.4,199.768,37.876,141.736-11.526,141.736-12.682,1.155-67,0-68.482S-384.628,4261.418-384.628,4261.418Z"
+              transform="translate(598.804 -4261.014)"
+              fill="#fff"
+            />
+          </svg>
         </div>
         <div class="bar right" id="simple">
           <h2 class="title">Simple</h2>
@@ -266,7 +390,20 @@
           <h2 class="title">Free</h2>
           <div class="description">Get to know your people as they get involved</div>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="62.548" viewBox="0 0 1920 62.548"><path id="Path_46" data-name="Path 46" d="M0,278H1920s-493.309,62.548-973.309,62.548S0,278,0,278Z" transform="translate(0 -278)" fill="#00cec9"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1920"
+          height="62.548"
+          viewBox="0 0 1920 62.548"
+        >
+          <path
+            id="Path_46"
+            data-name="Path 46"
+            d="M0,278H1920s-493.309,62.548-973.309,62.548S0,278,0,278Z"
+            transform="translate(0 -278)"
+            fill="#00cec9"
+          />
+        </svg>
       </div>
     </div>
     <!-- <div id="pricing">
@@ -309,7 +446,11 @@
         <h4 id="together-thing">Sign your church up for the Togehter Thing &trade; today</h4>
       </div>
       <div class="buttons">
-        <button id="sign-up" class="basic-button noselect" @click="openRegisterWindow">SIGN YOUR CHURCH UP</button>
+        <button
+          id="sign-up"
+          class="basic-button noselect"
+          @click="openRegisterWindow"
+        >SIGN YOUR CHURCH UP</button>
         <div id="contact-us" class="noselect">CONTACT US</div>
       </div>
     </div>
@@ -602,7 +743,6 @@ h1 {
   /* border: 3px white solid; */
 }
 
-
 .parallax-container {
   /* transform-style: preserve-3d; */
 }
@@ -611,37 +751,62 @@ h1 {
   z-index: 600;
   transform: translateZ(1px) scale(.5) translateX(1%) translateY(-65%);
 } */
+#together-badge {
+  position: absolute;
+  height: 70px;
+  margin-left: 13vw;
+  top: 50px;
+}
 #video-board {
   position: relative;
+  height: 110vh;
+  /* overflow: hidden; */
 }
-#main-video-container {
-  /* width: 100vw; */
+.computer-video-wrapper {
   position: relative;
-  height: 100vh;
-  overflow: hidden;
+  left: 43vw;
+  top: 200px;
 }
 .main-computer-wrapper {
   display: flex;
-  position: relative;
-  height: 500px;
+  position: absolute;
+  height: 438px;
 }
 .main-computer img {
   height: 100%;
   z-index: 100;
 }
-#main-video {
-  /* min-width: 100vmin;
-  min-height: 100vmin; */
-  max-height: 177vmax;
-  max-width: 177vmax;
-  width: auto;
-  height: auto;
-
+#main-video-container {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 0;
+  z-index: -1;
+  overflow: hidden;
+  height: 363px;
+  width: 625px;
+  top: 27px;
+  left: 74px;
+}
+#main-video {
+  height: 100%;
+}
+.main-phone-wrapper img {
+  height: 100%;
+}
+.main-phone-wrapper {
+  position: absolute;
+  height: 350px;
+  left: 560px;
+  top: 250px;
+  z-index: 400;
+}
+.main-phone-video-container {
+  position: absolute;
+  z-index: -1;
+  left: 12%;
+  width: 83%;
+  top: 2%;
+  height: 96%;
+  overflow: hidden;
+  border-radius: 10px;
 }
 #scribble-circle {
   position: absolute;
@@ -658,28 +823,28 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-  transform: scale(.85) translate(-9%,-9%);
+  transform: scale(0.85) translate(-11%, -9%);
   z-index: -1;
+  height: 100%;
 }
 #main-title {
   position: absolute;
   top: 0;
-  margin-top: 30vh;
-  margin-left: 13vw;
+  top: 320px;
+  left: 13vw;
 }
 #main-title h1 {
-  
 }
 .subtitle {
   margin-left: 10px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
-  line-height: 2rem;
+  line-height: 1.5rem;
   color: white;
 }
 #together {
-  height: 70px;
-  margin-bottom: 10px;
+  height: 60px;
+  margin-bottom: 15px;
 }
 #join {
   position: absolute;
@@ -688,7 +853,7 @@ h1 {
   margin-top: 85vh;
   font-size: 22px;
   font-weight: 600;
-  box-shadow: 0px 5px 13px -2px #00000040
+  box-shadow: 0px 5px 13px -2px #00000040;
 }
 /* #join{
   margin: 10px auto;
@@ -927,6 +1092,18 @@ h1 {
   height: 100%;
   position: absolute;
 }
+#showcase-blob-blue {
+  position: absolute;
+  transform: scale(0.9) translate(10%, 10%);
+  right: 0;
+  top: -150px;
+}
+#showcase-blob-green {
+  position: absolute;
+  transform: scale(0.9) translate(10%, 10%);
+  left: 20px;
+  top: -120px;
+}
 #showcase .phones .phone-1 {
   /* max-height: 40vh;
   width: auto;
@@ -1027,8 +1204,6 @@ h1 {
 }
 
 #features {
-  border-top: 40px #f1f1f1 solid;
-  border-bottom: 40px #f1f1f1 solid;
 
   min-height: 100vh;
   position: relative;
@@ -1057,21 +1232,21 @@ h1 {
   height: 100%;
 }
 .feature-blobs {
-  position: relative
+  position: relative;
 }
 #feature-blob-1 {
   z-index: -1;
   position: absolute;
   right: 0;
   top: 200px;
-  transform: scale(.9) translate(10%,0);
+  transform: scale(0.9) translate(10%, 0);
 }
 #feature-blob-2 {
   z-index: -1;
   position: absolute;
   left: -110px;
   top: -300px;
-  transform: scale(.85);
+  transform: scale(0.85);
 }
 #feature-description {
   width: 90vw;
@@ -1172,7 +1347,7 @@ h1 {
   z-index: 100;
   vertical-align: right;
   bottom: 80px;
-  transform: scale(.75) translate(25%,0);
+  transform: scale(0.75) translate(25%, 0);
   right: 0;
 }
 .cloud1 {
@@ -1180,7 +1355,7 @@ h1 {
   z-index: 100;
   vertical-align: right;
   bottom: 550px;
-  transform: scale(.75);
+  transform: scale(0.75);
   right: 0;
 }
 .cloud2 {
@@ -1188,7 +1363,7 @@ h1 {
   z-index: 160;
   vertical-align: right;
   bottom: 300px;
-  transform: scale(.75) translate(25%,0);
+  transform: scale(0.75) translate(25%, 0);
   right: 0;
 }
 .cloud3 {
@@ -1196,7 +1371,7 @@ h1 {
   z-index: 160;
   vertical-align: right;
   bottom: 160px;
-  transform: scale(.75) translate(25%,0);
+  transform: scale(0.75) translate(25%, 0);
   right: 0;
 }
 #personal-simple-free #top-squig {
