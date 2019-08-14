@@ -1,26 +1,57 @@
 <template>
   <div id="splash-container">
     <register-church ref="register"></register-church>
+    <router-link to="login" id="login">LOGIN</router-link>
     <div id="video-board">
-      <div class="stuff-container">
+      <div id="main-left-panel">
         <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png">
-      <router-link to="login" id="login">LOGIN</router-link>
-      <svg id="main-blob" xmlns="http://www.w3.org/2000/svg" width="1067.589" height="1044.218" viewBox="0 0 1067.589 1044.218"><path id="Path_25" data-name="Path 25" d="M-1414.081,65.147c172.7,74.657,237.793,198.227,258.3,445.549,23.247,280.41-68.954,137.076-72.732,324.065s-158.657,273.872-332.424,273.872-447.639-158.657-453.306-372.089c-4.4-165.835-169.213-256.077-190.392-344.012s-18.594-158.588-.455-210.129,98.285-89.822,176.867-117.988C-2027.524,64.453-1412.6,65.342-1414.081,65.147Z" transform="translate(2219.621 -64.415)" fill="#0ad2cf"/></svg>
+        <!-- <svg id="main-blob" xmlns="http://www.w3.org/2000/svg" width="1067.589" height="1044.218" viewBox="0 0 1067.589 1044.218">
+          <path id="Path_25" data-name="Path 25" d="M-1414.081,65.147c172.7,74.657,237.793,198.227,258.3,445.549,23.247,280.41-68.954,137.076-72.732,324.065s-158.657,273.872-332.424,273.872-447.639-158.657-453.306-372.089c-4.4-165.835-169.213-256.077-190.392-344.012s-18.594-158.588-.455-210.129,98.285-89.822,176.867-117.988C-2027.524,64.453-1412.6,65.342-1414.081,65.147Z" transform="translate(2219.621 -64.415)" fill="#0ad2cf"/>
+        </svg> -->
+        <svg xmlns="http://www.w3.org/2000/svg"  id="main-blob"  width="841.029" height="857.742" viewBox="0 0 841.029 857.742">
+          <path id="Path_52" data-name="Path 52" d="M-1585.03,55.53c136.05,58.814,187.329,156.16,203.482,351,18.313,220.9-54.321,107.987-57.3,255.293s-124.988,215.752-261.879,215.752-352.643-124.987-357.107-293.125c-3.468-130.642-133.3-201.733-149.988-271.007s-14.648-124.933-.359-165.536,87.225-81.955,150.346-105.1S-1917.983,19.7-1799.4,19.853C-1676.022,20.016-1584.435,55.608-1585.03,55.53Z" transform="translate(2219.621 -19.829)" fill="#0ad2cf"/>
+        </svg>
+
+
+        <div id="main-title" class>
+          <img
+            id="together"
+            src="https://togethercdn.global.ssl.fastly.net/website_title.png"
+            alt
+            srcset
+          />
+          <div class="subtitle">
+            <p>
+              a church engagement platform that
+              <br />provides your church all the tools they
+              <br />need to connect with your people
+              <br />
+              <br />
+              <br />for free
+            </p>
+          </div>
+        </div>        
+        <button
+          id="join"
+          class="basic-button noselect"
+          @click="openRegisterWindow"
+        >SIGN YOUR CHURCH UP</button>
+      </div>
       <div class="computer-video-wrapper">
         <div class="main-computer-wrapper">
           <div class="main-computer">
             <img key="b" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-computer.png"/>
+          </div>          
+          <div id="main-video-container">
+            <video
+              autoplay
+              muted
+              loop
+              id="main-video"
+              type="video/mp4"
+              src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
+            ></video>
           </div>
-        </div>
-        <div id="main-video-container">
-          <video
-            autoplay
-            muted
-            loop
-            id="main-video"
-            type="video/mp4"
-            src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
-          ></video>
         </div>
         <div class="main-phone-wrapper">
           <img src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-iphone.png">
@@ -36,31 +67,6 @@
           </div>
         </div>
       </div>
-      <div id="main-title" class>
-        <img
-          id="together"
-          src="https://togethercdn.global.ssl.fastly.net/website_title.png"
-          alt
-          srcset
-        />
-        <div class="subtitle">
-          <p>
-            a church engagement platform that
-            <br />provides your church all the tools they
-            <br />need to connect with your people
-            <br />
-            <br />
-            <br />for free
-          </p>
-        </div>
-      </div>
-      <button
-        id="join"
-        class="basic-button noselect"
-        @click="openRegisterWindow"
-      >SIGN YOUR CHURCH UP</button>
-      </div>
-      
     </div>
     <!-- <div id="problems">
       <h1>Running a church can be complicated</h1>
@@ -446,7 +452,7 @@
     <div id="get-started">
       <div class="texts">
         <h1 id="get-started-header">Get Started Today</h1>
-        <h4 id="together-thing">Sign your church up for the Together Thing &trade; today</h4>
+        <h4 id="together-thing">Sign your church up for the Togehter Thing &trade; today</h4>
       </div>
       <div class="buttons">
         <button
@@ -733,7 +739,6 @@ h1 {
 #login {
   padding: 7.5px 15px;
   text-align: center;
-  font-weight: 600;
   cursor: pointer;
   background: #00cec9;
   color: white;
@@ -744,7 +749,6 @@ h1 {
   text-decoration: none;
   border-radius: 25px;
   border: 5px #00cec9 solid;
-  box-shadow: 0px 5px 13px -2px #00000040;
   /* border: 3px white solid; */
 }
 
@@ -759,84 +763,31 @@ h1 {
 #together-badge {
   position: absolute;
   height: 70px;
-  left: 200px;
   top: 50px;
 }
 #video-board {
   position: relative;
   height: 110vh;
-  margin: 0 8vw;
+  /* overflow: hidden; */
 }
-.computer-video-wrapper {
+#main-left-panel {
+  margin-left: 10vw;
   position: relative;
-  left: 650px;
-  top: 200px;
-}
-.main-computer-wrapper {
-  display: flex;
-  position: absolute;
-  height: 438px;
-}
-.main-computer img {
-  height: 100%;
-  z-index: 100;
-}
-#main-video-container {
-  position: absolute;
-  z-index: -1;
-  overflow: hidden;
-  height: 363px;
-  width: 625px;
-  top: 27px;
-  left: 74px;
-}
-#main-video {
-  height: 100%;
-}
-.main-phone-wrapper img {
-  height: 100%;
-}
-.main-phone-wrapper {
-  position: absolute;
-  height: 350px;
-  left: 560px;
-  top: 250px;
-  z-index: 400;
-}
-.main-phone-video-container {
-  position: absolute;
-  z-index: -1;
-  left: 12%;
-  width: 83%;
-  top: 2%;
-  height: 96%;
-  overflow: hidden;
-  border-radius: 10px;
-}
-#scribble-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  top: 45vh;
-  width: 600px;
-  height: 300px;
-  pointer-events: none;
-  /* mix-blend-mode: difference; */
+  z-index: 50;
 }
 #main-blob {
   position: absolute;
-  top: 0;
-  left: 0;
-  transform: scale(0.85) translate(-14%, -9%);
-  z-index: -1;
-  height: 100%;
+  top: -100px;
+  left: -200px;
+  z-index: -1;  
+  height: 1000px;
 }
 #main-title {
   position: absolute;
   top: 0;
-  top: 320px;
-  left: 200px;
+  top: 40vh;
+}
+#main-title h1 {
 }
 .subtitle {
   margin-left: 10px;
@@ -852,11 +803,74 @@ h1 {
 #join {
   position: absolute;
   top: 0;
-  left: 200px;
   margin-top: 85vh;
   font-size: 22px;
   font-weight: 600;
   box-shadow: 0px 5px 13px -2px #00000040;
+}
+.computer-video-wrapper {
+  position: relative;
+  left: 45vw;
+  top: calc(65vh + 10vw);
+  transform: translateY(-50%);
+  z-index: 100;
+}
+.main-computer-wrapper {
+  position: absolute;
+  height: 30vw;
+  bottom: 0px;
+}
+.main-computer {
+  height: 100%;
+  width: auto;
+}
+.main-computer img {
+  height: 100%;
+  z-index: 100;
+}
+#main-video-container {
+  position: absolute;
+  z-index: -1;
+  overflow: hidden;
+  left: 12%;
+  top: 5%;
+  bottom: 10%;
+  width: 78%;
+}
+#main-video {
+  height: 100%;
+}
+.main-phone-wrapper img {
+  height: 100%;
+}
+.main-phone-wrapper {
+  position: absolute;
+  bottom: 0px;
+  height: 20vw;
+  z-index: 400;
+  left: 35vw;
+  margin-left: 50px;
+}
+.main-phone-video-container {
+  position: absolute;
+  z-index: -1;
+  left: 12%;
+  width: 85%;
+  top: 2%;
+  height: 96%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+#scribble-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 45vh;
+  width: 600px;
+  height: 300px;
+  pointer-events: none;
+  /* mix-blend-mode: difference; */
 }
 /* #join{
   margin: 10px auto;
@@ -1102,8 +1116,8 @@ h1 {
   top: -150px;
 }
 #showcase-blob-green {
-  position: absolute;
   z-index: -1;
+  position: absolute;
   transform: scale(0.9) translate(10%, 10%);
   left: 20px;
   top: -120px;
@@ -1208,7 +1222,6 @@ h1 {
 }
 
 #features {
-
   min-height: 100vh;
   position: relative;
 }
@@ -1227,7 +1240,7 @@ h1 {
   height: 350px;
 
   position: absolute;
-  left: 200px;
+  left: calc(12vw);
   bottom: 36vh;
   /* bottom: calc(10vh + 26px); */
   z-index: 300;
@@ -1258,7 +1271,7 @@ h1 {
   font-size: 25px;
 }
 #feature-description h3 {
-  padding-left: 470px;
+  padding-left: 28vw;
   color: black;
   font-size: 55px;
   font-weight: 600;
@@ -1268,7 +1281,7 @@ h1 {
   font-weight: 400;
 }
 #feature-description .description {
-  padding: 5px 0vw 0px 470px;
+  padding: 5px 0vw 0px 28vw;
   line-height: 2rem;
   /* text-align: center; */
 }
@@ -1578,30 +1591,58 @@ input[type="number"]::-webkit-outer-spin-button {
    768-480     - tablet 
    480-less    - phone landscape & smaller
 --------------------------------------------*/
-@media all and (min-width: 1024px) and (max-width: 1280px) {
-}
-
-@media all and (min-width: 768px) and (max-width: 1024px) {
-}
-
-@media all and (min-width: 480px) and (max-width: 768px) {
-}
 @media all and (max-width: 768px) {
-  #splash-container {
-    overflow-x: hidden;
-    overflow-y: visible;
+  #main-left-panel {
+    margin-left: 0;
   }
-  #main-video {
-    display: none;
+  #together-badge {
+    height: 15vw;
+    max-height: 75px;
+    left: 50vw;
+    transform: translateX(-50%);
   }
-  #main-title h1 {
-    color: black;
+  .main-phone-wrapper {
+    margin-left: 0;
+    height: 125px;
   }
-  #main-title #together {
-    filter: invert(100%);
+  #login {
+    background: none;
+    border: none;
+    font-weight: 600;
+    text-shadow: 0px 1px 6px #0000002c
   }
-}
-
-@media all and (max-width: 480px) {
+  #main-title {
+    top: 125px;
+    left: 50vw;
+    transform: translateX(-50%);
+  }
+  #main-blob {
+    top: -200px;
+    left: 50vw;
+    transform: translateX(-50%);
+  }
+  #together {
+    height: 10vw;
+    margin-bottom: 5vw;
+    max-height: 50px;
+  }
+  .subtitle {
+    font-size: 12px;
+    line-height: 1.2rem;
+    font-weight: 600;
+  }
+  .computer-video-wrapper {
+    left: 11vw;
+    top: 508px;
+  }
+  .main-computer-wrapper {
+    height: 175px;
+    bottom: 0;
+  }
+  #join {
+    font-size: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 </style>
