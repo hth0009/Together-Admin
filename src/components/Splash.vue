@@ -1,10 +1,11 @@
 <template>
   <div id="splash-container">
     <register-church ref="register"></register-church>
-    <router-link to="login" id="login">LOGIN</router-link>
     <div id="video-board">
-      <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png">
-      <svg id="main-blob" xmlns="http://www.w3.org/2000/svg" width="1053.062" height="1044.218" viewBox="0 0 1053.062 1044.218"><path id="Path_25" data-name="Path 25" d="M-1414.081,65.147c172.7,74.657,237.793,198.227,258.3,445.549,23.247,280.41-68.954,137.076-72.732,324.065s-158.657,273.872-332.424,273.872-447.639-158.657-453.306-372.089c-4.4-165.835-133.1-221.062-190.392-344.012-.609,1.6.28-208.116-.455-210.129,33.888-50.5,98.285-89.822,176.867-117.988C-2027.524,64.453-1412.6,65.342-1414.081,65.147Z" transform="translate(2205.094 -64.415)" fill="#0ad2cf"/></svg>
+      <div class="stuff-container">
+        <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png">
+      <router-link to="login" id="login">LOGIN</router-link>
+      <svg id="main-blob" xmlns="http://www.w3.org/2000/svg" width="1067.589" height="1044.218" viewBox="0 0 1067.589 1044.218"><path id="Path_25" data-name="Path 25" d="M-1414.081,65.147c172.7,74.657,237.793,198.227,258.3,445.549,23.247,280.41-68.954,137.076-72.732,324.065s-158.657,273.872-332.424,273.872-447.639-158.657-453.306-372.089c-4.4-165.835-169.213-256.077-190.392-344.012s-18.594-158.588-.455-210.129,98.285-89.822,176.867-117.988C-2027.524,64.453-1412.6,65.342-1414.081,65.147Z" transform="translate(2219.621 -64.415)" fill="#0ad2cf"/></svg>
       <div class="computer-video-wrapper">
         <div class="main-computer-wrapper">
           <div class="main-computer">
@@ -58,6 +59,8 @@
         class="basic-button noselect"
         @click="openRegisterWindow"
       >SIGN YOUR CHURCH UP</button>
+      </div>
+      
     </div>
     <!-- <div id="problems">
       <h1>Running a church can be complicated</h1>
@@ -443,7 +446,7 @@
     <div id="get-started">
       <div class="texts">
         <h1 id="get-started-header">Get Started Today</h1>
-        <h4 id="together-thing">Sign your church up for the Togehter Thing &trade; today</h4>
+        <h4 id="together-thing">Sign your church up for the Together Thing &trade; today</h4>
       </div>
       <div class="buttons">
         <button
@@ -730,6 +733,7 @@ h1 {
 #login {
   padding: 7.5px 15px;
   text-align: center;
+  font-weight: 600;
   cursor: pointer;
   background: #00cec9;
   color: white;
@@ -740,6 +744,7 @@ h1 {
   text-decoration: none;
   border-radius: 25px;
   border: 5px #00cec9 solid;
+  box-shadow: 0px 5px 13px -2px #00000040;
   /* border: 3px white solid; */
 }
 
@@ -754,17 +759,17 @@ h1 {
 #together-badge {
   position: absolute;
   height: 70px;
-  margin-left: 13vw;
+  left: 200px;
   top: 50px;
 }
 #video-board {
   position: relative;
   height: 110vh;
-  /* overflow: hidden; */
+  margin: 0 8vw;
 }
 .computer-video-wrapper {
   position: relative;
-  left: 43vw;
+  left: 650px;
   top: 200px;
 }
 .main-computer-wrapper {
@@ -823,7 +828,7 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-  transform: scale(0.85) translate(-11%, -9%);
+  transform: scale(0.85) translate(-14%, -9%);
   z-index: -1;
   height: 100%;
 }
@@ -831,9 +836,7 @@ h1 {
   position: absolute;
   top: 0;
   top: 320px;
-  left: 13vw;
-}
-#main-title h1 {
+  left: 200px;
 }
 .subtitle {
   margin-left: 10px;
@@ -849,7 +852,7 @@ h1 {
 #join {
   position: absolute;
   top: 0;
-  margin-left: 13vw;
+  left: 200px;
   margin-top: 85vh;
   font-size: 22px;
   font-weight: 600;
@@ -1100,6 +1103,7 @@ h1 {
 }
 #showcase-blob-green {
   position: absolute;
+  z-index: -1;
   transform: scale(0.9) translate(10%, 10%);
   left: 20px;
   top: -120px;
@@ -1223,7 +1227,7 @@ h1 {
   height: 350px;
 
   position: absolute;
-  left: calc(12vw);
+  left: 200px;
   bottom: 36vh;
   /* bottom: calc(10vh + 26px); */
   z-index: 300;
@@ -1254,7 +1258,7 @@ h1 {
   font-size: 25px;
 }
 #feature-description h3 {
-  padding-left: 28vw;
+  padding-left: 470px;
   color: black;
   font-size: 55px;
   font-weight: 600;
@@ -1264,7 +1268,7 @@ h1 {
   font-weight: 400;
 }
 #feature-description .description {
-  padding: 5px 0vw 0px 28vw;
+  padding: 5px 0vw 0px 470px;
   line-height: 2rem;
   /* text-align: center; */
 }
