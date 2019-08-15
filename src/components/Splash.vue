@@ -23,8 +23,8 @@
           <div class="subtitle">
             <p>
               a church engagement platform that
-              <br />provides your church all the tools they
-              <br />need to connect with your people
+              provides your church all the tools they
+              need to connect with your people
               <br />
               <br />
               <br />for free
@@ -1591,7 +1591,7 @@ input[type="number"]::-webkit-outer-spin-button {
    768-480     - tablet 
    480-less    - phone landscape & smaller
 --------------------------------------------*/
-@media all and (max-width: 768px) {
+@media all and (max-width: 425px) {
   #main-left-panel {
     margin-left: 0;
   }
@@ -1627,7 +1627,7 @@ input[type="number"]::-webkit-outer-spin-button {
     max-height: 50px;
   }
   .subtitle {
-    font-size: 12px;
+    font-size: 15px;
     line-height: 1.2rem;
     font-weight: 600;
   }
@@ -1643,6 +1643,45 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 12px;
     left: 50%;
     transform: translateX(-50%);
+  }
+  .earth-blob {
+    bottom: -120px;
+    transform: scale(0.3) translate(118%, 0);
+  }
+  .cloud1 {
+    bottom: 295px;
+    transform: scale(0.3);
+    right: -60px;
+  }
+  .cloud2 {
+    bottom: 168px;
+    transform: scale(0.3) translate(117%, 0);
+  }
+  .cloud3 {
+    bottom: 120px;
+    transform: scale(0.3) translate(117%, 0);
+  }
+  #personal-simple-free .bars .title {
+    font-size: 1.35rem;
+  }
+  #personal-simple-free .bars .bar {
+    padding: 17px 10vw;
+  }
+  #personal-simple-free .bars .description {
+    font-size: .8rem;
+    width: 72%;
+  }
+  #personal-simple-free .bar.right .description{
+    margin-left: 0;
+    width: 75%;
+    padding-left: 25%;
+  }
+  #simple {
+    margin: 14px 0;
+  }
+  #personal-simple-free #top-squig {
+    width: 168%;
+    top: 92px;
   }
 }
 </style>
