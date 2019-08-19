@@ -400,6 +400,7 @@
           <div class="description">Get to know your people as they get involved</div>
         </div>
         <svg
+          id="bottom-squig"
           xmlns="http://www.w3.org/2000/svg"
           width="1920"
           height="62.548"
@@ -1434,7 +1435,6 @@ h1 {
   text-align: right;
   margin-left: calc(60vw - 510px);
 }
-
 #pricing {
   background: #00cec9;
 
@@ -1575,6 +1575,7 @@ input[type="number"]::-webkit-outer-spin-button {
   padding: 15px 25px;
 }
 #contact-us {
+  font-weight: 600;
   margin-top: 30px;
   color: #00cec9;
   text-shadow: none;
@@ -1644,22 +1645,119 @@ input[type="number"]::-webkit-outer-spin-button {
     left: 50%;
     transform: translateX(-50%);
   }
+  #showcase {
+    height: 70vh;
+  }
+  #showcase-blob-blue {
+    transform: scale(0.3) translate(117%, 35%);
+    top: -150px;
+  }
+  #showcase-blob-green {
+    transform: scale(0.3) translate(-175%, -40%);
+    top: -120px;
+    left: 20px;
+  }
+  #showcase h1 {
+    text-align: right;
+    width: 96%;
+    right: 12px;
+    font-size: 1.6rem;
+    position: absolute;
+    margin-right: 4vw;
+  }
+  .showcase-item-title {
+    visibility: hidden;
+  }
+  #showcase .computer-cutout-wrapper {
+    height: 175px;
+    left: 50vw;
+    bottom: 24vh;
+  }
+  #showcase .phone-cutout-wrapper {
+    height: 125px;
+    left: calc(12vw + 220px);
+    bottom: 24vh;
+  }
+  .phone-2-cutout {
+    left: 32px;
+  }
+  #showcase .toggle {
+    top: 72%;
+    flex-direction: row;
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    left: 45vw;
+  }
+  #features h1 {
+    font-weight: 600;
+    font-size: 22px;
+  }
+  .features-phone-wrapper {
+    height: 145px;
+    left: calc(4vw);
+    bottom: 304px;
+  }
+  #feature-description {
+    width: 92vw;
+    height: 210px;
+    font-size: 12px;
+  }
+  #feature-description h3 {
+    padding-left: 30vw;
+    font-size: 21px;
+    font-weight: 600;
+  }
+  #feature-description .description {
+    padding: 5px 0 0 30vw;
+    line-height: 1.15rem;
+  }
+  #feature-grid {
+    padding: 50px 12vw;
+  }
+  #feature-grid .feature {
+    padding: 14px;
+    width: 8vw;
+    height: 8vw;
+    margin: 4px;
+  }
+  #feature-grid .feature i {
+    font-size: 1rem;
+  }
+  #feature-grid .feature .title {
+    font-size: 0.5rem;
+  }
+  #feature-blob-1 {
+    top: 120px;
+    transform: scale(0.3) translate(115%, 0);
+  }
+  #feature-blob-2 {
+    left: -352px;
+    top: -326px;
+    transform: scale(0.35);
+  }
   .earth-blob {
-    bottom: -120px;
+    bottom: -162px;
     transform: scale(0.3) translate(118%, 0);
   }
   .cloud1 {
-    bottom: 295px;
+    bottom: 240px;
     transform: scale(0.3);
     right: -60px;
   }
   .cloud2 {
-    bottom: 168px;
+    bottom: 115px;
     transform: scale(0.3) translate(117%, 0);
   }
   .cloud3 {
-    bottom: 120px;
+    bottom: 60px;
     transform: scale(0.3) translate(117%, 0);
+  }
+  #bottom-squig {
+    width: 120%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 14px;
   }
   #personal-simple-free .bars .title {
     font-size: 1.35rem;
@@ -1682,6 +1780,35 @@ input[type="number"]::-webkit-outer-spin-button {
   #personal-simple-free #top-squig {
     width: 168%;
     top: 92px;
+  }
+  #get-started {
+    height: 67vh;
+    bottom: 45px;
+  }
+  #get-started-header {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+  #together-thing {
+    font-size: .9rem;
+    text-align: left;
+  }
+  .texts {
+    width: 80%;
+    margin-left: 30px;
+  }
+  .buttons {
+    text-align: left;
+    margin-left: 22px
+  }
+  #sign-up {
+    font-size: 16px;
+    padding: 10px 14px;
+    margin-top: 5vh;
+  }
+  #contact-us {
+    margin-left: 14px;
+    margin-top: 12px;
   }
 }
 </style>
