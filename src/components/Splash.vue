@@ -1,8 +1,8 @@
 <template>
   <div id="splash-container">
     <register-church ref="register"></register-church>
-    <router-link to="login" id="login">LOGIN</router-link>
     <div id="video-board">
+      <router-link to="login" id="login">LOGIN</router-link>
       <div id="main-left-panel">
         <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png">
         <!-- <svg id="main-blob" xmlns="http://www.w3.org/2000/svg" width="1067.589" height="1044.218" viewBox="0 0 1067.589 1044.218">
@@ -1604,7 +1604,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
   .main-phone-wrapper {
     margin-left: 0;
-    height: 125px;
+    height: 35vw;
   }
   #login {
     background: none;
@@ -1620,7 +1620,7 @@ input[type="number"]::-webkit-outer-spin-button {
   #main-blob {
     top: -200px;
     left: 50vw;
-    transform: translateX(-50%);
+    transform: scale(0.8) translateX(-50%);
   }
   #together {
     height: 10vw;
@@ -1634,10 +1634,10 @@ input[type="number"]::-webkit-outer-spin-button {
   }
   .computer-video-wrapper {
     left: 11vw;
-    top: 508px;
+    top: 78vh;
   }
   .main-computer-wrapper {
-    height: 175px;
+    height: 46vw;
     bottom: 0;
   }
   #join {
@@ -1646,24 +1646,26 @@ input[type="number"]::-webkit-outer-spin-button {
     transform: translateX(-50%);
   }
   #showcase {
-    height: 70vh;
+    height: 52vh;
   }
   #showcase-blob-blue {
     transform: scale(0.3) translate(117%, 35%);
-    top: -150px;
+    top: -31vh;
   }
   #showcase-blob-green {
     transform: scale(0.3) translate(-175%, -40%);
-    top: -120px;
+    top: -30vh;
     left: 20px;
   }
   #showcase h1 {
     text-align: right;
-    width: 96%;
+    width: 80%;
     right: 12px;
     font-size: 1.6rem;
     position: absolute;
+    color: black;
     margin-right: 4vw;
+    top: -15%;
   }
   .showcase-item-title {
     visibility: hidden;
@@ -1671,22 +1673,33 @@ input[type="number"]::-webkit-outer-spin-button {
   #showcase .computer-cutout-wrapper {
     height: 175px;
     left: 50vw;
-    bottom: 24vh;
+    bottom: 12vh;
   }
   #showcase .phone-cutout-wrapper {
     height: 125px;
     left: calc(12vw + 220px);
-    bottom: 24vh;
+    bottom: 12vh;
   }
   .phone-2-cutout {
     left: 32px;
   }
   #showcase .toggle {
-    top: 72%;
+    top: 82%;
     flex-direction: row;
     -webkit-transform: translate(0, 0);
     transform: translate(0, 0);
     left: 45vw;
+  }
+  #showcase .toggle .material-icons {
+    display: none;
+  }
+  #showcase .toggle button {
+    padding: 1px 12px;
+    color: black;
+    font-weight: 600;
+  }
+  #showcase .toggle button.selected {
+    border-radius: 50px;
   }
   #features h1 {
     font-weight: 600;
