@@ -16,6 +16,6 @@ export default() => {
     return store.dispatch('checkLogin').then(() => {
       return config
     })
-  });
+  })
   return API
 }

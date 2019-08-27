@@ -25,6 +25,10 @@ import { RichTextEditorPlugin } from "@syncfusion/ej2-vue-richtexteditor"
 
 // import { TabPlugin } from '@syncfusion/ej2-vue-navigations'
 
+// import BootstrapVue from 'bootstrap-vue'
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 /* ///////////////////////
 ///////SYNC FUSION////////
 /////////////////////// */
@@ -49,6 +53,8 @@ Vue.use(RichTextEditorPlugin)
 /* ///////////////////////
 ///////////OTHER//////////
 /////////////////////// */
+
+// Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 Vue.use(VuejsClipper)

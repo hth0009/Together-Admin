@@ -30,9 +30,21 @@ h6 {
 }
 
 label {
-  font-size: 1rem;
+  font-size: .9rem;
   font-weight: 500;
   color: #6b6b6b;
+  display: inline-block;
+  margin-bottom: .3rem;
+}
+
+.gs-padding {
+  padding: 25px;
+}
+
+.gs-medium-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: 1rem;
 }
 
 .gs-white-overlay-background-tranparent {  
@@ -63,13 +75,15 @@ label {
     top: -130%
   }
 }
-
 .gs-card-with-shadow {
   border-radius: 10px;
   padding: 25px;
   margin: 15px 12px;
   box-shadow: 0px 5px 13px -2px #00000040;
   background: white;
+}
+.gs-card-with-shadow.no-padding {
+  padding: 0px;
 }
 .gs-card-rise {
   /* ANIMATION */
@@ -116,6 +130,10 @@ label {
 .gs-container.center-horizontal {
   flex-direction: row;
   justify-content: center;
+}
+.gs-container.center-vertical {
+  flex-direction: column;
+  align-items: center;
 }
 
 .gs-basic-button {
@@ -194,4 +212,32 @@ font-size: 20px;
 }
 .gs-basic-button:active {    
   box-shadow: 0px 2px 3px -3px rgba(128, 128, 128, 0.507);
+}
+
+.gs-form-group {
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+.gs-basic-input {
+  background: white;
+  outline: none;  
+  width: 100%;
+  padding: .45rem .7rem;
+  font-size: .9rem;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  resize: none;
+  border: 1px #d4d4d4 solid;
+  border-radius: 5px;
+  display: block;
+  box-sizing: border-box
+}
+
+.gs-basic-input.large {
+  font-size: 1.1rem;
+}
+
+.basic-input::placeholder {
+  color: #7e7e7e;
 }

@@ -1,69 +1,150 @@
 <template>
-  <div class="this-sunday-container">
-      <div class="new-item">
-        <div class="title">This Sunday</div>
-        <div class="details">
-          <div class="profile-pic"></div>
-          <div>
-            <ejs-textbox floatLabelType="Auto" placeholder="Name"
-            required name="none"></ejs-textbox>
-          </div>
-          <div>
-            <ejs-textbox floatLabelType="Auto" placeholder="Description"
-            required name="none"></ejs-textbox>
-          </div>
-          <div class="type">            
-            <custom-radio v-model="newItemType" :options="['public', 'private', 'anonymous']"></custom-radio>
-          </div>
-          <div class="detailed public" v-if="newItemType == 0">
-            <div class="section">
-              Leader
-            </div>
-              <ejs-dropdownlist
-                :dataSource='formatedPeople' 
-                :fields="{ value: 'name'}"
-                floatLabelType="Auto" 
-                :placeholder='"Select Leader"'
-                :allowFiltering="true"
-                :select="assignMember"></ejs-dropdownlist>
-            <div>
-              <ejs-textbox floatLabelType="Auto" placeholder="Address"
-              name="none"></ejs-textbox>
-            </div>
-            <div>
-              <ejs-textbox floatLabelType="Auto" placeholder="Location Description"
-              name="none"></ejs-textbox>
-            </div>
-            <ejs-recurrenceeditor id='editor' ref="EditorObj" :selectedType='selectedType' :change="onChange"></ejs-recurrenceeditor>
-            <image-uploader field="img"
-              v-model="uploadingPhoto"
-              :width="300"
-              :height="300"
-              url="/upload"
-              lang-type="en"
-              :params="{}"
-              :headers="{}"
-              :noSquare="true"
-              img-format="png"></image-uploader>
-          </div>
+  <div id="this-sunday-container">
+    <div class="page-wrapper">    
+      <div class="page-card-wrapper">              
+          <cards
+            :loading="true"
+            :cardList="[]"
+            :cardSelectable="false"
+            :profilePicFillerValue="'name'"
+            :emptyMessage="'Not in any teams'"
+            :alphabetical="true"
+            :fields="{
+              title: 'name',
+              id: 'id',
+              profile: 'teamImageThumbnailURL'
+            }"
+          />
+      </div>
+      <div class="selected-view" id="selected-view" >
+        <div class="header">
+          <h3>Sunday</h3>
         </div>
-        <div class="footer">
-          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
-          <button class="basic-button green">CREATE</button>
+        <div class="details">
+          <div class="panel">
+            <div class="image-croppa">
+              <croppa v-model="photoCroppa"
+                canvas-color="transparent"
+                :disable-rotation="true"
+                :prevent-white-space="true"
+                :width="250"
+                :height="250"
+                :speed="10"
+              ></croppa>
+            </div>      
+            <form action="" class="" id="this-sunday-form">
+              <div class="gs-form-group">
+                <label for="">Title</label>        
+                <input type="text" class="gs-basic-input large" placeholder="Title" required>
+              </div>
+              <div class="gs-form-group">
+                <label for="">Date</label>          
+                <flat-pickr v-model="date" class="gs-basic-input" :config="datePickerConfig"></flat-pickr>
+              </div>
+              <div class="gs-form-group">
+                <label for="">Times</label>        
+                <input type="text" class="gs-basic-input" placeholder="Times (8:30 AM, 10:00 AM)" required>
+              </div>
+              <div class="gs-form-group">
+                <label for="">Speaker</label>        
+                <input type="text" class="gs-basic-input" placeholder="Times (8:30 AM, 10:00 AM)" required>
+              </div>
+              <div class="gs-form-group">
+                <label for="">Description</label>        
+                <textarea type="text" class="gs-basic-input" placeholder="Times (8:30 AM, 10:00 AM)" rows="10" required></textarea>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
+    </div>
+    <!-- <div class="sunday-info gs-card-with-shadow no-padding">
+      <div class="image-croppa">
+        <croppa v-model="photoCroppa"
+          canvas-color="transparent"
+          :disable-rotation="true"
+          :prevent-white-space="true"
+          :width="350"
+          :height="350"
+          :speed="10"          
+          :image-border-radius="'20'"
+        ></croppa>
+      </div>
+      <form action="" class="gs-container gs-padding">
+        <div class="gs-form-group">
+          <label for="">Title</label>        
+          <input type="text" class="gs-basic-input large" placeholder="Title" required>
+        </div>
+        <div class="gs-form-group">
+          <label for="">Times</label>        
+          <input type="text" class="gs-basic-input" placeholder="Times (8:30 AM, 10:00 AM)" required>
+        </div>
+      </form>
+    </div> -->
   </div>
 </template>
 
 <script>
+import Croppa from 'vue-croppa'
+import 'vue-croppa/dist/vue-croppa.css'
+import CDN from '@/services/cdn'
+import { checkIfObjNotFilled, generateGUID } from '../utils/helpers'
+import { SweetModal } from 'sweet-modal-vue'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
+
+import Cards from '@/components/CardList'
+
+const newSundayTemplate = {
+  name: ''
+}
+
 export default {
   name: 'ThisSunday',
   data () {
-    return {}
+    return {
+      creatingNewItem: false,
+      newSunday: {},
+      selectedID: -1,
+      cdnKeys: {},      
+      photoCroppa: {},
+      cdnKeys: {},      
+      date: new Date(),
+      datePickerConfig: {
+        dateFormat: 'l F J, Y'
+      }
+    }
   },
-  components: {
+  components: {    
+    flatPickr, Cards
   },
-  methods: {
+  methods: {    
+    createNewItem() {
+      this.selectedID = -1;
+      this.$router.push(`/app/this-sunday/`)
+
+      this.creatingNewItem = !this.creatingNewItem
+      this.newSunday = {...newSundayTemplate}
+      if (this.creatingNewItem == true) {
+        CDN.getKeys().then(response => {
+         this.cdnKeys = response.data
+        })
+      }
+    }, 
+    async uploadImage() {
+      const { accessKeyID, secretAccessKey } = this.cdnKeys
+      var fileName = generateGUID() + '.jpg'
+      
+      if (!this.photoCroppa.hasImage()) {
+        return
+      }
+      var blob = await this.photoCroppa.promisedBlob('image/jpeg')
+      
+      var arrayBuffer = await new Response(blob).arrayBuffer();  
+      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileName).catch(() => {fileName = ''})
+
+      return fileName
+    }
   },
   props: {
   },
@@ -74,7 +155,25 @@ export default {
 }
 </script>
 
+<style src="./../assets/css/general-style.css"></style> 
+
 <style scoped>
+
+#this-sunday-container {
+  height: 100%;
+}
+#this-sunday-container .dates{
+}
+#this-sunday-info {
+  height: 100vh;
+  padding: 50px 20px;
+  overflow-y: auto;  
+  box-sizing: border-box;
+}
+#this-sunday-form {
+  margin-top: 25px;
+  /* max-width: 600px; */
+}
 
 /* //////////////////////////
 //////  MEDIA QUERIES ///////
