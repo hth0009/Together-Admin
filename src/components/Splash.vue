@@ -393,11 +393,11 @@
         </div>
         <div class="bar right" id="simple">
           <h2 class="title">Simple</h2>
-          <div class="description">Get to know your people as they get involved</div>
+          <div class="description">We take care of the hard stuff, so you can focus on what matters.</div>
         </div>
         <div class="bar left" id="free">
           <h2 class="title">Free</h2>
-          <div class="description">Get to know your people as they get involved</div>
+          <div class="description">Never budget to use our platform.</div>
         </div>
         <svg
           id="bottom-squig"
