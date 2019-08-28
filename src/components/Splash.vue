@@ -453,7 +453,7 @@
     <div id="get-started">
       <div class="texts">
         <h1 id="get-started-header">Get Started Today</h1>
-        <h4 id="together-thing">Sign your church up for the Togehter Thing &trade; today</h4>
+        <h4 id="together-thing">Sign your church up for the Together today!</h4>
       </div>
       <div class="buttons">
         <button
@@ -461,7 +461,7 @@
           class="basic-button noselect"
           @click="openRegisterWindow"
         >SIGN YOUR CHURCH UP</button>
-        <div id="contact-us" class="noselect">CONTACT US</div>
+        <!-- <div id="contact-us" class="noselect">CONTACT US</div> -->
       </div>
     </div>
   </div>
