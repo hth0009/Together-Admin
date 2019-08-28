@@ -768,7 +768,7 @@ h1 {
 }
 #video-board {
   position: relative;
-  height: 110vh;
+  height: 850px;
   /* overflow: hidden; */
 }
 #main-left-panel {
@@ -796,6 +796,7 @@ h1 {
   font-weight: 600;
   line-height: 1.5rem;
   color: white;
+  width: 30%;
 }
 #together {
   height: 60px;
@@ -986,7 +987,7 @@ h1 {
 }
 
 #showcase {
-  height: 100vh;
+  height: 850px;
   position: relative;
 }
 #showcase h1 {
@@ -1223,7 +1224,7 @@ h1 {
 }
 
 #features {
-  min-height: 100vh;
+  min-height: 850px;
   position: relative;
 }
 #features h1 {
@@ -1347,7 +1348,7 @@ h1 {
   padding: 2px 4px;
 }
 #personal-simple-free {
-  min-height: 100vh;
+  height: 850px;
 }
 #simple {
   margin: 25px 0px;
@@ -1551,7 +1552,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 30px auto;
 }
 #get-started {
-  height: 82.5vh;
+  height: 700px;
   text-align: center;
   vertical-align: middle;
   position: relative;
@@ -1631,6 +1632,7 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 15px;
     line-height: 1.2rem;
     font-weight: 600;
+    width: 100%;
   }
   .computer-video-wrapper {
     left: 11vw;
@@ -1667,8 +1669,8 @@ input[type="number"]::-webkit-outer-spin-button {
     margin-right: 4vw;
     top: -15%;
   }
-  .showcase-item-title {
-    visibility: hidden;
+  #showcase .showcase-item-title {
+    display: none;
   }
   #showcase .computer-cutout-wrapper {
     height: 175px;
