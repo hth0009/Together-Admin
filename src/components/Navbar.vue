@@ -28,7 +28,7 @@ export default {};
       border: none;
       cursor: pointer;
       padding: 12px 25px 12px 25px;
-      border-radius: 30px;
+      border-radius: 15px;
       transition: all .2s ease;
       font-weight: 600;
       margin-right: 30px;
