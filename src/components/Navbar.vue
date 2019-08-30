@@ -9,8 +9,8 @@
       <h1 id="contact-us">Contact Us</h1>
     </div>
     <div id="signup-login">
-      <button id="signup" class="navbar-button" @click="openRegisterWindow">Sign Up</button>
-      <router-link to="login" id="login" class="navbar-button">Log In</router-link>
+      <button id="signup" class="navbar-button" @click="openRegisterWindow">SIGN UP</button>
+      <router-link to="login" id="login" class="navbar-button">LOGIN</router-link>
     </div>
   </div>
 </template>
@@ -21,16 +21,17 @@ export default {};
 
 <style>
    .navbar-button {
+      outline: none;
       font-family: 'Montserrat';
       font-size: 1.6rem;
       background: #00cec9;
       color: white;
       border: none;
       cursor: pointer;
-      padding: 12px 25px 12px 25px;
-      border-radius: 15px;
+      padding: 10px 22px 10px 22px;
+      border-radius: 12px;
       transition: all .2s ease;
-      font-weight: 600;
+      font-weight: 500;
       margin-right: 30px;
    }
    #navbar-wrapper {
@@ -58,7 +59,7 @@ export default {};
    #login {
       background: white;
       color: #00cec9;
-      border: 1px solid #00cec9;
+      border: 2px solid #00cec9;
       text-decoration: none;
    }
    #router-links {
