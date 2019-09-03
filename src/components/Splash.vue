@@ -1,10 +1,9 @@
 <template>
   <div id="splash-container">
+    <navbar/>
     <register-church ref="register"></register-church>
     <div id="video-board">
-      <router-link to="login" id="login">LOGIN</router-link>
       <div id="main-left-panel">
-        <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png">
         <!-- <svg id="main-blob" xmlns="http://www.w3.org/2000/svg" width="1067.589" height="1044.218" viewBox="0 0 1067.589 1044.218">
           <path id="Path_25" data-name="Path 25" d="M-1414.081,65.147c172.7,74.657,237.793,198.227,258.3,445.549,23.247,280.41-68.954,137.076-72.732,324.065s-158.657,273.872-332.424,273.872-447.639-158.657-453.306-372.089c-4.4-165.835-169.213-256.077-190.392-344.012s-18.594-158.588-.455-210.129,98.285-89.822,176.867-117.988C-2027.524,64.453-1412.6,65.342-1414.081,65.147Z" transform="translate(2219.621 -64.415)" fill="#0ad2cf"/>
         </svg> -->
@@ -470,6 +469,7 @@
 <script>
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
+import Navbar from "./Navbar.vue"
 
 import RegisterChurch from "@/components/RegisterChurch";
 
@@ -580,7 +580,8 @@ export default {
   },
   components: {
     VueSlider,
-    RegisterChurch
+    RegisterChurch,
+    Navbar
   },
   methods: {
     loadDrift() {},
