@@ -217,6 +217,14 @@ let router = new Router({
           }
         },
         {
+          path: 'this-sunday/:id',
+          component: ThisSunday,
+          name: 'This Sunday',
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
           path: 'me/',
           component: Me,
           name: 'Me',

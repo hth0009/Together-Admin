@@ -33,7 +33,7 @@ export default {
         console.log(this.$store.getters.authStatus)
         if (this.$route.path === '/') {
           if (this.$store.getters.authStatus) {
-            this.$router.push("/app/inbox")
+            this.$router.push("/app/people")
           }
           else {
             console.log('hello')
