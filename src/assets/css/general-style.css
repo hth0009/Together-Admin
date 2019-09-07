@@ -30,9 +30,21 @@ h6 {
 }
 
 label {
-  font-size: 1rem;
+  font-size: .9rem;
   font-weight: 500;
   color: #6b6b6b;
+  display: inline-block;
+  margin-bottom: .3rem;
+}
+
+.gs-padding {
+  padding: 25px;
+}
+
+.gs-medium-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: 1rem;
 }
 
 .gs-white-overlay-background-tranparent {  
@@ -63,13 +75,15 @@ label {
     top: -130%
   }
 }
-
 .gs-card-with-shadow {
   border-radius: 10px;
   padding: 25px;
   margin: 15px 12px;
   box-shadow: 0px 5px 13px -2px #00000040;
   background: white;
+}
+.gs-card-with-shadow.no-padding {
+  padding: 0px;
 }
 .gs-card-rise {
   /* ANIMATION */
@@ -113,13 +127,27 @@ label {
 .gs-container {
   display: flex;
 }
+.gs-container.vertical{
+  display: flex;
+  flex-direction: column;
+}
 .gs-container.center-horizontal {
   flex-direction: row;
   justify-content: center;
 }
+.gs-container.center-vertical {
+  flex-direction: column;
+  align-items: center;
+}
+
+.gs-top-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
 
 .gs-basic-button {
-  background: #00cec9;
+  /* background: #00cec9;
   color: white;
   text-shadow: 0px 1px 8px #00000034;
   box-shadow: 0px 1px 6px 2px #00cecb69;
@@ -134,29 +162,50 @@ label {
   transition: all .2s ease;
   font-weight: 600;    
   line-height: inherit;
-  margin: 2.5px;
+  margin: 2.5px; */
 
   
--webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-   -khtml-user-select: none; /* Konqueror HTML */
-     -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-          user-select: none; /* Non-prefixed version, currently
-                                supported by Chrome and Opera */
+  background: white;
+  color: #00cec9;
+  outline: none;
+  appearance: none;
+  width: auto;
+  border: 1.5px #00cec9 solid;
+  cursor: pointer;
+  padding: .5rem .75rem;
+  font-size: .8rem;
+  border-radius: 7.5px;
+  transition: all .2s ease-in;
+  font-weight: 600;    
+  line-height: inherit;
+  margin: 2.5px;
+  display: inline-block;
+  
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.gs-basic-button i{  
+  font-size: .7rem;
+  margin-right: .3rem;
+  vertical-align: top;
 }
 .gs-basic-button.icon{
-width: 30px;
-height: 30px;
-padding: 5px 3px 3px 3px;
+  padding: .25rem .5rem;
 }
 .gs-basic-button.icon i{
-font-size: 20px;
+  font-size: 1.3rem;
+  margin: 0px;
 }
 .gs-basic-button:hover,
 .gs-basic-button:focus {
-  background: #0cd6d3;
-  box-shadow: 0px 4px 8px 0px #01d3cfd8;
+  box-shadow: 0px 2rem 0px 0px inset #00cec9;
+  color: white;
 }
 .gs-basic-button.orange {
   background: #e17055;
@@ -172,13 +221,14 @@ font-size: 20px;
   box-shadow: 0px 1px 8px 2px #6c5ce77c;
 }
 .gs-basic-button.red {
-  background: #ff7675;
-  box-shadow: 0px 1px 8px 2px #ff76757c;
+  border-color: #ff7675;
+  color: #ff7675;
+  /* box-shadow: 0px 1px 8px 2px #ff76757c; */
 }
 .gs-basic-button:hover.red,
 .gs-basic-button:focus.red {
-  background: #ff7f7f;
-  box-shadow: 0px 4px 8px 0px #ff7575dc;
+  box-shadow: 0px 2rem 0px 0px inset  #ff7f7f;
+  color: white;
 }
 .gs-basic-button.green {
   background: #05e0a2;
@@ -194,4 +244,40 @@ font-size: 20px;
 }
 .gs-basic-button:active {    
   box-shadow: 0px 2px 3px -3px rgba(128, 128, 128, 0.507);
+}
+
+.gs-form-group {
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+.gs-basic-input {
+  background: white;
+  outline: none;  
+  width: 100%;
+  padding: .45rem .7rem;
+  font-size: .9rem;
+  line-height: 1.5;
+  margin-bottom: 5px;
+  resize: none;
+  border: 1px #d4d4d4 solid;
+  border-radius: 5px;
+  display: block;
+  box-sizing: border-box;
+  transition: all .3s ease;
+}
+
+.gs-basic-input.large {
+  font-size: 1.1rem;
+}
+.gs-basic-input.time {
+  width: 8rem;
+}
+
+.gs-basic-input::placeholder {
+  color: #7e7e7e;
+}
+.gs-basic-input:read-only {
+  border-color: white;
+  padding-left: 0px;
 }

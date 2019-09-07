@@ -59,16 +59,21 @@
       <transition-group name="fadeLeft" id="app-navbar-buttons">
         <!-- <router-link :key="1" v-on:click.native="showSidebar = false" to="/app/home" class="noselect"
           ><div class="title">home</div><i class="material-icons">home</i></router-link> -->
-        <router-link :key="2" v-on:click.native="showSidebar = false" to="/app/inbox" class="noselect"
-          ><div class="title">inbox</div><i class="material-icons">mail</i></router-link>
+        <!-- <router-link :key="2" v-on:click.native="showSidebar = false" to="/app/inbox" class="noselect"
+          ><div class="title">inbox</div><i class="material-icons">mail</i></router-link> -->
         <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
           ><div class="title">people</div><i class="material-icons">person</i></router-link>
-        <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
-          ><div class="title">teams</div><i class="material-icons">people</i></router-link>
+        <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
+          ><div class="title">this sunday</div><i class="material-icons">event</i></router-link>
+        <!-- <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/giving" class="noselect"
+          ><div class="title">people</div><i class="material-icons">heart</i></router-link> -->
+
+        <!-- <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
+          ><div class="title">teams</div><i class="material-icons">people</i></router-link> -->
         <!-- <router-link :key="5"  v-on:click.native="showSidebar = false" to="/app/prayer" class="noselect"
           ><div class="title">prayer</div><i class="material-icons">keyboard_arrow_up</i></router-link> -->
-        <router-link :key="6"  v-on:click.native="showSidebar = false" to="/app/calendar" class="noselect"
-          ><div class="title">calendar</div><i class="material-icons">event</i></router-link>
+        <!-- <router-link :key="6"  v-on:click.native="showSidebar = false" to="/app/calendar" class="noselect"
+          ><div class="title">calendar</div><i class="material-icons">event</i></router-link> -->
         <!-- <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/staff" class="noselect"
           >staff<i class="material-icons">home</i></router-link> -->
         <!-- <router-link :key="7"  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"

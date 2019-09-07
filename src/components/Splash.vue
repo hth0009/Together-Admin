@@ -392,11 +392,11 @@
         </div>
         <div class="bar right" id="simple">
           <h2 class="title">Simple</h2>
-          <div class="description">Get to know your people as they get involved</div>
+          <div class="description">We take care of the hard stuff, so you can focus on what matters.</div>
         </div>
         <div class="bar left" id="free">
           <h2 class="title">Free</h2>
-          <div class="description">Get to know your people as they get involved</div>
+          <div class="description">Never budget to use our platform.</div>
         </div>
         <svg
           id="bottom-squig"
@@ -452,7 +452,7 @@
     <div id="get-started">
       <div class="texts">
         <h1 id="get-started-header">Get Started Today</h1>
-        <h4 id="together-thing">Sign your church up for the Togehter Thing &trade; today</h4>
+        <h4 id="together-thing">Sign your church up for the Together today!</h4>
       </div>
       <div class="buttons">
         <button
@@ -460,7 +460,7 @@
           class="basic-button noselect"
           @click="openRegisterWindow"
         >SIGN YOUR CHURCH UP</button>
-        <div id="contact-us" class="noselect">CONTACT US</div>
+        <!-- <div id="contact-us" class="noselect">CONTACT US</div> -->
       </div>
     </div>
   </div>

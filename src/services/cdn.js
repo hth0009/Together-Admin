@@ -5,7 +5,7 @@ export default {
   getKeys () {
     return Api().get('cdnkey')
   },
-  async postImage(accessKey, secretKey, photoFile, fileName) {
+  async postImage(accessKey, secretKey, photoFile, fileSufix, fileName) {
     AWS.config.update({
       endpoint: "https://s3.wasabisys.com",
       // region: "us-east-2",
@@ -17,7 +17,7 @@ export default {
    var params = {
       Body: photoFile,
       Bucket: "cdn.togetheradmin.com",
-      Key: "TeamPics/" + fileName,
+      Key: fileSufix + fileName,
       ContentType: "image/jpeg",
    }
    console.log(params)

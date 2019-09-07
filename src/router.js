@@ -32,6 +32,7 @@ import Staff from '@/components/Staff'
 import Subscription from '@/components/Subscription'
 import PrivacyPolicy from '@/components/PrivacyPolicy'
 import Splash from '@/components/Splash'
+import FAQ from '@/components/FAQ'
 
 import Inbox from '@/components/Inbox'
 import People from '@/components/People'
@@ -63,6 +64,15 @@ let router = new Router({
       path: '/hello',
       name: 'Splash Screen',
       component: Splash,
+      meta: {
+        noNav: true,
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/faq',
+      name: 'FAQ',
+      component: FAQ,
       meta: {
         noNav: true,
         requiresAuth: false
@@ -198,14 +208,22 @@ let router = new Router({
             requiresAuth: true
           }
         },
-        // {
-        //   path: 'this-sunday/',
-        //   component: ThisSunday,
-        //   name: 'This Sunday',
-        //   meta: {
-        //     requiresAuth: true
-        //   }
-        // },
+        {
+          path: 'this-sunday/',
+          component: ThisSunday,
+          name: 'This Sunday',
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'this-sunday/:id',
+          component: ThisSunday,
+          name: 'This Sunday',
+          meta: {
+            requiresAuth: true
+          }
+        },
         {
           path: 'me/',
           component: Me,

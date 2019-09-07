@@ -118,7 +118,7 @@
                 />
             </div>
           </div> -->
-          <div class="panel">
+          <!-- <div class="panel">
             <div class="card-header">Teams</div>
             <div class="teams">              
                 <cards
@@ -137,8 +137,8 @@
                   }"
                 />
             </div>
-          </div>
-          <div class="panel"
+          </div> -->
+          <!-- <div class="panel"
             style="min-height: 200px">
             <div class="card-header">Notes</div>
             <div class="card-explanation">These notes are visible to anyone on the admin site.</div>
@@ -160,16 +160,10 @@
               @actionSuccess="patchNotes"
               @created="formatNotes"
             >
-            <!-- <div v-html="notesHTML"></div> -->
-            hi
             </ejs-inplaceeditor>
             </div>
-             <!-- <ejs-richtexteditor v-model="selectedPerson.notes" :height="600"
-              :editorMode="'Markdown'" :placeholder="'Notes'" :toolbarSettings="{items: []}"
-              @blur="patchPersonValue('notes', $event.value)"
-              ></ejs-richtexteditor> -->
-          </div>
-          <div class="panel">
+          </div> -->
+          <!-- <div class="panel">
             <div class="card-header noselect">Skills</div>
             <div class="card-explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
             <div class="skills noselect">
@@ -181,11 +175,11 @@
                 {{ skill.skill.name }}
               </div>
             </div>
-          </div>
-          <div class="panel">
+          </div> -->
+          <!-- <div class="panel">
             <div class="card-header">Family</div>
             <div class="card-explanation">COMING SOON</div>
-            <!-- <div class="search">              
+            <div class="search">              
                 <cards
                   :hasShadow="false"
                   :loading="false"
@@ -199,12 +193,12 @@
                     id: 'id'
                   }"
                 />
-            </div> -->
-          </div>
+            </div>
+          </div> -->
         </div>
       </div>      
       </transition>
-      <!-- <div class="new-item" v-if="creatingNewItem">
+      <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Person</div>
         <div class="details">
           <div class="type">
@@ -241,10 +235,10 @@
           </div>
         </div>
         <div class="footer">
-          <button class="basic-button red" @click="creatingNewItem = false">CANCEL</button>
-          <button class="basic-button green">CREATE</button>
+          <button class="gs-basic-button red" @click="creatingNewItem = false">CANCEL</button>
+          <button class="gs-basic-button">CREATE</button>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -253,6 +247,7 @@
 import Cards from '@/components/CardList'
 import VueTable from '@/components/Table'
 import People from '@/services/people'
+import ChurchPeople from '@/services/churchPeople'
 import Skills from '@/services/skills'
 import Teams from '@/services/teams'
 import CustomRadio from '@/components/CustomRadio'
@@ -299,6 +294,7 @@ export default {
   },
   methods: {
     async getPeople () {
+      // const response = await ChurchPeople.getChurchPeople()
       const response = await People.getPeople()
       this.people = response['person(s)']
     },
@@ -351,7 +347,7 @@ export default {
       this.$router.push(`/app/people/${id}`)
       this.selectedID = id
       this.getPerson()
-      this.getTeams()
+      // this.getTeams()
     },
     createNewItem() {
       this.selectedThreadID = -1;

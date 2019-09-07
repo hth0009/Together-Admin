@@ -177,7 +177,7 @@ export default {
       email: '',
       churchName: '',
       password: '',
-      currentCardIndex: 1,
+      currentCardIndex: 0,
       maxIndex: 0,
       numberOfCards: 5,
       einNumber: '',
