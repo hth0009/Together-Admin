@@ -16,19 +16,32 @@
 </template>
 
 <script>
-export default {};
+export default {
+   mounted() {
+      window.addEventListener('scroll', function(e) {
+         var SPostition = window.scrollY;
+         var page = this;
+         if (SPostition != 0) {
+            page.document.querySelector("#navbar-wrapper").classList.add("shadow");
+         }
+         else {
+            page.document.querySelector("#navbar-wrapper").classList.remove("shadow");
+         }
+      });
+   }
+};
 </script>
 
 <style>
    .navbar-button {
       outline: none;
       font-family: 'Montserrat';
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       background: #00cec9;
       color: white;
       border: none;
       cursor: pointer;
-      padding: 10px 22px 10px 22px;
+      padding: 8px 18px 8px 18px;
       border-radius: 12px;
       transition: all .2s ease;
       font-weight: 500;
@@ -39,11 +52,18 @@ export default {};
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
+      background-color: white;
+      position: fixed;
+      width: 100%;
+      z-index: 900;
+   }
+   .shadow {
+      box-shadow: 3px 1px 5px #888888;
    }
    #together-badge {
       order: 0;
-      height: 100px;
-      margin: 20px 40px;
+      height: 50px;
+      margin: 15px 20px 15px 100px;
    }
    #signup-login {
       flex-grow: 1;
@@ -51,7 +71,8 @@ export default {};
       order: 2;
       justify-content: flex-end;
       align-items: center;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
+      margin-right: 100px;
    }
    #signup {
       
@@ -71,9 +92,9 @@ export default {};
    }
    #router-links h1 {
       color: #00cec9;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 500;
-      margin: 0 2vw;
+      margin: 0 1vw;
    }
    #product {
       order: 0;
