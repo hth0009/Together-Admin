@@ -24,6 +24,15 @@ export const getMMDDYY = (dt) => {
   res += formatDigits(dt.getFullYear())
   return res
 }
+export const getYYYYMMDD = (dt) => {
+  var res = ''
+  res += formatDigits(dt.getFullYear())
+  res += '-'
+  res += formatDigits(dt.getMonth() + 1)
+  res += '-'
+  res += formatDigits(dt.getDate())
+  return res
+}
 
 export const getHHMM = (dt) => {
   var res = ''
@@ -134,7 +143,11 @@ export const formatDate = (messageDate, nextDate = '') => {
     return getMMDDYY(date1)
   }
 }
-
+export const getThisSunday = () => {
+    var t = new Date();
+    t.setDate(t.getDate() + (7 - t.getDay()));
+    return t;
+}
 export const checkIfObjNotFilled = (obj) => {
   for (var key in obj) {
     if (obj[key] === null || obj[key] === '') {

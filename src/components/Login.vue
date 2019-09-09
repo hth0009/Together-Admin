@@ -43,7 +43,7 @@ export default {
         const {lowerCaseUsername, password} = this
         const username = lowerCaseUsername
         this.$store.dispatch('login', { username, password })
-       .then(() => this.$router.push('/app/inbox'))
+       .then(() => this.$router.push('/app/people'))
        .catch(err => console.error(err))
     }
   },

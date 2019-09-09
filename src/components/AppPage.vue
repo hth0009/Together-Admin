@@ -63,7 +63,7 @@
           ><div class="title">inbox</div><i class="material-icons">mail</i></router-link> -->
         <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
           ><div class="title">people</div><i class="material-icons">person</i></router-link>
-        <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
+        <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
           ><div class="title">this sunday</div><i class="material-icons">event</i></router-link>
         <!-- <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/giving" class="noselect"
           ><div class="title">people</div><i class="material-icons">heart</i></router-link> -->
