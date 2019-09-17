@@ -303,6 +303,9 @@
       </div>1
     </div>
     <div id="personal-simple-free">
+      <personal-simple-free/>
+    </div>
+    <!-- <div id="personal-simple-free">
       <div class="bars">
         <svg
           id="top-squig"
@@ -318,9 +321,6 @@
             fill="#00cec9"
           />
         </svg>
-        <!-- <svg id="top-squig" xmlns="http://www.w3.org/2000/svg" width="1920" height="55.117" viewBox="0 0 1920 55.117">
-  <path id="Path_45" data-name="Path 45" d="M0,38.428S183.21,5.434,430.663,5.434s732.435,53.43,1017.8,55.072S1920,18.632,1920,18.632V60.506H0Z" transform="translate(0 -5.434)" fill="#00cec9"/>
-        </svg>-->
 
         <div class="bar left top" id="personal">
           <h2 class="title">Personal</h2>
@@ -414,7 +414,7 @@
           />
         </svg>
       </div>
-    </div>
+    </div> -->
     <!-- <div id="pricing">
       <h1>Use it all for FREE!</h1>
       <div id="price-visualizer">
@@ -474,6 +474,7 @@ import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 import Navbar from "./Navbar.vue"
 import ContactUs from "./ContactUs.vue";
+import PersonalSimpleFree from "./personalsimplefree"
 
 import RegisterChurch from "@/components/RegisterChurch";
 
@@ -586,7 +587,8 @@ export default {
     VueSlider,
     RegisterChurch,
     Navbar,
-    ContactUs
+    ContactUs,
+    PersonalSimpleFree
   },
   methods: {
     loadDrift() {},
