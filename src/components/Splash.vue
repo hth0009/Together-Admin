@@ -449,7 +449,7 @@
       </div>
       <div class="explain">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi sunt, cumque omnis impedit ratione nulla quas et, magnam ipsam corrupti rerum dignissimos rem explicabo ipsum eos, id similique quidem. Quis?</div>
     </div>-->
-    <div id="get-started">
+    <!-- <div id="get-started">
       <div class="texts">
         <h1 id="get-started-header">Get Started Today</h1>
         <h4 id="together-thing">Sign your church up for the Together today!</h4>
@@ -460,8 +460,11 @@
           class="basic-button noselect"
           @click="openRegisterWindow"
         >SIGN YOUR CHURCH UP</button>
-        <!-- <div id="contact-us" class="noselect">CONTACT US</div> -->
+        <div id="contact-us" class="noselect">CONTACT US</div>
       </div>
+    </div> -->
+    <div id="contact-us">
+      <contact-us/>
     </div>
   </div>
 </template>
@@ -470,6 +473,7 @@
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/antd.css";
 import Navbar from "./Navbar.vue"
+import ContactUs from "./ContactUs.vue";
 
 import RegisterChurch from "@/components/RegisterChurch";
 
@@ -581,7 +585,8 @@ export default {
   components: {
     VueSlider,
     RegisterChurch,
-    Navbar
+    Navbar,
+    ContactUs
   },
   methods: {
     loadDrift() {},
@@ -1577,10 +1582,8 @@ input[type="number"]::-webkit-outer-spin-button {
   padding: 15px 25px;
 }
 #contact-us {
-  font-weight: 600;
-  margin-top: 30px;
-  color: #00cec9;
-  text-shadow: none;
+  margin-top: 50px;
+  height: 750px;
 }
 
 /* //////////////////////////
