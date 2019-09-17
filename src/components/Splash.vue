@@ -1,6 +1,6 @@
 <template>
   <div id="splash-container">
-    <navbar/>
+    <navbar :parentDivID="'splash-container'" :displayScrollValue="30"/>
     <register-church ref="register"></register-church>
     <div id="video-board">
       <div id="main-left-panel">

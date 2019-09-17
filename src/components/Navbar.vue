@@ -1,33 +1,59 @@
 <template>
-  <div id="navbar-wrapper">
-    <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"/>
-    <div id="router-links">
-      <h1 id="product">Product</h1>
-      <h1 id="pricing">Pricing</h1>
-      <h1 id="media">Media</h1>
-      <h1 id="story">Story</h1>
-      <h1 id="contact-us">Contact Us</h1>
-    </div>
-    <div id="signup-login">
-      <button id="signup" class="navbar-button" @click="openRegisterWindow">SIGN UP</button>
-      <router-link to="login" id="login" class="navbar-button">LOGIN</router-link>
-    </div>
-  </div>
+   <div id="navbar-wrapper" :class="{'has-shadow': showShadow}">
+      <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"/>
+      <div id="router-links">
+         <h1 id="product">Product</h1>
+         <h1 id="pricing">Pricing</h1>
+         <h1 id="media">Media</h1>
+         <h1 id="story">Story</h1>
+         <h1 id="contact-us">Contact Us</h1>
+      </div>
+      <div id="signup-login">
+         <button id="signup" class="navbar-button" @click="openRegisterWindow">SIGN UP</button>
+         <router-link to="login" id="login" class="navbar-button">LOGIN</router-link>
+      </div>
+   </div>
 </template>
 
 <script>
 export default {
+   data() {
+      return {
+         showShadow: false
+      }
+   },
+   methods: {
+    onParentScroll(topScroll) {
+       console.log(topScroll)
+       console.log(this.displayScrollValue)
+       console.log(this.showShadow)
+      if (topScroll < this.displayScrollValue) {
+        this.showShadow = false
+      }
+      else {
+        this.showShadow = true
+      }
+    }
+  },
+   props: {
+      displayScrollValue: {
+         type: Number,
+         default: 0
+      },
+      parentDivID: {
+         type: String,
+         default: ''
+      }
+   },
    mounted() {
-      window.addEventListener('scroll', function(e) {
-         var SPostition = window.scrollY;
-         var page = this;
-         if (SPostition != 0) {
-            page.document.querySelector("#navbar-wrapper").classList.add("shadow");
-         }
-         else {
-            page.document.querySelector("#navbar-wrapper").classList.remove("shadow");
-         }
-      });
+      this.$nextTick(function() {
+      this.parentDiv = document.getElementById(this.parentDivID)
+      this.onParentScroll(this.parentDiv.scrollTop)
+      this.parentDiv.addEventListener('scroll', function() {
+        this.onParentScroll(this.parentDiv.scrollTop)
+      }.bind(this), false)
+      console.log(this.parentDiv)
+   }.bind(this))
    }
 };
 </script>
@@ -57,7 +83,7 @@ export default {
       width: 100%;
       z-index: 900;
    }
-   .shadow {
+   .has-shadow {
       box-shadow: 3px 1px 5px #888888;
    }
    #together-badge {
