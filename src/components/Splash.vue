@@ -2,67 +2,55 @@
   <div id="splash-container">
     <navbar :parentDivID="'splash-container'" :displayScrollValue="30"/>
     <register-church ref="register"></register-church>
-    <div id="video-board">
-      <div id="main-left-panel">
-        <!-- <svg id="main-blob" xmlns="http://www.w3.org/2000/svg" width="1067.589" height="1044.218" viewBox="0 0 1067.589 1044.218">
-          <path id="Path_25" data-name="Path 25" d="M-1414.081,65.147c172.7,74.657,237.793,198.227,258.3,445.549,23.247,280.41-68.954,137.076-72.732,324.065s-158.657,273.872-332.424,273.872-447.639-158.657-453.306-372.089c-4.4-165.835-169.213-256.077-190.392-344.012s-18.594-158.588-.455-210.129,98.285-89.822,176.867-117.988C-2027.524,64.453-1412.6,65.342-1414.081,65.147Z" transform="translate(2219.621 -64.415)" fill="#0ad2cf"/>
-        </svg> -->
-        <svg xmlns="http://www.w3.org/2000/svg"  id="main-blob"  width="841.029" height="857.742" viewBox="0 0 841.029 857.742">
-          <path id="Path_52" data-name="Path 52" d="M-1585.03,55.53c136.05,58.814,187.329,156.16,203.482,351,18.313,220.9-54.321,107.987-57.3,255.293s-124.988,215.752-261.879,215.752-352.643-124.987-357.107-293.125c-3.468-130.642-133.3-201.733-149.988-271.007s-14.648-124.933-.359-165.536,87.225-81.955,150.346-105.1S-1917.983,19.7-1799.4,19.853C-1676.022,20.016-1584.435,55.608-1585.03,55.53Z" transform="translate(2219.621 -19.829)" fill="#0ad2cf"/>
-        </svg>
-
-
-        <div id="main-title" class>
-          <img
-            id="together"
-            src="https://togethercdn.global.ssl.fastly.net/website_title.png"
-            alt
-            srcset
-          />
-          <div class="subtitle">
-            <p>
-              a church engagement platform that
-              provides your church all the tools they
-              need to connect with your people
-              <br />
-              <br />
-              <br />for free
-            </p>
-          </div>
-        </div>        
-        <button
-          id="join"
-          class="basic-button noselect"
-          @click="openRegisterWindow"
-        >SIGN YOUR CHURCH UP</button>
+    <div id="hero">
+      <div id="main-title" class>
+        <img
+          id="together-title"
+          src="https://togethercdn.global.ssl.fastly.net/assets/logo/title_black.png"
+          alt
+          srcset
+        />
+        <div id="subtitle">
+          <p>
+            a church engagement platform that
+            provides your church all the tools they
+            need to connect with your people
+            <br />
+            <br />
+            <br />for free
+          </p>
+        </div>
+        <button id="early-access" class="gs-basic-button big">GET EARLY ACCESS</button>
       </div>
-      <div class="computer-video-wrapper">
-        <div class="main-computer-wrapper">
-          <div class="main-computer">
-            <img key="b" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-computer.png"/>
-          </div>          
-          <div id="main-video-container">
-            <video
+      <div id="hero-computers">        
+        <div class="computer-video-wrapper">
+          <div class="main-computer-wrapper">
+            <div class="main-computer">
+              <img key="b" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-computer.png"/>
+            </div>          
+            <div id="main-computer-video-container">
+              <video
+                autoplay
+                muted
+                loop
+                id="main-computer-video"
+                type="video/mp4"
+                src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
+              ></video>
+            </div>
+          </div>
+          <div class="main-phone-wrapper">
+            <img src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-iphone.png">
+            <div class="main-phone-video-container">
+              <video
               autoplay
               muted
               loop
-              id="main-video"
+              id="main-computer-video"
               type="video/mp4"
               src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
-            ></video>
-          </div>
-        </div>
-        <div class="main-phone-wrapper">
-          <img src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-iphone.png">
-          <div class="main-phone-video-container">
-            <video
-            autoplay
-            muted
-            loop
-            id="main-video"
-            type="video/mp4"
-            src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
-            ></video>
+              ></video>
+            </div>
           </div>
         </div>
       </div>
@@ -75,16 +63,9 @@
       <div class="big-word">{{this.selectedProblem3}}</div>
       </div>
     </div>-->
-    <div id="showcase">
-      <svg id="showcase-blob-blue" xmlns="http://www.w3.org/2000/svg" width="437.651" height="638.846" viewBox="0 0 437.651 638.846"><path id="Path_26" data-name="Path 26" d="M-1799.247,26.738c133.671,41.491,180.581,112.137,194.117,275.41s-40.15,79.815-42.349,188.692-92.38,159.466-193.559,159.466A204.055,204.055,0,0,1-1875.9,647.1c-54.969-9.588-118.438-40.077-164.694-84.265,1.037-.757,1.037-540.443.741-540.122C-1954.6,6.395-1859.935,7.9-1799.247,26.738Z" transform="translate(-1602.945 650.306) rotate(-180)" fill="#0ad2cf"/></svg>
-      <svg id="showcase-blob-green" xmlns="http://www.w3.org/2000/svg" width="303.368" height="240.069" viewBox="0 0 303.368 240.069"><path id="Path_38" data-name="Path 38" d="M-2024.086,18.791c64.134,19.907,105.816,74.144,104.76,126.382s-76.267,172.8-124.811,172.8-113.605-7.575-115.188-67.2,35.2-71.081,35.2-134.4S-2088.22-1.116-2024.086,18.791Z" transform="translate(317.973 2159.375) rotate(90)" fill="#00e55c"/></svg>
+    <div id="features">
       <h1>
-        We help your
-        <span
-          :class="{'selected': selectedShowcase == 'PEOPLE' || selectedShowcase == 'TEAMS'}"
-        >church</span> do
-        <span :class="{'selected': selectedShowcase == 'CALENDAR'}">things</span>
-        <span :class="{'selected': selectedShowcase == 'MESSAGING'}"> well</span>
+        You get all of this
       </h1>
       <!-- <h1>How do we do it?</h1> -->
       <div class="toggle">
@@ -113,7 +94,8 @@
           <i class="material-icons">send</i>messaging
         </button>
       </div>
-      <h3 class="showcase-item-title">{{selectedShowcase}}</h3>
+      <h3 class="features-item-title">{{selectedShowcase}}</h3>
+      <div id="feature-devices">
       <div class="computer-cutout-wrapper">
         <div class="computer-cutout">
           <img
@@ -211,9 +193,10 @@
           </transition-group>
         </div>
       </div>
+      </div>
     </div>
     <div id="features">
-      <h1>All of this to help your church</h1>
+      <h1>What you get</h1>
       <div class="features-phone-wrapper">
         <div class="phone-3-cutout phone-cutout">
           <img
@@ -246,38 +229,6 @@
             />
           </transition-group>
         </div>
-      </div>
-      <div class="feature-blobs">
-        <svg
-          id="feature-blob-1"
-          xmlns="http://www.w3.org/2000/svg"
-          width="206.262"
-          height="237.114"
-          viewBox="0 0 206.262 237.114"
-        >
-          <path
-            id="Path_40"
-            data-name="Path 40"
-            d="M135.289,299.182C199.423,279.275,241.1,225.038,240.05,172.8c-.385-19.067-10.65-47.236-25.919-75.374-.32-.773-210.033.115-211.176-.048,8.4,35.844,32.295,53.187,32.295,104.222C35.25,264.919,71.155,319.089,135.289,299.182Z"
-            transform="translate(303.368 -2.955) rotate(90)"
-            fill="#00e55c"
-          />
-        </svg>
-        <svg
-          id="feature-blob-2"
-          xmlns="http://www.w3.org/2000/svg"
-          width="768.643"
-          height="861.623"
-          viewBox="0 0 768.643 861.623"
-        >
-          <path
-            id="Path_39"
-            data-name="Path 39"
-            d="M-2011.439,215.264c326.406,91.381,370.521,169.455,368.3,279.142s-93.068,160.653-195,160.653-525.119-145.116-528.443-270.314S-2337.844,123.883-2011.439,215.264Z"
-            transform="translate(-982.049 -1095.401) rotate(-120)"
-            fill="#0ad2cf"
-          />
-        </svg>
       </div>
       <div id="feature-wrapper">
         <div id="feature-description">
@@ -689,8 +640,26 @@ export default {
 h1 {
   font-weight: 500;
   font-size: 3rem;
-  padding-top: 50px;
-  text-align: center;
+  margin: 50px 0px 50px 10%;
+  display: inline-block;
+  position: relative;
+  z-index: 100;
+
+  color: black;
+}
+h1::before {
+  content: "";
+  z-index: -1;
+
+  height: 4px;
+  width: calc(100% + 40px);
+  
+  position: absolute;
+  left: 40px;
+  bottom: 0px;
+
+  background-color: #00cec9;  
+  border-radius: 2px;
 }
 
 .fade-right-enter-active {
@@ -734,12 +703,6 @@ h1 {
   z-index: 100;
 }
 
-#splash-container {
-  /* perspective: 2px; */
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
 .no-scroll {
   height: 100vh;
   overflow: hidden;
@@ -761,84 +724,67 @@ h1 {
   /* border: 3px white solid; */
 }
 
-.parallax-container {
-  /* transform-style: preserve-3d; */
+#splash-container {
+  /* perspective: 2px; */
+  max-width: 80rem;
+  margin: 0px auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
-/* .forefront-element {
-  position: relative;
-  z-index: 600;
-  transform: translateZ(1px) scale(.5) translateX(1%) translateY(-65%);
-} */
 #together-badge {
   position: absolute;
   height: 70px;
   top: 50px;
 }
-#video-board {
-  position: relative;
-  height: 850px;
-  /* overflow: hidden; */
+
+#hero {
+  padding: 0px 5%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  min-height: 100vh;
+  grid-column-gap: 7.5%;
 }
-#main-left-panel {
-  margin-left: 10vw;
-  position: relative;
-  z-index: 50;
+#main-title,
+#hero-computers {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-#main-blob {
-  position: absolute;
-  top: -100px;
-  left: -200px;
-  z-index: -1;  
-  height: 1000px;
+#together-title {
+  width: 85%;
+  max-width: 400px;
 }
-#main-title {
-  position: absolute;
-  top: 0;
-  top: 40vh;
-}
-#main-title h1 {
-}
-.subtitle {
+#subtitle {
+  margin: 50px 20px;
+  width: 70%;
   margin-left: 10px;
   font-size: 20px;
   font-weight: 600;
   line-height: 1.5rem;
-  color: white;
-  width: 30%;
+  color: black;
 }
-#together {
-  height: 60px;
-  margin-bottom: 15px;
+#early-access {
+  /* width: 80%; */
 }
-#join {
-  position: absolute;
-  top: 0;
-  margin-top: 85vh;
-  font-size: 22px;
-  font-weight: 600;
-  box-shadow: 0px 5px 13px -2px #00000040;
-}
+
 .computer-video-wrapper {
   position: relative;
-  left: 45vw;
-  top: calc(65vh + 10vw);
-  transform: translateY(-50%);
   z-index: 100;
+  width: 100%;
 }
 .main-computer-wrapper {
-  position: absolute;
-  height: 30vw;
-  bottom: 0px;
+  position: relative;
 }
 .main-computer {
-  height: 100%;
   width: auto;
 }
 .main-computer img {
-  height: 100%;
+  width: 100%;
   z-index: 100;
 }
-#main-video-container {
+#main-computer-video-container {
   position: absolute;
   z-index: -1;
   overflow: hidden;
@@ -847,19 +793,19 @@ h1 {
   bottom: 10%;
   width: 78%;
 }
-#main-video {
-  height: 100%;
-}
-.main-phone-wrapper img {
+#main-computer-video {
   height: 100%;
 }
 .main-phone-wrapper {
   position: absolute;
   bottom: 0px;
-  height: 20vw;
+  width: 22.5%;
   z-index: 400;
-  left: 35vw;
-  margin-left: 50px;
+  left: 60%;
+  margin-left: 75px;
+}
+.main-phone-wrapper img {
+  width: 100%;
 }
 .main-phone-video-container {
   position: absolute;
@@ -963,11 +909,6 @@ h1 {
   background-repeat: no-repeat;
   background-size: cover;
 }
-#problems h1 {
-  background: white;
-  color: #808080;
-  padding: 50px;
-}
 #problems .big-words {
   display: flex;
   flex-direction: column;
@@ -994,25 +935,21 @@ h1 {
   /* text-align: center; */
 }
 
-#showcase {
-  height: 850px;
+#features {
   position: relative;
 }
-#showcase h1 {
-  color: #979797;
-}
-#showcase h1 span {
+#features h1 span {
   transition: all 0.3s ease;
   bottom: 0px;
   position: relative;
 }
-#showcase h1 span.selected {
+#features h1 span.selected {
   color: #00cec9;
   bottom: 3px;
   left: 0px;
   text-shadow: -2px 3px 4px #00000023;
 }
-#showcase .showcase-item-title {
+#features .features-item-title {
   text-align: center;
   /* position: absolute; */
   margin-top: 50px;
@@ -1052,7 +989,7 @@ h1 {
   position: relative;
   z-index: 200;
 }
-#showcase .computer-screens {
+#features .computer-screens {
   position: absolute;
   z-index: 50;
   left: 13%;
@@ -1060,13 +997,13 @@ h1 {
   bottom: 12%;
   /* overflow: hidden; */
 }
-#showcase .computer-screens img {
+#features .computer-screens img {
   width: auto;
   height: 100%;
   position: absolute;
 }
 
-#showcase .phone-cutout-wrapper {
+#features .phone-cutout-wrapper {
   height: 350px;
 
   position: absolute;
@@ -1119,20 +1056,20 @@ h1 {
   height: 100%;
   position: absolute;
 }
-#showcase-blob-blue {
+#features-blob-blue {
   position: absolute;
   transform: scale(0.9) translate(10%, 10%);
   right: 0;
   top: -150px;
 }
-#showcase-blob-green {
+#features-blob-green {
   z-index: -1;
   position: absolute;
   transform: scale(0.9) translate(10%, 10%);
   left: 20px;
   top: -120px;
 }
-#showcase .phones .phone-1 {
+#features .phones .phone-1 {
   /* max-height: 40vh;
   width: auto;
   max-width: 17.5vw;
@@ -1142,7 +1079,7 @@ h1 {
   z-index: 100;
   bottom: 15vh; */
 }
-#showcase .phones .phone-2 {
+#features .phones .phone-2 {
   /* max-height: 45vh;
   width: auto;
   max-width: 20vw;
@@ -1153,7 +1090,7 @@ h1 {
   z-index: 50; */
 }
 
-#showcase .toggle {
+#features .toggle {
   width: 50px;
   height: 140px;
   position: absolute;
@@ -1170,7 +1107,7 @@ h1 {
   background: white;
   border-radius: 10px; */
 }
-#showcase .toggle button {
+#features .toggle button {
   color: #9b9b9b;
   text-decoration: none;
   margin: 7.5px 0px;
@@ -1190,14 +1127,14 @@ h1 {
 
   cursor: pointer;
 }
-#showcase .toggle button i {
+#features .toggle button i {
   font-size: 1rem;
   margin-right: 5px;
 }
-#showcase .toggle button:hover {
+#features .toggle button:hover {
   color: #888b8b;
 }
-#showcase .toggle button:before {
+#features .toggle button:before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -1212,16 +1149,16 @@ h1 {
   -webkit-transition: all 0.3s ease-in-out 0s;
   transition: all 0.3s ease-in-out 0s;
 }
-#showcase .toggle button:hover:before {
+#features .toggle button:hover:before {
   visibility: visible;
   width: 100%;
 }
-#showcase .toggle button.selected,
-#showcase .toggle button.selected i {
+#features .toggle button.selected,
+#features .toggle button.selected i {
   color: white;
   transition: all 0.3s ease-in-out 0s;
 }
-#showcase .toggle button.selected:before {
+#features .toggle button.selected:before {
   height: 1.5rem;
   bottom: -0.25rem;
   right: -0.1rem;
@@ -1234,14 +1171,6 @@ h1 {
 #features {
   min-height: 850px;
   position: relative;
-}
-#features h1 {
-  text-align: center;
-  color: #00cec9;
-  margin-bottom: 60px;
-  padding-top: 110px;
-  font-weight: 400;
-  font-size: 40px;
 }
 #feature-wrapper {
   width: 100vw;
@@ -1452,12 +1381,6 @@ h1 {
   flex-direction: column;
   align-items: center;
 }
-#pricing h1 {
-  text-align: center;
-  color: white;
-  margin-bottom: 80px;
-  padding-top: 100px;
-}
 #price-visualizer {
   display: grid;
   grid-template-columns: 1fr 3fr 3fr 1fr;
@@ -1600,29 +1523,17 @@ input[type="number"]::-webkit-outer-spin-button {
    480-less    - phone landscape & smaller
 --------------------------------------------*/
 @media all and (max-width: 425px) {
-  #main-left-panel {
-    margin-left: 0;
-  }
   #together-badge {
     height: 15vw;
     max-height: 75px;
     left: 50vw;
     transform: translateX(-50%);
   }
-  .main-phone-wrapper {
-    margin-left: 0;
-    height: 35vw;
-  }
   #login {
     background: none;
     border: none;
     font-weight: 600;
     text-shadow: 0px 1px 6px #0000002c
-  }
-  #main-title {
-    top: 125px;
-    left: 50vw;
-    transform: translateX(-50%);
   }
   #main-blob {
     top: -200px;
@@ -1653,37 +1564,15 @@ input[type="number"]::-webkit-outer-spin-button {
     left: 50%;
     transform: translateX(-50%);
   }
-  #showcase {
-    height: 52vh;
-  }
-  #showcase-blob-blue {
-    transform: scale(0.3) translate(117%, 35%);
-    top: -31vh;
-  }
-  #showcase-blob-green {
-    transform: scale(0.3) translate(-175%, -40%);
-    top: -30vh;
-    left: 20px;
-  }
-  #showcase h1 {
-    text-align: right;
-    width: 80%;
-    right: 12px;
-    font-size: 1.6rem;
-    position: absolute;
-    color: black;
-    margin-right: 4vw;
-    top: -15%;
-  }
-  #showcase .showcase-item-title {
+  #features .features-item-title {
     display: none;
   }
-  #showcase .computer-cutout-wrapper {
+  #features .computer-cutout-wrapper {
     height: 175px;
     left: 50vw;
     bottom: 12vh;
   }
-  #showcase .phone-cutout-wrapper {
+  #features .phone-cutout-wrapper {
     height: 125px;
     left: calc(12vw + 220px);
     bottom: 12vh;
@@ -1691,27 +1580,23 @@ input[type="number"]::-webkit-outer-spin-button {
   .phone-2-cutout {
     left: 32px;
   }
-  #showcase .toggle {
+  #features .toggle {
     top: 82%;
     flex-direction: row;
     -webkit-transform: translate(0, 0);
     transform: translate(0, 0);
     left: 45vw;
   }
-  #showcase .toggle .material-icons {
+  #features .toggle .material-icons {
     display: none;
   }
-  #showcase .toggle button {
+  #features .toggle button {
     padding: 1px 12px;
     color: black;
     font-weight: 600;
   }
-  #showcase .toggle button.selected {
+  #features .toggle button.selected {
     border-radius: 50px;
-  }
-  #features h1 {
-    font-weight: 600;
-    font-size: 22px;
   }
   .features-phone-wrapper {
     height: 145px;
