@@ -1,5 +1,5 @@
 <template>
-  <div id="navbar-wrapper">
+  <div id="navbar-wrapper" class="shadow">
     <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"/>
     <div id="router-links">
       <h1 id="product">Product</h1>
