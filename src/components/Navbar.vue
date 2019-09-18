@@ -1,20 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div id="navbar-wrapper" class="shadow">
-    <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"/>
-    <div id="router-links">
-      <h1 id="product">Product</h1>
-      <h1 id="pricing">Pricing</h1>
-      <h1 id="media">Media</h1>
-      <h1 id="story">Story</h1>
-      <h1 id="contact-us">Contact Us</h1>
-    </div>
-    <div id="signup-login">
-      <button id="signup" class="navbar-button" @click="openRegisterWindow">SIGN UP</button>
-      <router-link to="login" id="login" class="navbar-button">LOGIN</router-link>
-    </div>
-  </div>
-=======
    <div id="navbar-wrapper" :class="{'has-shadow': showShadow}">
       <img id="together-badge" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"/>
       <div id="router-links">
@@ -29,7 +13,6 @@
          <router-link to="login" id="login" class="navbar-button">LOGIN</router-link>
       </div>
    </div>
->>>>>>> 544ba1895d58cc3a8de6db67cb0b2ca55043554c
 </template>
 
 <script>
