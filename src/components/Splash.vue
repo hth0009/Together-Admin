@@ -55,6 +55,43 @@
         </div>
       </div>
     </div>
+    <div id="dime-partnership">
+      <h1>IT'S FREE</h1>
+      <div id="dime-grid">
+        <div id="top-left">
+          <div id="zero-per-month">
+            <p id="zero-dollars">$0</p>
+            <p id="per-month">per month</p>
+          </div>
+          <div id="curly">{</div>
+          <ul>
+            <li>Database and data storage</li>
+            <li>Planning tools</li>
+            <li>Management software</li>
+            <li>Engagement app</li>
+            <li>Mass communicator</li>
+            <li>Analytic tool</li>
+            <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li>
+          </ul>
+        </div>
+        <div id="top-right">
+          <p>2</p>
+        </div>
+        <div id="bottom-left">
+          <p>3</p>
+        </div>
+        <div id="bottom-right">
+          <div class="bracket">[</div>
+          <ul>
+            <li><h2>GIVING</h2></li>
+            <li><img src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png" id="bottom-right-dime"></li>
+            <li>2.7% + $0.27 for Cards</li>
+            <li>0.50% + $0.25 for ACH</li>
+          </ul>
+          <div class="bracket">]</div>
+        </div>
+      </div>
+    </div>
     <!-- <div id="problems">
       <h1>Running a church can be complicated</h1>
       <div class="big-words">
@@ -767,6 +804,78 @@ h1::before {
 }
 #early-access {
   /* width: 80%; */
+}
+#dime-partnership {
+  min-height: 100vh;
+}
+#dime-grid {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-row-gap: 50px;
+  text-align: center;
+}
+#top-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#zero-per-month{
+  text-align: right;
+}
+#zero-dollars {
+  font-size: 4rem;
+  font-weight: 600;
+}
+#per-month {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+#curly {
+  font-size: 18rem;
+  font-weight: 400;
+  color: #00cec9;
+  margin-right: 20px;
+}
+#top-right, #bottom-left {
+  border: 2px solid black;
+  height: 300px;
+}
+#top-left-dime {
+  height: 1rem;
+}
+#top-left ul {
+  text-align: left;
+  list-style-type: disc;
+}
+#top-left ul li {
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 1rem;
+  color: black;
+}
+#bottom-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#bottom-right ul {
+  text-align: right;
+}
+#bottom-right h2 {
+  color: black;
+  font-size: 2.5rem;
+}
+#bottom-right ul li {
+  color: #646464;
+  font-size: 2rem;
+}
+#bottom-right-dime {
+  height: 2rem;
+}
+#bottom-right .bracket {
+  color: #646464;
+  font-size: 12rem;
 }
 
 .computer-video-wrapper {
