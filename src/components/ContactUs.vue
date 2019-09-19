@@ -1,7 +1,7 @@
 <template>
     <div id="contact-container">
         <h1>CONTACT US</h1>
-        <form>
+        <form action="https://togetheradmin-contactus.prod.with-datafire.io/contact" method="post">
            <input id="form-name" class="user-info" name="name" type="text" placeholder="Name">
            <input id="form-email" class="user-info" name="email" type="text" placeholder="Email">
            <textarea id="form-message" class="user-info" name="message" placeholder="Message"/>
@@ -89,6 +89,7 @@ export default {
    border: 2px solid #00cec9;
    color: #00cec9;
    font-weight: 500;
+   transition: background-color 0.2s ease;
 }
 #contact-container #form-submit:hover{
    color: white;

@@ -1,5 +1,6 @@
 <template>
   <div id="splash-container">
+    <navbar :parentDivID="'splash-container'" :displayScrollValue="30"/>
     <register-church ref="register"></register-church>
     <div id="hero">
       <div id="main-title" class>
@@ -51,6 +52,43 @@
               ></video>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div id="dime-partnership">
+      <h1>IT'S FREE</h1>
+      <div id="dime-grid">
+        <div id="top-left">
+          <div id="zero-per-month">
+            <p id="zero-dollars">$0</p>
+            <p id="per-month">per month</p>
+          </div>
+          <div id="curly">{</div>
+          <ul>
+            <li>Database and data storage</li>
+            <li>Planning tools</li>
+            <li>Management software</li>
+            <li>Engagement app</li>
+            <li>Mass communicator</li>
+            <li>Analytic tool</li>
+            <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li>
+          </ul>
+        </div>
+        <div id="top-right">
+          <p>2</p>
+        </div>
+        <div id="bottom-left">
+          <p>3</p>
+        </div>
+        <div id="bottom-right">
+          <div class="bracket">[</div>
+          <ul>
+            <li><h2>GIVING</h2></li>
+            <li><img src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png" id="bottom-right-dime"></li>
+            <li>2.7% + $0.27 for Cards</li>
+            <li>0.50% + $0.25 for ACH</li>
+          </ul>
+          <div class="bracket">]</div>
         </div>
       </div>
     </div>
@@ -253,6 +291,9 @@
       </div>1
     </div>
     <div id="personal-simple-free">
+      <personal-simple-free/>
+    </div>
+    <!-- <div id="personal-simple-free">
       <div class="bars">
         <svg
           id="top-squig"
@@ -268,10 +309,6 @@
             fill="#00cec9"
           />
         </svg>
-        <!-- <svg id="top-squig" xmlns="http://www.w3.org/2000/svg" width="1920" height="55.117" viewBox="0 0 1920 55.117">
-  <path id="Path_45" data-name="Path 45" d="M0,38.428S183.21,5.434,430.663,5.434s732.435,53.43,1017.8,55.072S1920,18.632,1920,18.632V60.506H0Z" transform="translate(0 -5.434)" fill="#00cec9"/>
-        </svg>-->
-
         <div class="bar left top" id="personal">
           <h2 class="title">Personal</h2>
           <div class="description">Get to know your people as they get involved</div>
@@ -364,7 +401,7 @@
           />
         </svg>
       </div>
-    </div>
+    </div> -->
     <!-- <div id="pricing">
       <h1>Use it all for FREE!</h1>
       <div id="price-visualizer">
@@ -399,7 +436,7 @@
       </div>
       <div class="explain">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi sunt, cumque omnis impedit ratione nulla quas et, magnam ipsam corrupti rerum dignissimos rem explicabo ipsum eos, id similique quidem. Quis?</div>
     </div>-->
-    <div id="get-started">
+    <!-- <div id="get-started">
       <div class="texts">
         <h1 id="get-started-header">Get Started Today</h1>
         <h4 id="together-thing">Sign your church up for the Together today!</h4>
@@ -410,17 +447,23 @@
           class="basic-button noselect"
           @click="openRegisterWindow"
         >SIGN YOUR CHURCH UP</button>
-        <!-- <div id="contact-us" class="noselect">CONTACT US</div> -->
+        <div id="contact-us" class="noselect">CONTACT US</div>
       </div>
+    </div> -->
+    <div id="contact-us">
+      <contact-us/>
     </div>
   </div>
 </template>
 
 <script>
-import VueSlider from "vue-slider-component"
-import "vue-slider-component/theme/antd.css"
+import VueSlider from "vue-slider-component";
+import "vue-slider-component/theme/antd.css";
+import Navbar from "./Navbar.vue"
+import ContactUs from "./ContactUs.vue";
+import PersonalSimpleFree from "./personalsimplefree"
 
-import RegisterChurch from "@/components/RegisterChurch"
+import RegisterChurch from "@/components/RegisterChurch";
 
 export default {
   name: "Hello",
@@ -529,7 +572,10 @@ export default {
   },
   components: {
     VueSlider,
-    RegisterChurch
+    RegisterChurch,
+    Navbar,
+    ContactUs,
+    PersonalSimpleFree
   },
   methods: {
     loadDrift() {},
@@ -765,7 +811,78 @@ h1::before {
 #early-access {
   /* width: 80%; */
 }
-
+#dime-partnership {
+  min-height: 100vh;
+}
+#dime-grid {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-row-gap: 50px;
+  text-align: center;
+}
+#top-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#zero-per-month{
+  text-align: right;
+}
+#zero-dollars {
+  font-size: 4rem;
+  font-weight: 600;
+}
+#per-month {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+#curly {
+  font-size: 18rem;
+  font-weight: 400;
+  color: #00cec9;
+  margin-right: 20px;
+}
+#top-right, #bottom-left {
+  border: 2px solid black;
+  height: 300px;
+}
+#top-left-dime {
+  height: 1rem;
+}
+#top-left ul {
+  text-align: left;
+  list-style-type: disc;
+}
+#top-left ul li {
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 1rem;
+  color: black;
+}
+#bottom-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#bottom-right ul {
+  text-align: right;
+}
+#bottom-right h2 {
+  color: black;
+  font-size: 2.5rem;
+}
+#bottom-right ul li {
+  color: #646464;
+  font-size: 2rem;
+}
+#bottom-right-dime {
+  height: 2rem;
+}
+#bottom-right .bracket {
+  color: #646464;
+  font-size: 12rem;
+}
 .computer-video-wrapper {
   position: relative;
   z-index: 100;
@@ -1472,10 +1589,8 @@ input[type="number"]::-webkit-outer-spin-button {
   padding: 15px 25px;
 }
 #contact-us {
-  font-weight: 600;
-  margin-top: 30px;
-  color: #00cec9;
-  text-shadow: none;
+  margin-top: 50px;
+  height: 750px;
 }
 
 /* //////////////////////////
@@ -1489,5 +1604,199 @@ input[type="number"]::-webkit-outer-spin-button {
    768-480     - tablet 
    480-less    - phone landscape & smaller
 --------------------------------------------*/
-
+@media all and (max-width: 425px) {
+  #together-badge {
+    height: 15vw;
+    max-height: 75px;
+    left: 50vw;
+    transform: translateX(-50%);
+  }
+  #login {
+    background: none;
+    border: none;
+    font-weight: 600;
+    text-shadow: 0px 1px 6px #0000002c
+  }
+  #main-blob {
+    top: -200px;
+    left: 50vw;
+    transform: scale(0.8) translateX(-50%);
+  }
+  #together {
+    height: 10vw;
+    margin-bottom: 5vw;
+    max-height: 50px;
+  }
+  .subtitle {
+    font-size: 15px;
+    line-height: 1.2rem;
+    font-weight: 600;
+    width: 100%;
+  }
+  .computer-video-wrapper {
+    left: 11vw;
+    top: 78vh;
+  }
+  .main-computer-wrapper {
+    height: 46vw;
+    bottom: 0;
+  }
+  #join {
+    font-size: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  #features .features-item-title {
+    display: none;
+  }
+  #features .computer-cutout-wrapper {
+    height: 175px;
+    left: 50vw;
+    bottom: 12vh;
+  }
+  #features .phone-cutout-wrapper {
+    height: 125px;
+    left: calc(12vw + 220px);
+    bottom: 12vh;
+  }
+  .phone-2-cutout {
+    left: 32px;
+  }
+  #features .toggle {
+    top: 82%;
+    flex-direction: row;
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+    left: 45vw;
+  }
+  #features .toggle .material-icons {
+    display: none;
+  }
+  #features .toggle button {
+    padding: 1px 12px;
+    color: black;
+    font-weight: 600;
+  }
+  #features .toggle button.selected {
+    border-radius: 50px;
+  }
+  .features-phone-wrapper {
+    height: 145px;
+    left: calc(4vw);
+    bottom: 304px;
+  }
+  #feature-description {
+    width: 92vw;
+    height: 210px;
+    font-size: 12px;
+  }
+  #feature-description h3 {
+    padding-left: 30vw;
+    font-size: 21px;
+    font-weight: 600;
+  }
+  #feature-description .description {
+    padding: 5px 0 0 30vw;
+    line-height: 1.15rem;
+  }
+  #feature-grid {
+    padding: 50px 12vw;
+  }
+  #feature-grid .feature {
+    padding: 14px;
+    width: 8vw;
+    height: 8vw;
+    margin: 4px;
+  }
+  #feature-grid .feature i {
+    font-size: 1rem;
+  }
+  #feature-grid .feature .title {
+    font-size: 0.5rem;
+  }
+  #feature-blob-1 {
+    top: 120px;
+    transform: scale(0.3) translate(115%, 0);
+  }
+  #feature-blob-2 {
+    left: -352px;
+    top: -326px;
+    transform: scale(0.35);
+  }
+  .earth-blob {
+    bottom: -162px;
+    transform: scale(0.3) translate(118%, 0);
+  }
+  .cloud1 {
+    bottom: 240px;
+    transform: scale(0.3);
+    right: -60px;
+  }
+  .cloud2 {
+    bottom: 115px;
+    transform: scale(0.3) translate(117%, 0);
+  }
+  .cloud3 {
+    bottom: 60px;
+    transform: scale(0.3) translate(117%, 0);
+  }
+  #bottom-squig {
+    width: 120%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 14px;
+  }
+  #personal-simple-free .bars .title {
+    font-size: 1.35rem;
+  }
+  #personal-simple-free .bars .bar {
+    padding: 17px 10vw;
+  }
+  #personal-simple-free .bars .description {
+    font-size: .8rem;
+    width: 72%;
+  }
+  #personal-simple-free .bar.right .description{
+    margin-left: 0;
+    width: 75%;
+    padding-left: 25%;
+  }
+  #simple {
+    margin: 14px 0;
+  }
+  #personal-simple-free #top-squig {
+    width: 168%;
+    top: 92px;
+  }
+  #get-started {
+    height: 67vh;
+    bottom: 45px;
+  }
+  #get-started-header {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+  #together-thing {
+    font-size: .9rem;
+    text-align: left;
+  }
+  .texts {
+    width: 80%;
+    margin-left: 30px;
+  }
+  .buttons {
+    text-align: left;
+    margin-left: 22px
+  }
+  #sign-up {
+    font-size: 16px;
+    padding: 10px 14px;
+    margin-top: 5vh;
+  }
+  #contact-us {
+    margin-left: 14px;
+    margin-top: 12px;
+  }
+}
 </style>
