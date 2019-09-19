@@ -309,7 +309,6 @@
             fill="#00cec9"
           />
         </svg>
-
         <div class="bar left top" id="personal">
           <h2 class="title">Personal</h2>
           <div class="description">Get to know your people as they get involved</div>
@@ -775,29 +774,36 @@ h1::before {
 }
 
 #hero {
-  padding: 0px 5%;
+  padding: 150px 7.5%;
+  /* padding-top: ; */
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  min-height: 100vh;
-  grid-column-gap: 7.5%;
+  grid-template-columns: repeat(auto-fit,minmax(250px, 1fr));
+  /* grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); */
+  grid-gap: 7.5%;
+  /* min-height: 700px; */
 }
 #main-title,
 #hero-computers {
-  min-height: 75vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+/* #main-title {
+  grid-column: auto / span 2;
+}
+#hero-computers {
+  grid-column: auto / span 3;
+} */
 #together-title {
   width: 85%;
   max-width: 400px;
 }
 #subtitle {
-  margin: 50px 20px;
+  margin: 3rem 20px;
   width: 70%;
   margin-left: 10px;
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.5rem;
   color: black;
@@ -877,7 +883,6 @@ h1::before {
   color: #646464;
   font-size: 12rem;
 }
-
 .computer-video-wrapper {
   position: relative;
   z-index: 100;
@@ -937,38 +942,6 @@ h1::before {
   pointer-events: none;
   /* mix-blend-mode: difference; */
 }
-/* #join{
-  margin: 10px auto;
-  text-align: center;
-  width: 120px;
-  padding-bottom: 5px;
-  cursor: pointer;
-  transition: all .3s ease;
-  position: relative;
-  z-index: 100;
-  transition: all 0.1s ease-in-out .2s;
-} 
-#join:hover {
-  width: 55px;
-  color: black;
-}
-#join::before { 
-  content: "";
-  position: absolute;
-  z-index: -1;
-  height: 1px;
-  bottom: -2px;
-  border-radius: 2px;
-  right: 0;
-  left: 0;
-  background-color: rgb(255, 255, 255);
-  border: 0px rgb(255, 255, 255) solid;
-  -webkit-transition: all 0.2s ease-in-out 0s;
-  transition: all 0.2s ease-in-out 0s;
-}
-#join:hover::before {
-  height: 32px;
-} */
 .next-page {
   cursor: pointer;
   font-size: 1rem;
