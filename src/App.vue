@@ -65,6 +65,7 @@ export default {
 </style>
 
 <style src="./assets/css/material.css"></style> 
+<style src="./assets/css/responsive-grid.css"></style> 
 
 <style>
   #app{

@@ -1,469 +1,328 @@
 <template>
-  <div id="splash-container">
-    <navbar :parentDivID="'splash-container'" :displayScrollValue="30"/>
-    <register-church ref="register"></register-church>
-    <div id="hero">
-      <div id="main-title" class>
-        <img
-          id="together-title"
-          src="https://togethercdn.global.ssl.fastly.net/assets/logo/title_black.png"
-          alt
-          srcset
-        />
-        <div id="subtitle">
-          <p>
-            a church engagement platform that
-            provides your church all the tools they
-            need to connect with your people
-            <br />
-            <br />
-            <br />for free
-          </p>
-        </div>
-        <button id="early-access" class="gs-basic-button big">GET EARLY ACCESS</button>
-      </div>
-      <div id="hero-computers">        
-        <div class="computer-video-wrapper">
-          <div class="main-computer-wrapper">
-            <div class="main-computer">
-              <img key="b" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-computer.png"/>
-            </div>          
-            <div id="main-computer-video-container">
-              <video
+  <div id="splash-container">  
+    <sweet-modal ref="earlyAccessModal">      
+      <h1>GET EARLY ACCESS</h1>  
+      <contact-us/>
+    </sweet-modal>
+    <navbar :displayScrollValue="30"/>
+    <div id="splash-wrapper">
+      <register-church ref="register"></register-church>
+      <div id="hero">
+        <div id="main-title" class>
+          <img
+            id="together-title"
+            src="https://togethercdn.global.ssl.fastly.net/assets/logo/title_black.png"
+            alt
+            srcset
+          />
+          <div id="subtitle">
+            <p>
+              a church engagement platform that
+              provides your church all the tools they
+              need to connect with your people
+              <br />
+              <br />
+              <br />for free
+            </p>
+          </div>
+        <button id="early-access" class="gs-basic-button big"
+          @click="openEarlyAccess()"
+        >GET EARLY ACCESS</button>
+        </div>        
+        <div id="hero-computers">        
+          <div class="computer-video-wrapper">
+            <div class="main-computer-wrapper">
+              <div class="main-computer">
+                <img key="b" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-computer.png"/>
+              </div>          
+              <div id="main-computer-video-container">
+                <video
+                  autoplay
+                  muted
+                  loop
+                  id="main-computer-video"
+                  type="video/mp4"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
+                ></video>
+              </div>
+            </div>
+            <div class="main-phone-wrapper">
+              <img src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-iphone.png">
+              <div class="main-phone-video-container">
+                <video
                 autoplay
                 muted
                 loop
                 id="main-computer-video"
                 type="video/mp4"
                 src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
-              ></video>
-            </div>
-          </div>
-          <div class="main-phone-wrapper">
-            <img src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-iphone.png">
-            <div class="main-phone-video-container">
-              <video
-              autoplay
-              muted
-              loop
-              id="main-computer-video"
-              type="video/mp4"
-              src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
-              ></video>
+                ></video>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div id="dime-partnership">
-      <h1>IT'S FREE</h1>
-      <div id="dime-grid">
-        <div id="top-left">
-          <div id="zero-per-month">
-            <p id="zero-dollars">$0</p>
-            <p id="per-month">per month</p>
-          </div>
-          <div id="curly">{</div>
-          <ul>
-            <li>Database and data storage</li>
-            <li>Planning tools</li>
-            <li>Management software</li>
-            <li>Engagement app</li>
-            <li>Mass communicator</li>
-            <li>Analytic tool</li>
-            <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li>
-          </ul>
         </div>
-        <div id="top-right">
-          <p>2</p>
+      </div>      
+      <b-container id="dime-partnership">
+        <h1>IT'S FREE</h1>
+        <b-row id="dime-gri">
+          <b-col cols="12" md="6" class=".m-md-5" id="top-left">
+            <div id="zero-per-month">
+              <p id="zero-dollars">$0</p>
+              <p id="per-month">per month</p>
+            </div>
+            <div id="curly"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 88.83 395.928">
+              <path id="Path_4" data-name="Path 4" d="M69.8-142.128V-270.72c0-22.419,10.152-35.109,32.994-35.109h13.536v-8.037H105.75c-29.187,0-44.415,13.536-44.415,43.146v128.592c0,15.651-6.768,22-19.035,22H27.5v8.037H42.3c12.267,0,19.035,6.768,19.035,22.419V38.916c0,29.61,15.228,43.146,44.415,43.146h10.575V74.025H102.789c-22.842,0-32.994-12.69-32.994-35.109V-89.676c0-15.651-4.23-22.419-13.536-26.226C65.565-119.709,69.8-126.477,69.8-142.128Z" transform="translate(-27.495 313.866)" fill="#00ccc7"/>
+            </svg>
+            </div>
+            <ul>
+              <li>Database and data storage</li>
+              <li>Planning tools</li>
+              <li>Management software</li>
+              <li>Engagement app</li>
+              <li>Mass communicator</li>
+              <li>Analytic tool</li>
+              <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li>
+            </ul>
+          </b-col>
+          <b-col cols="12" md="6" id="top-right-photo">
+            <img src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80" alt="">
+          </b-col>
+          <b-col cols="12" md="6" id="bottom-left-photo">
+            <img src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80" alt="">
+          </b-col>
+          <b-col cols="12" md="6" id="bottom-right">
+            <svg class="bracket" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 29 279.543">
+              <path id="Path_5" data-name="Path 5" d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319" transform="translate(-287.086 -260.857)" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
+            </svg>
+            <ul>
+              <li><h2>GIVING</h2></li>
+              <li><img src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png" id="bottom-right-dime"></li>
+              <li>2.7% + $0.27 for Cards</li>
+              <li>0.50% + $0.25 for ACH</li>
+            </ul>
+            <svg class="bracket" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 29 279.543">
+              <path id="Path_6" data-name="Path 6" d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319" transform="translate(316.086 540.4) rotate(180)" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
+            </svg>
+          </b-col>
+        </b-row>
+      </b-container>
+      <!-- <div id="problems">
+        <h1>Running a church can be complicated</h1>
+        <div class="big-words">
+        <div class="big-word">{{this.selectedProblem1}}</div>
+        <div class="big-word">{{this.selectedProblem2}}</div>
+        <div class="big-word">{{this.selectedProblem3}}</div>
         </div>
-        <div id="bottom-left">
-          <p>3</p>
-        </div>
-        <div id="bottom-right">
-          <div class="bracket">[</div>
-          <ul>
-            <li><h2>GIVING</h2></li>
-            <li><img src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png" id="bottom-right-dime"></li>
-            <li>2.7% + $0.27 for Cards</li>
-            <li>0.50% + $0.25 for ACH</li>
-          </ul>
-          <div class="bracket">]</div>
-        </div>
-      </div>
-    </div>
-    <!-- <div id="problems">
-      <h1>Running a church can be complicated</h1>
-      <div class="big-words">
-      <div class="big-word">{{this.selectedProblem1}}</div>
-      <div class="big-word">{{this.selectedProblem2}}</div>
-      <div class="big-word">{{this.selectedProblem3}}</div>
-      </div>
-    </div>-->
-    <div id="features">
-      <h1>
-        You get all of this
-      </h1>
-      <!-- <h1>How do we do it?</h1> -->
-      <div class="toggle">
-        <button
-          @click="selectedShowcase = 'PEOPLE'"
-          :class="{'selected': selectedShowcase == 'PEOPLE'}"
-        >
-          <i class="material-icons">person</i>people
-        </button>
-        <button
-          @click="selectedShowcase = 'TEAMS'"
-          :class="{'selected': selectedShowcase == 'TEAMS'}"
-        >
-          <i class="material-icons">group</i>teams
-        </button>
-        <button
-          @click="selectedShowcase = 'CALENDAR'"
-          :class="{'selected': selectedShowcase == 'CALENDAR'}"
-        >
-          <i class="material-icons">event</i> calendar
-        </button>
-        <button
-          @click="selectedShowcase = 'MESSAGING'"
-          :class="{'selected': selectedShowcase == 'MESSAGING'}"
-        >
-          <i class="material-icons">send</i>messaging
-        </button>
-      </div>
-      <h3 class="features-item-title">{{selectedShowcase}}</h3>
-      <div id="feature-devices">
-      <div class="computer-cutout-wrapper">
-        <div class="computer-cutout">
-          <img
-            key="b"
-            src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-computer.png"
-          />
-          <transition-group name="fade-right" class="computer-screens" mode="in-out">
-            <img
-              key="1"
-              v-show="selectedShowcase == 'PEOPLE'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-computer.png"
-            />
+      </div>-->
+      <b-container id="features">
+        <h1>
+          WHAT YOU GET
+        </h1>
+        <b-row id="feature-container">
+          <b-col id="feature-details" col md="12" xl="3">
+            <h3 class="features-item-title">{{selectedShowcase}}</h3>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae cumque quis facilis ea. Maxime, beatae culpa earum aspernatur provident nisi enim ipsam quos ab deserunt distinctio, tempora nobis fuga. Nam sed velit voluptatem! Eligendi cumque temporibus et ab sint corporis officiis explicabo excepturi? Repudiandae quam ducimus nemo velit expedita odit!</p>
+          </b-col>
+          <b-col id="feature-devices" cols="12" md="12" xl="9">          
+            <div class="computer-cutout-wrapper">
+              <div class="computer-cutout">
+                <img
+                  key="b"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-computer.png"
+                />
+                <transition-group name="fade-up" class="computer-screens" mode="in-out">
+                  <img
+                    key="1"
+                    v-show="selectedShowcase == 'PEOPLE'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-computer.png"
+                  />
 
-            <img
-              key="2"
-              v-show="selectedShowcase == 'TEAMS'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-computer.png"
-            />
+                  <img
+                    key="2"
+                    v-show="selectedShowcase == 'TEAMS'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-computer.png"
+                  />
 
-            <img
-              key="3"
-              v-show="selectedShowcase == 'CALENDAR'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-computer.png"
-            />
+                  <img
+                    key="3"
+                    v-show="selectedShowcase == 'CALENDAR'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-computer.png"
+                  />
 
-            <img
-              key="4"
-              v-show="selectedShowcase == 'MESSAGING'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-computer.png"
-            />
-          </transition-group>
-        </div>
-      </div>
-      <div class="phone-cutout-wrapper">
-        <div class="phone-1-cutout phone-cutout">
-          <img
-            key="b"
-            src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
-          />
-          <transition-group class="phone-screens" name="fade-left" mode="in-out">
-            <img
-              key="a"
-              v-show="selectedShowcase == 'PEOPLE'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-phone.png"
-            />
+                  <img
+                    key="4"
+                    v-show="selectedShowcase == 'MESSAGING'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-computer.png"
+                  />
+                </transition-group>
+              </div>
+            </div>
+            <div class="phone-cutout-wrapper">
+              <div class="phone-1-cutout phone-cutout">
+                <img
+                  key="b"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+                />
+                <transition-group class="phone-screens" name="fade-left" mode="in-out">
+                  <img
+                    key="a"
+                    v-show="selectedShowcase == 'PEOPLE'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-phone.png"
+                  />
 
-            <img
-              key="c"
-              v-show="selectedShowcase == 'TEAMS'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-phone.png"
-            />
+                  <img
+                    key="c"
+                    v-show="selectedShowcase == 'TEAMS'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-phone.png"
+                  />
 
-            <img
-              key="e"
-              v-show="selectedShowcase == 'CALENDAR'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
-            />
+                  <img
+                    key="e"
+                    v-show="selectedShowcase == 'CALENDAR'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
+                  />
+                  <img
+                    key="g"
+                    v-show="selectedShowcase == 'MESSAGING'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-phone.png"
+                  />
+                </transition-group>
+              </div>
+              <div class="phone-2-cutout phone-cutout">
+                <img
+                  key="b"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+                />
+                <transition-group class="phone-screens" name="fade-left" mode="in-out">
+                  <img
+                    key="b"
+                    v-show="selectedShowcase == 'PEOPLE'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/friends-phone.png"
+                  />
 
-            <img
-              key="g"
-              v-show="selectedShowcase == 'MESSAGING'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-phone.png"
-            />
-          </transition-group>
-        </div>
-        <div class="phone-2-cutout phone-cutout">
-          <img
-            key="b"
-            src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
-          />
-          <transition-group class="phone-screens" name="fade-left" mode="in-out">
-            <img
-              key="b"
-              v-show="selectedShowcase == 'PEOPLE'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/friends-phone.png"
-            />
+                  <img
+                    key="d"
+                    v-show="selectedShowcase == 'TEAMS'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/team-details-phone.png"
+                  />
 
-            <img
-              key="d"
-              v-show="selectedShowcase == 'TEAMS'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/team-details-phone.png"
-            />
+                  <img
+                    key="f"
+                    v-show="selectedShowcase == 'CALENDAR'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
+                  />
 
-            <img
-              key="f"
-              v-show="selectedShowcase == 'CALENDAR'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
-            />
+                  <img
+                    key="h"
+                    v-show="selectedShowcase == 'MESSAGING'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-details-phone.png"
+                  />
+                </transition-group>
+              </div>          
+              <div class="phone-3-cutout phone-cutout">
+                <img
+                  key="b"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+                />
+                <transition-group class="phone-screens" name="fade-left" mode="in-out">
+                  <img
+                    key="b"
+                    v-show="selectedShowcase == 'PEOPLE'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/friends-phone.png"
+                  />
 
-            <img
-              key="h"
-              v-show="selectedShowcase == 'MESSAGING'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-details-phone.png"
-            />
-          </transition-group>
-        </div>
-      </div>
-      </div>
-    </div>
-    <div id="features">
-      <h1>What you get</h1>
-      <div class="features-phone-wrapper">
-        <div class="phone-3-cutout phone-cutout">
-          <img
-            key="b"
-            src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
-          />
-          <transition-group class="phone-screens" name="fade-left" mode="in-out">
-            <img
-              key="a"
-              v-show="selectedFeature.title == 'People'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-phone.png"
-            />
+                  <img
+                    key="d"
+                    v-show="selectedShowcase == 'TEAMS'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/team-details-phone.png"
+                  />
 
-            <img
-              key="c"
-              v-show="selectedFeature.title == 'Serve Teams'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-phone.png"
-            />
+                  <img
+                    key="f"
+                    v-show="selectedShowcase == 'CALENDAR'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
+                  />
 
-            <img
-              key="e"
-              v-show="selectedFeature.title == 'Events'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
-            />
-
-            <img
-              key="g"
-              v-show="selectedFeature.title == 'Messaging'"
-              src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-phone.png"
-            />
-          </transition-group>
-        </div>
-      </div>
-      <div id="feature-wrapper">
-        <div id="feature-description">
-          <h3>{{selectedFeature.title}}</h3>
-          <div class="description">{{selectedFeature.description}}</div>
-        </div>
-        <div id="feature-grid">
-          <div
-            class="feature noselect"
-            v-for="(feature, index) in features"
-            :key="index"
-            :class="{'selected': selectedFeature.title == feature.title}"
-            @click="selectedFeature = feature"
-          >
-            <i
-              class="material-icons"
-              :class="{'coming-soon-padding': feature.inDev == true}"
-            >{{feature.icon}}</i>
-            <div class="title">{{feature.title}}</div>
-            <div class="coming-soon" v-if="feature.inDev">coming soon</div>
-          </div>
-        </div>
-      </div>1
-    </div>
+                  <img
+                    key="h"
+                    v-show="selectedShowcase == 'MESSAGING'"
+                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-details-phone.png"
+                  />
+                </transition-group>
+              </div>
+            </div>
+          </b-col>
+          <b-col class="toggle full" cols="12">
+            <button
+              @click="selectedShowcase = 'PEOPLE'"
+              :class="{'selected': selectedShowcase == 'PEOPLE'}"
+            >
+              <i class="material-icons">person</i>people
+            </button>
+            <button
+              @click="selectedShowcase = 'TEAMS'"
+              :class="{'selected': selectedShowcase == 'TEAMS'}"
+            >
+              <i class="material-icons">group</i>teams
+            </button>
+            <button
+              @click="selectedShowcase = 'CALENDAR'"
+              :class="{'selected': selectedShowcase == 'CALENDAR'}"
+            >
+              <i class="material-icons">event</i> calendar
+            </button>
+            <button
+              @click="selectedShowcase = 'MESSAGING'"
+              :class="{'selected': selectedShowcase == 'MESSAGING'}"
+            >
+              <i class="material-icons">send</i>messaging
+            </button>
+            <button
+              @click="selectedShowcase = 'GLOBAL'"
+              :class="{'selected': selectedShowcase == 'GLOBAL'}"
+            >
+              <i class="material-icons">scatter_plot</i>global
+            </button>
+            <button
+              @click="selectedShowcase = 'GIVING'"
+              :class="{'selected': selectedShowcase == 'GIVING'}"
+            >
+              <i class="material-icons">trip_origin</i>giving
+            </button>
+            <button
+              @click="selectedShowcase = 'DATA INTEGRATION'"
+              :class="{'selected': selectedShowcase == 'DATA INTEGRATION'}"
+            >
+              <i class="material-icons">cloud_done</i>data integration
+            </button>
+          </b-col>
+        </b-row>
+    </b-container>
     <div id="personal-simple-free">
       <personal-simple-free/>
     </div>
-    <!-- <div id="personal-simple-free">
-      <div class="bars">
-        <svg
-          id="top-squig"
-          xmlns="http://www.w3.org/2000/svg"
-          width="1920"
-          height="104.06"
-          viewBox="0 0 1920 104.06"
-        >
-          <path
-            data-name="Path 45"
-            d="M0,0S129.838-38.447,391.9-43.358,1163.1,58.864,1448.467,60.506,1920,0,1920,0V60.506H0Z"
-            transform="translate(0 43.522)"
-            fill="#00cec9"
-          />
-        </svg>
-        <div class="bar left top" id="personal">
-          <h2 class="title">Personal</h2>
-          <div class="description">Get to know your people as they get involved</div>
-        </div>
-        <div class="earth-blob">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="568.568"
-            height="782.572"
-            viewBox="0 0 568.568 782.572"
-          >
-            <path
-              id="Path_44"
-              data-name="Path 44"
-              d="M-1946.022,972.694s-237.037,31.3-270.406-44.667c-101.005-465.805-361.073-334.27-284.139-501.97,71.508-111.586,247.211-67.735,311.576-156.057,68.489-93.008,242.969-71.288,242.969-71.288Z"
-              transform="translate(2514.59 -196.51)"
-              fill="#00e55c"
-            />
-          </svg>
-        </div>
-        <div class="cloud1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="316.299"
-            height="98.448"
-            viewBox="0 0 316.299 98.448"
-          >
-            <path
-              id="Path_51"
-              data-name="Path 51"
-              d="M-221.057,3738.179c-22.271-23.92-105.58-23.1-161.669-19.8S-521.3,3741.479-518,3781.071c2.158,25.893,75.885,32.994,112.178,19.8s69.939,9.773,112.178,13.2C-171.567,3823.963-198.787,3762.1-221.057,3738.179Z"
-              transform="translate(518.096 -3716.68)"
-              fill="#fff"
-            />
-          </svg>
-        </div>
-        <div class="cloud2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="106.847"
-            height="99.709"
-            viewBox="0 0 106.847 99.709"
-          >
-            <path
-              id="Path_50"
-              data-name="Path 50"
-              d="M-551.277,4111.007c-62.284,5.361-96.272,29.092-99.074,45.9-3.3,19.8-39.217,59.681,82.86,53.083,5.371-.291,10.537-.745,15.672-1.368C-552.417,4207.423-550.107,4111.541-551.277,4111.007Z"
-              transform="translate(657.788 -4111.007)"
-              fill="#fff"
-            />
-          </svg>
-        </div>
-        <div class="cloud3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="356.424"
-            height="117.486"
-            viewBox="0 0 356.424 117.486"
-          >
-            <path
-              id="Path_49"
-              data-name="Path 49"
-              d="M-384.628,4261.418c-93.225-4.368-115.422,28.1-124.3,30.8s-130.959,5.411-75.468,43.287,153.156,51.4,199.768,37.876,141.736-11.526,141.736-12.682,1.155-67,0-68.482S-384.628,4261.418-384.628,4261.418Z"
-              transform="translate(598.804 -4261.014)"
-              fill="#fff"
-            />
-          </svg>
-        </div>
-        <div class="bar right" id="simple">
-          <h2 class="title">Simple</h2>
-          <div class="description">We take care of the hard stuff, so you can focus on what matters.</div>
-        </div>
-        <div class="bar left" id="free">
-          <h2 class="title">Free</h2>
-          <div class="description">Never budget to use our platform.</div>
-        </div>
-        <svg
-          id="bottom-squig"
-          xmlns="http://www.w3.org/2000/svg"
-          width="1920"
-          height="62.548"
-          viewBox="0 0 1920 62.548"
-        >
-          <path
-            id="Path_46"
-            data-name="Path 46"
-            d="M0,278H1920s-493.309,62.548-973.309,62.548S0,278,0,278Z"
-            transform="translate(0 -278)"
-            fill="#00cec9"
-          />
-        </svg>
-      </div>
-    </div> -->
-    <!-- <div id="pricing">
-      <h1>Use it all for FREE!</h1>
-      <div id="price-visualizer">
-        <div class="church-size">
-          <div for="" class="header">
-            How many people do you think will use the app?
-          </div>
-          <div class="number">
-            <input type="number" class="" v-model="churchSize" min="0" max="5000">
-            <span>{{churchSize == maxChurchSize ? '+' : ''}}</span>
-          </div>
-          <div class="slider-wrapper">
-            <vue-slider v-model="churchSizePercentage"
-              :dotSize="20"          
-              :process-style="{ backgroundColor: '#55efc4' }"
-              :tooltip="'none'"
-              :dot-style="{ backgroundColor: 'white', borderColor: 'white' }"
-              :min="0"
-              :max="100"/>
-          </div>
-        </div>
-        <div class="monthly-payment">
-          <div for="" class="header">
-            You church will pay:
-          </div>
-          <div type="number" class="number">{{'$' + monthlyPayment}}</div>
-          <div type="number" class="number">{{'free'}}</div>
-          <div for="" class="footer">
-            per month
-          </div>
-        </div>
-      </div>
-      <div class="explain">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi sunt, cumque omnis impedit ratione nulla quas et, magnam ipsam corrupti rerum dignissimos rem explicabo ipsum eos, id similique quidem. Quis?</div>
-    </div>-->
-    <!-- <div id="get-started">
-      <div class="texts">
-        <h1 id="get-started-header">Get Started Today</h1>
-        <h4 id="together-thing">Sign your church up for the Together today!</h4>
-      </div>
-      <div class="buttons">
-        <button
-          id="sign-up"
-          class="basic-button noselect"
-          @click="openRegisterWindow"
-        >SIGN YOUR CHURCH UP</button>
-        <div id="contact-us" class="noselect">CONTACT US</div>
-      </div>
-    </div> -->
-    <div id="contact-us">
-      <contact-us/>
-    </div>
+    <b-container id="contact-us">
+      <h1>CONTACT US</h1>
+      <b-row>
+        <contact-us/>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
 import VueSlider from "vue-slider-component";
+import { SweetModal } from 'sweet-modal-vue'
 import "vue-slider-component/theme/antd.css";
 import Navbar from "./Navbar.vue"
 import ContactUs from "./ContactUs.vue";
-import PersonalSimpleFree from "./personalsimplefree"
+import PersonalSimpleFree from "./PersonalSimpleFree"
 
-import RegisterChurch from "@/components/RegisterChurch";
+import RegisterChurch from "@/components/RegisterChurch"
+import { LayoutPlugin } from 'bootstrap-vue'
+import Vue from 'vue'
+Vue.use(LayoutPlugin)
 
 export default {
   name: "Hello",
@@ -575,7 +434,8 @@ export default {
     RegisterChurch,
     Navbar,
     ContactUs,
-    PersonalSimpleFree
+    PersonalSimpleFree,
+    SweetModal
   },
   methods: {
     loadDrift() {},
@@ -583,6 +443,13 @@ export default {
       console.log(this.$refs);
       this.$refs.register.open();
       this.registering = true;
+    },
+    openEarlyAccess() {
+      console.log(this.$refs.earlyAccessModal)
+      this.$refs.earlyAccessModal.open()
+    },
+    closeEarlyAccess() {
+      this.$refs.earlyAccessModal.close()
     },
     handleScroll() {
       const index1 =
@@ -674,9 +541,9 @@ export default {
 
 <style scoped>
 h1 {
-  font-weight: 500;
-  font-size: 3rem;
-  margin: 50px 0px 50px 10%;
+  font-weight: 600;
+  font-size: 2rem;
+  margin: 50px 0px 5rem 0px;
   display: inline-block;
   position: relative;
   z-index: 100;
@@ -688,44 +555,44 @@ h1::before {
   z-index: -1;
 
   height: 4px;
-  width: calc(100% + 40px);
+  width: calc(100% + 10px);
   
   position: absolute;
-  left: 40px;
+  left: 30px;
   bottom: 0px;
 
   background-color: #00cec9;  
   border-radius: 2px;
 }
 
-.fade-right-enter-active {
-  transition: opacity 0.3s ease-in, transform 0.5s ease-out;
+.fade-up-enter-active {
+  transition: opacity 0.4s ease-in, transform 0.5s ease-out;
   transition-delay: 0.1s;
   z-index: 100;
   position: relative;
 }
-.fade-right-leave-active {
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+.fade-up-leave-active {
+  transition: opacity 0.75s ease-in-out, transform 0.5s ease-in-out;
   z-index: 0;
   position: relative;
 }
-.fade-right-leave-to {
+.fade-up-leave-to {
   z-index: 0;
   opacity: 0;
 }
-.fade-right-enter {
-  transform: translateX(-15px);
+.fade-up-enter {
+  transform: translateY(20px);
   opacity: 0;
   z-index: 100;
 }
 .fade-left-enter-active {
-  transition: opacity 0.3s ease-in, transform 0.5s ease-out;
+  transition: opacity 0.1s ease-in, transform 0.5s ease-out;
   transition-delay: 0.1s;
   z-index: 100;
   position: relative;
 }
 .fade-left-leave-active {
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  transition: opacity 0.75s ease-in-out, transform 0.5s ease-in-out;
   z-index: 0;
   position: relative;
 }
@@ -734,7 +601,7 @@ h1::before {
   opacity: 0;
 }
 .fade-left-enter {
-  transform: translateX(75px);
+  transform: translateX(100px);
   opacity: 0;
   z-index: 100;
 }
@@ -761,11 +628,12 @@ h1::before {
 }
 
 #splash-container {
-  /* perspective: 2px; */
-  max-width: 80rem;
-  margin: 0px auto;
   overflow-x: hidden;
   overflow-y: auto;
+}
+#splash-wrapper {
+  max-width: 80rem;
+  margin: 0px auto;
 }
 #together-badge {
   position: absolute;
@@ -774,13 +642,14 @@ h1::before {
 }
 
 #hero {
-  padding: 150px 7.5%;
+  padding: calc(20vh + 50px) 7.5% 15vh 7.5%;
   /* padding-top: ; */
   display: grid;
   align-items: center;
   grid-template-columns: repeat(auto-fit,minmax(250px, 1fr));
   /* grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); */
-  grid-gap: 7.5%;
+  grid-column-gap: 7.5%;
+  grid-row-gap: 12.5%;
   /* min-height: 700px; */
 }
 #main-title,
@@ -789,12 +658,6 @@ h1::before {
   flex-direction: column;
   justify-content: center;
 }
-/* #main-title {
-  grid-column: auto / span 2;
-}
-#hero-computers {
-  grid-column: auto / span 3;
-} */
 #together-title {
   width: 85%;
   max-width: 400px;
@@ -812,14 +675,9 @@ h1::before {
   /* width: 80%; */
 }
 #dime-partnership {
-  min-height: 100vh;
+  margin-bottom: 75px;
 }
 #dime-grid {
-  display: grid;
-  align-items: center;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  grid-row-gap: 50px;
-  text-align: center;
 }
 #top-left {
   display: flex;
@@ -828,24 +686,29 @@ h1::before {
 }
 #zero-per-month{
   text-align: right;
+  margin-right: 10px;
 }
 #zero-dollars {
   font-size: 4rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 #per-month {
   font-size: 1.5rem;
   font-weight: 600;
 }
 #curly {
-  font-size: 18rem;
-  font-weight: 400;
   color: #00cec9;
   margin-right: 20px;
+  height: 17rem;
 }
-#top-right, #bottom-left {
-  border: 2px solid black;
+#top-right-photo, #bottom-left-photo {
+  padding: 25px 0px;
   height: 300px;
+}
+#top-right-photo img, #bottom-left-photo img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 #top-left-dime {
   height: 1rem;
@@ -855,10 +718,13 @@ h1::before {
   list-style-type: disc;
 }
 #top-left ul li {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
   font-weight: 500;
   font-size: 1rem;
   color: black;
+}
+#top-left ul li:last-child {
+  margin-bottom: 0px;
 }
 #bottom-right {
   display: flex;
@@ -873,15 +739,20 @@ h1::before {
   font-size: 2.5rem;
 }
 #bottom-right ul li {
-  color: #646464;
-  font-size: 2rem;
+  color: #868686;
+  margin: 0px 10px;
+  font-size: 1.5rem;
 }
 #bottom-right-dime {
   height: 2rem;
 }
 #bottom-right .bracket {
-  color: #646464;
-  font-size: 12rem;
+  color: #dfdfdf;
+  height: 14rem;
+  margin: 0px 10px;
+}
+#bottom-right .bracket svg{
+  overflow: hidden;
 }
 .computer-video-wrapper {
   position: relative;
@@ -931,17 +802,6 @@ h1::before {
   overflow: hidden;
   border-radius: 10px;
 }
-#scribble-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  top: 45vh;
-  width: 600px;
-  height: 300px;
-  pointer-events: none;
-  /* mix-blend-mode: difference; */
-}
 .next-page {
   cursor: pointer;
   font-size: 1rem;
@@ -961,96 +821,42 @@ h1::before {
   cursor: pointer;
   /* line-height: .5; */
 }
-/* .next-page {
-  cursor: pointer;
-  font-size: 30px;
-  position: absolute;
-  color: white;
-  padding: 10px;
-  background: linear-gradient(45deg, #05e0a2 20%, #00cec9 80%);
-  transform: rotate(90deg);
-  width: 25px;
-  height: 25px;
-  border-radius: 40px;
-  top: 95vh;
-  left: 50vw;
-  z-index: 200;
-  transform: translate(-50%, -50%);
-  vertical-align: middle;
-  cursor: pointer;
-  text-shadow: 0px 1px 9px #0000006e;
-} */
-#problems {
-  min-height: 100vh;
-  width: 100%;
-  position: relative;
-  background-image: url(https://togethercdn.global.ssl.fastly.net/assets/home-page/lots-of-people.png);
-
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-#problems .big-words {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
-
-  height: 110vh;
-}
-#problems .big-word {
-  display: block;
-  font-size: 5rem;
-  font-weight: 900;
-  color: white;
-  /* mix-blend-mode: difference; */
-  text-transform: uppercase;
-  background: #00cec9;
-  padding: 10px 30px;
-  letter-spacing: 10px;
-  margin: 40px 0px;
-  word-wrap: unset;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: default;
-  /* text-align: center; */
-}
-
 #features {
   position: relative;
+  margin-bottom: 50px;
+  /* padding: 50px 7.5% 50px 7.5%; */
 }
-#features h1 span {
-  transition: all 0.3s ease;
-  bottom: 0px;
-  position: relative;
+#feature-container {
 }
-#features h1 span.selected {
-  color: #00cec9;
-  bottom: 3px;
-  left: 0px;
-  text-shadow: -2px 3px 4px #00000023;
+#feature-details {
+  margin-bottom: 2rem;
 }
 #features .features-item-title {
-  text-align: center;
+  text-align: left;
   /* position: absolute; */
-  margin-top: 50px;
+  margin-top: 10px;
   display: block;
+
+  font-weight: 600;
+  color: black;
 }
-
+#features p{
+  text-align: left;
+}
+#feature-devices {
+  position: relative;
+  margin-bottom: 2rem;
+}
 .computer-cutout-wrapper {
-  height: 500px;
+  width: 85%;
 
-  position: absolute;
-  left: 50vw;
-  transform: translateX(-50%);
-  bottom: 10vh;
+  position: relative;
   z-index: 300;
+  overflow: hidden;
 }
 .computer-cutout {
-  height: 100%;
-  position: absolute;
-  transform: translateX(-50%);
+  width: 100%;
+  position: relative;
   bottom: 0px;
   z-index: 100;
 }
@@ -1058,16 +864,16 @@ h1::before {
   content: "";
   background: white;
   height: 80%;
-  width: 80%;
+  width: 47%;
   display: inline-block;
   position: absolute;
   z-index: -1;
-  right: 10%;
+  left: 8%;
   top: 10%;
 }
 .computer-cutout img {
-  height: 100%;
-  width: auto;
+  width: 100%;
+  height: auto;
   position: relative;
   z-index: 200;
 }
@@ -1086,17 +892,23 @@ h1::before {
 }
 
 #features .phone-cutout-wrapper {
-  height: 350px;
+  width: 18%;
 
   position: absolute;
-  left: calc(50vw + 225px);
-  bottom: 10vh;
-  /* bottom: calc(10vh + 26px); */
-  z-index: 300;
+  right: 0px;
+  margin-left: 50px;
+  bottom: 0px;
 }
-.phone-cutout {
+.phone-cutout {    
   position: absolute;
   bottom: 0px;
+  width: 22.5%;
+  z-index: 400;
+  bottom: 0px;
+}
+.phone-cutout img{  
+  position: relative;
+  width: 100%;
   z-index: 100;
 }
 .phone-cutout::after {
@@ -1110,89 +922,46 @@ h1::before {
   height: 94.5%;
 }
 .phone-1-cutout {
-  height: 100%;
+  width: 100%;
+  right: 60%;
 }
 .phone-2-cutout {
-  height: 80%;
-  left: 125px;
+  width: 80%;
+  right: 140%;
 }
-.phone-1-cutout img,
-.phone-2-cutout img,
-.phone-3-cutout img {
-  height: 100%;
-  width: auto;
-  position: relative;
-  z-index: 200;
+.phone-3-cutout {
+  width: 80%;
+  z-index: 300;
+  right: 0px;
 }
 .phone-screens {
   position: absolute;
-  z-index: 50;
-  right: 5%;
-  width: 79%;
+  z-index: 1;
+  left: 15%;
+  width: 80%;
   top: 3%;
-  height: 94.5%;
+  height: 93.5%;
   overflow: hidden;
+  border-radius: 10px;
 }
 .phone-screens img {
-  width: 100%;
   height: 100%;
-  position: absolute;
-}
-#features-blob-blue {
-  position: absolute;
-  transform: scale(0.9) translate(10%, 10%);
-  right: 0;
-  top: -150px;
-}
-#features-blob-green {
-  z-index: -1;
-  position: absolute;
-  transform: scale(0.9) translate(10%, 10%);
-  left: 20px;
-  top: -120px;
-}
-#features .phones .phone-1 {
-  /* max-height: 40vh;
   width: auto;
-  max-width: 17.5vw;
-  height: auto;
   position: absolute;
-  right: 0px;
-  z-index: 100;
-  bottom: 15vh; */
 }
-#features .phones .phone-2 {
-  /* max-height: 45vh;
-  width: auto;
-  max-width: 20vw;
-  height: auto;
-  position: absolute;
-  right: 120px;
-  bottom: 15vh;
-  z-index: 50; */
-}
-
 #features .toggle {
-  width: 50px;
-  height: 140px;
-  position: absolute;
-  left: 5vw;
-  top: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem;
   z-index: 500;
-
-  /* box-shadow: 0px 5px 13px -2px #00000040;
-  background: white;
-  border-radius: 10px; */
 }
 #features .toggle button {
   color: #9b9b9b;
   text-decoration: none;
-  margin: 7.5px 0px;
+  margin: 7.5px 7.5px;
   display: inline-flex;
   align-items: flex-end;
   font-size: 15px;
@@ -1223,7 +992,7 @@ h1::before {
   width: 0%;
   height: 0.2rem;
   bottom: -0.1rem;
-  border-radius: 2px;
+  border-radius: 5px;
   right: 0;
   background-color: #00cec9;
   border: 0px #00cec9 solid;
@@ -1241,19 +1010,16 @@ h1::before {
   transition: all 0.3s ease-in-out 0s;
 }
 #features .toggle button.selected:before {
-  height: 1.5rem;
-  bottom: -0.25rem;
-  right: -0.1rem;
-  border: 0.1rem #00cec9 solid;
-  width: 100%;
+  height: 2.15rem;
+  bottom: -0.5rem;
+  right: -0.3rem;
+  border: 0.2rem #00cec9 solid;
+  padding: .3rem;
+  width: calc(100% + .6rem);
   z-index: -1;
   visibility: visible;
 }
 
-#features {
-  min-height: 850px;
-  position: relative;
-}
 #feature-wrapper {
   width: 100vw;
 }
@@ -1265,9 +1031,6 @@ h1::before {
   bottom: 36vh;
   /* bottom: calc(10vh + 26px); */
   z-index: 300;
-}
-.phone-3-cutout {
-  height: 100%;
 }
 .feature-blobs {
   position: relative;
@@ -1296,10 +1059,6 @@ h1::before {
   color: black;
   font-size: 55px;
   font-weight: 600;
-}
-#features h4 {
-  text-align: center;
-  font-weight: 400;
 }
 #feature-description .description {
   padding: 5px 0vw 0px 28vw;
@@ -1367,7 +1126,7 @@ h1::before {
   padding: 2px 4px;
 }
 #personal-simple-free {
-  height: 850px;
+  /* height: 850px; */
 }
 #simple {
   margin: 25px 0px;
@@ -1591,6 +1350,7 @@ input[type="number"]::-webkit-outer-spin-button {
 #contact-us {
   margin-top: 50px;
   height: 750px;
+  padding: 0px 40px;
 }
 
 /* //////////////////////////
@@ -1605,77 +1365,8 @@ input[type="number"]::-webkit-outer-spin-button {
    480-less    - phone landscape & smaller
 --------------------------------------------*/
 @media all and (max-width: 425px) {
-  #together-badge {
-    height: 15vw;
-    max-height: 75px;
-    left: 50vw;
-    transform: translateX(-50%);
-  }
-  #login {
-    background: none;
-    border: none;
-    font-weight: 600;
-    text-shadow: 0px 1px 6px #0000002c
-  }
-  #main-blob {
-    top: -200px;
-    left: 50vw;
-    transform: scale(0.8) translateX(-50%);
-  }
-  #together {
-    height: 10vw;
-    margin-bottom: 5vw;
-    max-height: 50px;
-  }
-  .subtitle {
-    font-size: 15px;
-    line-height: 1.2rem;
-    font-weight: 600;
-    width: 100%;
-  }
-  .computer-video-wrapper {
-    left: 11vw;
-    top: 78vh;
-  }
-  .main-computer-wrapper {
-    height: 46vw;
-    bottom: 0;
-  }
-  #join {
-    font-size: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  #features .features-item-title {
-    display: none;
-  }
-  #features .computer-cutout-wrapper {
-    height: 175px;
-    left: 50vw;
-    bottom: 12vh;
-  }
-  #features .phone-cutout-wrapper {
-    height: 125px;
-    left: calc(12vw + 220px);
-    bottom: 12vh;
-  }
-  .phone-2-cutout {
-    left: 32px;
-  }
-  #features .toggle {
-    top: 82%;
-    flex-direction: row;
-    -webkit-transform: translate(0, 0);
-    transform: translate(0, 0);
-    left: 45vw;
-  }
-  #features .toggle .material-icons {
-    display: none;
-  }
-  #features .toggle button {
-    padding: 1px 12px;
-    color: black;
-    font-weight: 600;
+  #hero {
+    padding-top: 15vh;
   }
   #features .toggle button.selected {
     border-radius: 50px;
@@ -1793,10 +1484,6 @@ input[type="number"]::-webkit-outer-spin-button {
     font-size: 16px;
     padding: 10px 14px;
     margin-top: 5vh;
-  }
-  #contact-us {
-    margin-left: 14px;
-    margin-top: 12px;
   }
 }
 </style>
