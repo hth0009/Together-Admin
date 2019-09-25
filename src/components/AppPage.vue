@@ -243,11 +243,12 @@ import PeopleAPI from '@/services/people'
   color: white;
 }
 #app-navbar-buttons a.router-link-active:before {
-  height: 1.1em; 
-  bottom: -5px; 
-  right: -5px;
+  height: 1.8rem; 
+  bottom: -.5rem; 
+  right: -.5rem;
   border: 4px #00cec9 solid;
-  width: calc(100% + 2px);  
+  border-radius: 5px;
+  width: calc(100% + 1rem);  
   z-index: -1;
   visibility: visible;
 }
