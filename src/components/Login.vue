@@ -10,8 +10,14 @@
         <label for="password">password:</label>
         <input v-model="password" type="password" name="password" placeholder="password" autocomplete="password">
         <br>
-        <button>enter</button>
+        <button class="gs-basic-button">ENTER</button>
       </form>
+    </div>    
+    <div id="wrong-username-password" class="error" v-show="hasWrongUsernamePassword">
+      <i class="material-icons">error</i> Wrong password. Please try again.
+    </div>
+    <div id="user-not-found" class="error" v-show="userNotFound">
+      <i class="material-icons">error</i> This email or username was not found.
     </div>
   </div>
 </template>
@@ -23,16 +29,30 @@ export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      hasWrongUsernamePassword: false,
+      userNotFound: false,
     }
   },
   methods: {
     login: function () {
-        const {lowerCaseUsername, password} = this
-        const username = lowerCaseUsername
-        this.$store.dispatch('login', { username, password })
-       .then(() => this.$router.push('/app/people'))
-       .catch(err => console.error(err))
+      this.resetErrors()
+      const {lowerCaseUsername, password} = this
+      const username = lowerCaseUsername
+      this.$store.dispatch('login', { username, password })
+      .then(() => this.$router.push('/app/people'))
+      .catch(err => {
+        if (err.code == "NotAuthorizedException") {
+          this.hasWrongUsernamePassword = true;
+        }
+        if (err.code == "UserNotFoundException") {
+          this.userNotFound = true;
+        }
+      })
+    },
+    resetErrors() {
+      this.hasWrongUsernamePassword = false
+      this.userNotFound = false
     }
   },
   computed: {
@@ -52,6 +72,7 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: left center;
+    padding-top: 30vh;
   }
   #back-to-landing {
     position: absolute;
@@ -59,7 +80,7 @@ export default {
     top: 2rem;
     color: black;
     cursor: pointer;
-    font-size: 1 rem;
+    font-size: 1rem;
   }
   h1{
     font-family: 'Abril Fatface', serif;
@@ -67,16 +88,11 @@ export default {
     letter-spacing: 3px;
     font-weight: 100;
     color: #00cec9;
-    position: relative;
-    top: 20%;
     text-align: center;
-    margin: 0px;
   }
   #login-form{
-    position: relative;
-    top: 30%;
+    margin-top: 5vh;
     text-align: center;
-    margin: 0px;
     color: white;
     display: flex;
     justify-content: center;
@@ -142,6 +158,26 @@ export default {
   input:-webkit-autofill {
     -webkit-animation-name: autofill;
     -webkit-animation-fill-mode: both;
+  }
+
+  .error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;    
+    color: #ff7675;
+    border: 1px #ff7675 solid;
+    border-radius: 7px;
+
+    width: 90%;
+    max-width: 400px;
+    margin: 1rem auto;
+    padding: 1rem;
+
+    font-size: .9rem;
+  }
+  .error i{
+    margin-right: 1rem;
   }
 
   
