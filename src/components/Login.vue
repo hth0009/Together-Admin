@@ -5,13 +5,14 @@
     <div id="login-form">
       <form v-on:submit.prevent="login">
         <label for="username">username:</label>
-        <input v-model="username" type="username" name="username" placeholder="username">
+        <input v-model="username" type="username" name="username" required placeholder="username">
         <br>
         <label for="password">password:</label>
-        <input v-model="password" type="password" name="password" placeholder="password" autocomplete="password">
+        <input v-model="password" type="password" name="password" required placeholder="password" autocomplete="password">
         <br>
         <button class="gs-basic-button">ENTER</button>
       </form>
+      <inline-loader v-show="loggingIn"></inline-loader>
     </div>    
     <div id="wrong-username-password" class="error" v-show="hasWrongUsernamePassword">
       <i class="material-icons">error</i> Wrong password. Please try again.
@@ -24,6 +25,8 @@
 
 <script>
 
+import InlineLoader from '@/components/InlineLoader'
+
 export default {
   name: 'Login',
   data () {
@@ -32,11 +35,18 @@ export default {
       password: '',
       hasWrongUsernamePassword: false,
       userNotFound: false,
+      loggingIn: false
     }
+  },
+  components: {
+    InlineLoader
   },
   methods: {
     login: function () {
       this.resetErrors()
+      
+      this.loggingIn = true
+
       const {lowerCaseUsername, password} = this
       const username = lowerCaseUsername
       this.$store.dispatch('login', { username, password })
@@ -48,6 +58,8 @@ export default {
         if (err.code == "UserNotFoundException") {
           this.userNotFound = true;
         }
+      }).then(() => {
+        this.loggingIn = false
       })
     },
     resetErrors() {
@@ -95,6 +107,8 @@ export default {
     text-align: center;
     color: white;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
   }
   #login-form form{
@@ -126,7 +140,6 @@ export default {
   }
   #login-form button{
     margin-top: 10px;
-    margin-right: 10px;
     background: none;
     border: none;
     cursor: pointer;
