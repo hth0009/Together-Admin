@@ -1,5 +1,6 @@
 <template>
   <div id="login-page">
+    <router-link to="/hello"  id="back-to-landing"><i class="material-icons">arrow_back</i></router-link>
     <h1 class="noselect">together</h1>
     <div id="login-form">
       <form v-on:submit.prevent="login">
@@ -12,19 +13,6 @@
         <button>enter</button>
       </form>
     </div>
-    <!-- <youtube
-      ref="youtube"
-      :video-id="'hs1HoLs4SD0'"
-      :resize="true"
-      ></youtube> -->
-    <!-- <div id="login-footer">
-      <div id="link-container">
-        <router-link to="sign-up">sign up</router-link>
-        <router-link to="more">more</router-link>
-        <router-link to="about">about</router-link>
-        <router-link to="connect">contact</router-link>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -64,6 +52,14 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: left center;
+  }
+  #back-to-landing {
+    position: absolute;
+    left: 2rem;
+    top: 2rem;
+    color: black;
+    cursor: pointer;
+    font-size: 1 rem;
   }
   h1{
     font-family: 'Abril Fatface', serif;
