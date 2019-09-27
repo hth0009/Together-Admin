@@ -308,6 +308,18 @@
         <contact-us/>
       </b-row>
     </b-container>
+    <div id="footer">
+      <div id="footer-router-links">
+        <h2>Legal</h2>
+        <h2>Product</h2>
+        <h2>Pricing</h2>
+        <h2>Media</h2>
+        <h2>Story</h2>
+        <h2>Contact Us</h2>
+        <h2>FAQ</h2>
+        <h2>Privacy</h2>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1351,6 +1363,22 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-top: 50px;
   height: 750px;
   padding: 0px 40px;
+}
+#footer {
+  min-height: 80px;
+  border-top: 2px solid #707070;
+}
+#footer-router-links {
+  margin-top: 32px;
+  text-align: center;
+  display: grid;
+  grid-row-gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+#footer-router-links h2{
+  font-size: 1.4rem;
+  color: #00cec9;
+  font-weight: 500;
 }
 
 /* //////////////////////////
