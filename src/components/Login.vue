@@ -1,50 +1,70 @@
 <template>
   <div id="login-page">
+    <router-link to="/hello"  id="back-to-landing"><i class="material-icons">arrow_back</i></router-link>
     <h1 class="noselect">together</h1>
     <div id="login-form">
       <form v-on:submit.prevent="login">
         <label for="username">username:</label>
-        <input v-model="username" type="username" name="username" placeholder="username">
+        <input v-model="username" type="username" name="username" required placeholder="username">
         <br>
         <label for="password">password:</label>
-        <input v-model="password" type="password" name="password" placeholder="password" autocomplete="password">
+        <input v-model="password" type="password" name="password" required placeholder="password" autocomplete="password">
         <br>
-        <button>enter</button>
+        <button class="gs-basic-button">ENTER</button>
       </form>
+      <inline-loader v-show="loggingIn"></inline-loader>
+    </div>    
+    <div id="wrong-username-password" class="error" v-show="hasWrongUsernamePassword">
+      <i class="material-icons">error</i> Wrong password. Please try again.
     </div>
-    <!-- <youtube
-      ref="youtube"
-      :video-id="'hs1HoLs4SD0'"
-      :resize="true"
-      ></youtube> -->
-    <!-- <div id="login-footer">
-      <div id="link-container">
-        <router-link to="sign-up">sign up</router-link>
-        <router-link to="more">more</router-link>
-        <router-link to="about">about</router-link>
-        <router-link to="connect">contact</router-link>
-      </div>
-    </div> -->
+    <div id="user-not-found" class="error" v-show="userNotFound">
+      <i class="material-icons">error</i> This email or username was not found.
+    </div>
   </div>
 </template>
 
 <script>
+
+import InlineLoader from '@/components/InlineLoader'
 
 export default {
   name: 'Login',
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      hasWrongUsernamePassword: false,
+      userNotFound: false,
+      loggingIn: false
     }
+  },
+  components: {
+    InlineLoader
   },
   methods: {
     login: function () {
-        const {lowerCaseUsername, password} = this
-        const username = lowerCaseUsername
-        this.$store.dispatch('login', { username, password })
-       .then(() => this.$router.push('/app/people'))
-       .catch(err => console.error(err))
+      this.resetErrors()
+      
+      this.loggingIn = true
+
+      const {lowerCaseUsername, password} = this
+      const username = lowerCaseUsername
+      this.$store.dispatch('login', { username, password })
+      .then(() => this.$router.push('/app/people'))
+      .catch(err => {
+        if (err.code == "NotAuthorizedException") {
+          this.hasWrongUsernamePassword = true;
+        }
+        if (err.code == "UserNotFoundException") {
+          this.userNotFound = true;
+        }
+      }).then(() => {
+        this.loggingIn = false
+      })
+    },
+    resetErrors() {
+      this.hasWrongUsernamePassword = false
+      this.userNotFound = false
     }
   },
   computed: {
@@ -64,6 +84,15 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: left center;
+    padding-top: 30vh;
+  }
+  #back-to-landing {
+    position: absolute;
+    left: 2rem;
+    top: 2rem;
+    color: black;
+    cursor: pointer;
+    font-size: 1rem;
   }
   h1{
     font-family: 'Abril Fatface', serif;
@@ -71,18 +100,15 @@ export default {
     letter-spacing: 3px;
     font-weight: 100;
     color: #00cec9;
-    position: relative;
-    top: 20%;
     text-align: center;
-    margin: 0px;
   }
   #login-form{
-    position: relative;
-    top: 30%;
+    margin-top: 5vh;
     text-align: center;
-    margin: 0px;
     color: white;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
   }
   #login-form form{
@@ -114,7 +140,6 @@ export default {
   }
   #login-form button{
     margin-top: 10px;
-    margin-right: 10px;
     background: none;
     border: none;
     cursor: pointer;
@@ -146,6 +171,26 @@ export default {
   input:-webkit-autofill {
     -webkit-animation-name: autofill;
     -webkit-animation-fill-mode: both;
+  }
+
+  .error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;    
+    color: #ff7675;
+    border: 1px #ff7675 solid;
+    border-radius: 7px;
+
+    width: 90%;
+    max-width: 400px;
+    margin: 1rem auto;
+    padding: 1rem;
+
+    font-size: .9rem;
+  }
+  .error i{
+    margin-right: 1rem;
   }
 
   

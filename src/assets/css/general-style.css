@@ -199,6 +199,7 @@ label {
 .gs-basic-button:focus {
   box-shadow: 0px 2rem 0px 0px inset #00cec9;
   color: white;
+  outline:0;
 }
 .gs-basic-button.inverted:hover,
 .gs-basic-button.inverted:focus {

@@ -299,9 +299,31 @@
           </b-col>
         </b-row>
     </b-container>
-    <div id="personal-simple-free">
+    <b-container id="recap">
+      <b-row align-h="around">
+        <b-col class="recap-item" cols="12" md="4" xl="3">
+          <h5>FREE</h5>
+          <p>
+            We're a free platform. Your databse, planning and management tool, engagement platform, giving and financials, analytics, social media, and mass messaging - it's all free.
+          </p>
+        </b-col>
+        <b-col class="recap-item" cols="12" md="4" xl="3">
+          <h5>FREE</h5>
+          <p>
+            We're a free platform. Your databse, planning and management tool, engagement platform, giving and financials, analytics, social media, and mass messaging - it's all free.
+          </p>
+        </b-col>
+        <b-col class="recap-item" cols="12" md="4" xl="3">
+          <h5>FREE</h5>
+          <p>
+            We're a free platform. Your databse, planning and management tool, engagement platform, giving and financials, analytics, social media, and mass messaging - it's all free.
+          </p>
+        </b-col>
+      </b-row>
+    </b-container>
+    <!-- <div id="personal-simple-free">
       <personal-simple-free/>
-    </div>
+    </div> -->
     <b-container id="contact-us">
       <h1>CONTACT US</h1>
       <b-row>
@@ -1137,203 +1159,12 @@ h1::before {
   color: white;
   padding: 2px 4px;
 }
-#personal-simple-free {
-  /* height: 850px; */
+#recap {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
-#simple {
-  margin: 25px 0px;
-}
-#personal-simple-free .bars {
-  padding: 50px 0px;
-  display: block;
-  justify-content: space-evenly;
-  flex-direction: row;
-  align-items: stretch;
-  position: relative;
-}
-.earth-blob {
-  position: absolute;
-  z-index: 100;
-  vertical-align: right;
-  bottom: 80px;
-  transform: scale(0.75) translate(25%, 0);
-  right: 0;
-}
-.cloud1 {
-  position: absolute;
-  z-index: 100;
-  vertical-align: right;
-  bottom: 550px;
-  transform: scale(0.75);
-  right: 0;
-}
-.cloud2 {
-  position: absolute;
-  z-index: 160;
-  vertical-align: right;
-  bottom: 300px;
-  transform: scale(0.75) translate(25%, 0);
-  right: 0;
-}
-.cloud3 {
-  position: absolute;
-  z-index: 160;
-  vertical-align: right;
-  bottom: 160px;
-  transform: scale(0.75) translate(25%, 0);
-  right: 0;
-}
-#personal-simple-free #top-squig {
-  position: absolute;
-  top: 50px;
-  /* transform: translateX(5px) */
-}
-#simple {
-  position: relative;
-  z-index: 150;
-}
-#personal-simple-free .bars .bar {
-  padding: 40px 20vw;
-  background: #00cec9;
-  color: white;
-}
-#personal-simple-free .bars .bar.top {
-  margin-top: 104px;
-}
-#personal-simple-free .bars .title {
-  color: white;
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-#personal-simple-free .bars .description {
-  font-size: 1.5rem;
-  line-height: 1.25;
-  width: 500px;
-}
-#personal-simple-free .bar.left .title {
-  line-height: 1.25;
-}
-#personal-simple-free .bar.right .title {
-  line-height: 1.25;
-  text-align: right;
-}
-#personal-simple-free .bar.left .description {
-  line-height: 1.25;
-}
-#personal-simple-free .bar.right .description {
-  line-height: 1.25;
-  text-align: right;
-  margin-left: calc(60vw - 510px);
-}
-#pricing {
-  background: #00cec9;
-
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-#price-visualizer {
-  display: grid;
-  grid-template-columns: 1fr 3fr 3fr 1fr;
-}
-#price-visualizer .church-size {
-  padding: 10%;
-  grid-column: 2/3;
-  display: grid;
-  grid-template-rows: 80px 100px 40px;
-  border-right: 1px #ffffff77 solid;
-}
-#price-visualizer .church-size .header {
-  color: white;
-  font-size: 30px;
-  width: 100%;
-  text-align: right;
-  padding-bottom: 10px;
-  font-weight: normal;
-  align-self: flex-end;
-}
-#price-visualizer .church-size .number {
-  color: white;
-  font-size: 80px;
-  width: 100%;
-  text-align: right;
-  font-weight: 900;
-  align-self: center;
-  display: flex;
-  justify-content: flex-end;
-}
-#price-visualizer .church-size .number input {
-  background: none;
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  color: white;
-  font-size: 80px;
-  text-align: right;
-  font-weight: 900;
-  width: 230px;
-}
-#price-visualizer .church-size .number span {
-  color: white;
-  font-size: 80px;
-  text-align: right;
-  font-weight: 900;
-  display: inline;
-  line-height: initial;
-}
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-}
-.slider-wrapper {
-  padding: 5px;
-  padding-left: 10%;
-}
-#price-visualizer .monthly-payment {
-  padding: 10%;
-  grid-column: 3/4;
-  display: grid;
-  grid-template-rows: 80px 100px 40px;
-}
-#price-visualizer .monthly-payment .header {
-  color: white;
-  padding-bottom: 20px;
-  font-weight: normal;
-  width: 100%;
-  text-align: left;
-  padding-bottom: 10px;
-  font-size: 30px;
-  font-weight: 500;
-  align-self: flex-end;
-}
-#price-visualizer .monthly-payment .number {
-  color: white;
-  font-size: 80px;
-  width: 100%;
-  text-align: left;
-  font-weight: 500;
-  line-height: 1;
-  align-self: center;
-}
-#price-visualizer .monthly-payment .footer {
-  color: white;
-  padding-bottom: 20px;
-  font-weight: normal;
-  width: 100%;
-  text-align: left;
-  padding-bottom: 10px;
-  font-size: 30px;
-  font-weight: 500;
-  align-self: flex-start;
-}
-#pricing .explain {
-  color: white;
-  padding: 20px 10%;
-}
-#pricing button {
-  margin: 30px auto;
+.recap-item {
+  padding: 1rem;
 }
 #get-started {
   height: 700px;
@@ -1346,12 +1177,6 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 20px 0;
   color: black;
   padding: 0;
-}
-#together-thing {
-  font-weight: 500;
-  font-size: 23px;
-  margin: 20px 0;
-  color: black;
 }
 #sign-up {
   font-size: 22px;
@@ -1436,57 +1261,6 @@ input[type="number"]::-webkit-outer-spin-button {
   #feature-blob-1 {
     top: 120px;
     transform: scale(0.3) translate(115%, 0);
-  }
-  #feature-blob-2 {
-    left: -352px;
-    top: -326px;
-    transform: scale(0.35);
-  }
-  .earth-blob {
-    bottom: -162px;
-    transform: scale(0.3) translate(118%, 0);
-  }
-  .cloud1 {
-    bottom: 240px;
-    transform: scale(0.3);
-    right: -60px;
-  }
-  .cloud2 {
-    bottom: 115px;
-    transform: scale(0.3) translate(117%, 0);
-  }
-  .cloud3 {
-    bottom: 60px;
-    transform: scale(0.3) translate(117%, 0);
-  }
-  #bottom-squig {
-    width: 120%;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 14px;
-  }
-  #personal-simple-free .bars .title {
-    font-size: 1.35rem;
-  }
-  #personal-simple-free .bars .bar {
-    padding: 17px 10vw;
-  }
-  #personal-simple-free .bars .description {
-    font-size: .8rem;
-    width: 72%;
-  }
-  #personal-simple-free .bar.right .description{
-    margin-left: 0;
-    width: 75%;
-    padding-left: 25%;
-  }
-  #simple {
-    margin: 14px 0;
-  }
-  #personal-simple-free #top-squig {
-    width: 168%;
-    top: 92px;
   }
   #get-started {
     height: 67vh;

@@ -756,9 +756,8 @@ export default {
   }
   
 .add-new {
-  width: 25px;
-  height: 25px;
-  padding: 5px;
+  width: 2.25rem;
+  height: 2.25rem;
   position: absolute;
   bottom: 10px;
   right: 20px;
@@ -766,6 +765,10 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   z-index: 100;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .add-new i {    
