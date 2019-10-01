@@ -24,8 +24,9 @@
       :class="{'toggled': showSidebar}">
       <div id="app-header" class="noselect">
         <!-- <img class="logo" src="/static/image/black-logo.png" alt="" srcset=""> -->
-        <div class="brand noselect">TOGETHER</div>
+        <!-- <div class="brand noselect">TOGETHER</div> -->
         <div class="profiles">
+          <img class="noselect" id="app-page-logo" height="30" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small-noborder.png"/>
           <router-link  v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
             <avatar
               :height="30"
@@ -434,6 +435,9 @@ import PeopleAPI from '@/services/people'
   #app-page-content {
     /* padding-top: 10px; */
   }
+  #app-page-logo {
+    margin-top: 25px;
+  }
   #app-header {
     min-width: 30px;
   }
@@ -510,6 +514,9 @@ import PeopleAPI from '@/services/people'
 @media all and (max-width: 480px) {
   #app-page-content {
     /* padding-top: 10px; */
+  }
+  #app-page-logo {
+    margin-top: 25px;
   }
   #app-header .brand{
     margin-top: 20px;
