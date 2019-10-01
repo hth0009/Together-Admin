@@ -294,9 +294,9 @@ export default {
   },
   methods: {
     async getPeople () {
-      // const response = await ChurchPeople.getChurchPeople()
-      const response = await People.getPeople()
-      this.people = response['person(s)']
+      const response = await People.getPeople().then(response => {        
+        this.people = response.data['person(s)']
+      })
     },
     async getPerson () {
       var response = await People.getPerson(this.selectedID)
