@@ -89,10 +89,19 @@
                 </div>
               </div>
               <div class="gs-form-group">
-                <label for="">Speaker</label>        
-                <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
+                <label for="">Speaker</label>
+                <dropdown
+                  :inputCSSClass="'gs-basic-input'"
+                  :items="people"
+                  :fields="{
+                    title: 'fullName',
+                    id: 'id', 
+                    profile: 'personImageThumbnailURL'
+                  }"
+                />      
+                <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
                   v-model="selectedService.speakerName"
-                  :readonly="!editing">
+                  :readonly="!editing"> -->
               </div>
               <div class="gs-form-group">
                 <label for="">Description</label>        
@@ -140,9 +149,12 @@
                 </div>
               </div>
               <div class="gs-form-group">
-                <label for="">Speaker</label>        
-                <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
-                  v-model="newService.speakerName">
+                <label for="">Speaker</label>   
+                <dropdown
+                  inputCSSClass="'gs-basic-input'"
+                />     
+                <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
+                  v-model="newService.speakerName"> -->
               </div>
               <div class="gs-form-group">
                 <label for="">Description</label>        
@@ -155,29 +167,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="sunday-info gs-card-with-shadow no-padding">
-      <div class="image-croppa">
-        <croppa v-model="photoCroppa"
-          canvas-color="transparent"
-          :disable-rotation="true"
-          :prevent-white-space="true"
-          :width="350"
-          :height="350"
-          :speed="10"          
-          :image-border-radius="'20'"
-        ></croppa>
-      </div>
-      <form action="" class="gs-container gs-padding">
-        <div class="gs-form-group">
-          <label for="">Title</label>        
-          <input type="text" class="gs-basic-input large" placeholder="Title" required>
-        </div>
-        <div class="gs-form-group">
-          <label for="">Times</label>        
-          <input type="text" class="gs-basic-input" placeholder="Times (8:30 AM, 10:00 AM)" required>
-        </div>
-      </form>
-    </div> -->
   </div>
 </template>
 
@@ -189,10 +178,13 @@ import { checkIfObjNotFilled, generateGUID, getYYYYMMDD } from '../utils/helpers
 import { SweetModal } from 'sweet-modal-vue'
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
+
 import Services from '@/services/services'
+import People from '@/services/people'
 import {getHHMM, getDayOfWeekMonthDay, getThisSunday} from '../utils/helpers'
 
 import Cards from '@/components/CardList'
+import Dropdown from '@/components/CardDropdown'
 
 const newServiceTemplate = {
 	"churchUsername": "",
@@ -231,12 +223,13 @@ export default {
         altInput: true,
       },
       editing: false,
+      people: []
     }
   },
   components: {    
-    flatPickr, Cards, SweetModal
+    flatPickr, Cards, SweetModal, Dropdown
   },
-  methods: {    
+  methods: {
     createNewItem() {
       this.selectedID = -1;
       this.$router.push(`/app/this-sunday/`)
@@ -313,6 +306,11 @@ export default {
         this.loading = false
       })
     },
+    getPeople() {
+      People.getPeople().then(response => {        
+        this.people = response.data['person(s)']
+      })
+    },
     async createService() {
       this.$root.$emit('loading', true)
       var profilePic = await this.uploadProfilePic()
@@ -360,7 +358,8 @@ export default {
   props: {
   },
   mounted() {
-    this.getServices().then()
+    this.getServices()
+    this.getPeople()
     
     // this.recieveID(this.$route.params.id)
   },

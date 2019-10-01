@@ -4,7 +4,7 @@
       <input id="form-name" class="gs-basic-input" name="name" type="text" v-model="name" required placeholder="Name">
       <input id="form-email" class="gs-basic-input" name="email" type="text" v-model="email" required placeholder="Email">
       <textarea id="form-message" class="gs-basic-input" name="message" v-model="message" required placeholder="Message"/>
-      <button id="form-submit" class="gs-basic-button" type="submit" @click="sendMail">SUBMIT</button>
+      <button id="form-submit" class="gs-basic-button" type="submit">SUBMIT</button>
     </form>
   </div>    
 </template>

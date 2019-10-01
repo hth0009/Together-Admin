@@ -617,7 +617,7 @@ import PeopleAPI from '@/services/people'
     /* border-right: 1px #E6E9EC solid; */
   }
   #app-page-content >>> .page-card-wrapper {
-    height: calc(100vh - 4vh);
+    height: calc(100vh - 0vh);
     padding: 4vh 0px 0px 0px;
   }
   
