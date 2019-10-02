@@ -93,6 +93,7 @@
                 <dropdown
                   :inputCSSClass="'gs-basic-input'"
                   :items="people"
+                  :readonly="!editing"
                   :fields="{
                     title: 'fullName',
                     id: 'id', 

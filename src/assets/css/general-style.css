@@ -297,3 +297,7 @@ label {
   border-color: white;
   padding-left: 0px;
 }
+.gs-basic-input:read-only:focus {  
+  border-color: white;
+  box-shadow: none;
+}

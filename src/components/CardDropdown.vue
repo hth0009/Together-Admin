@@ -11,15 +11,16 @@
         :url="selectedItem[fields.profile]"
         :title="selectedItem[profilePicFillerValue]"/>
       <input type="text" :class="inputCSSClass"
+        :readonly="readonly"
         ref="searchInput"
         class="search-input"
         @focus="openDropdown"
         @keydown="cycleThroughList"
-        v-on:keyup.enter="onCardSelected(filteredCards[focusi])"
+        v-on:keyup.enter="onCardSelected(filteredCards[focus])"
         v-model="listSearch"
       >
       <i class="material-icons clear-input noselect"
-        v-show="hasSelectedItem"
+        v-show="hasSelectedItem && !readonly"
         @click="clearInput"
       >close</i>
     </div>
@@ -87,10 +88,14 @@ export default {
   mixins: [clickaway],
   methods: {
     onCardSelected(item) {
+      if (this.readonly) {
+        return
+      }
       this.listSearch = item[this.fields.title]
       this.selectedItem = {...item}
       this.hasSelectedItem = true
-      // this.closeDropdown()
+      this.closeDropdown()
+      this.$refs.searchInput.blur()
     },
     clearInput() {
       this.selectedItem = {}
@@ -98,12 +103,18 @@ export default {
       this.hasSelectedItem = false
     },
     openDropdown() {
+      if (this.readonly) {
+        return
+      }
       this.showDropdown = true
     },
     closeDropdown() {
       this.showDropdown = false
     },
     cycleThroughList: function(event) {
+      if (this.readonly) {
+        return
+      }
       switch (event.keyCode) {
         case 38:
           if (this.focus === null) {
@@ -183,6 +194,7 @@ export default {
       type: Boolean,
       default: false
     },
+    readonly: false,
     alphabetical: {
       type: Boolean,
       default: false
