@@ -1,10 +1,10 @@
 <template>
-  <div id="splash-container">  
-    <sweet-modal ref="earlyAccessModal">      
-      <h1>GET EARLY ACCESS</h1>  
-      <contact-us/>
+  <div id="splash-container">
+    <sweet-modal ref="earlyAccessModal">
+      <h1>GET EARLY ACCESS</h1>
+      <contact-us />
     </sweet-modal>
-    <navbar :displayScrollValue="30"/>
+    <navbar :displayScrollValue="30" />
     <div id="splash-wrapper">
       <register-church ref="register"></register-church>
       <div id="hero">
@@ -25,16 +25,21 @@
               <br />for free
             </p>
           </div>
-        <button id="early-access" class="gs-basic-button big"
-          @click="openEarlyAccess()"
-        >GET EARLY ACCESS</button>
-        </div>        
-        <div id="hero-computers">        
+          <button
+            id="early-access"
+            class="gs-basic-button big"
+            @click="openEarlyAccess()"
+          >GET EARLY ACCESS</button>
+        </div>
+        <div id="hero-computers">
           <div class="computer-video-wrapper">
             <div class="main-computer-wrapper">
               <div class="main-computer">
-                <img key="b" src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-computer.png"/>
-              </div>          
+                <img
+                  key="b"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-computer.png"
+                />
+              </div>
               <div id="main-computer-video-container">
                 <video
                   autoplay
@@ -47,287 +52,341 @@
               </div>
             </div>
             <div class="main-phone-wrapper">
-              <img src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-iphone.png">
+              <img
+                src="https://togethercdn.global.ssl.fastly.net/assets/mockups/clean-cutout-iphone.png"
+              />
               <div class="main-phone-video-container">
                 <video
-                autoplay
-                muted
-                loop
-                id="main-computer-video"
-                type="video/mp4"
-                src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
+                  autoplay
+                  muted
+                  loop
+                  id="main-computer-video"
+                  type="video/mp4"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/home-page/website-background.mp4"
                 ></video>
               </div>
             </div>
           </div>
         </div>
-        </div>
-      </div>      
-      <b-container id="dime-partnership">
-        <h1>IT'S FREE</h1>
-        <b-row id="dime-gri">
-          <b-col cols="12" md="6" class=".m-md-5" id="top-left">
-            <div id="zero-per-month">
-              <p id="zero-dollars">$0</p>
-              <p id="per-month">per month</p>
-            </div>
-            <div id="curly"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 88.83 395.928">
-              <path id="Path_4" data-name="Path 4" d="M69.8-142.128V-270.72c0-22.419,10.152-35.109,32.994-35.109h13.536v-8.037H105.75c-29.187,0-44.415,13.536-44.415,43.146v128.592c0,15.651-6.768,22-19.035,22H27.5v8.037H42.3c12.267,0,19.035,6.768,19.035,22.419V38.916c0,29.61,15.228,43.146,44.415,43.146h10.575V74.025H102.789c-22.842,0-32.994-12.69-32.994-35.109V-89.676c0-15.651-4.23-22.419-13.536-26.226C65.565-119.709,69.8-126.477,69.8-142.128Z" transform="translate(-27.495 313.866)" fill="#00ccc7"/>
+      </div>
+    </div>
+    <b-container id="dime-partnership">
+      <h1>YOUR COST</h1>
+      <b-row id="dime-gri">
+        <b-col cols="12" md="6" class=".m-md-5" id="top-left">
+          <div id="zero-per-month">
+            <p id="zero-dollars">$0</p>
+            <p id="per-month">per month</p>
+          </div>
+          <div id="curly">
+            <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 88.83 395.928">
+              <path
+                id="Path_4"
+                data-name="Path 4"
+                d="M69.8-142.128V-270.72c0-22.419,10.152-35.109,32.994-35.109h13.536v-8.037H105.75c-29.187,0-44.415,13.536-44.415,43.146v128.592c0,15.651-6.768,22-19.035,22H27.5v8.037H42.3c12.267,0,19.035,6.768,19.035,22.419V38.916c0,29.61,15.228,43.146,44.415,43.146h10.575V74.025H102.789c-22.842,0-32.994-12.69-32.994-35.109V-89.676c0-15.651-4.23-22.419-13.536-26.226C65.565-119.709,69.8-126.477,69.8-142.128Z"
+                transform="translate(-27.495 313.866)"
+                fill="#00ccc7"
+              />
             </svg>
-            </div>
-            <ul>
-              <li>Database and data storage</li>
-              <li>Planning tools</li>
-              <li>Management software</li>
-              <li>Engagement app</li>
-              <li>Mass communicator</li>
-              <li>Analytic tool</li>
-              <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li>
-            </ul>
-          </b-col>
-          <b-col cols="12" md="6" id="top-right-photo">
-            <img src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80" alt="">
-          </b-col>
-          <b-col cols="12" md="6" id="bottom-left-photo">
-            <img src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80" alt="">
-          </b-col>
-          <b-col cols="12" md="6" id="bottom-right">
-            <svg class="bracket" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 29 279.543">
-              <path id="Path_5" data-name="Path 5" d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319" transform="translate(-287.086 -260.857)" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
-            </svg>
-            <ul>
-              <li><h2>GIVING</h2></li>
-              <li><img src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png" id="bottom-right-dime"></li>
-              <li>2.7% + $0.27 for Cards</li>
-              <li>0.50% + $0.25 for ACH</li>
-            </ul>
-            <svg class="bracket" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 29 279.543">
-              <path id="Path_6" data-name="Path 6" d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319" transform="translate(316.086 540.4) rotate(180)" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
-            </svg>
-          </b-col>
-        </b-row>
-      </b-container>
-      <!-- <div id="problems">
+          </div>
+          <ul>
+            <li>Database and data storage</li>
+            <li>Planning tools</li>
+            <li>Management software</li>
+            <li>Engagement app</li>
+            <li>Mass communicator</li>
+            <li>Analytic tool</li>
+            <li>
+              Giving, powered by
+              <img
+                id="top-left-dime"
+                src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"
+              />
+            </li>
+          </ul>
+        </b-col>
+        <b-col cols="12" md="6" id="top-right-photo">
+          <img
+            src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80"
+            alt
+          />
+        </b-col>
+        <b-col cols="12" md="6" id="bottom-left-photo">
+          <img
+            src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80"
+            alt
+          />
+        </b-col>
+        <b-col cols="12" md="6" id="bottom-right">
+          <svg
+            class="bracket"
+            xmlns="http://www.w3.org/2000/svg"
+            height="100%"
+            viewBox="0 0 29 279.543"
+          >
+            <path
+              id="Path_5"
+              data-name="Path 5"
+              d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319"
+              transform="translate(-287.086 -260.857)"
+              fill="none"
+              stroke="#dfdfdf"
+              stroke-linecap="round"
+              stroke-miterlimit="10"
+              stroke-width="6"
+            />
+          </svg>
+          <ul>
+            <li>
+              <h2>GIVING</h2>
+            </li>
+            <li>
+              <img
+                src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"
+                id="bottom-right-dime"
+              />
+            </li>
+            <li>2.7% + $0.27 for Cards</li>
+            <li>0.50% + $0.25 for ACH</li>
+          </ul>
+          <svg
+            class="bracket"
+            xmlns="http://www.w3.org/2000/svg"
+            height="100%"
+            viewBox="0 0 29 279.543"
+          >
+            <path
+              id="Path_6"
+              data-name="Path 6"
+              d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319"
+              transform="translate(316.086 540.4) rotate(180)"
+              fill="none"
+              stroke="#dfdfdf"
+              stroke-linecap="round"
+              stroke-miterlimit="10"
+              stroke-width="6"
+            />
+          </svg>
+        </b-col>
+      </b-row>
+    </b-container>
+    <!-- <div id="problems">
         <h1>Running a church can be complicated</h1>
         <div class="big-words">
         <div class="big-word">{{this.selectedProblem1}}</div>
         <div class="big-word">{{this.selectedProblem2}}</div>
         <div class="big-word">{{this.selectedProblem3}}</div>
         </div>
-      </div>-->
-      <b-container id="features">
-        <h1>
-          WHAT YOU GET
-        </h1>
-        <b-row id="feature-container">
-          <b-col id="feature-details" col md="12" xl="3">
-            <h3 class="features-item-title">{{selectedShowcase}}</h3>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae cumque quis facilis ea. Maxime, beatae culpa earum aspernatur provident nisi enim ipsam quos ab deserunt distinctio, tempora nobis fuga. Nam sed velit voluptatem! Eligendi cumque temporibus et ab sint corporis officiis explicabo excepturi? Repudiandae quam ducimus nemo velit expedita odit!</p>
-          </b-col>
-          <b-col id="feature-devices" cols="12" md="12" xl="9">          
-            <div class="computer-cutout-wrapper">
-              <div class="computer-cutout">
+    </div>-->
+    <b-container id="features">
+      <h1>YOUR PRODUCT</h1>
+      <b-row id="feature-container">
+        <b-col id="feature-details" col md="12" xl="3">
+          <h3 class="features-item-title">{{selectedShowcase}}</h3>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae cumque quis facilis ea. Maxime, beatae culpa earum aspernatur provident nisi enim ipsam quos ab deserunt distinctio, tempora nobis fuga. Nam sed velit voluptatem! Eligendi cumque temporibus et ab sint corporis officiis explicabo excepturi? Repudiandae quam ducimus nemo velit expedita odit!</p>
+        </b-col>
+        <b-col id="feature-devices" cols="12" md="12" xl="9">
+          <div class="computer-cutout-wrapper">
+            <div class="computer-cutout">
+              <img
+                key="b"
+                src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-computer.png"
+              />
+              <transition-group name="fade-up" class="computer-screens" mode="in-out">
                 <img
-                  key="b"
-                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-computer.png"
+                  key="1"
+                  v-show="selectedShowcase == 'PEOPLE'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-computer.png"
                 />
-                <transition-group name="fade-up" class="computer-screens" mode="in-out">
-                  <img
-                    key="1"
-                    v-show="selectedShowcase == 'PEOPLE'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-computer.png"
-                  />
 
-                  <img
-                    key="2"
-                    v-show="selectedShowcase == 'TEAMS'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-computer.png"
-                  />
+                <img
+                  key="2"
+                  v-show="selectedShowcase == 'TEAMS'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-computer.png"
+                />
 
-                  <img
-                    key="3"
-                    v-show="selectedShowcase == 'CALENDAR'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-computer.png"
-                  />
+                <img
+                  key="3"
+                  v-show="selectedShowcase == 'CALENDAR'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-computer.png"
+                />
 
-                  <img
-                    key="4"
-                    v-show="selectedShowcase == 'MESSAGING'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-computer.png"
-                  />
-                </transition-group>
-              </div>
+                <img
+                  key="4"
+                  v-show="selectedShowcase == 'MESSAGING'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-computer.png"
+                />
+              </transition-group>
             </div>
-            <div class="phone-cutout-wrapper">
-              <div class="phone-1-cutout phone-cutout">
+          </div>
+          <div class="phone-cutout-wrapper">
+            <div class="phone-1-cutout phone-cutout">
+              <img
+                key="b"
+                src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+              />
+              <transition-group class="phone-screens" name="fade-left" mode="in-out">
                 <img
-                  key="b"
-                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+                  key="a"
+                  v-show="selectedShowcase == 'PEOPLE'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-phone.png"
                 />
-                <transition-group class="phone-screens" name="fade-left" mode="in-out">
-                  <img
-                    key="a"
-                    v-show="selectedShowcase == 'PEOPLE'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/people-phone.png"
-                  />
 
-                  <img
-                    key="c"
-                    v-show="selectedShowcase == 'TEAMS'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-phone.png"
-                  />
-
-                  <img
-                    key="e"
-                    v-show="selectedShowcase == 'CALENDAR'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
-                  />
-                  <img
-                    key="g"
-                    v-show="selectedShowcase == 'MESSAGING'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-phone.png"
-                  />
-                </transition-group>
-              </div>
-              <div class="phone-2-cutout phone-cutout">
                 <img
-                  key="b"
-                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+                  key="c"
+                  v-show="selectedShowcase == 'TEAMS'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/teams-phone.png"
                 />
-                <transition-group class="phone-screens" name="fade-left" mode="in-out">
-                  <img
-                    key="b"
-                    v-show="selectedShowcase == 'PEOPLE'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/friends-phone.png"
-                  />
 
-                  <img
-                    key="d"
-                    v-show="selectedShowcase == 'TEAMS'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/team-details-phone.png"
-                  />
-
-                  <img
-                    key="f"
-                    v-show="selectedShowcase == 'CALENDAR'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
-                  />
-
-                  <img
-                    key="h"
-                    v-show="selectedShowcase == 'MESSAGING'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-details-phone.png"
-                  />
-                </transition-group>
-              </div>          
-              <div class="phone-3-cutout phone-cutout">
                 <img
-                  key="b"
-                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+                  key="e"
+                  v-show="selectedShowcase == 'CALENDAR'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
                 />
-                <transition-group class="phone-screens" name="fade-left" mode="in-out">
-                  <img
-                    key="b"
-                    v-show="selectedShowcase == 'PEOPLE'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/friends-phone.png"
-                  />
-
-                  <img
-                    key="d"
-                    v-show="selectedShowcase == 'TEAMS'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/team-details-phone.png"
-                  />
-
-                  <img
-                    key="f"
-                    v-show="selectedShowcase == 'CALENDAR'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
-                  />
-
-                  <img
-                    key="h"
-                    v-show="selectedShowcase == 'MESSAGING'"
-                    src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-details-phone.png"
-                  />
-                </transition-group>
-              </div>
+                <img
+                  key="g"
+                  v-show="selectedShowcase == 'MESSAGING'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-phone.png"
+                />
+              </transition-group>
             </div>
-          </b-col>
-          <b-col class="toggle full" cols="12">
-            <button
-              @click="selectedShowcase = 'PEOPLE'"
-              :class="{'selected': selectedShowcase == 'PEOPLE'}"
-            >
-              <i class="material-icons">person</i>people
-            </button>
-            <button
-              @click="selectedShowcase = 'TEAMS'"
-              :class="{'selected': selectedShowcase == 'TEAMS'}"
-            >
-              <i class="material-icons">group</i>teams
-            </button>
-            <button
-              @click="selectedShowcase = 'CALENDAR'"
-              :class="{'selected': selectedShowcase == 'CALENDAR'}"
-            >
-              <i class="material-icons">event</i> calendar
-            </button>
-            <button
-              @click="selectedShowcase = 'MESSAGING'"
-              :class="{'selected': selectedShowcase == 'MESSAGING'}"
-            >
-              <i class="material-icons">send</i>messaging
-            </button>
-            <button
-              @click="selectedShowcase = 'GLOBAL'"
-              :class="{'selected': selectedShowcase == 'GLOBAL'}"
-            >
-              <i class="material-icons">scatter_plot</i>global
-            </button>
-            <button
-              @click="selectedShowcase = 'GIVING'"
-              :class="{'selected': selectedShowcase == 'GIVING'}"
-            >
-              <i class="material-icons">trip_origin</i>giving
-            </button>
-            <button
-              @click="selectedShowcase = 'DATA INTEGRATION'"
-              :class="{'selected': selectedShowcase == 'DATA INTEGRATION'}"
-            >
-              <i class="material-icons">cloud_done</i>data integration
-            </button>
-          </b-col>
-        </b-row>
+            <div class="phone-2-cutout phone-cutout">
+              <img
+                key="b"
+                src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+              />
+              <transition-group class="phone-screens" name="fade-left" mode="in-out">
+                <img
+                  key="b"
+                  v-show="selectedShowcase == 'PEOPLE'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/friends-phone.png"
+                />
+
+                <img
+                  key="d"
+                  v-show="selectedShowcase == 'TEAMS'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/team-details-phone.png"
+                />
+
+                <img
+                  key="f"
+                  v-show="selectedShowcase == 'CALENDAR'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
+                />
+
+                <img
+                  key="h"
+                  v-show="selectedShowcase == 'MESSAGING'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-details-phone.png"
+                />
+              </transition-group>
+            </div>
+            <div class="phone-3-cutout phone-cutout">
+              <img
+                key="b"
+                src="https://togethercdn.global.ssl.fastly.net/assets/mockups/cutout-phone.png"
+              />
+              <transition-group class="phone-screens" name="fade-left" mode="in-out">
+                <img
+                  key="b"
+                  v-show="selectedShowcase == 'PEOPLE'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/friends-phone.png"
+                />
+
+                <img
+                  key="d"
+                  v-show="selectedShowcase == 'TEAMS'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/team-details-phone.png"
+                />
+
+                <img
+                  key="f"
+                  v-show="selectedShowcase == 'CALENDAR'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/calendar-details-phone.png"
+                />
+
+                <img
+                  key="h"
+                  v-show="selectedShowcase == 'MESSAGING'"
+                  src="https://togethercdn.global.ssl.fastly.net/assets/mockups/messaging-details-phone.png"
+                />
+              </transition-group>
+            </div>
+          </div>
+        </b-col>
+        <b-col class="toggle full" cols="12">
+          <button
+            @click="selectedShowcase = 'PEOPLE'"
+            :class="{'selected': selectedShowcase == 'PEOPLE'}"
+          >
+            <i class="material-icons">person</i>people
+          </button>
+          <button
+            @click="selectedShowcase = 'TEAMS'"
+            :class="{'selected': selectedShowcase == 'TEAMS'}"
+          >
+            <i class="material-icons">group</i>teams
+          </button>
+          <button
+            @click="selectedShowcase = 'CALENDAR'"
+            :class="{'selected': selectedShowcase == 'CALENDAR'}"
+          >
+            <i class="material-icons">event</i> calendar
+          </button>
+          <button
+            @click="selectedShowcase = 'MESSAGING'"
+            :class="{'selected': selectedShowcase == 'MESSAGING'}"
+          >
+            <i class="material-icons">send</i>messaging
+          </button>
+          <button
+            @click="selectedShowcase = 'GLOBAL'"
+            :class="{'selected': selectedShowcase == 'GLOBAL'}"
+          >
+            <i class="material-icons">scatter_plot</i>global
+          </button>
+          <button
+            @click="selectedShowcase = 'GIVING'"
+            :class="{'selected': selectedShowcase == 'GIVING'}"
+          >
+            <i class="material-icons">trip_origin</i>giving
+          </button>
+          <button
+            @click="selectedShowcase = 'DATA INTEGRATION'"
+            :class="{'selected': selectedShowcase == 'DATA INTEGRATION'}"
+          >
+            <i class="material-icons">cloud_done</i>data integration
+          </button>
+        </b-col>
+      </b-row>
     </b-container>
     <b-container id="recap">
+      <h1>WHY US</h1>
       <b-row align-h="around">
         <b-col class="recap-item" cols="12" md="4" xl="3">
-          <h5>FREE</h5>
-          <p>
-            We're a free platform. Your databse, planning and management tool, engagement platform, giving and financials, analytics, social media, and mass messaging - it's all free.
-          </p>
+          <h5>Your Product</h5>
+          <br />
+          <p>Your database, planning and management tool, engagement platform, giving and financials, analytics, social media, and mass messaging - It’s all free. Sign up today to try them out.</p>
         </b-col>
         <b-col class="recap-item" cols="12" md="4" xl="3">
-          <h5>FREE</h5>
-          <p>
-            We're a free platform. Your databse, planning and management tool, engagement platform, giving and financials, analytics, social media, and mass messaging - it's all free.
-          </p>
+          <h5>Your Cost</h5>
+          <br />
+          <p>We understand church budgets are tight. We set our platform up this way to so you don't have to budget for anything. We share in a little bit of your donations to better build out platforms to connect your people.</p>
         </b-col>
         <b-col class="recap-item" cols="12" md="4" xl="3">
-          <h5>FREE</h5>
-          <p>
-            We're a free platform. Your databse, planning and management tool, engagement platform, giving and financials, analytics, social media, and mass messaging - it's all free.
-          </p>
+          <h5>Your Value</h5>
+          <br />
+          <p>Running a church is hard. Making sure ALL of your members are all plugged in is even harder. Let us build out the platform to encourage engagement. Increase engagement, increase giving, increase retention - all for free.</p>
         </b-col>
       </b-row>
     </b-container>
     <!-- <div id="personal-simple-free">
       <personal-simple-free/>
-    </div> -->
+    </div>-->
     <b-container id="contact-us">
       <h1>CONTACT US</h1>
       <b-row>
-        <contact-us/>
+        <contact-us />
       </b-row>
     </b-container>
     <div id="footer">
@@ -347,16 +406,16 @@
 
 <script>
 import VueSlider from "vue-slider-component";
-import { SweetModal } from 'sweet-modal-vue'
+import { SweetModal } from "sweet-modal-vue";
 import "vue-slider-component/theme/antd.css";
-import Navbar from "./Navbar.vue"
+import Navbar from "./Navbar.vue";
 import ContactUs from "./ContactUs.vue";
-import PersonalSimpleFree from "./PersonalSimpleFree"
+import PersonalSimpleFree from "./PersonalSimpleFree";
 
-import RegisterChurch from "@/components/RegisterChurch"
-import { LayoutPlugin } from 'bootstrap-vue'
-import Vue from 'vue'
-Vue.use(LayoutPlugin)
+import RegisterChurch from "@/components/RegisterChurch";
+import { LayoutPlugin } from "bootstrap-vue";
+import Vue from "vue";
+Vue.use(LayoutPlugin);
 
 export default {
   name: "Hello",
@@ -479,11 +538,11 @@ export default {
       this.registering = true;
     },
     openEarlyAccess() {
-      console.log(this.$refs.earlyAccessModal)
-      this.$refs.earlyAccessModal.open()
+      console.log(this.$refs.earlyAccessModal);
+      this.$refs.earlyAccessModal.open();
     },
     closeEarlyAccess() {
-      this.$refs.earlyAccessModal.close()
+      this.$refs.earlyAccessModal.close();
     },
     handleScroll() {
       const index1 =
@@ -590,12 +649,12 @@ h1::before {
 
   height: 4px;
   width: calc(100% + 10px);
-  
+
   position: absolute;
   left: 30px;
   bottom: 0px;
 
-  background-color: #00cec9;  
+  background-color: #00cec9;
   border-radius: 2px;
 }
 
@@ -680,7 +739,7 @@ h1::before {
   /* padding-top: ; */
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(auto-fit,minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   /* grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); */
   grid-column-gap: 7.5%;
   grid-row-gap: 12.5%;
@@ -718,7 +777,7 @@ h1::before {
   align-items: center;
   justify-content: center;
 }
-#zero-per-month{
+#zero-per-month {
   text-align: right;
   margin-right: 10px;
 }
@@ -735,11 +794,13 @@ h1::before {
   margin-right: 20px;
   height: 17rem;
 }
-#top-right-photo, #bottom-left-photo {
+#top-right-photo,
+#bottom-left-photo {
   padding: 25px 0px;
   height: 300px;
 }
-#top-right-photo img, #bottom-left-photo img{
+#top-right-photo img,
+#bottom-left-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -785,7 +846,7 @@ h1::before {
   height: 14rem;
   margin: 0px 10px;
 }
-#bottom-right .bracket svg{
+#bottom-right .bracket svg {
   overflow: hidden;
 }
 .computer-video-wrapper {
@@ -874,7 +935,7 @@ h1::before {
   font-weight: 600;
   color: black;
 }
-#features p{
+#features p {
   text-align: left;
 }
 #feature-devices {
@@ -933,14 +994,14 @@ h1::before {
   margin-left: 50px;
   bottom: 0px;
 }
-.phone-cutout {    
+.phone-cutout {
   position: absolute;
   bottom: 0px;
   width: 22.5%;
   z-index: 400;
   bottom: 0px;
 }
-.phone-cutout img{  
+.phone-cutout img {
   position: relative;
   width: 100%;
   z-index: 100;
@@ -1048,8 +1109,8 @@ h1::before {
   bottom: -0.5rem;
   right: -0.3rem;
   border: 0.2rem #00cec9 solid;
-  padding: .3rem;
-  width: calc(100% + .6rem);
+  padding: 0.3rem;
+  width: calc(100% + 0.6rem);
   z-index: -1;
   visibility: visible;
 }
@@ -1160,8 +1221,8 @@ h1::before {
   padding: 2px 4px;
 }
 #recap {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-top: 6rem;
+  margin-bottom: 6rem;
 }
 .recap-item {
   padding: 1rem;
@@ -1187,7 +1248,7 @@ h1::before {
 #contact-us {
   margin-top: 50px;
   height: 750px;
-  padding: 0px 40px;
+  padding: 0px 15px;
 }
 #footer {
   min-height: 60px;
@@ -1200,7 +1261,7 @@ h1::before {
   grid-row-gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
-#footer-router-links h2{
+#footer-router-links h2 {
   font-size: 1rem;
   color: #00cec9;
   font-weight: 500;
@@ -1271,7 +1332,7 @@ h1::before {
     text-align: left;
   }
   #together-thing {
-    font-size: .9rem;
+    font-size: 0.9rem;
     text-align: left;
   }
   .texts {
@@ -1280,7 +1341,7 @@ h1::before {
   }
   .buttons {
     text-align: left;
-    margin-left: 22px
+    margin-left: 22px;
   }
   #sign-up {
     font-size: 16px;
