@@ -20,13 +20,8 @@ export default {
       {
         params: {
           churchUsername: `${churchUsername}`
-          // accountEmail: this.$store.state.user.username
         }
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      console.error(e)
-    })
+      })
   },
   getTeam (teamID) {
     return Api().get('teams',

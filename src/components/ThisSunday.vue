@@ -150,10 +150,16 @@
                 </div>
               </div>
               <div class="gs-form-group">
-                <label for="">Speaker</label>   
+                <label for="">Speaker</label>                
                 <dropdown
-                  inputCSSClass="'gs-basic-input'"
-                />     
+                  :inputCSSClass="'gs-basic-input'"
+                  :items="people"
+                  :fields="{
+                    title: 'fullName',
+                    id: 'id', 
+                    profile: 'personImageThumbnailURL'
+                  }"
+                />   
                 <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
                   v-model="newService.speakerName"> -->
               </div>
@@ -186,6 +192,9 @@ import {getHHMM, getDayOfWeekMonthDay, getThisSunday} from '../utils/helpers'
 
 import Cards from '@/components/CardList'
 import Dropdown from '@/components/CardDropdown'
+
+import Vue from 'vue'
+Vue.use(Croppa)
 
 const newServiceTemplate = {
 	"churchUsername": "",

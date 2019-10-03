@@ -2,7 +2,9 @@
   <div id="splash-container">  
     <sweet-modal ref="earlyAccessModal">      
       <h1>GET EARLY ACCESS</h1>  
-      <contact-us/>
+      <contact-us
+        @successfullySent="closeEarlyAccess"
+      />
     </sweet-modal>
     <navbar :displayScrollValue="30"/>
     <div id="splash-wrapper">
@@ -65,8 +67,8 @@
       </div>      
       <b-container id="dime-partnership">
         <h1>IT'S FREE</h1>
-        <b-row id="dime-gri">
-          <b-col cols="12" md="6" class=".m-md-5" id="top-left">
+        <b-row class="mb-md-5">
+          <b-col cols="12" md="6" class="mb-xs-3" id="top-left">
             <div id="zero-per-month">
               <p id="zero-dollars">$0</p>
               <p id="per-month">per month</p>
@@ -82,14 +84,18 @@
               <li>Engagement app</li>
               <li>Mass communicator</li>
               <li>Analytic tool</li>
-              <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li>
+              <!-- <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li> -->
+              <li>Giving</li>
             </ul>
           </b-col>
           <b-col cols="12" md="6" id="top-right-photo">
-            <img src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80" alt="">
+            <img src="https://togethercdn.global.ssl.fastly.net/assets/demos/phone_in_hand_teams_1.jpg" alt="">
           </b-col>
+        </b-row>
+        <br>
+        <b-row class="mt-md-5">
           <b-col cols="12" md="6" id="bottom-left-photo">
-            <img src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80" alt="">
+            <img src="https://togethercdn.global.ssl.fastly.net/assets/demos/phone_in_hand_giving_1.jpg" alt="">
           </b-col>
           <b-col cols="12" md="6" id="bottom-right">
             <svg class="bracket" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 29 279.543">
@@ -462,12 +468,10 @@ export default {
   methods: {
     loadDrift() {},
     openRegisterWindow() {
-      console.log(this.$refs);
       this.$refs.register.open();
       this.registering = true;
     },
     openEarlyAccess() {
-      console.log(this.$refs.earlyAccessModal)
       this.$refs.earlyAccessModal.open()
     },
     closeEarlyAccess() {
@@ -705,6 +709,7 @@ h1::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* margin-bottom: 50px; */
 }
 #zero-per-month{
   text-align: right;
@@ -720,17 +725,22 @@ h1::before {
 }
 #curly {
   color: #00cec9;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 50px;
   height: 17rem;
 }
 #top-right-photo, #bottom-left-photo {
-  padding: 25px 0px;
+  padding: 10px 0px;
   height: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 #top-right-photo img, #bottom-left-photo img{
-  width: 100%;
+  width: auto;
   height: 100%;
-  object-fit: cover;
+  margin: 0px auto;
+  /* object-fit: cover; */
 }
 #top-left-dime {
   height: 1rem;

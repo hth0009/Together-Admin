@@ -1,5 +1,8 @@
 <template>
-  <div id="contact-container">
+  <div id="contact-container">    
+    <sweet-modal icon="success" ref="messageSent">
+      <h3>Message sent! We'll be in touch soon!</h3>
+    </sweet-modal>
     <form @submit.prevent="sendMail" >
       <input id="form-name" class="gs-basic-input" name="name" type="text" v-model="name" required placeholder="Name">
       <input id="form-email" class="gs-basic-input" name="email" type="text" v-model="email" required placeholder="Email">
@@ -11,7 +14,8 @@
 
 <script>
 import axios from 'axios'
-// const nodemailer = require('nodemailer');
+import { SweetModal } from 'sweet-modal-vue'
+
 export default {
   data() {
     return {
@@ -20,29 +24,27 @@ export default {
       name: ''
     }
   },
+  components: {
+    SweetModal
+  },
   methods: {
     async sendMail(){
-      // var API = axios.create({
-      //   baseURL: 'https://togetheradmin-contactus.prod.with-datafire.io',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Accept': 'application/json',
-      //   }
-      // })
-      // API.post('contact', {
-      //   message: this.message,
-      //   email: this.email,
-      //   name: this.name
-      // })
+      this.$root.$emit('loading', true)
       axios.create().post('https://togetheradmin-contactus.prod.with-datafire.io/contact', {
         name: this.name,
         email: this.email,
         message: this.message
-      }).then(function () {
-        alert('Your form was submitted!');
-      }).error((error) => {
+      }).then(response => {
+        this.$refs.messageSent.open()
+        this.$emit('successfullySent')
+        this.message = ''
+        this.email = ''
+        this.name = ''
+      }).catch((error) => {
         console.log(error)
-      });
+      }).then(response => {
+        this.$root.$emit('loading', false)
+      })
     }
   }
 }
