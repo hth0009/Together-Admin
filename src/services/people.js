@@ -11,11 +11,7 @@ export default {
           page: 0,
           relateTo: -1
         }
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      console.error(e)
-    })
+      })
   },
   getPerson (personID) {
     return Api().get('people',

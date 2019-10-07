@@ -1,6 +1,6 @@
 <template>
   <div class="cards"
-    :style="{maxHeight: 'calc(' + maxHeight + '% - 10px)',
+    :style="{maxHeight: 'calc(' + maxHeight + '% - 0px)',
       boxShadow: hasShadow ? '': 'none'}"
     :class="{'inline': inline}"
   >
@@ -370,7 +370,7 @@ export default {
 <style lang="scss" scoped>
 
   .cards {
-    max-height: calc(100% - 10px);
+    max-height: calc(100%);
     margin: 10px 12px 0px 12px;
     display: grid;
     grid-template-columns: 1fr;
