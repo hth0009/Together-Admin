@@ -1,6 +1,17 @@
 <template>
   <div class="me-container">
     <div class="me-wrapper">
+      <div class="header"> 
+          <div class="profile-pic">
+            <avatar
+              :height="100"
+              :url="me.personImageThumbnailURL"
+              :title="me.fullName"/>
+          </div>
+          <h3>{{me.firstName + ' ' + me.lastName}}</h3>
+          <h3>{{me.accountEmail}}</h3>
+          <div class="subtitle" v-if="!!me.account">{{me.account.username !== '' ? '@' + me.account.username : ''}}</div>
+      </div>
       <div class="me-header">
         <div></div>
         <div class="logout">
@@ -12,12 +23,20 @@
 </template>
 
 <script>
+import Store from '../store'
+import People from '../services/people'
+import Avatar from '../components/Avatar'
 export default {
   name: '',
   data () {
-    return {}
+    return {
+      meID: '',
+      myTeams: '',
+      me: ''
+    }
   },
   components: {
+    Avatar
   },
   methods: {
     logout() {
@@ -25,16 +44,24 @@ export default {
         this.$router.push('/login')
         console.log('logged out')
       })
+    },
+    async getMe () {
+      const response = await People.getPerson(Store.state.personID)
+      this.me = response['person']
     }
   },
   props: {
   },
   mounted() {
+    this.getMe()
   },
   computed: {
+    
   }
 }
 </script>
+
+<style src="./../assets/css/general-style.css"></style> 
 
 <style scoped>
 

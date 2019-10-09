@@ -19,50 +19,42 @@
       <div id="app-header" class="noselect">
         <!-- <img class="logo" src="/static/image/black-logo.png" alt="" srcset=""> -->
         <!-- <div class="brand noselect">TOGETHER</div> -->
-        <div class="profiles">
+        <div class="more">
           <img
             class="noselect"
+            @click="moreToggled = !moreToggled; showSidebar = true"
             id="app-page-logo"
             height="45"
             src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small-noborder.png"
           />
-          <router-link v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
-            <avatar :height="45" :url="churchPic" :title="churchName" />
-          </router-link>
-          <router-link v-on:click.native="showSidebar = false" to="/app/me" class="noselect">
-            <avatar :height="45" :url="profilePic" :title="$store.state.personName" />
-          </router-link>
-        </div>
-        <div class="more">
           <ul class="links" :class="{toggled: moreToggled}">
             <li>
               <router-link
                 v-on:click.native="showSidebar = false"
                 to="/privacy-policy"
-                class="noselect"
               >about us</router-link>
             </li>
             <li>
               <router-link
                 v-on:click.native="showSidebar = false"
                 to="/privacy-policy"
-                class="noselect"
               >privacy</router-link>
             </li>
             <li>
               <router-link
                 v-on:click.native="showSidebar = false"
                 to="/privacy-policy"
-                class="noselect"
               >help</router-link>
             </li>
           </ul>
-          <div class="toggle-arrow" :class="{toggled: moreToggled}">
-            <i
-              class="material-icons"
-              @click="moreToggled = !moreToggled; showSidebar = true"
-            >keyboard_arrow_down</i>
-          </div>
+        </div>
+        <div class="profiles">
+          <router-link v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
+            <avatar :height="45" :url="churchPic" :title="churchName" />
+          </router-link>
+          <router-link v-on:click.native="showSidebar = false" to="/app/me" class="noselect">
+            <avatar :height="45" :url="profilePic" :title="$store.state.personName" />
+          </router-link>
         </div>
       </div>
       <transition-group name="fadeLeft" id="app-navbar-buttons">
@@ -290,6 +282,14 @@ export default {
   font-size: 20px;
 }
 
+.more {
+  padding-left: 2.5px;
+}
+
+.more img:hover {
+  cursor: pointer;
+}
+
 #app-header {
   cursor: default;
   padding: 10px 0px;
@@ -379,7 +379,6 @@ export default {
   transition: all 0.3s ease;
 }
 #app-header .links.toggled {
-  padding-top: 5px;
   height: 75px;
 }
 .toggle-arrow {
