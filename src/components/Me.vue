@@ -1,16 +1,40 @@
 <template>
   <div class="me-container">
-    <div class="me-wrapper">
-      <div class="header"> 
-          <div class="profile-pic">
+    <div class="selected-view" id="selected-view">
+      <div class="panel gs-container vertical"> 
+          <div class="header">
+            <div class="profile-pic">
             <avatar
               :height="100"
               :url="me.personImageThumbnailURL"
               :title="me.fullName"/>
           </div>
           <h3>{{me.firstName + ' ' + me.lastName}}</h3>
-          <h3>{{me.accountEmail}}</h3>
+          <!-- <h3>{{me.accountEmail}}</h3> -->
           <div class="subtitle" v-if="!!me.account">{{me.account.username !== '' ? '@' + me.account.username : ''}}</div>
+          </div>
+          <form id="me-form">
+            <div class="gs-form-group">
+              <label>Email</label>
+              <input type="text" class="gs-basic-input large" readonly v-model="me.accountEmail"/>
+            </div>
+            <div class="gs-form-group">
+              <label>Birthday</label>
+              <input type="text" class="gs-basic-input large" readonly v-model="me.birthday"/>
+            </div>
+            <div class="gs-form-group">
+              <label>Home Address</label>
+              <input type="text" class="gs-basic-input large" readonly placeholder="Home Address" v-model="me.homeAddress"/>
+            </div>
+            <div class="gs-form-group">
+              <label>Mailing Address</label>
+              <input type="text" class="gs-basic-input large" readonly placeholder="Mailing Address" v-model="me.mailingAddress"/>
+            </div>
+            <div class="gs-form-group">
+              <label>Phone Number</label>
+              <input type="text" class="gs-basic-input large" readonly placeholder="Phone Number" v-model="me.phoneNumber"/>
+            </div>
+          </form>
       </div>
       <div class="me-header">
         <div></div>
