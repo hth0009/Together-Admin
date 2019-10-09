@@ -188,7 +188,7 @@ export default {
       PeopleAPI.getPerson(this.$store.state.personID).then(result => {
         this.profilePic = result.person.personImageThumbnailURL;
       });
-    }
+    },
   }
 };
 </script>

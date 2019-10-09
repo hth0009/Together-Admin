@@ -40,6 +40,7 @@ export default {
         message: this.message
       }).then(function () {
         alert('Your form was submitted!');
+        window.scrollTo(0,0);
       }).error((error) => {
         console.log(error)
       });

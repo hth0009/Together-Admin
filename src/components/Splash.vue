@@ -557,6 +557,9 @@ export default {
       this.selectedProblem1 = this.problems[index1];
       this.selectedProblem2 = this.problems[index2];
       this.selectedProblem3 = this.problems[index3];
+    },
+    scrollToTop() {
+      window.scrollTo(0,0);
     }
   },
   props: {},
