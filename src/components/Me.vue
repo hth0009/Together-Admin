@@ -27,17 +27,17 @@
           <form id="me-form">
             <div class="gs-form-group">
               <label>Email</label>
-              <input type="text" class="gs-basic-input large" readonly v-model="me.accountEmail" />
+              <input type="text" class="gs-basic-input" readonly v-model="me.accountEmail" />
             </div>
             <div class="gs-form-group">
               <label>Birthday</label>
-              <input type="text" class="gs-basic-input large" readonly v-model="me.birthday" />
+              <input type="text" class="gs-basic-input" readonly v-model="me.birthday" />
             </div>
             <div class="gs-form-group">
               <label>Home Address</label>
               <input
                 type="text"
-                class="gs-basic-input large"
+                class="gs-basic-input"
                 :readonly="!editing"
                 placeholder="Home Address"
                 v-model="me.homeAddress"
@@ -47,7 +47,7 @@
               <label>Mailing Address</label>
               <input
                 type="text"
-                class="gs-basic-input large"
+                class="gs-basic-input"
                 :readonly="!editing"
                 placeholder="Mailing Address"
                 v-model="me.mailingAddress"
@@ -57,7 +57,7 @@
               <label>Phone Number</label>
               <input
                 type="text"
-                class="gs-basic-input large"
+                class="gs-basic-input"
                 :readonly="!editing"
                 placeholder="Phone Number"
                 v-model="me.phoneNumber"
@@ -66,17 +66,45 @@
           </form>
         </div>
         <div id="me-orgs-teams">
-          <h1>testing</h1>
+          <h1>Organizations</h1>
           <div class="panel gs-container vertical">
-            <p>another test</p>
+            <div class="header">
+              <div class="profile-pic">
+                <avatar :height="80" :url="me.personImageThumbnailURL" :title="me.fullName" />
+              </div>
+              <h3>Church of {{me.firstName}}</h3>
+              <div class="subtitle" v-if="!!me.account">Filler Content</div>
+            </div>
+            <div class="gs-top-buttons">
+              <button class="gs-basic-button red">LEAVE</button>
+            </div>
+          </div>
+          <h1>Teams</h1>
+          <div class="panel gs-container vertical">
+            <div class="header">
+              <div class="profile-pic">
+                <avatar :height="80" :url="me.personImageThumbnailURL" :title="me.fullName" />
+              </div>
+              <h3>Team of {{me.firstName}}</h3>
+              <div class="subtitle" v-if="!!me.account">Filler Content</div>
+            </div>
+            <div class="team-footer">
+              <div class="profile-pic">
+                <avatar :height="40" :url="me.personImageThumbnailURL" :title="me.fullName" />
+                <h6>Church of {{me.firstName}}</h6>
+              </div>
+              <div>
+                <button class="gs-basic-button">END TEAM</button>
+                <button class="gs-basic-button red">LEAVE</button>
+              </div>
+            </div>
+            <div class="gs-top-buttons">
+            </div>
           </div>
         </div>
       </div>
-      <div class="me-header">
-        <div></div>
-        <div class="logout">
-          <button @click="logout" class="gs-basic-button red">LOG OUT</button>
-        </div>
+      <div class="logout">
+        <button @click="logout" class="gs-basic-button red">LOG OUT</button>
       </div>
     </div>
   </div>
@@ -116,7 +144,7 @@ export default {
     },
     async getMyTeams() {
       const response = await Teams.getTeamsByID(Store.state.personID);
-      console.log(response)
+      console.log(response);
       // this.myTeams = response["team(s)"];
     },
     startEdit() {
@@ -141,13 +169,39 @@ export default {
 <style src="./../assets/css/general-style.css"></style> 
 
 <style scoped>
+.team-footer {
+  display: flex;
+  justify-content: space-between;
+}
+.team-footer .profile-pic {
+  display: flex;
+  align-items: center;
+}
+.team-footer h6 {
+  margin-left: 10px;
+  font-size: 16px;
+}
+#me-orgs-teams h1 {
+  margin-left: 12px;
+}
 #me-wrapper {
   display: grid;
   align-items: start;
   grid-template-columns: repeat(auto-fit, minmax(350px, 525px));
 }
+#selected-view #me-orgs-teams .header {
+  margin: 0;
+  margin-bottom: 20px;
+}
+#selected-view #me-orgs-teams .subtitle {
+  font-size: 16px;
+  font-weight: 500;
+}
+#selected-view #me-orgs-teams h3 {
+  font-size: 28px;
+}
 #selected-view #me-myself .header {
-  margin-top: 0;
+  margin: 0;
 }
 .me-container {
   height: 100%;
@@ -156,35 +210,8 @@ export default {
   display: grid;
   grid-template-rows: 50px auto;
 }
-.me-header {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 100px 1fr;
-  padding: 10px 0px;
-}
 .logout {
   cursor: pointer;
-}
-/* //////////////////////////
-//////  MEDIA QUERIES ///////
-////////////////////////// */
-
-/*------------------------------------------
-  Responsive Grid Media Queries - 1280, 1024, 768, 480
-   1280-1024   - desktop (default grid)
-   1024-768    - tablet landscape
-   768-480     - tablet 
-   480-less    - phone landscape & smaller
---------------------------------------------*/
-@media all and (min-width: 1024px) and (max-width: 1280px) {
-}
-
-@media all and (min-width: 768px) and (max-width: 1024px) {
-}
-
-@media all and (min-width: 480px) and (max-width: 768px) {
-}
-
-@media all and (max-width: 480px) {
+  margin-left: 199px;
 }
 </style>
