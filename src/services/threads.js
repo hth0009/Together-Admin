@@ -1,19 +1,16 @@
 import Api from './api'
-// import store from '../store'
+import store from '../store'
 
 export default {
   getThreads () {
-    return Api().get('threads',
+    return Api().get('messagethreads',
       {
         params: {
-          // personID: `${store.state.personID}`
-          "orderByDescending": 'lastMessageAt'
+          personID: `${store.state.personID}`
+          // "orderByDescending": 'lastMessageAt'
         }
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      return e
-    })
+      }
+    )
   },
   getThread (threadID) {
     return Api().get('threads',
@@ -22,11 +19,8 @@ export default {
           // personID: store.state.personID,
           id: threadID
         }
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      return e
-    })
+      }
+    )
   },
   patchMessageRead (threadPersonID) {
     return Api().patch('messagethreadspeople',

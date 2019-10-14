@@ -82,7 +82,7 @@
               <div class="gs-form-group">
                 <label for="">Times</label>
                 <div class="times">
-                  <input v-for="time in selectedService['serviceTimes']['serviceTimes(s)']" v-model="time.time" :key="time.id" type="time" class="gs-basic-input time"
+                  <input v-for="time in selectedService.times" v-model="time.time" :key="time.id" type="time" class="gs-basic-input time"
                     placeholder="Time" required :readonly="!editing"
                   >
                   <div class="gs-basic-button icon" formnovalidate v-show="editing"><i class="material-icons">add</i></div>
@@ -308,7 +308,7 @@ export default {
       this.loading = true
       return Services.getServices().then(response => {
         // this.services = response.data['services(s)']
-        this.services = response.data['services(s)'].map(obj => {
+        this.services = response.data['services'].map(obj => {
           var rObj = obj
           rObj['dateTitle'] = getDayOfWeekMonthDay(new Date(obj.date))
           return rObj
@@ -318,7 +318,7 @@ export default {
     },
     getPeople() {
       People.getPeople().then(response => {        
-        this.people = response.data['person(s)']
+        this.people = response.data['people']
       })
     },
     async createService() {

@@ -1,36 +1,34 @@
 <template>
   <div id="teams-container">    
     <sweet-modal icon="warning" ref="deleteItemModal">
-      <h3>Are you sure you want to delete {{selectedTeam.title}}?</h3>
+      <h3>Are you sure you want to delete {{selectedTeam.name}}?</h3>
       <button slot="button" class="gs-basic-button red" @click="deleteItem">DELETE</button>
     </sweet-modal>
     <sweet-modal icon="success" ref="itemCreated">
-      <h3>{{newTeam.title}} created!!</h3>
+      <h3>{{newTeam.name}} created!!</h3>
     </sweet-modal>
     <div class="page-wrapper">    
       <div class="page-card-wrapper">              
           <cards
             v-model="selectedID"
             :loading="loading"
-            :noProfile="true"
-            :cardList="services"
+            :cardList="teams"
             :profilePicFillerValue="'name'"
             :emptyMessage="'No Teams'"
-            :hasDates="true"
             :fields="{
-              title: 'dateTitle',
+              title: 'name',
               id: 'id',
-              subtitle: 'title'
+              subtitle: 'title',
+              profile: 'teamImageThumbnailURL'
             }"
             :hasAddNew="true"
-            :returnObject="true"
-            @selected="recieveItem"
+            @selected="recieveID"
             @onAddNew="createNewItem"
           />
       </div>
       <div class="selected-view" id="selected-view" >
         <div class="header">
-          <h3>Sunday</h3>
+          <!-- <h3>Sunday</h3> -->
         </div>
         <div class="details" v-if="selectedID != -1 && !creatingNewItem">          
           <div class="quick-actions">
@@ -62,34 +60,25 @@
                 :speed="10"
                 v-show="editing"
               ></croppa>
-              <img :src="selectedTeam.iconURL" alt="" srcset="" 
+              <img :src="selectedTeam.teamImageURL" alt="" srcset="" 
                 class="teams-image"
                 v-show="!editing">
-            </div>      
+            </div>
             <form action="" class="" id="teams-form">
               <div class="gs-form-group">
-                <label for="">Title</label>        
-                <input type="text" class="gs-basic-input large" placeholder="Add a title" required
-                  v-model="selectedTeam.title"
+                <label for="">Name</label>        
+                <input type="text" class="gs-basic-input large" placeholder="Add a team name" required
+                  v-model="selectedTeam.name"
                   :readonly="!editing">
               </div>
-              <!-- <div class="gs-form-group">
-                <label for="">Date</label>
-                <flat-pickr class="gs-basic-input" :config="datePickerConfig"
-                :disabled="!editing"
-                v-model="selectedTeam.dateObject"></flat-pickr>
-              </div> -->
               <div class="gs-form-group">
-                <label for="">Times</label>
-                <div class="times">
-                  <input v-for="time in selectedTeam['serviceTimes']['serviceTimes(s)']" v-model="time.time" :key="time.id" type="time" class="gs-basic-input time"
-                    placeholder="Time" required :readonly="!editing"
-                  >
-                  <div class="gs-basic-button icon" formnovalidate v-show="editing"><i class="material-icons">add</i></div>
-                </div>
+                <label for="">Meeting Frequency</label>
+                <input type="text" class="gs-basic-input" placeholder="ex. Every Wednesday at 7:00 PM" required
+                  v-model="selectedTeam.time"
+                  :readonly="!editing">
               </div>
               <div class="gs-form-group">
-                <label for="">Speaker</label>
+                <label for="">Leader</label>
                 <dropdown
                   :inputCSSClass="'gs-basic-input'"
                   :items="people"
@@ -98,15 +87,23 @@
                     title: 'fullName',
                     id: 'id', 
                     profile: 'personImageThumbnailURL'
-                  }"
+                  }"                  
+                  @selected="onLeaderSelected"
+                  :selectedItem="selectedTeam.leaders[0].person"
                 />      
                 <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
                   v-model="selectedTeam.speakerName"
                   :readonly="!editing"> -->
               </div>
               <div class="gs-form-group">
+                <label for="">Short Description</label>        
+                <input type="text" class="gs-basic-input" placeholder="Add a short description (ex. 6th Grade Boys Small Group)" required
+                  v-model="selectedTeam.subtitle"
+                  :readonly="!editing">
+              </div>
+              <div class="gs-form-group">
                 <label for="">Description</label>        
-                <textarea type="text" class="gs-basic-input" placeholder="Add Description" rows="10" required
+                <textarea type="text" class="gs-basic-input" maxlength="40" placeholder="Add Description" rows="10" required
                   v-model="selectedTeam.description"
                   :readonly="!editing"></textarea>
               </div>
@@ -126,16 +123,16 @@
                 :speed="10"
               ></croppa>
             </div>
-            <form action="" class="" id="teams-form" @submit.prevent="createService">
+            <form action="" class="" id="teams-form" @submit.prevent="createTeam">
               <div class="gs-form-group">
-                <label for="">Title</label>        
-                <input type="text" class="gs-basic-input large" placeholder="Add a title" required
-                  v-model="newTeam.title">
+                <label for="">Name</label>        
+                <input type="text" class="gs-basic-input large" placeholder="Add a team name" required
+                  v-model="newTeam.name">
               </div>
               <div class="gs-form-group">
-                <label for="">Date</label>
-                <input type="text" class="gs-basic-input" placeholder="Add a title" required
-                  v-model="newTeam.title">
+                <label for="">Meeting Frequency</label>
+                <input type="text" class="gs-basic-input" placeholder="ex. Every Wednesday at 7:00 PM" required
+                  v-model="newTeam.time">
               </div>
               <div class="gs-form-group">
                 <label for="">Leader</label>
@@ -147,19 +144,22 @@
                     id: 'id', 
                     profile: 'personImageThumbnailURL'
                   }"
+                  @selected="onNewTeamLeaderSelected"
+                  :placeholder="'Choose a team leader'"
                 />
               </div>
               <div class="gs-form-group">
                 <label for="">Short Description</label>
-                <input type="text" class="gs-basic-input" placeholder="Add a title" required
-                  v-model="newTeam.title">
+                <input type="text" class="gs-basic-input" maxlength="40" placeholder="Add a short description (ex. 6th Grade Boys Small Group)" required
+                  v-model="newTeam.subtitle">
               </div>
               <div class="gs-form-group">
                 <label for="">Description</label>        
                 <textarea type="text" class="gs-basic-input" placeholder="Add Description" rows="10" required
                   v-model="newTeam.description"></textarea>
               </div>
-              <button class="gs-basic-button">CREATE</button>
+              <button class="gs-basic-button"
+                >CREATE</button>
             </form>
           </div>
         </div>
@@ -178,8 +178,9 @@ import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 
 import Teams from '@/services/teams'
+import Church from '@/services/church'
 import People from '@/services/people'
-import {getHHMM, getDayOfWeekMonthDay, getThisSunday} from '../utils/helpers'
+import {getHHMM, getDayOfWeekMonthDay} from '../utils/helpers'
 
 import Cards from '@/components/CardList'
 import Dropdown from '@/components/CardDropdown'
@@ -188,27 +189,37 @@ import Vue from 'vue'
 Vue.use(Croppa)
 
 const newTeamTemplate = {
-	"churchUsername": "",
-  "title": "",
-  "iconURL": "",
-	"date": getThisSunday(),
-	"speakerID": null,
-	"speakerName": "",
-	"description": "",
-	"serviceTimes": [
-		{
-			"time": ""
-		}
-	]
-}
+    churchID: 44,
+    description: "n",
+    iconURL: "",
+    name: "n",
+    isServeTeam: true,
+    meetingAddress: "",
+    teamImageURL: "",
+    teamImageThumbnailURL: "",
+    messageThread: {
+        directMessage: false,
+        title: "",
+        description: ""
+    },
+    members: [
+    ],
+    mainEventID: null,
+    taggableID: null,
+    maxCapacity: 1000,
+    subtitle: 'n',
+    time: 'n',
+    title: '',
+    isPrivate: true
+  }
 
 export default {
-  name: 'ThisSunday',
+  name: 'Teams',
   data () {
     return {
       loading: true,
       creatingNewItem: false,
-      services: [],
+      teams: [],
       newTeam: {},
       selectedID: -1,
       selectedTeam: {},
@@ -231,6 +242,24 @@ export default {
     flatPickr, Cards, SweetModal, Dropdown
   },
   methods: {
+    recieveID(id) {
+      console.log(id)
+      if (id == undefined) {
+        return
+      }
+      if (this.selectedID != id) {
+        this.selectedTeam = {}
+      }
+      if (id == '-1') {
+        this.selectedID = id
+        this.$router.push(`/app/teams/`)
+        return
+      }
+      this.creatingNewItem = false
+      this.$router.push(`/app/teams/${id}`)
+      this.selectedID = id
+      this.getTeam(id)
+    },
     createNewItem() {
       this.selectedID = -1;
       this.$router.push('/app/teams/')
@@ -242,94 +271,111 @@ export default {
          this.cdnKeys = response.data
         })
       }
-    },
-    recieveItem(item) {
-      this.recieveID(item.id)
-      this.selectedTeam = item
-      this.selectedTeam['dateObject'] = new Date(item.date)
-    },
-    async recieveID(id) {
-      if (id == undefined) {
-        return
-      }
-      if (id == '-1') {
-        this.selectedID = id
-        this.$router.push('/app/teams/')
-        return
-      }
-
-      this.$router.push(`/app/teams/${id}`)
-
-      this.creatingNewItem = false
-   
+    },    
+    getTeam(id) {
       this.selectedID = id
+      const response = Teams.getTeam(id).then(response => {
+        const team = response.data.teams[0]
+        this.selectedTeam = team
+        this.selectedTeam.leaders = team.leaders[0] != undefined ? team.leaders : [{}]
+        console.log(response)
+      })
+
+      // this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
+      //   fullName: member.firstName + ' ' + member.lastName,
+      //   id: member.personID,
+      //   relationshipID: member.id,
+      //   firstName: member.firstName,
+      //   lastName: member.lastName,
+      //   personImageThumbnailURL: member.person.personImageThumbnailURL,
+      // }))
+      // this.peopleInTeam = this.peopleInTeam.filter(( person ) => {
+      //   const isLeader = person.id == this.selectedTeam.leaderID
+      //   if (isLeader) {
+      //     this.selectedTeamLeader = [person]
+      //   }
+      //   return true
+      // });
+      // this.getPeopleNotInTeam()
+      
+      // this.$root.$emit('loading', false)
+      
+      // return this.selectedTeam
     },
     async deleteItem() {
       this.$refs.deleteItemModal.close()
-      Teams.deleteService(this.selectedID).then(function(response) {
+      Teams.deleteTeam(this.selectedID).then(function(response) {
         this.recieveID(-1)
         this.getTeams()
       }.bind(this))
     },
-    addTime() {
-      this.newTeam.serviceTimes.push({ "time": "12:00:00" })
+    onLeaderSelected(item) {
+      console.log(item)
     },
-    deleteTime(index) {
-      this.newTeam.serviceTimes.splice(index, 1)
-      // this.newTeam.serviceTimes.push([{ "time": ""}])
+    onNewTeamLeaderSelected(person) {
+      this.newTeam.members = []
+      this.newTeam.members.push(        
+        {
+          "personID": person.id,
+          "isLeader": true
+        },
+      )
     },
     deleteButtonClicked() {
       this.$refs.deleteItemModal.open()
     },
     getTeams() {
-      this.loading = true
       return Teams.getTeamsByChurch().then(response => {
-        console.log('----TEAMS RESPONSE-----')
-        console.log(response)
-        console.log('----TEAMS RESPONSE-----')
-        // this.services = response.data['teama(s)'].map(obj => {
-        //   var rObj = obj
-        //   rObj['dateTitle'] = getDayOfWeekMonthDay(new Date(obj.date))
-        //   return rObj
-        // })
+        this.teams = response.data.teams
         this.loading = false
       })
     },
     getPeople() {
       People.getPeople().then(response => {        
-        this.people = response.data['person(s)']
+        this.people = response.data.people
       })
     },
-    async createService() {
+    async createTeam() {
       this.$root.$emit('loading', true)
+      var nTeam = {...this.newTeam}
       var profilePic = await this.uploadProfilePic()
-      profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/EventPics/' + profilePic : ''
-      var nService = {...this.newTeam}
-      nService.churchUsername = this.$store.state.churchUsername
-      console.log(this.newTeam.date)
-      console.log(new Date(this.newTeam.date))
-      nService.date = getYYYYMMDD(new Date(this.newTeam.date))
-      nService.iconURL = profilePic
-      Teams.postService(nService).then(() => {              
+      console.log(profilePic)
+      await Church.getChurch().then(result => {
+        console.log(result.data)
+        nTeam.churchID = result.data.churches[0].id
+      })
+      profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/TeamPics/' + profilePic : ''
+      nTeam.teamImageURL = profilePic
+      nTeam.teamImageThumbnailURL = profilePic
+      nTeam.messageThread = {
+        directMessage: false,
+        title: nTeam.name,
+        description: nTeam.description
+      },
+      Teams.postTeam(nTeam).then(() => {              
         this.$root.$emit('loading', false)
         this.getTeams().then(
           this.$refs.itemCreated.open()
         )
       })
-      console.log(nService)
+      console.log(nTeam)
     },    
     async uploadProfilePic() {
+      console.log("COME ON BRO PLEASE WORK!!")
       const { accessKeyID, secretAccessKey } = this.cdnKeys
-      const fileSufix = 'EventPics/'
+      const fileSufix = 'TeamPics/'
       var fileName = generateGUID() + '.jpg'
       
       if (!this.photoCroppa.hasImage()) {
         return
       }
       var blob = await this.photoCroppa.promisedBlob('image/jpeg')
+      console.log(blob)
       var arrayBuffer = await new Response(blob).arrayBuffer();  
-      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileSufix, fileName).catch(() => {fileName = ''})
-
+      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileSufix, fileName).catch(error => {
+        console.log(error)
+        fileName = ''
+      })
       return fileName
     },
     startEdit() {
@@ -342,15 +388,28 @@ export default {
     },
     saveEdit() {
       this.editing = false
+      var patch = {
+        "identifier":{
+          "id": `${this.selectedID}`
+        },
+        "values": {
+          name: this.selectedTeam.name,
+          subtitle: this.selectedTeam.subtitle,
+          description: this.selectedTeam.description,
+          time: this.selectedTeam.time
+        }
+      }
+      Teams.patchTeam(patch).then(() => {
+        this.getTeams()
+      })
     }
   },
   props: {
   },
   mounted() {
+    this.loading = true
     this.getTeams()
     this.getPeople()
-    
-    // this.recieveID(this.$route.params.id)
   },
   computed: {
   }

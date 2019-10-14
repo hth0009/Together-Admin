@@ -47,6 +47,29 @@ label {
   grid-gap: 1rem;
 }
 
+
+.gs-card-header{
+  color: #555555;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  opacity: inherit;
+}
+.gs-card-header .basic-button.icon {
+  padding: 5px;
+  width: auto;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+.gs-card-header .basic-button.icon i{
+  font-size: .9rem;
+}
+
 .gs-white-overlay-background-tranparent {  
   background: #ffffff7c;
   position: fixed;

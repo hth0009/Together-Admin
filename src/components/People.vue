@@ -56,7 +56,7 @@
           </div>
           <!-- <button class="section-toggle">Teams</button> -->
           <div class="panel">
-            <div class="card-header noselect">General Info</div>
+            <div class="gs-card-header noselect">General Info</div>
             <!-- <div class="item">
               <i class="material-icons noselect">email</i>
               <div class="label noselect">Email</div>
@@ -295,12 +295,12 @@ export default {
   methods: {
     async getPeople () {
       const response = await People.getPeople().then(response => {        
-        this.people = response.data['person(s)']
+        this.people = response.data['people']
       })
     },
     async getPerson () {
       var response = await People.getPerson(this.selectedID)
-      this.selectedPerson = response['person']
+      this.selectedPerson = response['people'][0]
       this.selectedPerson.birthday = new Date(this.selectedPerson.birthday)
     },
     async patchPersonValue (valueKey, value) {
@@ -308,7 +308,7 @@ export default {
     },
     async getTeams() {   
       const response = await Teams.getTeamsByID(this.selectedID)
-      this.selectedPersonTeams = response['team(s)']
+      this.selectedPersonTeams = response['teams']
     },
     patchNotes(noteContent) {
       // console.log(noteContent))
@@ -327,8 +327,8 @@ export default {
       return '<div class="markdown">' + clean + "</div>"
     },
     toggleSkill(index, skillID) {
-      const isConfirmed = !this.selectedPerson.skills['personSkill(s)'][index].confirmed
-      this.selectedPerson.skills['personSkill(s)'][index].confirmed = isConfirmed
+      const isConfirmed = !this.selectedPerson.skills['personSkills'][index].confirmed
+      this.selectedPerson.skills['personSkills'][index].confirmed = isConfirmed
       Skills.patchSkill(skillID, isConfirmed)
     },
     recieveID(id) {
@@ -372,7 +372,7 @@ export default {
           id: person.id,
           profile: person.personImageThumbnailURL,
           title: person.firstName + ' ' + person.lastName,
-          subtext: person.account.username !== '' ? '@' + person.account.username : ''
+          subtext: person.account !== null && person.account.username != '' ? '@' + person.account.username : ''
           // profile: thread.threadImageThumbnailURL,          
           // profile: this.profiles[index % 4],
         }
