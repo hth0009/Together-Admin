@@ -200,6 +200,12 @@ export default {
   display: flex;
   /* flex-basis: 300px auto */
 }
+#app-header .profiles a.router-link-active,
+#app-header .profiles a.router-link-active i {
+  border: 2px #00cec9 solid;
+  border-radius: 100%;
+  transition: all 0.3s ease-in-out 0s;
+}
 #app-navbar {
   flex: 0 0 10vw;
   z-index: 800;
