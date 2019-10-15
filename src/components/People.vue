@@ -11,6 +11,8 @@
           :alphabetical="true"
           @selected="recieveID"
           @onAddNew="createNewItem"
+          :inline="false"
+          :hasShadow="true"
           />
       </div>
       <transition name="fadeOut">
