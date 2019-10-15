@@ -1,8 +1,10 @@
 <template>
-  <div id="splash-container">
-    <sweet-modal ref="earlyAccessModal">
-      <h1>GET EARLY ACCESS</h1>
-      <contact-us />
+  <div id="splash-container">  
+    <sweet-modal ref="earlyAccessModal">      
+      <h1>GET EARLY ACCESS</h1>  
+      <contact-us
+        @successfullySent="closeEarlyAccess"
+      />
     </sweet-modal>
     <navbar :displayScrollValue="30" />
     <div id="splash-wrapper">
@@ -87,6 +89,54 @@
                 transform="translate(-27.495 313.866)"
                 fill="#00ccc7"
               />
+
+     <!--   </div>
+      </div>      
+      <b-container id="dime-partnership">
+        <h1>IT'S FREE</h1>
+        <b-row class="mb-md-5">
+          <b-col cols="12" md="6" class="mb-xs-3" id="top-left">
+            <div id="zero-per-month">
+              <p id="zero-dollars">$0</p>
+              <p id="per-month">per month</p>
+            </div>
+            <div id="curly"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 88.83 395.928">
+              <path id="Path_4" data-name="Path 4" d="M69.8-142.128V-270.72c0-22.419,10.152-35.109,32.994-35.109h13.536v-8.037H105.75c-29.187,0-44.415,13.536-44.415,43.146v128.592c0,15.651-6.768,22-19.035,22H27.5v8.037H42.3c12.267,0,19.035,6.768,19.035,22.419V38.916c0,29.61,15.228,43.146,44.415,43.146h10.575V74.025H102.789c-22.842,0-32.994-12.69-32.994-35.109V-89.676c0-15.651-4.23-22.419-13.536-26.226C65.565-119.709,69.8-126.477,69.8-142.128Z" transform="translate(-27.495 313.866)" fill="#00ccc7"/>
+            </svg>
+            </div>
+            <ul>
+              <li>Database and data storage</li>
+              <li>Planning tools</li>
+              <li>Management software</li>
+              <li>Engagement app</li>
+              <li>Mass communicator</li>
+              <li>Analytic tool</li>
+              <!-- <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li> -->
+              <li>Giving</li>
+            </ul>
+          </b-col>
+          <b-col cols="12" md="6" id="top-right-photo">
+            <img src="https://togethercdn.global.ssl.fastly.net/assets/demos/phone_in_hand_teams_1.jpg" alt="">
+          </b-col>
+        </b-row>
+        <br>
+        <b-row class="mt-md-5">
+          <b-col cols="12" md="6" id="bottom-left-photo">
+            <img src="https://togethercdn.global.ssl.fastly.net/assets/demos/phone_in_hand_giving_1.jpg" alt="">
+          </b-col>
+          <b-col cols="12" md="6" id="bottom-right">
+            <svg class="bracket" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 29 279.543">
+              <path id="Path_5" data-name="Path 5" d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319" transform="translate(-287.086 -260.857)" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
+            </svg>
+            <ul>
+              <li><h2>GIVING</h2></li>
+              <li><img src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png" id="bottom-right-dime"></li>
+              <li>2.7% + $0.27 for Cards</li>
+              <li>0.50% + $0.25 for ACH</li>
+            </ul>
+            <svg class="bracket" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 29 279.543">
+              <path id="Path_6" data-name="Path 6" d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319" transform="translate(316.086 540.4) rotate(180)" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
+ -->
             </svg>
           </div>
           <ul>
@@ -533,13 +583,11 @@ export default {
   methods: {
     loadDrift() {},
     openRegisterWindow() {
-      console.log(this.$refs);
       this.$refs.register.open();
       this.registering = true;
     },
     openEarlyAccess() {
-      console.log(this.$refs.earlyAccessModal);
-      this.$refs.earlyAccessModal.open();
+      this.$refs.earlyAccessModal.open()
     },
     closeEarlyAccess() {
       this.$refs.earlyAccessModal.close();
@@ -779,6 +827,7 @@ h1::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* margin-bottom: 50px; */
 }
 #zero-per-month {
   text-align: right;
@@ -794,19 +843,24 @@ h1::before {
 }
 #curly {
   color: #00cec9;
-  margin-right: 20px;
+  margin-left: 10px;
+  margin-right: 50px;
   height: 17rem;
 }
-#top-right-photo,
-#bottom-left-photo {
-  padding: 25px 0px;
+
+#top-right-photo, #bottom-left-photo {
+  padding: 10px 0px;
   height: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
-#top-right-photo img,
-#bottom-left-photo img {
-  width: 100%;
+
+#top-right-photo img, #bottom-left-photo img{
+  width: auto;
   height: 100%;
-  object-fit: cover;
+  margin: 0px auto;
+  /* object-fit: cover; */
 }
 #top-left-dime {
   height: 1rem;

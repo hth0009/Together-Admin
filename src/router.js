@@ -114,7 +114,7 @@ let router = new Router({
           }
         },
         {
-          path: 'inbox/',
+          path: 'messages/',
           component: Inbox,
           name: 'Inbox List',
           meta: {
@@ -122,7 +122,7 @@ let router = new Router({
           }
         },
         {
-          path: 'inbox/:id',
+          path: 'messages/:id',
           component: Inbox,
           name: 'Inbox',
           meta: {

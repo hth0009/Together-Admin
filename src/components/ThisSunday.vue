@@ -91,31 +91,28 @@
               <div class="gs-form-group">
                 <label for>Times</label>
                 <div class="times">
-                  <input
-                    v-for="time in selectedService['serviceTimes']['serviceTimes(s)']"
-                    v-model="time.time"
-                    :key="time.id"
-                    type="time"
-                    class="gs-basic-input time"
-                    placeholder="Time"
-                    required
-                    :readonly="!editing"
-                  />
-                  <div class="gs-basic-button icon" formnovalidate v-show="editing">
-                    <i class="material-icons">add</i>
-                  </div>
+
+                  <input v-for="time in selectedService.times" v-model="time.time" :key="time.id" type="time" class="gs-basic-input time"
+                    placeholder="Time" required :readonly="!editing"
+                  >
+                  <div class="gs-basic-button icon" formnovalidate v-show="editing"><i class="material-icons">add</i></div>
                 </div>
               </div>
               <div class="gs-form-group">
-                <label for>Speaker</label>
-                <input
-                  type="text"
-                  class="gs-basic-input"
-                  placeholder="Add Speaker"
-                  required
-                  v-model="selectedService.speakerName"
+                <label for="">Speaker</label>
+                <dropdown
+                  :inputCSSClass="'gs-basic-input'"
+                  :items="people"
                   :readonly="!editing"
-                />
+                  :fields="{
+                    title: 'fullName',
+                    id: 'id', 
+                    profile: 'personImageThumbnailURL'
+                  }"
+                />      
+                <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
+                  v-model="selectedService.speakerName"
+                  :readonly="!editing"> -->
               </div>
               <div class="gs-form-group">
                 <label for>Description</label>
@@ -186,14 +183,18 @@
                 </div>
               </div>
               <div class="gs-form-group">
-                <label for>Speaker</label>
-                <input
-                  type="text"
-                  class="gs-basic-input"
-                  placeholder="Add Speaker"
-                  required
-                  v-model="newService.speakerName"
-                />
+                <label for="">Speaker</label>                
+                <dropdown
+                  :inputCSSClass="'gs-basic-input'"
+                  :items="people"
+                  :fields="{
+                    title: 'fullName',
+                    id: 'id', 
+                    profile: 'personImageThumbnailURL'
+                  }"
+                />   
+                <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
+                  v-model="newService.speakerName"> -->
               </div>
               <div class="gs-form-group">
                 <label for>Day</label>
@@ -222,48 +223,27 @@
         </div>
       </div>
     </div>
-    <!-- <div class="sunday-info gs-card-with-shadow no-padding">
-      <div class="image-croppa">
-        <croppa v-model="photoCroppa"
-          canvas-color="transparent"
-          :disable-rotation="true"
-          :prevent-white-space="true"
-          :width="350"
-          :height="350"
-          :speed="10"          
-          :image-border-radius="'20'"
-        ></croppa>
-      </div>
-      <form action="" class="gs-container gs-padding">
-        <div class="gs-form-group">
-          <label for="">Title</label>        
-          <input type="text" class="gs-basic-input large" placeholder="Title" required>
-        </div>
-        <div class="gs-form-group">
-          <label for="">Times</label>        
-          <input type="text" class="gs-basic-input" placeholder="Times (8:30 AM, 10:00 AM)" required>
-        </div>
-      </form>
-    </div>-->
   </div>
 </template>
 
 <script>
-import Croppa from "vue-croppa";
-import "vue-croppa/dist/vue-croppa.css";
-import CDN from "@/services/cdn";
-import {
-  checkIfObjNotFilled,
-  generateGUID,
-  getYYYYMMDD
-} from "../utils/helpers";
-import { SweetModal } from "sweet-modal-vue";
-import flatPickr from "vue-flatpickr-component";
-import "flatpickr/dist/flatpickr.css";
-import Services from "@/services/services";
-import { getHHMM, getDayOfWeekMonthDay, getThisSunday } from "../utils/helpers";
+import Croppa from 'vue-croppa'
+import 'vue-croppa/dist/vue-croppa.css'
+import CDN from '@/services/cdn'
+import { checkIfObjNotFilled, generateGUID, getYYYYMMDD } from '../utils/helpers'
+import { SweetModal } from 'sweet-modal-vue'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
 
-import Cards from "@/components/CardList";
+import Services from '@/services/services'
+import People from '@/services/people'
+import {getHHMM, getDayOfWeekMonthDay, getThisSunday} from '../utils/helpers'
+
+import Cards from '@/components/CardList'
+import Dropdown from '@/components/CardDropdown'
+
+import Vue from 'vue'
+Vue.use(Croppa)
 
 const newServiceTemplate = {
   churchUsername: "",
@@ -301,13 +281,12 @@ export default {
         allowInput: true,
         altInput: true
       },
-      editing: false
-    };
+      editing: false,
+      people: []
+    }
   },
-  components: {
-    flatPickr,
-    Cards,
-    SweetModal
+  components: {    
+    flatPickr, Cards, SweetModal, Dropdown
   },
   methods: {
     createNewItem() {
@@ -387,13 +366,18 @@ export default {
       this.loading = true;
       return Services.getServices().then(response => {
         // this.services = response.data['services(s)']
-        this.services = response.data["services(s)"].map(obj => {
-          var rObj = obj;
-          rObj["dateTitle"] = getDayOfWeekMonthDay(new Date(obj.date));
-          return rObj;
-        });
-        this.loading = false;
-      });
+        this.services = response.data['services'].map(obj => {
+          var rObj = obj
+          rObj['dateTitle'] = getDayOfWeekMonthDay(new Date(obj.date))
+          return rObj
+        })
+        this.loading = false
+      })
+    },
+    getPeople() {
+      People.getPeople().then(response => {        
+        this.people = response.data['people']
+      })
     },
     async createService() {
       this.$root.$emit("loading", true);
@@ -449,8 +433,8 @@ export default {
   },
   props: {},
   mounted() {
-    this.getServices().then();
-
+    this.getServices()
+    this.getPeople()
     // this.recieveID(this.$route.params.id)
   },
   computed: {}

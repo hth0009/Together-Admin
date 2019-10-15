@@ -117,7 +117,7 @@ import {formatDate} from '../utils/helpers'
 import { clearInterval } from 'timers'; 
 
 export default {
-  name: 'Inbox',
+  name: 'Messages',
   data () {
     return {
       threadSearch: '',
@@ -159,11 +159,11 @@ export default {
     this.getPeople()
     
     // THIS IS TEMPORARY
-    this.threadReload = setInterval(function () {this.getThreads()}.bind(this), 10000)
+    // this.threadReload = setInterval(function () {this.getThreads()}.bind(this), 10000)
   },
   beforeDestroy() {
-    window.clearInterval(this.messagesReload)
-    window.clearInterval(this.threadReload)
+    // window.clearInterval(this.messagesReload)
+    // window.clearInterval(this.threadReload)
   },
   watch: {
     newThreadType: {
@@ -175,20 +175,22 @@ export default {
     selectedThreadID(val) {
       const reloadNumber = Number(this.messagesReload)
       if (!!reloadNumber) {
-        window.clearInterval(reloadNumber)
+        // window.clearInterval(reloadNumber)
       }
       if (val != -1 && val != undefined) {
-        this.messagesReload = setInterval(function() {
-          this.updateMessages(val)
-        }.bind(this), 5000)
+        // this.messagesReload = setInterval(function() {
+        //   this.updateMessages(val)
+        // }.bind(this), 5000)
       }
     }
   },
   methods: {
-    async getThreads() {
-      const response = await Threads.getThreads()
-      let threads = response['thread(s)']
-      this.threads = threads
+    getThreads() {
+      const response = Threads.getThreads().then(response => {
+        console.log(response)
+        this.threads = response.data.messagethreads
+      })
+      return response
     },
     async getTeams() {
       // const response = await Teams.getTeamsByID(this.personID)
@@ -203,17 +205,17 @@ export default {
       this.people = people
     },
     async getThread(id) {
-      const response = await Threads.getThread(id)
-      // console.log(thread)
-      let thread = response.thread
-      Threads.patchMessageRead(thread.threadPersonID)
-      let members = thread.members['threadMembers(s)']
-      this.peopleHash = []
-      for (let index = 0; index < members.length; index++) {
-        const member = members[index].person;
-        this.peopleHash[member.id] = member
-      }
-      this.thread = thread
+      // const response = await Threads.getThread(id)
+      // // console.log(thread)
+      // let thread = response.thread
+      // Threads.patchMessageRead(thread.threadPersonID)
+      // let members = thread.members['threadMembers(s)']
+      // this.peopleHash = []
+      // for (let index = 0; index < members.length; index++) {
+      //   const member = members[index].person;
+      //   this.peopleHash[member.id] = member
+      // }
+      // this.thread = thread
     },
     async getMessages(id) {
       const response = await Message.getMessages(id)
@@ -250,7 +252,7 @@ export default {
     },
     createNewItem() {
       this.selectedThreadID = -1;
-      this.$router.push(`/app/inbox/`)
+      this.$router.push(`/app/messages/`)
 
       this.creatingNewItem = !this.creatingNewItem
     },
@@ -260,13 +262,13 @@ export default {
       }
       if (id == '-1') {
         this.selectedThreadID = id
-        this.$router.push(`/app/inbox/`)
+        this.$router.push(`/app/messages/`)
         return
       }
       
       // clearInterval(this.messageReload)
 
-      this.$router.push(`/app/inbox/${id}`)
+      this.$router.push(`/app/messages/${id}`)
 
       this.selectedThreadID = id
       this.messages = []

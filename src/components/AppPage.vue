@@ -59,32 +59,19 @@
       </div>
       <transition-group name="fadeLeft" id="app-navbar-buttons">
         <!-- <router-link :key="1" v-on:click.native="showSidebar = false" to="/app/home" class="noselect"
-        ><div class="title">home</div><i class="material-icons">home</i></router-link>-->
-        <!-- <router-link :key="2" v-on:click.native="showSidebar = false" to="/app/inbox" class="noselect"
-        ><div class="title">inbox</div><i class="material-icons">mail</i></router-link>-->
-        <router-link
-          :key="3"
-          v-on:click.native="showSidebar = false"
-          to="/app/people"
-          class="noselect"
-        >
-          <div class="title">people</div>
-          <i class="material-icons">person</i>
-        </router-link>
-        <router-link
-          :key="4"
-          v-on:click.native="showSidebar = false"
-          to="/app/this-sunday"
-          class="noselect"
-        >
-          <div class="title">this sunday</div>
-          <i class="material-icons">event</i>
-        </router-link>
+
+          ><div class="title">home</div><i class="material-icons">home</i></router-link> -->
+        <router-link :key="1"  v-on:click.native="showSidebar = false" to="/app/people" class="noselect"
+          ><div class="title">people</div><i class="material-icons">person</i></router-link>
+        <router-link :key="2"  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
+          ><div class="title">teams</div><i class="material-icons">people</i></router-link>
+        <!-- <router-link :key="3" v-on:click.native="showSidebar = false" to="/app/messages" class="noselect"
+          ><div class="title">messages</div><i class="material-icons">mail</i></router-link> -->
+        <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
+          ><div class="title">this sunday</div><i class="material-icons">event</i></router-link>
         <!-- <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/giving" class="noselect"
         ><div class="title">people</div><i class="material-icons">heart</i></router-link>-->
 
-        <!-- <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
-        ><div class="title">teams</div><i class="material-icons">people</i></router-link>-->
         <!-- <router-link :key="5"  v-on:click.native="showSidebar = false" to="/app/prayer" class="noselect"
         ><div class="title">prayer</div><i class="material-icons">keyboard_arrow_up</i></router-link>-->
         <!-- <router-link :key="6"  v-on:click.native="showSidebar = false" to="/app/calendar" class="noselect"
@@ -179,15 +166,17 @@ export default {
     hideSidebar() {
       this.showSidebar = false;
     },
-    getInfo() {
-      ChurchAPI.getChurch(this.$store.state.churchUsername).then(result => {
-        const church = result.data.church;
-        this.churchPic = church.churchImageThumbnailURL;
-        this.churchName = church.nickname;
-      });
-      PeopleAPI.getPerson(this.$store.state.personID).then(result => {
-        this.profilePic = result.person.personImageThumbnailURL;
-      });
+
+      getInfo() {
+        ChurchAPI.getChurch(this.$store.state.churchUsername).then(result => {
+          const church = result.data.churches[0]
+          this.churchPic = church.churchImageThumbnailURL
+          this.churchName = church.nickname
+        })
+        PeopleAPI.getPerson(this.$store.state.personID).then(result => {
+          this.profilePic = result.people[0].personImageThumbnailURL
+        })
+      }
     },
   }
 };
@@ -646,40 +635,19 @@ export default {
   grid-template-columns: 240px minmax(auto, 500px) auto;
 }
 
-#app-page-content >>> .card-list-wrapper {
-  overflow-y: auto;
-  width: 100%;
-  position: relative;
-  padding: 0px 15px;
-  /* border-right: 1px #E6E9EC solid; */
-}
-#app-page-content >>> .page-card-wrapper {
-  height: calc(100vh - 4vh);
-  padding: 4vh 0px 0px 0px;
-}
-
-#app-page-content >>> .card-header {
-  color: #555555;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-  opacity: inherit;
-}
-#app-page-content >>> .card-header .basic-button.icon {
-  padding: 5px;
-  width: auto;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 10px;
-}
-#app-page-content >>> .card-header .basic-button.icon i {
-  font-size: 0.9rem;
-}
-/* #app-page-content >>> .card-explanation ~ .card-header {
+  #app-page-content >>> .card-list-wrapper {
+    overflow-y: auto;
+    width: 100%;
+    position: relative;
+    padding: 0px 15px;
+    /* border-right: 1px #E6E9EC solid; */
+  }
+  #app-page-content >>> .page-card-wrapper {
+    height: calc(100vh - 0vh);
+    padding: 4vh 0px 0px 0px;
+  }
+  
+  /* #app-page-content >>> .card-explanation ~ .card-header {
     margin-bottom: 0px;
   } */
 #app-page-content >>> .card-explanation {

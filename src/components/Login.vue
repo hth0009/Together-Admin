@@ -11,7 +11,8 @@
         <input v-model="password" type="password" name="password" required placeholder="password" autocomplete="password">
         <br>
         <button class="gs-basic-button">ENTER</button>
-      </form>
+      </form>      
+      <!-- <a @click="forgotPassword" id="forgot-password">forgot password?</a> -->
       <inline-loader v-show="loggingIn"></inline-loader>
     </div>    
     <div id="wrong-username-password" class="error" v-show="hasWrongUsernamePassword">
@@ -26,6 +27,7 @@
 <script>
 
 import InlineLoader from '@/components/InlineLoader'
+import {AuthenticationDetails, CognitoUserPool, CognitoUser} from 'amazon-cognito-identity-js'
 
 export default {
   name: 'Login',
@@ -61,6 +63,37 @@ export default {
       }).then(() => {
         this.loggingIn = false
       })
+    },
+    forgotPassword() {      
+      const {lowerCaseUsername, password} = this
+      var authenticationData = {
+        Username: lowerCaseUsername,
+        Password: password
+      }
+      var authenticationDetails = new AuthenticationDetails(authenticationData)
+      var poolData = {
+        UserPoolId: 'us-east-2_th6kgbG7W',
+        ClientId: '40ljk2uqsfr2rhuqascb564rlq'
+      }
+      var userPool = new CognitoUserPool(poolData)
+      var userData = {
+        Username: lowerCaseUsername,
+        Pool: userPool
+      }
+      var cognitoUser = new CognitoUser(userData)
+      cognitoUser.forgotPassword({
+        onSuccess: function (result) {
+          console.log('call result: ' + result);
+        },
+        onFailure: function(err) {
+          alert(err);
+        },
+        inputVerificationCode() {
+          var verificationCode = prompt('Please input verification code ' ,'');
+          var newPassword = prompt('Enter new password ' ,'');
+          cognitoUser.confirmPassword(verificationCode, newPassword, this);
+        }
+      });
     },
     resetErrors() {
       this.hasWrongUsernamePassword = false
@@ -171,6 +204,12 @@ export default {
   input:-webkit-autofill {
     -webkit-animation-name: autofill;
     -webkit-animation-fill-mode: both;
+  }
+
+  #forgot-password{
+    color: gray;
+    cursor: pointer;
+    font-size: .8rem;
   }
 
   .error {
