@@ -36,7 +36,8 @@ export default {
         message: this.message
       }).then(response => {
         this.$refs.messageSent.open()
-        this.$emit('successfullySent')
+        this.$emit('successfullySent')        
+        window.scrollTo(0,0);
         this.message = ''
         this.email = ''
         this.name = ''

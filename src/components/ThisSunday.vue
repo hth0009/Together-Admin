@@ -1,5 +1,5 @@
 <template>
-  <div id="this-sunday-container">    
+  <div id="this-sunday-container">
     <sweet-modal icon="warning" ref="deleteItemModal">
       <h3>Are you sure you want to delete {{selectedService.title}}?</h3>
       <button slot="button" class="gs-basic-button red" @click="deleteItem">DELETE</button>
@@ -7,53 +7,53 @@
     <sweet-modal icon="success" ref="itemCreated">
       <h3>{{newService.title}} created!!</h3>
     </sweet-modal>
-    <div class="page-wrapper">    
-      <div class="page-card-wrapper">              
-          <cards
-            v-model="selectedID"
-            :loading="loading"
-            :noProfile="true"
-            :cardList="services"
-            :profilePicFillerValue="'name'"
-            :emptyMessage="'Not in any teams'"
-            :hasDates="true"
-            :fields="{
+    <div class="page-wrapper">
+      <div class="page-card-wrapper">
+        <cards
+          v-model="selectedID"
+          :loading="loading"
+          :noProfile="true"
+          :cardList="services"
+          :profilePicFillerValue="'name'"
+          :emptyMessage="'Not in any teams'"
+          :hasDates="true"
+          :fields="{
               title: 'dateTitle',
               id: 'id',
               subtitle: 'title'
             }"
-            :hasAddNew="true"
-            :returnObject="true"
-            @selected="recieveItem"
-            @onAddNew="createNewItem"
-          />
+          :hasAddNew="true"
+          :returnObject="true"
+          @selected="recieveItem"
+          @onAddNew="createNewItem"
+        />
       </div>
-      <div class="selected-view" id="selected-view" >
+      <div class="selected-view" id="selected-view">
         <div class="header">
           <h3>Sunday</h3>
         </div>
-        <div class="details" v-if="selectedID != -1 && !creatingNewItem">          
+        <div class="details" v-if="selectedID != -1 && !creatingNewItem">
           <div class="quick-actions">
             <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
-            <button class="basic-button red" @click="deleteButtonClicked"><i class="material-icons">delete</i></button>
+            <button class="basic-button red" @click="deleteButtonClicked">
+              <i class="material-icons">delete</i>
+            </button>
           </div>
           <div class="panel gs-container vertical">
             <div class="gs-top-buttons">
-            <button class="gs-basic-button"
-              @click="startEdit"
-              v-show="!editing"
-            ><i class="material-icons">edit</i>EDIT</button>
-            <button class="gs-basic-button red"
-              @click="cancelEdit"
-              v-show="editing"
-            ><i class="material-icons">close</i>CANCEL</button>
-            <button class="gs-basic-button"
-              @click="saveEdit"
-              v-show="editing"
-            ><i class="material-icons">done</i>SAVE</button>
+              <button class="gs-basic-button" @click="startEdit" v-show="!editing">
+                <i class="material-icons">edit</i>EDIT
+              </button>
+              <button class="gs-basic-button red" @click="cancelEdit" v-show="editing">
+                <i class="material-icons">close</i>CANCEL
+              </button>
+              <button class="gs-basic-button" @click="saveEdit" v-show="editing">
+                <i class="material-icons">done</i>SAVE
+              </button>
             </div>
             <div class="image-croppa">
-              <croppa v-model="photoCroppa"
+              <croppa
+                v-model="photoCroppa"
                 canvas-color="transparent"
                 :disable-rotation="true"
                 :prevent-white-space="true"
@@ -62,26 +62,36 @@
                 :speed="10"
                 v-show="editing"
               ></croppa>
-              <img :src="selectedService.iconURL" alt="" srcset="" 
+              <img
+                :src="selectedService.iconURL"
+                alt
+                srcset
                 class="this-sunday-image"
-                v-show="!editing">
-            </div>      
-            <form action="" class="" id="this-sunday-form">
+                v-show="!editing"
+              />
+            </div>
+            <form action class id="this-sunday-form">
               <div class="gs-form-group">
-                <label for="">Title</label>        
-                <input type="text" class="gs-basic-input large" placeholder="Add a title" required
+                <label for>Title</label>
+                <input
+                  type="text"
+                  class="gs-basic-input large"
+                  placeholder="Add a title"
+                  required
                   v-model="selectedService.title"
-                  :readonly="!editing">
+                  :readonly="!editing"
+                />
               </div>
               <!-- <div class="gs-form-group">
                 <label for="">Date</label>
                 <flat-pickr class="gs-basic-input" :config="datePickerConfig"
                 :disabled="!editing"
                 v-model="selectedService.dateObject"></flat-pickr>
-              </div> -->
+              </div>-->
               <div class="gs-form-group">
-                <label for="">Times</label>
+                <label for>Times</label>
                 <div class="times">
+
                   <input v-for="time in selectedService.times" v-model="time.time" :key="time.id" type="time" class="gs-basic-input time"
                     placeholder="Time" required :readonly="!editing"
                   >
@@ -105,10 +115,16 @@
                   :readonly="!editing"> -->
               </div>
               <div class="gs-form-group">
-                <label for="">Description</label>        
-                <textarea type="text" class="gs-basic-input" placeholder="Add Description" rows="10" required
+                <label for>Description</label>
+                <textarea
+                  type="text"
+                  class="gs-basic-input"
+                  placeholder="Add Description"
+                  rows="10"
+                  required
                   v-model="selectedService.description"
-                  :readonly="!editing"></textarea>
+                  :readonly="!editing"
+                ></textarea>
               </div>
             </form>
           </div>
@@ -117,7 +133,8 @@
           <div class="panel gs-container vertical">
             <h5>Create New Service</h5>
             <div class="image-croppa">
-              <croppa v-model="photoCroppa"
+              <croppa
+                v-model="photoCroppa"
                 canvas-color="transparent"
                 :disable-rotation="true"
                 :prevent-white-space="true"
@@ -125,28 +142,44 @@
                 :height="250"
                 :speed="10"
               ></croppa>
-            </div>      
-            <form action="" class="" id="this-sunday-form" @submit.prevent="createService">
+            </div>
+            <form action class id="this-sunday-form" @submit.prevent="createService">
               <div class="gs-form-group">
-                <label for="">Title</label>        
-                <input type="text" class="gs-basic-input large" placeholder="Add a title" required
-                  v-model="newService.title">
+                <label for>Title</label>
+                <input
+                  type="text"
+                  class="gs-basic-input large"
+                  placeholder="Add a title"
+                  required
+                  v-model="newService.title"
+                />
               </div>
               <div class="gs-form-group">
-                <label for="">Date</label>
-                <flat-pickr class="gs-basic-input" :config="datePickerConfig"
-                v-model="newService.date"></flat-pickr>
+                <label for>Date</label>
+                <flat-pickr
+                  class="gs-basic-input"
+                  :config="datePickerConfig"
+                  v-model="newService.date"
+                ></flat-pickr>
               </div>
               <div class="gs-form-group">
-                <label for="">Times</label>
+                <label for>Times</label>
                 <div class="times">
                   <div v-for="(time, index) in newService.serviceTimes" :key="index" class="time">
-                    <div class="delete-time noselect" @click="deleteTime(index)"><i class="material-icons">close</i></div>
-                    <input v-model="time.time" type="time" class="gs-basic-input time"
-                      placeholder="Time" required
-                    >
+                    <div class="delete-time noselect" @click="deleteTime(index)">
+                      <i class="material-icons">close</i>
+                    </div>
+                    <input
+                      v-model="time.time"
+                      type="time"
+                      class="gs-basic-input time"
+                      placeholder="Time"
+                      required
+                    />
                   </div>
-                  <div class="gs-basic-button icon" formnovalidate @click="addTime"><i class="material-icons">add</i></div>
+                  <div class="gs-basic-button icon" formnovalidate @click="addTime">
+                    <i class="material-icons">add</i>
+                  </div>
                 </div>
               </div>
               <div class="gs-form-group">
@@ -164,9 +197,25 @@
                   v-model="newService.speakerName"> -->
               </div>
               <div class="gs-form-group">
-                <label for="">Description</label>        
-                <textarea type="text" class="gs-basic-input" placeholder="Add Description" rows="10" required
-                  v-model="newService.description"></textarea>
+                <label for>Day</label>
+                <input
+                  type="text"
+                  class="gs-basic-input"
+                  placeholder="Change Time"
+                  required
+                  v-model="newService.speakerName"
+                />
+              </div>
+              <div class="gs-form-group">
+                <label for>Description</label>
+                <textarea
+                  type="text"
+                  class="gs-basic-input"
+                  placeholder="Add Description"
+                  rows="10"
+                  required
+                  v-model="newService.description"
+                ></textarea>
               </div>
               <button class="gs-basic-button">CREATE</button>
             </form>
@@ -197,23 +246,23 @@ import Vue from 'vue'
 Vue.use(Croppa)
 
 const newServiceTemplate = {
-	"churchUsername": "",
-  "title": "",
-  "iconURL": "",
-	"date": getThisSunday(),
-	"speakerID": null,
-	"speakerName": "",
-	"description": "",
-	"serviceTimes": [
-		{
-			"time": ""
-		}
-	]
-}
+  churchUsername: "",
+  title: "",
+  iconURL: "",
+  date: getThisSunday(),
+  speakerID: null,
+  speakerName: "",
+  description: "",
+  serviceTimes: [
+    {
+      time: ""
+    }
+  ]
+};
 
 export default {
-  name: 'ThisSunday',
-  data () {
+  name: "ThisSunday",
+  data() {
     return {
       loading: true,
       creatingNewItem: false,
@@ -222,15 +271,15 @@ export default {
       selectedID: -1,
       selectedService: {},
       beforeEditedService: {},
-      cdnKeys: {},      
+      cdnKeys: {},
       photoCroppa: {},
-      cdnKeys: {},      
+      cdnKeys: {},
       date: new Date(),
       datePickerConfig: {
-        altFormat: 'l F J, Y',
-        dateFormat: 'Y-m-d\\Z',
+        altFormat: "l F J, Y",
+        dateFormat: "Y-m-d\\Z",
         allowInput: true,
-        altInput: true,
+        altInput: true
       },
       editing: false,
       people: []
@@ -242,70 +291,79 @@ export default {
   methods: {
     createNewItem() {
       this.selectedID = -1;
-      this.$router.push(`/app/this-sunday/`)
+      this.$router.push(`/app/this-sunday/`);
 
-      this.creatingNewItem = !this.creatingNewItem
-      this.newService = {...newServiceTemplate}
+      this.creatingNewItem = !this.creatingNewItem;
+      this.newService = { ...newServiceTemplate };
       if (this.creatingNewItem == true) {
         CDN.getKeys().then(response => {
-         this.cdnKeys = response.data
-        })
+          this.cdnKeys = response.data;
+        });
       }
     },
     recieveItem(item) {
-      this.recieveID(item.id)
-      this.selectedService = item
-      this.selectedService['dateObject'] = new Date(item.date)
+      this.recieveID(item.id);
+      this.selectedService = item;
+      this.selectedService["dateObject"] = new Date(item.date);
     },
     async recieveID(id) {
       if (id == undefined) {
-        return
+        return;
       }
-      if (id == '-1') {
-        this.selectedID = id
-        this.$router.push(`/app/this-sunday/`)
-        return
+      if (id == "-1") {
+        this.selectedID = id;
+        this.$router.push(`/app/this-sunday/`);
+        return;
       }
 
-      this.$router.push(`/app/this-sunday/${id}`)
+      this.$router.push(`/app/this-sunday/${id}`);
 
-      this.creatingNewItem = false
-   
-      this.selectedID = id
+      this.creatingNewItem = false;
+
+      this.selectedID = id;
     },
     async uploadImage() {
-      const { accessKeyID, secretAccessKey } = this.cdnKeys
-      var fileName = generateGUID() + '.jpg'
-      
-      if (!this.photoCroppa.hasImage()) {
-        return
-      }
-      var blob = await this.photoCroppa.promisedBlob('image/jpeg')
-      
-      var arrayBuffer = await new Response(blob).arrayBuffer();  
-      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileName).catch(() => {fileName = ''})
+      const { accessKeyID, secretAccessKey } = this.cdnKeys;
+      var fileName = generateGUID() + ".jpg";
 
-      return fileName
-    },    
+      if (!this.photoCroppa.hasImage()) {
+        return;
+      }
+      var blob = await this.photoCroppa.promisedBlob("image/jpeg");
+
+      var arrayBuffer = await new Response(blob).arrayBuffer();
+      await CDN.postImage(
+        accessKeyID,
+        secretAccessKey,
+        arrayBuffer,
+        fileName
+      ).catch(() => {
+        fileName = "";
+      });
+
+      return fileName;
+    },
     async deleteItem() {
-      this.$refs.deleteItemModal.close()
-      Services.deleteService(this.selectedID).then(function(response) {
-        this.recieveID(-1)
-        this.getServices()
-      }.bind(this))
+      this.$refs.deleteItemModal.close();
+      Services.deleteService(this.selectedID).then(
+        function(response) {
+          this.recieveID(-1);
+          this.getServices();
+        }.bind(this)
+      );
     },
     addTime() {
-      this.newService.serviceTimes.push({ "time": "12:00:00" })
+      this.newService.serviceTimes.push({ time: "12:00:00" });
     },
     deleteTime(index) {
-      this.newService.serviceTimes.splice(index, 1)
+      this.newService.serviceTimes.splice(index, 1);
       // this.newService.serviceTimes.push([{ "time": ""}])
     },
     deleteButtonClicked() {
-      this.$refs.deleteItemModal.open()
+      this.$refs.deleteItemModal.open();
     },
     getServices() {
-      this.loading = true
+      this.loading = true;
       return Services.getServices().then(response => {
         // this.services = response.data['services(s)']
         this.services = response.data['services'].map(obj => {
@@ -322,60 +380,65 @@ export default {
       })
     },
     async createService() {
-      this.$root.$emit('loading', true)
-      var profilePic = await this.uploadProfilePic()
-      profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/EventPics/' + profilePic : ''
-      var nService = {...this.newService}
-      nService.churchUsername = this.$store.state.churchUsername
-      console.log(this.newService.date)
-      console.log(new Date(this.newService.date))
-      nService.date = getYYYYMMDD(new Date(this.newService.date))
-      nService.iconURL = profilePic
-      Services.postService(nService).then(() => {              
-        this.$root.$emit('loading', false)
-        this.getServices().then(
-          this.$refs.itemCreated.open()
-        )
-      })
-      console.log(nService)
-    },    
+      this.$root.$emit("loading", true);
+      var profilePic = await this.uploadProfilePic();
+      profilePic = !!profilePic
+        ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
+        : "";
+      var nService = { ...this.newService };
+      nService.churchUsername = this.$store.state.churchUsername;
+      console.log(this.newService.date);
+      console.log(new Date(this.newService.date));
+      nService.date = getYYYYMMDD(new Date(this.newService.date));
+      nService.iconURL = profilePic;
+      Services.postService(nService).then(() => {
+        this.$root.$emit("loading", false);
+        this.getServices().then(this.$refs.itemCreated.open());
+      });
+      console.log(nService);
+    },
     async uploadProfilePic() {
-      const { accessKeyID, secretAccessKey } = this.cdnKeys
-      const fileSufix = 'EventPics/'
-      var fileName = generateGUID() + '.jpg'
-      
-      if (!this.photoCroppa.hasImage()) {
-        return
-      }
-      var blob = await this.photoCroppa.promisedBlob('image/jpeg')
-      var arrayBuffer = await new Response(blob).arrayBuffer();  
-      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileSufix, fileName).catch(() => {fileName = ''})
+      const { accessKeyID, secretAccessKey } = this.cdnKeys;
+      const fileSufix = "EventPics/";
+      var fileName = generateGUID() + ".jpg";
 
-      return fileName
+      if (!this.photoCroppa.hasImage()) {
+        return;
+      }
+      var blob = await this.photoCroppa.promisedBlob("image/jpeg");
+      var arrayBuffer = await new Response(blob).arrayBuffer();
+      await CDN.postImage(
+        accessKeyID,
+        secretAccessKey,
+        arrayBuffer,
+        fileSufix,
+        fileName
+      ).catch(() => {
+        fileName = "";
+      });
+
+      return fileName;
     },
     startEdit() {
-      this.editing = true
-      this.beforeEditedService = {...this.selectedService}
+      this.editing = true;
+      this.beforeEditedService = { ...this.selectedService };
     },
     cancelEdit() {
-      this.editing = false
-      this.selectedService = {...this.beforeEditedService}
+      this.editing = false;
+      this.selectedService = { ...this.beforeEditedService };
     },
     saveEdit() {
-      this.editing = false
+      this.editing = false;
     }
   },
-  props: {
-  },
+  props: {},
   mounted() {
     this.getServices()
     this.getPeople()
-    
     // this.recieveID(this.$route.params.id)
   },
-  computed: {
-  }
-}
+  computed: {}
+};
 </script>
 
 <style src="./../assets/css/general-style.css"></style> 
@@ -386,19 +449,19 @@ export default {
   margin-bottom: 10px;
 }
 .edit i {
-  font-size: .7rem;
-  margin-right: .3rem;
+  font-size: 0.7rem;
+  margin-right: 0.3rem;
   vertical-align: center;
 }
 #this-sunday-container {
   height: 100%;
 }
-#this-sunday-container .dates{
+#this-sunday-container .dates {
 }
 #this-sunday-info {
   height: 100vh;
   padding: 50px 20px;
-  overflow-y: auto;  
+  overflow-y: auto;
   box-sizing: border-box;
 }
 .this-sunday-image {
@@ -411,15 +474,15 @@ export default {
   margin-top: 25px;
   /* max-width: 600px; */
 }
-#this-sunday-form .times{
+#this-sunday-form .times {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
 }
-#this-sunday-form .times .time{
+#this-sunday-form .times .time {
   position: relative;
 }
-#this-sunday-form .times .delete-time{
+#this-sunday-form .times .delete-time {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -434,13 +497,13 @@ export default {
   border: 1px grey solid;
   cursor: pointer;
 }
-#this-sunday-form .times .delete-time i{
+#this-sunday-form .times .delete-time i {
   font-size: 12.5px;
 }
-#this-sunday-form .times input{
+#this-sunday-form .times input {
   margin-right: 10px;
 }
-#this-sunday-form .times .gs-basic-button{
+#this-sunday-form .times .gs-basic-button {
   margin-bottom: 5px;
 }
 
@@ -456,14 +519,14 @@ export default {
    480-less    - phone landscape & smaller
 --------------------------------------------*/
 @media all and (min-width: 1024px) and (max-width: 1280px) {
- }
+}
 
 @media all and (min-width: 768px) and (max-width: 1024px) {
- }
+}
 
 @media all and (min-width: 480px) and (max-width: 768px) {
- }
+}
 
 @media all and (max-width: 480px) {
- }
+}
 </style>
