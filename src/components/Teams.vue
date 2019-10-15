@@ -97,13 +97,13 @@
               </div>
               <div class="gs-form-group">
                 <label for="">Short Description</label>        
-                <input type="text" class="gs-basic-input" placeholder="Add a short description (ex. 6th Grade Boys Small Group)" required
+                <input type="text" class="gs-basic-input" maxlength="40" placeholder="Add a short description (ex. 6th Grade Boys Small Group)" required
                   v-model="selectedTeam.subtitle"
                   :readonly="!editing">
               </div>
               <div class="gs-form-group">
                 <label for="">Description</label>        
-                <textarea type="text" class="gs-basic-input" maxlength="40" placeholder="Add Description" rows="10" required
+                <textarea type="text" class="gs-basic-input" placeholder="Add Description" rows="10" required
                   v-model="selectedTeam.description"
                   :readonly="!editing"></textarea>
               </div>
@@ -190,9 +190,9 @@ Vue.use(Croppa)
 
 const newTeamTemplate = {
     churchID: 44,
-    description: "n",
+    description: "",
     iconURL: "",
-    name: "n",
+    name: "",
     isServeTeam: true,
     meetingAddress: "",
     teamImageURL: "",
@@ -207,8 +207,8 @@ const newTeamTemplate = {
     mainEventID: null,
     taggableID: null,
     maxCapacity: 1000,
-    subtitle: 'n',
-    time: 'n',
+    subtitle: '',
+    time: '',
     title: '',
     isPrivate: true
   }
@@ -339,9 +339,7 @@ export default {
       this.$root.$emit('loading', true)
       var nTeam = {...this.newTeam}
       var profilePic = await this.uploadProfilePic()
-      console.log(profilePic)
       await Church.getChurch().then(result => {
-        console.log(result.data)
         nTeam.churchID = result.data.churches[0].id
       })
       profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/TeamPics/' + profilePic : ''
@@ -361,7 +359,6 @@ export default {
       console.log(nTeam)
     },    
     async uploadProfilePic() {
-      console.log("COME ON BRO PLEASE WORK!!")
       const { accessKeyID, secretAccessKey } = this.cdnKeys
       const fileSufix = 'TeamPics/'
       var fileName = generateGUID() + '.jpg'
@@ -386,8 +383,8 @@ export default {
       this.editing = false
       this.selectedTeam = {...this.beforeEditedService}
     },
-    saveEdit() {
-      this.editing = false
+    async saveEdit() {      
+      this.editing = false 
       var patch = {
         "identifier":{
           "id": `${this.selectedID}`
@@ -399,8 +396,18 @@ export default {
           time: this.selectedTeam.time
         }
       }
+      if (this.photoCroppa.hasImage()) {        
+        await CDN.getKeys().then(response => {
+          this.cdnKeys = response.data
+        })
+        var profilePic = await this.uploadProfilePic()
+        profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/TeamPics/' + profilePic : ''
+        patch['values']['teamImageURL'] = profilePic
+        patch['values']['teamImageThumbnailURL'] = profilePic
+      }
       Teams.patchTeam(patch).then(() => {
         this.getTeams()
+        this.getTeam(this.selectedID)
       })
     }
   },

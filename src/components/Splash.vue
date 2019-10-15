@@ -111,7 +111,7 @@
               <li>Engagement app</li>
               <li>Mass communicator</li>
               <li>Analytic tool</li>
-              <!-- <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li> -->
+              <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li> 
               <li>Giving</li>
             </ul>
           </b-col>
@@ -439,7 +439,7 @@
         <contact-us />
       </b-row>
     </b-container>
-    <div id="footer">
+    <!-- <div id="footer">
       <div id="footer-router-links">
         <h2>Legal</h2>
         <h2>Product</h2>
@@ -450,7 +450,7 @@
         <h2>FAQ</h2>
         <h2>Privacy</h2>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -1305,6 +1305,7 @@ h1::before {
 #contact-us {
   margin-top: 50px;
   height: 750px;
+  max-height: 100vh;
   padding: 0px 15px;
 }
 #footer {
