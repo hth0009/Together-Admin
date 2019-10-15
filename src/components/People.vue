@@ -300,7 +300,7 @@ export default {
     },
     async getPerson () {
       var response = await People.getPerson(this.selectedID)
-      this.selectedPerson = response['people'][0]
+      this.selectedPerson = response.data['people'][0]
       this.selectedPerson.birthday = new Date(this.selectedPerson.birthday)
     },
     async patchPersonValue (valueKey, value) {
