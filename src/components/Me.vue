@@ -117,12 +117,12 @@ import Church from "../services/church";
 import Teams from "../services/teams";
 import Avatar from "../components/Avatar";
 export default {
-  name: "",
+  name: "Me",
   data() {
     return {
-      myTeams: "",
-      me: "",
-      myOrgs: "",
+      myTeams: [],
+      me: {},
+      myOrgs: {},
       editing: false
     };
   },
@@ -132,35 +132,37 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout").then(() => {
-        this.$router.push("/login");
-        console.log("logged out");
+        this.$router.push("/login")
+        console.log("logged out")
       });
     },
     async getMe() {
-      const response = await People.getPerson(Store.state.personID);
-      this.me = response["person"];
-      console.log(this.me.inChurch);
-      this.myOrgs = await Church.getChurch(this.me.inChurch);
+      People.getPerson(Store.state.personID).then(response => {
+        this.me = response.data.people[0]
+      })
+      Church.getChurch(Store.state.churchUsername).then(response => {
+        this.myOrgs = response.data.churches[0]
+      })
     },
     async getMyTeams() {
-      const response = await Teams.getTeamsByID(Store.state.personID);
-      console.log(response);
+      const response = await Teams.getTeamsByID(Store.state.personID)
+      console.log(response)
       // this.myTeams = response["team(s)"];
     },
     startEdit() {
-      this.editing = true;
+      this.editing = true
     },
     cancelEdit() {
-      this.editing = false;
+      this.editing = false
     },
     saveEdit() {
-      this.editing = false;
+      this.editing = false
     }
   },
   props: {},
   mounted() {
-    this.getMe();
-    this.getMyTeams();
+    this.getMe()
+    this.getMyTeams()
   },
   computed: {}
 };

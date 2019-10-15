@@ -20,11 +20,7 @@ export default {
           id: `${personID}`,
           // relateTo: -1
         }
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      console.error(e)
-    })
+      })
   },
   patchPersonValue (personID, valueKey, value) {
     return Api().patch('people', {
