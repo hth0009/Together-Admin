@@ -27,11 +27,11 @@
           <form id="me-form">
             <div class="gs-form-group">
               <label>Email</label>
-              <input type="text" class="gs-basic-input" readonly v-model="me.accountEmail" />
+              <input type="text" class="gs-basic-input" readonly placeholder="Email Address" v-model="me.contactEmail" />
             </div>
             <div class="gs-form-group">
               <label>Birthday</label>
-              <input type="text" class="gs-basic-input" readonly v-model="me.birthday" />
+              <input type="text" class="gs-basic-input" readonly placeholder="Birthday" v-model="me.birthday" />
             </div>
             <div class="gs-form-group">
               <label>Home Address</label>
@@ -66,40 +66,45 @@
           </form>
         </div>
         <div id="me-orgs-teams">
-          <h1>Organizations</h1>
           <div class="panel gs-container vertical">
-            <div class="header">
-              <div class="profile-pic">
-                <avatar :height="80" :url="me.personImageThumbnailURL" :title="me.fullName" />
-              </div>
-              <h3>Church of {{me.firstName}}</h3>
-              <div class="subtitle" v-if="!!me.account">Filler Content</div>
-            </div>
-            <div class="gs-top-buttons">
-              <button class="gs-basic-button red">LEAVE</button>
-            </div>
+            <h1 class="gs-card-header">Organizations</h1>
+            <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :hasButtonOnCard="false"
+                  :alphabetical="true"
+                  :emptyMessage="'Not in any organizations'"
+                  :cardList="myOrgs"
+                  :cardSelectable="true"
+                  profilePicFillerValue="orgName"
+                  :hasSearch="false"
+                  :fields="{
+                    title: 'orgName',
+                    profile: 'orgIconURL',
+                    id: 'orgID',
+                  }"
+                />
           </div>
-          <h1>Teams</h1>
           <div class="panel gs-container vertical">
-            <div class="header">
-              <div class="profile-pic">
-                <avatar :height="80" :url="me.personImageThumbnailURL" :title="me.fullName" />
-              </div>
-              <h3>Team of {{me.firstName}}</h3>
-              <div class="subtitle" v-if="!!me.account">Filler Content</div>
-            </div>
-            <div class="team-footer">
-              <div class="profile-pic">
-                <avatar :height="40" :url="me.personImageThumbnailURL" :title="me.fullName" />
-                <h6>Church of {{me.firstName}}</h6>
-              </div>
-              <div>
-                <button class="gs-basic-button">END TEAM</button>
-                <button class="gs-basic-button red">LEAVE</button>
-              </div>
-            </div>
-            <div class="gs-top-buttons">
-            </div>
+            <h1 class="gs-card-header">Teams</h1>
+            <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :hasButtonOnCard="false"
+                  :alphabetical="true"
+                  :emptyMessage="'Not in any teams'"
+                  :cardList="myTeams"
+                  :cardSelectable="true"
+                  profilePicFillerValue="teamName"
+                  :hasSearch="false"
+                  :fields="{
+                    title: 'teamName',
+                    profile: 'teamIconURL',
+                    id: 'teamID',
+                  }"
+                />
           </div>
         </div>
       </div>
@@ -116,6 +121,7 @@ import People from "../services/people";
 import Church from "../services/church";
 import Teams from "../services/teams";
 import Avatar from "../components/Avatar";
+import Cards from '@/components/CardList'
 export default {
   name: "Me",
   data() {
@@ -127,7 +133,8 @@ export default {
     };
   },
   components: {
-    Avatar
+    Avatar,
+    Cards
   },
   methods: {
     logout() {
@@ -139,15 +146,20 @@ export default {
     async getMe() {
       People.getPerson(Store.state.personID).then(response => {
         this.me = response.data.people[0]
+        this.myTeams = response.data.people[0].teamsPeople.map((aTeam) => ({
+          teamName: aTeam.team.name,
+          teamIconURL: aTeam.team.iconURL,
+          isLeader: aTeam.isLeader,
+          teamID: aTeam.teamID
+        }))
       })
       Church.getChurch(Store.state.churchUsername).then(response => {
-        this.myOrgs = response.data.churches[0]
+        this.myOrgs = response.data.churches.map((aOrg) => ({
+          orgName: aOrg.name,
+          orgIconURL: aOrg.churchImageURL,
+          orgID: aOrg.id
+        }))
       })
-    },
-    async getMyTeams() {
-      const response = await Teams.getTeamsByID(Store.state.personID)
-      console.log(response)
-      // this.myTeams = response["team(s)"];
     },
     startEdit() {
       this.editing = true
@@ -162,7 +174,7 @@ export default {
   props: {},
   mounted() {
     this.getMe()
-    this.getMyTeams()
+    // this.getMyTeams()
   },
   computed: {}
 };
@@ -182,9 +194,6 @@ export default {
 .team-footer h6 {
   margin-left: 10px;
   font-size: 16px;
-}
-#me-orgs-teams h1 {
-  margin-left: 12px;
 }
 #me-wrapper {
   display: grid;
