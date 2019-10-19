@@ -81,20 +81,17 @@ export default {
 </script>
 
 <style scoped>
-/* :::::::::::::: Presentation css */
 .lock-container, .lock {
   margin: 0;
   padding: 0;
-  /* box-sizing: border-box; */
   --locked-color: #5fadbf;
-  --unlocked-color: #ff5153;
+  --unlocked-color: #05e0a2;
 }
 .lock.disabled {  
   --locked-color: grey;
   --unlocked-color: grey;
   cursor: default;
 }
-/* :::::::::::::: Required CSS */
 /* Locked */
 .lock-container {
   height: 50px;

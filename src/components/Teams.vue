@@ -61,15 +61,13 @@
                 class="teams-image"
                 v-show="!editing">
             </div>
-            <form action="" class="" id="teams-form">              
-              <div class="gs-form-group">
-                <padlock
-                  v-model="selectedTeam.isPrivate"
-                  :lockedLabel="'Private Team'"
-                  :unlockedLabel="'Public Team'"
-                  :disabled="!editing"
-                />
-              </div>
+            <form action="" class="" id="teams-form">
+              <padlock
+                v-model="selectedTeam.isPrivate"
+                :lockedLabel="'Private Team'"
+                :unlockedLabel="'Public Team'"
+                :disabled="!editing"
+              />
               <div class="gs-form-group">
                 <label for="">Name</label>        
                 <input type="text" class="gs-basic-input large" placeholder="Add a team name" required
@@ -126,9 +124,9 @@
           </div>
         </div>
         <div class="details" v-if="creatingNewItem">
-          <div class="panel">
+          <div class="panel gs-card-with-shadow gs-card-rise">
             <h5>Create New Team</h5>
-            <div class="image-croppa">
+            <div class="image-croppa gs-card-photo">
               <croppa v-model="photoCroppa"
                 canvas-color="transparent"
                 :disable-rotation="true"
@@ -139,6 +137,11 @@
               ></croppa>
             </div>
             <form action="" class="" id="teams-form" @submit.prevent="createTeam">
+              <padlock
+                v-model="newTeam.isPrivate"
+                :lockedLabel="'Private Team'"
+                :unlockedLabel="'Public Team'"
+              />
               <div class="gs-form-group">
                 <label for="">Name</label>        
                 <input type="text" class="gs-basic-input large" placeholder="Add a team name" required
@@ -294,7 +297,7 @@ export default {
         const team = response.data.teams[0]
         this.selectedTeam = team
         this.selectedTeam.leaders = team.leaders[0] != undefined ? team.leaders : [{}]
-        console.log(response)
+        console.log(team)
       })
 
       // this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
