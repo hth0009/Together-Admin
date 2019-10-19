@@ -313,7 +313,7 @@ export default {
       this.selectedService.date = moment(item.date, 'YYYY-MM-DD').format();
     },
     async recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         return;
       }
       if (id == "-1") {
