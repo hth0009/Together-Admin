@@ -544,7 +544,7 @@ export default {
       this.selectedID = -1;
       this.$router.push(`/app/teams/`)
 
-      this.creatingNewItem = !this.creatingNewItem
+      this.creatingNewItem = true;
       this.newTeam = {...newTeamTemplate}
       if (this.creatingNewItem == true) {
         CDN.getKeys().then(response => {

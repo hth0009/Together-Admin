@@ -105,7 +105,7 @@ export default {
       this.selectedID = -1;
       this.$router.push(`/app/prayer/`)
 
-      this.creatingNewItem = !this.creatingNewItem
+      this.creatingNewItem = true;
     },
     async getPrayers() {
       const response = await Prayers.getPrayers()

@@ -297,7 +297,7 @@ export default {
       this.selectedID = -1;
       this.$router.push(`/app/this-sunday/`);
 
-      this.creatingNewItem = !this.creatingNewItem;
+      this.creatingNewItem = true;;
       this.newService = { ...newServiceTemplate };
       if (this.creatingNewItem) {
         // CDN.getKeys().then(response => {

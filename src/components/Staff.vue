@@ -211,7 +211,7 @@ export default {
       this.selectedThreadID = -1;
       this.$router.push(`/app/staff/`)
 
-      this.creatingNewItem = !this.creatingNewItem
+      this.creatingNewItem = true;
     }
   },
   props: {

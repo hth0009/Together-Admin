@@ -111,8 +111,10 @@
           </div>
         </div>
         <div class="details" v-if="creatingNewItem">
+          <button class="gs-basic-button close-creating-new-team" @click="creatingNewItem = false"
+            >X</button>
           <div class="panel gs-container vertical">
-            <h5>Create New Team</h5>
+            <h5 class="mb1em">Create New Team</h5>
             <div class="image-croppa">
               <croppa v-model="photoCroppa"
                 canvas-color="transparent"
@@ -264,13 +266,11 @@ export default {
       this.selectedID = -1;
       this.$router.push('/app/teams/')
 
-      this.creatingNewItem = !this.creatingNewItem
+      this.creatingNewItem = true;
       this.newTeam = {...newTeamTemplate}
-      if (this.creatingNewItem) {
-        CDN.getKeys().then(response => {
-         this.cdnKeys = response.data
-        })
-      }
+      CDN.getKeys().then(response => {
+        this.cdnKeys = response.data
+      });
     },    
     getTeam(id) {
       this.selectedID = id
@@ -426,6 +426,11 @@ export default {
 <style src="./../assets/css/general-style.css"></style> 
 
 <style scoped>
+.close-creating-new-team {
+  position: absolute;
+  margin-top: -3em;
+  margin-left: 1em;
+}
 .edit {
   align-self: flex-end;
   margin-bottom: 10px;
