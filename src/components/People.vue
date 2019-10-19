@@ -334,7 +334,7 @@ export default {
       Skills.patchSkill(skillID, isConfirmed)
     },
     recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         this.selectedPerson = {}
         return
       }

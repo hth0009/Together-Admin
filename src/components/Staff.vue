@@ -198,7 +198,7 @@ export default {
       this.skills[index].confirmed = !this.skills[index].confirmed
     },
     recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         return
       }
       this.creatingNewItem = false

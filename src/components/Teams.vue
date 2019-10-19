@@ -244,7 +244,7 @@ export default {
   methods: {
     recieveID(id) {
       console.log(id)
-      if (id == undefined) {
+      if (!id) {
         return
       }
       if (this.selectedID != id) {
@@ -266,7 +266,7 @@ export default {
 
       this.creatingNewItem = !this.creatingNewItem
       this.newTeam = {...newTeamTemplate}
-      if (this.creatingNewItem == true) {
+      if (this.creatingNewItem) {
         CDN.getKeys().then(response => {
          this.cdnKeys = response.data
         })

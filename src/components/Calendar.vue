@@ -315,7 +315,7 @@ export default {
       this.getEventInstancesByBase(item.eventBaseID)
     },
     async recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         return
       }
       if (id == '-1') {

@@ -257,7 +257,7 @@ export default {
       this.creatingNewItem = !this.creatingNewItem
     },
     selectThread(id) {
-      if (id == undefined) {
+      if (!id) {
         return
       }
       if (id == '-1') {

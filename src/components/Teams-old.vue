@@ -467,7 +467,7 @@ export default {
   },
   methods: {
     recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         return
       }
       if (this.selectedID != id) {
