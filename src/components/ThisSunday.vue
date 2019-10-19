@@ -15,7 +15,7 @@
           :noProfile="true"
           :cardList="services"
           :profilePicFillerValue="'name'"
-          :emptyMessage="'Not in any teams'"
+          :emptyMessage="'No Events Scheduled Yet'"
           :hasDates="true"
           :fields="{
               title: 'dateTitle',
