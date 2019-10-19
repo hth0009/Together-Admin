@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-    <b-container id="dime-partnership">
+    <b-container id="dime-partnership" class="mb6em">
       <h1>YOUR COST</h1>
       <b-row id="dime-gri">
         <b-col cols="12" md="6" class=".m-md-5" id="top-left">
@@ -228,7 +228,7 @@
         <div class="big-word">{{this.selectedProblem3}}</div>
         </div>
     </div>-->
-    <b-container id="features">
+    <b-container id="features" class="mb6em"> 
       <h1>YOUR PRODUCT</h1>
       <b-row id="feature-container">
         <b-col id="feature-details" col md="12" xl="3">
@@ -410,7 +410,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container id="recap">
+    <b-container id="recap" class="mb6em">
       <h1>WHY US</h1>
       <b-row align-h="around">
         <b-col class="recap-item" cols="12" md="4" xl="3">
@@ -433,7 +433,7 @@
     <!-- <div id="personal-simple-free">
       <personal-simple-free/>
     </div>-->
-    <b-container id="contact-us">
+    <b-container id="contact-us" class="mb1em">
       <h1>CONTACT US</h1>
       <b-row>
         <contact-us />
@@ -780,6 +780,7 @@ h1::before {
   max-width: 80rem;
   margin: 0px auto;
 }
+
 #together-badge {
   position: absolute;
   height: 70px;
@@ -1279,7 +1280,6 @@ h1::before {
   padding: 2px 4px;
 }
 #recap {
-  margin-top: 6rem;
   margin-bottom: 6rem;
 }
 .recap-item {
