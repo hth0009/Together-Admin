@@ -227,6 +227,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import Croppa from 'vue-croppa'
 import 'vue-croppa/dist/vue-croppa.css'
 import CDN from '@/services/cdn'
@@ -365,12 +366,11 @@ export default {
     getServices() {
       this.loading = true;
       return Services.getServices().then(response => {
-        // this.services = response.data['services(s)']
         this.services = response.data['services'].map(obj => {
-          var rObj = obj
-          rObj['dateTitle'] = getDayOfWeekMonthDay(new Date(obj.date))
-          return rObj
-        })
+          obj.dateTitle = moment(obj.date, 'YYYY-MM-DD').format('dddd, MMMM Do');
+          return obj;
+        });
+
         this.loading = false
       })
     },
