@@ -20,7 +20,7 @@
           <div id="subtitle">
             <p>
               a church engagement platform that
-              provides your church all the tools they
+              provides your church all the tools you
               need to connect with your people
               <br />
               <br />
@@ -537,7 +537,8 @@ export default {
           icon: "credit_card",
           inDev: true,
           description:
-            "While Partnering with Dime, they will display your church's financial statements and the generosity of your members all in one place. They also can display your accounting information if you choose to partner with their services for that as well."
+            `While Partnering with Dime, they will display your church's financial statements and the generosity of your members all in one place. 
+              They can also display your accounting information if you choose to partner with their services for that as well.`
         },
         {
           title: "Messaging",

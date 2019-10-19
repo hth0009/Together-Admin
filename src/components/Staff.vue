@@ -51,7 +51,9 @@
           </div>
           <div class="panel">
             <h4 class="noselect">Skills</h4>
-            <div class="explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
+            <div class="explanation">Track your members talents with the skills feature. 
+              <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.
+            </div>
             <div class="skills noselect">
               <div class="skill" 
                 v-for="(skill, index) in skills"
