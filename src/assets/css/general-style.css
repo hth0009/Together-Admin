@@ -31,8 +31,8 @@ h6 {
 
 label {
   font-size: .9rem;
-  font-weight: 500;
-  color: #313131;
+  font-weight: 600;
+  color: #000000;
   display: inline-block;
   margin-bottom: .3rem;
 }
@@ -101,7 +101,7 @@ label {
 .gs-card-with-shadow {
   border-radius: 10px;
   padding: 25px;
-  margin: 15px 12px;
+  margin: 10px 12px;
   box-shadow: 0px 5px 13px -2px #00000040;
   background: white;
 }
@@ -111,6 +111,27 @@ label {
 .gs-card-rise {
   /* ANIMATION */
   animation: .5s ease-out 0s 1 cardRise;
+}
+
+/* //////////////////////////////////////////////
+//////////////////APP PAGE///////////////////////
+////////////////////////////////////////////// */
+
+.gs-app-selected-view {
+  position: relative;
+  overflow-y: auto;
+  min-width: 490px;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
+}
+.gs-app-selected-view .panel{  
+  max-width: 600px;
+  min-width: 400px;
+}
+.gs-card-photo {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
 }
 
 @keyframes cardRise {
@@ -163,7 +184,7 @@ label {
   align-items: center;
 }
 
-.gs-top-buttons {
+.gs-buttons-right {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
@@ -283,7 +304,15 @@ label {
 
 .gs-form-group {
   box-sizing: border-box;
-  margin-bottom: 1rem;
+  border-bottom: 1px #ececec solid;  
+  padding: 1.2rem 0px 1rem 0px;
+  margin: 0px .4rem;
+}
+.gs-form-group:last-child {
+  border-bottom: none;  
+}
+.gs-form-group label {
+  margin-bottom: .5rem;
 }
 
 .gs-basic-input {
@@ -299,7 +328,7 @@ label {
   border-radius: 5px;
   display: block;
   box-sizing: border-box;
-  transition: all .1s ease-in;
+  transition: all .2s ease-in-out;
 }
 .gs-basic-input:focus {
   border: 1px solid #00cec9;
@@ -318,7 +347,7 @@ label {
 }
 .gs-basic-input:read-only {
   border-color: white;
-  padding-left: 0px;
+  padding: .1rem .7rem .1rem 0px;
 }
 .gs-basic-input:read-only:focus {  
   border-color: white;

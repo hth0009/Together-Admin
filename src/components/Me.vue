@@ -13,7 +13,7 @@
               v-if="!!me.account"
             >{{me.account.username !== '' ? '@' + me.account.username : ''}}</div>
           </div>
-          <div class="gs-top-buttons">
+          <div class="gs-buttons-right">
             <button class="gs-basic-button" @click="startEdit" v-show="!editing">
               <i class="material-icons">edit</i>EDIT
             </button>
@@ -75,7 +75,7 @@
               <h3>Church of {{me.firstName}}</h3>
               <div class="subtitle" v-if="!!me.account">Filler Content</div>
             </div>
-            <div class="gs-top-buttons">
+            <div class="gs-buttons-right">
               <button class="gs-basic-button red">LEAVE</button>
             </div>
           </div>
@@ -98,7 +98,7 @@
                 <button class="gs-basic-button red">LEAVE</button>
               </div>
             </div>
-            <div class="gs-top-buttons">
+            <div class="gs-buttons-right">
             </div>
           </div>
         </div>

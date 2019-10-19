@@ -26,31 +26,28 @@
             @onAddNew="createNewItem"
           />
       </div>
-      <div class="selected-view" id="selected-view" >
-        <div class="header">
-          <!-- <h3>Sunday</h3> -->
-        </div>
-        <div class="details" v-if="selectedID != -1 && !creatingNewItem">          
-          <div class="quick-actions">
-            <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
-            <button class="basic-button red" @click="deleteButtonClicked"><i class="material-icons">delete</i></button>
-          </div>
-          <div class="panel gs-container vertical">
-            <div class="gs-top-buttons">
-            <button class="gs-basic-button"
-              @click="startEdit"
-              v-show="!editing"
-            ><i class="material-icons">edit</i>EDIT</button>
-            <button class="gs-basic-button red"
-              @click="cancelEdit"
-              v-show="editing"
-            ><i class="material-icons">close</i>CANCEL</button>
-            <button class="gs-basic-button"
-              @click="saveEdit"
-              v-show="editing"
-            ><i class="material-icons">done</i>SAVE</button>
+      <div class="gs-app-selected-view" id="selected-view" >
+        <div class="details" v-if="selectedID != -1 && !creatingNewItem">
+          <div class="panel gs-card-with-shadow gs-card-rise">
+            <div class="gs-buttons-right">
+              <button class="gs-basic-button"
+                @click="startEdit"
+                v-show="!editing"
+              ><i class="material-icons">edit</i>EDIT</button>            
+              <button class="gs-basic-button red" 
+                @click="deleteButtonClicked"
+                v-show="!editing"
+              ><i class="material-icons">delete</i>DELETE</button>
+              <button class="gs-basic-button red"
+                @click="cancelEdit"
+                v-show="editing"
+              ><i class="material-icons">close</i>CANCEL</button>
+              <button class="gs-basic-button"
+                @click="saveEdit"
+                v-show="editing"
+              ><i class="material-icons">done</i>SAVE</button>            
             </div>
-            <div class="image-croppa">
+            <div class="image-croppa gs-card-photo">
               <croppa v-model="photoCroppa"
                 canvas-color="transparent"
                 :disable-rotation="true"
@@ -64,7 +61,15 @@
                 class="teams-image"
                 v-show="!editing">
             </div>
-            <form action="" class="" id="teams-form">
+            <form action="" class="" id="teams-form">              
+              <div class="gs-form-group">
+                <padlock
+                  v-model="selectedTeam.isPrivate"
+                  :lockedLabel="'Private Team'"
+                  :unlockedLabel="'Public Team'"
+                  :disabled="!editing"
+                />
+              </div>
               <div class="gs-form-group">
                 <label for="">Name</label>        
                 <input type="text" class="gs-basic-input large" placeholder="Add a team name" required
@@ -108,10 +113,20 @@
                   :readonly="!editing"></textarea>
               </div>
             </form>
+              <div class="gs-buttons-right">         
+              <button class="gs-basic-button red"
+                @click="cancelEdit"
+                v-show="editing"
+              ><i class="material-icons">close</i>CANCEL</button>
+              <button class="gs-basic-button"
+                @click="saveEdit"
+                v-show="editing"
+              ><i class="material-icons">done</i>SAVE</button>
+              </div>
           </div>
         </div>
         <div class="details" v-if="creatingNewItem">
-          <div class="panel gs-container vertical">
+          <div class="panel">
             <h5>Create New Team</h5>
             <div class="image-croppa">
               <croppa v-model="photoCroppa"
@@ -184,6 +199,7 @@ import {getHHMM, getDayOfWeekMonthDay} from '../utils/helpers'
 
 import Cards from '@/components/CardList'
 import Dropdown from '@/components/CardDropdown'
+import Padlock from '@/components/Padlock'
 
 import Vue from 'vue'
 Vue.use(Croppa)
@@ -239,7 +255,7 @@ export default {
     }
   },
   components: {    
-    flatPickr, Cards, SweetModal, Dropdown
+    flatPickr, Cards, SweetModal, Dropdown, Padlock
   },
   methods: {
     recieveID(id) {
@@ -248,7 +264,7 @@ export default {
         return
       }
       if (this.selectedID != id) {
-        this.selectedTeam = {}
+        // this.selectedTeam = {}
       }
       if (id == '-1') {
         this.selectedID = id
@@ -393,7 +409,8 @@ export default {
           name: this.selectedTeam.name,
           subtitle: this.selectedTeam.subtitle,
           description: this.selectedTeam.description,
-          time: this.selectedTeam.time
+          time: this.selectedTeam.time,
+          isPrivate: this.selectedTeam.isPrivate
         }
       }
       if (this.photoCroppa.hasImage()) {        

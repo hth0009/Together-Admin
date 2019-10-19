@@ -156,7 +156,7 @@ export default {
     Events,
     Home,
     Avatar
-    // AudioPage, ReadingPlan
+    // AudioPage, RefsdingPlan
   },
   mounted() {
     this.profilePic = this.$store.state.profilePic;
