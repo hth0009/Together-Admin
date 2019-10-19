@@ -22,6 +22,9 @@ export default {
         }
       })
   },
+  patchPerson (personInfo) {
+    return Api().patch('people', personInfo)
+  },
   patchPersonValue (personID, valueKey, value) {
     return Api().patch('people', {
       "identifier":{
