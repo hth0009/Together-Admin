@@ -245,7 +245,6 @@ export default {
   },
   methods: {
     recieveID(id) {
-      console.log(id)
       if (!id) {
         return
       }
@@ -260,7 +259,7 @@ export default {
       this.creatingNewItem = false
       this.$router.push(`/app/teams/${id}`)
       this.selectedID = id
-      this.getTeam(id)
+      return this.getTeam(id)
     },
     createNewItem() {
       this.selectedID = -1;
@@ -337,26 +336,26 @@ export default {
     },
     async createTeam() {
       this.$root.$emit('loading', true)
-      var nTeam = {...this.newTeam}
-      var profilePic = await this.uploadProfilePic()
-      await Church.getChurch().then(result => {
-        nTeam.churchID = result.data.churches[0].id
-      })
+      let newTeam = {...this.newTeam}
+
+      const church = await Church.getChurch()
+      newTeam.churchID = church.data.churches[0].id
+
+      let profilePic = await this.uploadProfilePic()
       profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/TeamPics/' + profilePic : ''
-      nTeam.teamImageURL = profilePic
-      nTeam.teamImageThumbnailURL = profilePic
-      nTeam.messageThread = {
+      newTeam.teamImageURL = profilePic
+      newTeam.teamImageThumbnailURL = profilePic
+      newTeam.messageThread = {
         directMessage: false,
-        title: nTeam.name,
-        description: nTeam.description
-      },
-      Teams.postTeam(nTeam).then(() => {              
-        this.$root.$emit('loading', false)
-        this.getTeams().then(
-          this.$refs.itemCreated.open()
-        )
-      })
-      console.log(nTeam)
+        title: newTeam.name,
+        description: newTeam.description
+      };
+
+      let postedTeam = await Teams.postTeam(newTeam);
+      this.$refs.itemCreated.open()
+      await this.getTeams();
+      await this.recieveID(postedTeam.data.newResourceID);
+      this.$root.$emit('loading', false)
     },    
     async uploadProfilePic() {
       const { accessKeyID, secretAccessKey } = this.cdnKeys
