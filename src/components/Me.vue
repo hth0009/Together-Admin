@@ -149,9 +149,6 @@
           </div>
         </div>
       </div>
-      <div class="logout">
-        <button @click="logout" class="gs-basic-button red">LOG OUT</button>
-      </div>
     </div>
   </div>
 </template>
@@ -185,12 +182,6 @@ export default {
     Cards
   },
   methods: {
-    logout() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/login")
-        console.log("logged out")
-      });
-    },
     async getMe() {
       People.getPerson(Store.state.personID).then(response => {
         this.me = response.data.people[0]

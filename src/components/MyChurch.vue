@@ -213,6 +213,10 @@ export default {
         fileName = ''
       })
       return fileName
+    },
+    recieveID(id) {
+      console.log(id)
+      this.$router.push(`/app/people/${id}`)
     }
   },
   props: {},
