@@ -166,6 +166,10 @@ export default {
 <style src="./../assets/css/general-style.css"></style> 
 
 <style scoped>
+  #selected-view {
+    height: 100vh;
+    overflow: auto;
+  }
   #selected-view #church-wrapper #church-info .header {
     margin: 0;
   }
