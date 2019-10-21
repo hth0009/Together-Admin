@@ -4,7 +4,19 @@
       <div id="church-info" class="panel gs-container vertical">
         <div class="header">
           <div class="profile-pic">
-            <avatar :height="100" :url="myChurch.churchImageThumbnailURL" :title="myChurch.name" />
+              <div class="image-croppa">
+                <croppa v-model="photoCroppa"
+                  canvas-color="transparent"
+                  :disable-rotation="true"
+                  :prevent-white-space="true"
+                  :width="100"
+                  :height="100"
+                  :speed="10"
+                  v-show="editing"
+                  style="border-radius:100%;overflow:hidden;opacity:0.6;position:absolute"
+                ></croppa>
+              </div>
+            <avatar :height="100" :url="myChurch.churchImageThumbnailURL" />
           </div>
           <h3>{{myChurch.name}}</h3>
           <div
@@ -26,7 +38,7 @@
           <div class="gs-form-group">
             <label>Website</label>
             <input
-              type="text"
+              type="url"
               class="gs-basic-input"
               :readonly="!editing"
               placeholder="Add Website"
@@ -99,7 +111,7 @@
                   :alphabetical="true"
                   :emptyMessage="'No staff'"
                   :cardList="myChurchStaff"
-                  :cardSelectable="true"
+                  :cardSelectable="false"
                   profilePicFillerValue="orgName"
                   :hasSearch="false"
                   :fields="{
@@ -120,7 +132,14 @@ import People from "../services/people";
 import Church from "../services/church";
 import Teams from "../services/teams";
 import Avatar from "../components/Avatar";
-import Cards from '@/components/CardList'
+import Cards from '@/components/CardList';
+import Croppa from 'vue-croppa'
+import 'vue-croppa/dist/vue-croppa.css'
+import CDN from '@/services/cdn'
+import Vue from 'vue'
+import { checkIfObjNotFilled, generateGUID, getYYYYMMDD } from '../utils/helpers'
+Vue.use(Croppa)
+
 export default {
   name: "",
   data() {
@@ -151,8 +170,49 @@ export default {
     cancelEdit() {
       this.editing = false;
     },
-    saveEdit() {
-      this.editing = false;
+    async saveEdit() {      
+      this.editing = false 
+      var patch = {
+        "identifier":{
+          "username": Store.state.churchUsername
+        },
+        "values": {
+          websiteURL: this.myChurch.websiteURL,
+          address: this.myChurch.address,
+          phoneNumber: this.myChurch.phoneNumber,
+          description: this.myChurch.description,
+          statementOfFaith: this.myChurch.statementOfFaith,
+          vision: this.myChurch.vision
+        }
+      }
+      if (this.photoCroppa.hasImage()) {        
+        await CDN.getKeys().then(response => {
+          this.cdnKeys = response.data
+        })
+        var profilePic = await this.uploadProfilePic()
+        profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/ChurchPics/' + profilePic : ''
+        patch['values']['churchImageURL'] = profilePic
+        patch['values']['churchImageThumbnailURL'] = profilePic
+      }
+      Church.patchChurch(patch).then(() => {
+        this.getMyChurch()
+      })
+    },
+    async uploadProfilePic() {
+      const { accessKeyID, secretAccessKey } = this.cdnKeys
+      const fileSufix = 'ChurchPics/'
+      var fileName = generateGUID() + '.jpg'
+      
+      if (!this.photoCroppa.hasImage()) {
+        return
+      }
+      var blob = await this.photoCroppa.promisedBlob('image/jpeg')
+      var arrayBuffer = await new Response(blob).arrayBuffer();  
+      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileSufix, fileName).catch(error => {
+        console.log(error)
+        fileName = ''
+      })
+      return fileName
     }
   },
   props: {},
