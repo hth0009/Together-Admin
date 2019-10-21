@@ -257,6 +257,10 @@ export default {
   align-items: start;
   grid-template-columns: repeat(auto-fit, minmax(350px, 525px));
 }
+#selected-view {
+  height: 100vh;
+  overflow-y: auto;
+}
 #selected-view #me-orgs-teams .header {
   margin: 0;
   margin-bottom: 20px;
@@ -273,6 +277,7 @@ export default {
 }
 .me-container {
   height: 100%;
+  overflow: hidden;
 }
 .me-wrapper {
   display: grid;
