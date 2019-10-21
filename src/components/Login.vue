@@ -102,8 +102,7 @@ export default {
   },
   computed: {
     lowerCaseUsername() {
-      // return this.username.toLowerCase()
-      return this.username
+      return this.username.toLowerCase()
     }
   }
 }
