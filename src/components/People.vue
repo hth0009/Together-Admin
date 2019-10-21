@@ -334,7 +334,7 @@ export default {
       Skills.patchSkill(skillID, isConfirmed)
     },
     recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         this.selectedPerson = {}
         return
       }
@@ -355,7 +355,7 @@ export default {
       this.selectedThreadID = -1;
       this.$router.push(`/app/people/`)
 
-      this.creatingNewItem = !this.creatingNewItem
+      this.creatingNewItem = true;
     }
   },
   props: {

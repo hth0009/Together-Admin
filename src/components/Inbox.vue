@@ -254,10 +254,10 @@ export default {
       this.selectedThreadID = -1;
       this.$router.push(`/app/messages/`)
 
-      this.creatingNewItem = !this.creatingNewItem
+      this.creatingNewItem = true;
     },
     selectThread(id) {
-      if (id == undefined) {
+      if (!id) {
         return
       }
       if (id == '-1') {

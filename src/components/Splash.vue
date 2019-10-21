@@ -20,7 +20,7 @@
           <div id="subtitle">
             <p>
               a church engagement platform that
-              provides your church all the tools they
+              provides your church all the tools you
               need to connect with your people
               <br />
               <br />
@@ -72,151 +72,29 @@
         </div>
       </div>
     </div>
-    <b-container id="dime-partnership">
+    <b-container id="dime-partnership" class="mb6em">
       <h1>YOUR COST</h1>
-      <b-row id="dime-gri">
-        <b-col cols="12" md="6" class=".m-md-5" id="top-left">
-          <div id="zero-per-month">
-            <p id="zero-dollars">$0</p>
-            <p id="per-month">per month</p>
+      <b-row class="mb2em">
+        <b-col col lg="6" md='12' class="mb1em">
+          <div id='your-cost-left-col'>
+            <h2 id="your-zero-cost">$0</h2>
+            <h2 id='your-cost-giving'>GIVING</h2>
+            <span class="mb4">3.0% + $.30 All Card Types</span>
+            1.0% + $.50 for ACH
           </div>
-          <div id="curly">
-            <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 88.83 395.928">
-              <path
-                id="Path_4"
-                data-name="Path 4"
-                d="M69.8-142.128V-270.72c0-22.419,10.152-35.109,32.994-35.109h13.536v-8.037H105.75c-29.187,0-44.415,13.536-44.415,43.146v128.592c0,15.651-6.768,22-19.035,22H27.5v8.037H42.3c12.267,0,19.035,6.768,19.035,22.419V38.916c0,29.61,15.228,43.146,44.415,43.146h10.575V74.025H102.789c-22.842,0-32.994-12.69-32.994-35.109V-89.676c0-15.651-4.23-22.419-13.536-26.226C65.565-119.709,69.8-126.477,69.8-142.128Z"
-                transform="translate(-27.495 313.866)"
-                fill="#00ccc7"
-              />
-
-     <!--   </div>
-      </div>      
-      <b-container id="dime-partnership">
-        <h1>IT'S FREE</h1>
-        <b-row class="mb-md-5">
-          <b-col cols="12" md="6" class="mb-xs-3" id="top-left">
-            <div id="zero-per-month">
-              <p id="zero-dollars">$0</p>
-              <p id="per-month">per month</p>
-            </div>
-            <div id="curly"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 88.83 395.928">
-              <path id="Path_4" data-name="Path 4" d="M69.8-142.128V-270.72c0-22.419,10.152-35.109,32.994-35.109h13.536v-8.037H105.75c-29.187,0-44.415,13.536-44.415,43.146v128.592c0,15.651-6.768,22-19.035,22H27.5v8.037H42.3c12.267,0,19.035,6.768,19.035,22.419V38.916c0,29.61,15.228,43.146,44.415,43.146h10.575V74.025H102.789c-22.842,0-32.994-12.69-32.994-35.109V-89.676c0-15.651-4.23-22.419-13.536-26.226C65.565-119.709,69.8-126.477,69.8-142.128Z" transform="translate(-27.495 313.866)" fill="#00ccc7"/>
-            </svg>
-            </div>
-            <ul>
-              <li>Database and data storage</li>
-              <li>Planning tools</li>
-              <li>Management software</li>
-              <li>Engagement app</li>
-              <li>Mass communicator</li>
-              <li>Analytic tool</li>
-              <li>Giving, powered by <img id="top-left-dime" src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"></li> 
-              <li>Giving</li>
-            </ul>
-          </b-col>
-          <b-col cols="12" md="6" id="top-right-photo">
-            <img src="https://togethercdn.global.ssl.fastly.net/assets/demos/phone_in_hand_teams_1.jpg" alt="">
-          </b-col>
-        </b-row>
-        <br>
-        <b-row class="mt-md-5">
-          <b-col cols="12" md="6" id="bottom-left-photo">
-            <img src="https://togethercdn.global.ssl.fastly.net/assets/demos/phone_in_hand_giving_1.jpg" alt="">
-          </b-col>
-          <b-col cols="12" md="6" id="bottom-right">
-            <svg class="bracket" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 29 279.543">
-              <path id="Path_5" data-name="Path 5" d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319" transform="translate(-287.086 -260.857)" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
-            </svg>
-            <ul>
-              <li><h2>GIVING</h2></li>
-              <li><img src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png" id="bottom-right-dime"></li>
-              <li>2.7% + $0.27 for Cards</li>
-              <li>0.50% + $0.25 for ACH</li>
-            </ul>
-            <svg class="bracket" xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 29 279.543">
-              <path id="Path_6" data-name="Path 6" d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319" transform="translate(316.086 540.4) rotate(180)" fill="none" stroke="#dfdfdf" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
- -->
-            </svg>
+        </b-col>
+        <b-col col lg="6" md="12" id='your-cost-right-col'>
+          <div v-for="detail in yourCostDetails"  class="your-cost-detail"
+               :key="detail.id" :style="{color: detail.color}">
+            {{detail.name}}
           </div>
-          <ul>
-            <li>Database and data storage</li>
-            <li>Planning tools</li>
-            <li>Management software</li>
-            <li>Engagement app</li>
-            <li>Mass communicator</li>
-            <li>Analytic tool</li>
-            <li>
-              Giving, powered by
-              <img
-                id="top-left-dime"
-                src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"
-              />
-            </li>
-          </ul>
         </b-col>
-        <b-col cols="12" md="6" id="top-right-photo">
-          <img
-            src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80"
-            alt
-          />
-        </b-col>
-        <b-col cols="12" md="6" id="bottom-left-photo">
-          <img
-            src="https://images.unsplash.com/photo-1562958964-9974402a64a4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1955&q=80"
-            alt
-          />
-        </b-col>
-        <b-col cols="12" md="6" id="bottom-right">
-          <svg
-            class="bracket"
-            xmlns="http://www.w3.org/2000/svg"
-            height="100%"
-            viewBox="0 0 29 279.543"
-          >
-            <path
-              id="Path_5"
-              data-name="Path 5"
-              d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319"
-              transform="translate(-287.086 -260.857)"
-              fill="none"
-              stroke="#dfdfdf"
-              stroke-linecap="round"
-              stroke-miterlimit="10"
-              stroke-width="6"
-            />
-          </svg>
-          <ul>
-            <li>
-              <h2>GIVING</h2>
-            </li>
-            <li>
-              <img
-                src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo_dime_business.png"
-                id="bottom-right-dime"
-              />
-            </li>
-            <li>2.7% + $0.27 for Cards</li>
-            <li>0.50% + $0.25 for ACH</li>
-          </ul>
-          <svg
-            class="bracket"
-            xmlns="http://www.w3.org/2000/svg"
-            height="100%"
-            viewBox="0 0 29 279.543"
-          >
-            <path
-              id="Path_6"
-              data-name="Path 6"
-              d="M313.086,263.857h-9.319c-7.556,0-13.681,7.078-13.681,15.808V521.593c0,8.73,6.125,15.808,13.681,15.808h9.319"
-              transform="translate(316.086 540.4) rotate(180)"
-              fill="none"
-              stroke="#dfdfdf"
-              stroke-linecap="round"
-              stroke-miterlimit="10"
-              stroke-width="6"
-            />
-          </svg>
+      </b-row>
+      <b-row>
+        <b-col>
+          <div id="your-cost-no-statements" style="color: #2AE5E1">
+            No contracts. No cancellation fees. No budgeting. No risk.
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -228,7 +106,7 @@
         <div class="big-word">{{this.selectedProblem3}}</div>
         </div>
     </div>-->
-    <b-container id="features">
+    <b-container id="features" class="mb6em"> 
       <h1>YOUR PRODUCT</h1>
       <b-row id="feature-container">
         <b-col id="feature-details" col md="12" xl="3">
@@ -413,7 +291,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container id="recap">
+    <b-container id="recap" class="mb6em">
       <h1>WHY US</h1>
       <b-row align-h="around">
         <b-col class="recap-item" cols="12" md="4" xl="3">
@@ -436,7 +314,7 @@
     <!-- <div id="personal-simple-free">
       <personal-simple-free/>
     </div>-->
-    <b-container id="contact-us">
+    <b-container id="contact-us" class="mb1em">
       <h1>CONTACT US</h1>
       <b-row>
         <contact-us />
@@ -474,6 +352,15 @@ export default {
   name: "Hello",
   data() {
     return {
+      yourCostDetails: [
+        { name: 'Database and Data Storage', color: '#7256EF' },
+        { name: 'Planning Platform', color: '#0084EA' },
+        { name: 'Management Software', color: '#18C5A2' },
+        { name: 'Engagement App', color: '#FF7276' },
+        { name: 'Mass Message Communicator', color: '#FF84B5' },
+        { name: 'Analytic Tool', color: '#18C6A3' },
+        { name: 'Giving and Financials', color: '#5FBAFF' },
+      ],
       selectedShowcase: "PEOPLE",
       selectedFeature: {},
       selectedProblem1: "",
@@ -540,7 +427,8 @@ export default {
           icon: "credit_card",
           inDev: true,
           description:
-            "While Partnering with Dime, they will display your church's financial statements and the generosity of your members all in one place. They also can display your accounting information if you choose to partner with their services for that as well."
+            `While Partnering with Dime, they will display your church's financial statements and the generosity of your members all in one place. 
+              They can also display your accounting information if you choose to partner with their services for that as well.`
         },
         {
           title: "Messaging",
@@ -676,7 +564,7 @@ export default {
         return 200;
       }
       return 250;
-    }
+    },
   }
 };
 </script>
@@ -782,6 +670,7 @@ h1::before {
   max-width: 80rem;
   margin: 0px auto;
 }
+
 #together-badge {
   position: absolute;
   height: 70px;
@@ -821,94 +710,45 @@ h1::before {
 #early-access {
   /* width: 80%; */
 }
-#dime-partnership {
-  margin-bottom: 75px;
-}
-#dime-grid {
-}
-#top-left {
+
+#your-cost-left-col {
+  text-align: center;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  /* margin-bottom: 50px; */
+  flex-flow: column nowrap;
 }
-#zero-per-month {
-  text-align: right;
-  margin-right: 10px;
+
+#your-cost-right-col {
+  text-align: center;
+  border-left: solid grey 1px;
 }
-#zero-dollars {
+
+#your-zero-cost {
   font-size: 4rem;
+  color: black;
+  font-weight: 100;
+  margin-bottom: .75em;
+}
+
+#your-cost-giving {
+  font-size: 1.2rem;
+  color: black;
+  font-weight: 100;
+  margin-bottom: .5em;
+}
+
+.your-cost-detail {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+
+#your-cost-no-statements {
+  color: #2AE5E1;
+  text-align: center;
+  font-size: .8rem;
   font-weight: 700;
 }
-#per-month {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-#curly {
-  color: #00cec9;
-  margin-left: 10px;
-  margin-right: 50px;
-  height: 17rem;
-}
 
-#top-right-photo, #bottom-left-photo {
-  padding: 10px 0px;
-  height: 300px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-#top-right-photo img, #bottom-left-photo img{
-  width: auto;
-  height: 100%;
-  margin: 0px auto;
-  /* object-fit: cover; */
-}
-#top-left-dime {
-  height: 1rem;
-}
-#top-left ul {
-  text-align: left;
-  list-style-type: disc;
-}
-#top-left ul li {
-  margin-bottom: 1rem;
-  font-weight: 500;
-  font-size: 1rem;
-  color: black;
-}
-#top-left ul li:last-child {
-  margin-bottom: 0px;
-}
-#bottom-right {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#bottom-right ul {
-  text-align: right;
-}
-#bottom-right h2 {
-  color: black;
-  font-size: 2.5rem;
-}
-#bottom-right ul li {
-  color: #868686;
-  margin: 0px 10px;
-  font-size: 1.5rem;
-}
-#bottom-right-dime {
-  height: 2rem;
-}
-#bottom-right .bracket {
-  color: #dfdfdf;
-  height: 14rem;
-  margin: 0px 10px;
-}
-#bottom-right .bracket svg {
-  overflow: hidden;
-}
 .computer-video-wrapper {
   position: relative;
   z-index: 100;
@@ -1281,7 +1121,6 @@ h1::before {
   padding: 2px 4px;
 }
 #recap {
-  margin-top: 6rem;
   margin-bottom: 6rem;
 }
 .recap-item {

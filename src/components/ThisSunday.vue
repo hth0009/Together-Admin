@@ -15,7 +15,7 @@
           :noProfile="true"
           :cardList="services"
           :profilePicFillerValue="'name'"
-          :emptyMessage="'Not in any teams'"
+          :emptyMessage="'No Events Scheduled Yet'"
           :hasDates="true"
           :fields="{
               title: 'dateTitle',
@@ -82,19 +82,22 @@
                   :readonly="!editing"
                 />
               </div>
-              <!-- <div class="gs-form-group">
-                <label for="">Date</label>
-                <flat-pickr class="gs-basic-input" :config="datePickerConfig"
-                :disabled="!editing"
-                v-model="selectedService.dateObject"></flat-pickr>
-              </div>-->
+
+              <div class="gs-form-group">
+                <label for>Date</label>
+                <flat-pickr
+                  class="gs-basic-input"
+                  :config="datePickerConfig"
+                  :disabled='!editing'
+                  v-model="selectedService.date"
+                ></flat-pickr>
+              </div>
+
               <div class="gs-form-group">
                 <label for>Times</label>
                 <div class="times">
-
                   <input v-for="time in selectedService.times" v-model="time.time" :key="time.id" type="time" class="gs-basic-input time"
-                    placeholder="Time" required :readonly="!editing"
-                  >
+                         placeholder="Time" required :readonly="!editing">
                   <div class="gs-basic-button icon" formnovalidate v-show="editing"><i class="material-icons">add</i></div>
                 </div>
               </div>
@@ -227,6 +230,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import Croppa from 'vue-croppa'
 import 'vue-croppa/dist/vue-croppa.css'
 import CDN from '@/services/cdn'
@@ -289,25 +293,27 @@ export default {
     flatPickr, Cards, SweetModal, Dropdown
   },
   methods: {
-    createNewItem() {
+    async createNewItem() {
       this.selectedID = -1;
       this.$router.push(`/app/this-sunday/`);
 
-      this.creatingNewItem = !this.creatingNewItem;
+      this.creatingNewItem = true;;
       this.newService = { ...newServiceTemplate };
-      if (this.creatingNewItem == true) {
-        CDN.getKeys().then(response => {
-          this.cdnKeys = response.data;
-        });
+      if (this.creatingNewItem) {
+        // CDN.getKeys().then(response => {
+        //   this.cdnKeys = response.data;
+        // });
+        const cdnKeys = await CDN.getKeys();
+        this.cdnKeys = cdnKeys.data;
       }
     },
     recieveItem(item) {
       this.recieveID(item.id);
       this.selectedService = item;
-      this.selectedService["dateObject"] = new Date(item.date);
+      this.selectedService.date = moment(item.date, 'YYYY-MM-DD').format();
     },
     async recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         return;
       }
       if (id == "-1") {
@@ -365,12 +371,11 @@ export default {
     getServices() {
       this.loading = true;
       return Services.getServices().then(response => {
-        // this.services = response.data['services(s)']
         this.services = response.data['services'].map(obj => {
-          var rObj = obj
-          rObj['dateTitle'] = getDayOfWeekMonthDay(new Date(obj.date))
-          return rObj
-        })
+          obj.dateTitle = moment(obj.date, 'YYYY-MM-DD').format('dddd, MMMM Do');
+          return obj;
+        });
+
         this.loading = false
       })
     },
@@ -380,22 +385,33 @@ export default {
       })
     },
     async createService() {
+      this.postService(this.newService)
+    },
+    async editService() {
+      this.selectedService.times = this.selectedService.times.map((timeObj) => {return {time: timeObj.time.substring(0,5)}})
+      this.postService(this.selectedService)
+    },
+    async postService(service) {
       this.$root.$emit("loading", true);
-      var profilePic = await this.uploadProfilePic();
+      let profilePic = await this.uploadProfilePic();
       profilePic = !!profilePic
         ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
         : "";
-      var nService = { ...this.newService };
-      nService.churchUsername = this.$store.state.churchUsername;
-      console.log(this.newService.date);
-      console.log(new Date(this.newService.date));
-      nService.date = getYYYYMMDD(new Date(this.newService.date));
-      nService.iconURL = profilePic;
-      Services.postService(nService).then(() => {
+      const serviceToPost = { ...service };
+      serviceToPost.churchUsername = this.$store.state.churchUsername;
+      serviceToPost.date = moment(serviceToPost.date).format('YYYY-MM-DD');
+      serviceToPost.iconURL = profilePic;
+      try {
+        await Services.postService(serviceToPost)
+        this.$refs.itemCreated.open();
+      }
+      catch(error) {
+        return;
+      }
+      finally {
+        await this.getServices()
         this.$root.$emit("loading", false);
-        this.getServices().then(this.$refs.itemCreated.open());
-      });
-      console.log(nService);
+      }
     },
     async uploadProfilePic() {
       const { accessKeyID, secretAccessKey } = this.cdnKeys;
@@ -429,6 +445,7 @@ export default {
     },
     saveEdit() {
       this.editing = false;
+      this.editService();
     }
   },
   props: {},
