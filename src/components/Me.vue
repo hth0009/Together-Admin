@@ -14,10 +14,10 @@
                   :height="100"
                   :speed="10"
                   v-show="editing"
-                  style="border-radius:100%;overflow:hidden"
+                  style="border-radius:100%;overflow:hidden;opacity:0.4"
                 ></croppa>
               </div>
-              <avatar :height="100" :url="me.personImageThumbnailURL" :title="me.fullName" v-show="!editing" />
+              <avatar :height="100" :url="me.personImageThumbnailURL" :title="me.fullName" />
             </div>
             <h3>{{me.firstName + ' ' + me.lastName}}</h3>
             <div
