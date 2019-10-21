@@ -196,6 +196,9 @@
                   required
                   v-model="newTeam.subtitle"
                 />
+                <gs-hint :input='newTeam.subtitle'
+                         :max-num-of-chars-allowed='"40"'>
+                </gs-hint>
               </div>
               <div class="gs-form-group">
                 <label for>Description</label>
@@ -205,8 +208,12 @@
                   placeholder="Add Description"
                   rows="10"
                   required
+                  maxlength="500"
                   v-model="newTeam.description"
                 ></textarea>
+                <gs-hint :input='newTeam.description'
+                         :max-num-of-chars-allowed='"500"'>
+                </gs-hint>
               </div>
               <button class="gs-basic-button">CREATE</button>
             </form>
@@ -237,6 +244,7 @@ import { getHHMM, getDayOfWeekMonthDay } from "../utils/helpers";
 
 import Cards from "@/components/CardList";
 import Dropdown from "@/components/CardDropdown";
+import gsHint from '@/components/Hint';
 
 import Vue from "vue";
 Vue.use(Croppa);
@@ -294,7 +302,8 @@ export default {
     flatPickr,
     Cards,
     SweetModal,
-    Dropdown
+    Dropdown,
+    gsHint
   },
   methods: {
     recieveID(id) {
