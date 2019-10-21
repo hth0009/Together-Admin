@@ -334,7 +334,7 @@ export default {
         this.$router.push(`/app/teams/`);
         return;
       }
-      this.cancelCreatingNewItem();
+      this.creatingNewItem = false;
       this.$router.push(`/app/teams/${id}`);
       this.selectedID = id;
       return this.getTeam(id);
