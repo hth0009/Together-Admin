@@ -82,6 +82,9 @@
         >this sunday</router-link>-->
       </transition-group>
       <div id="app-footer">
+        <div class="logout">
+          <button @click="logout" class="gs-basic-button red">LOG OUT</button>
+        </div>
         <!-- <div class="profiles">
           <router-link  v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
             <avatar
@@ -165,6 +168,12 @@ export default {
   methods: {
     hideSidebar() {
       this.showSidebar = false;
+    },
+    logout() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login")
+        console.log("logged out")
+      });
     },
 
       getInfo() {
@@ -312,10 +321,8 @@ export default {
   margin-bottom: 10px;
   padding-right: 0px;
 
-  grid-row: 3/4;
-
-  display: grid;
-  grid-template-columns: 40px auto;
+  display: flex;
+  justify-content: flex-end;
   align-items: flex-end;
 }
 
