@@ -26,32 +26,29 @@
           @onAddNew="createNewItem"
         />
       </div>
-      <div class="selected-view" id="selected-view">
-        <div class="header">
-          <!-- <h3>Sunday</h3> -->
-        </div>
+      <div class="gs-app-selected-view" id="selected-view" >
         <div class="details" v-if="selectedID != -1 && !creatingNewItem">
-          <div class="quick-actions">
-            <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
-            <button class="basic-button red" @click="deleteButtonClicked">
-              <i class="material-icons">delete</i>
-            </button>
-          </div>
-          <div class="panel gs-container vertical">
-            <div class="gs-top-buttons">
-              <button class="gs-basic-button" @click="startEdit" v-show="!editing">
-                <i class="material-icons">edit</i>EDIT
-              </button>
-              <button class="gs-basic-button red" @click="cancelEdit" v-show="editing">
-                <i class="material-icons">close</i>CANCEL
-              </button>
-              <button class="gs-basic-button" @click="saveEdit" v-show="editing">
-                <i class="material-icons">done</i>SAVE
-              </button>
+          <div class="panel gs-card-with-shadow gs-card-rise">
+            <div class="gs-buttons-right">
+              <button class="gs-basic-button"
+                @click="startEdit"
+                v-show="!editing"
+              ><i class="material-icons">edit</i>EDIT</button>            
+              <button class="gs-basic-button red" 
+                @click="deleteButtonClicked"
+                v-show="!editing"
+              ><i class="material-icons">delete</i>DELETE</button>
+              <button class="gs-basic-button red"
+                @click="cancelEdit"
+                v-show="editing"
+              ><i class="material-icons">close</i>CANCEL</button>
+              <button class="gs-basic-button"
+                @click="saveEdit"
+                v-show="editing"
+              ><i class="material-icons">done</i>SAVE</button>            
             </div>
-            <div class="image-croppa">
-              <croppa
-                v-model="photoCroppa"
+            <div class="image-croppa gs-card-photo">
+              <croppa v-model="photoCroppa"
                 canvas-color="transparent"
                 :disable-rotation="true"
                 :prevent-white-space="true"
@@ -68,7 +65,13 @@
                 v-show="!editing"
               />
             </div>
-            <form action class id="teams-form">
+            <form action="" class="" id="teams-form">
+              <padlock
+                v-model="selectedTeam.isPrivate"
+                :lockedLabel="'Private Team'"
+                :unlockedLabel="'Public Team'"
+                :disabled="!editing"
+              />
               <div class="gs-form-group">
                 <label for>Name</label>
                 <input
@@ -134,15 +137,24 @@
                 ></textarea>
               </div>
             </form>
+              <div class="gs-buttons-right">         
+              <button class="gs-basic-button red"
+                @click="cancelEdit"
+                v-show="editing"
+              ><i class="material-icons">close</i>CANCEL</button>
+              <button class="gs-basic-button"
+                @click="saveEdit"
+                v-show="editing"
+              ><i class="material-icons">done</i>SAVE</button>
+              </div>
           </div>
         </div>
         <div class="details" v-if="creatingNewItem">
           <button class="gs-basic-button close-creating-new-team" @click="creatingNewItem = false">X</button>
-          <div class="panel gs-container vertical">
-            <h5 class="mb1em">Create New Team</h5>
-            <div class="image-croppa">
-              <croppa
-                v-model="photoCroppa"
+          <div class="panel gs-card-with-shadow gs-card-rise">
+            <h5>Create New Team</h5>
+            <div class="image-croppa gs-card-photo">
+              <croppa v-model="photoCroppa"
                 canvas-color="transparent"
                 :disable-rotation="true"
                 :prevent-white-space="true"
@@ -151,7 +163,12 @@
                 :speed="10"
               ></croppa>
             </div>
-            <form action class id="teams-form" @submit.prevent="createTeam">
+            <form action="" class="" id="teams-form" @submit.prevent="createTeam">
+              <padlock
+                v-model="newTeam.isPrivate"
+                :lockedLabel="'Private Team'"
+                :unlockedLabel="'Public Team'"
+              />
               <div class="gs-form-group">
                 <label for>Name</label>
                 <input
@@ -242,8 +259,9 @@ import Church from "@/services/church";
 import People from "@/services/people";
 import { getHHMM, getDayOfWeekMonthDay } from "../utils/helpers";
 
-import Cards from "@/components/CardList";
-import Dropdown from "@/components/CardDropdown";
+import Cards from '@/components/CardList'
+import Dropdown from '@/components/CardDropdown'
+import Padlock from '@/components/Padlock'
 import gsHint from '@/components/Hint';
 
 import Vue from "vue";
@@ -298,12 +316,8 @@ export default {
       people: []
     };
   },
-  components: {
-    flatPickr,
-    Cards,
-    SweetModal,
-    Dropdown,
-    gsHint
+  components: {    
+    flatPickr, Cards, SweetModal, Dropdown, Padlock, gsHint
   },
   methods: {
     recieveID(id) {
@@ -311,7 +325,7 @@ export default {
         return;
       }
       if (this.selectedID !== id) {
-        this.selectedTeam = {};
+        // this.selectedTeam = {}
       }
       if (id === "-1") {
         this.selectedID = id;
@@ -337,8 +351,7 @@ export default {
       const getTeamRes = await Teams.getTeam(id);
       const team = getTeamRes.data.teams[0];
       this.selectedTeam = team;
-      this.selectedTeam.leaders =
-        team.leaders[0] != undefined ? team.leaders : [{}];
+      this.selectedTeam.leaders = team.leaders[0] != undefined ? team.leaders : [{}];
 
       // this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
       //   fullName: member.firstName + ' ' + member.lastName,
@@ -457,7 +470,8 @@ export default {
           name: this.selectedTeam.name,
           subtitle: this.selectedTeam.subtitle,
           description: this.selectedTeam.description,
-          time: this.selectedTeam.time
+          time: this.selectedTeam.time,
+          isPrivate: this.selectedTeam.isPrivate
         }
       };
       if (this.photoCroppa.hasImage()) {

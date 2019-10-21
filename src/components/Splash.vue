@@ -233,7 +233,10 @@
       <b-row id="feature-container">
         <b-col id="feature-details" col md="12" xl="3">
           <h3 class="features-item-title">{{selectedShowcase}}</h3>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae cumque quis facilis ea. Maxime, beatae culpa earum aspernatur provident nisi enim ipsam quos ab deserunt distinctio, tempora nobis fuga. Nam sed velit voluptatem! Eligendi cumque temporibus et ab sint corporis officiis explicabo excepturi? Repudiandae quam ducimus nemo velit expedita odit!</p>
+          <p v-show="selectedShowcase == 'PEOPLE'">Whether on your website login seeing the full database of the people that have joined your organization, or viewing all the people within your organization on the mobile app to see who you will add to your community as your friends, this is a platform that is centered around ALL people of the church.</p>
+          <p v-show="selectedShowcase == 'TEAMS'">It only makes sense that when there are people around a common goal, there are different teams within that organization to accomplish all tasks needed to get done. From your serve teams to help Sunday run to your community groups that meet during the week, teams is the feature to see your people come together.</p>
+          <p v-show="selectedShowcase == 'MESSAGING'">When people of an organization have joined teams within the organization, communication is key to make sure that you are getting done everything that needs to happen. Messaging allows messages between teams you are a part of as well as staff members alike. </p>
+          <p v-show="selectedShowcase == 'GIVING'">Giving is vital to any ministry. The church can not do what it can do without the generous hearts of it's people bringing back to God what He has entrusted them. With the ability to quickly give to their local organizations and cover the payment processing fee, your people will love the ease of this feature! </p>
         </b-col>
         <b-col id="feature-devices" cols="12" md="12" xl="9">
           <div class="computer-cutout-wrapper">
@@ -377,36 +380,36 @@
           >
             <i class="material-icons">group</i>teams
           </button>
-          <button
+          <!-- <button
             @click="selectedShowcase = 'CALENDAR'"
             :class="{'selected': selectedShowcase == 'CALENDAR'}"
           >
             <i class="material-icons">event</i> calendar
-          </button>
+          </button> -->
           <button
             @click="selectedShowcase = 'MESSAGING'"
             :class="{'selected': selectedShowcase == 'MESSAGING'}"
           >
             <i class="material-icons">send</i>messaging
           </button>
-          <button
+          <!-- <button
             @click="selectedShowcase = 'GLOBAL'"
             :class="{'selected': selectedShowcase == 'GLOBAL'}"
           >
             <i class="material-icons">scatter_plot</i>global
-          </button>
+          </button> -->
           <button
             @click="selectedShowcase = 'GIVING'"
             :class="{'selected': selectedShowcase == 'GIVING'}"
           >
             <i class="material-icons">trip_origin</i>giving
           </button>
-          <button
+          <!-- <button
             @click="selectedShowcase = 'DATA INTEGRATION'"
             :class="{'selected': selectedShowcase == 'DATA INTEGRATION'}"
           >
             <i class="material-icons">cloud_done</i>data integration
-          </button>
+          </button> -->
         </b-col>
       </b-row>
     </b-container>

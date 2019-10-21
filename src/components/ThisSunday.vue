@@ -40,7 +40,7 @@
             </button>
           </div>
           <div class="panel gs-container vertical">
-            <div class="gs-top-buttons">
+            <div class="gs-buttons-right">
               <button class="gs-basic-button" @click="startEdit" v-show="!editing">
                 <i class="material-icons">edit</i>EDIT
               </button>
