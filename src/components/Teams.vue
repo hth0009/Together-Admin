@@ -156,7 +156,7 @@
           </div>
         </div>
         <div class="details" v-if="creatingNewItem">
-          <button class="gs-basic-button close-creating-new-team" @click="creatingNewItem = false">X</button>
+          <button class="gs-basic-button close-creating-new-team" @click="cancelCreatingNewItem()">X</button>
           <div class="panel gs-card-with-shadow gs-card-rise">
             <h5>Create New Team</h5>
             <div class="image-croppa gs-card-photo">
@@ -334,7 +334,7 @@ export default {
         this.$router.push(`/app/teams/`);
         return;
       }
-      this.creatingNewItem = false;
+      this.cancelCreatingNewItem();
       this.$router.push(`/app/teams/${id}`);
       this.selectedID = id;
       return this.getTeam(id);
@@ -343,8 +343,11 @@ export default {
       this.selectedID = -1;
       this.$router.push("/app/teams/");
 
+
       this.creatingNewItem = true;
       this.newTeam = { ...newTeamTemplate };
+      this.teams.push(this.newTeam);
+
       let getKeysRes = await CDN.getKeys();
       this.cdnKeys = getKeysRes.data;
     },
@@ -489,6 +492,10 @@ export default {
       await Teams.patchTeam(patch)
       this.getTeams();
       this.getTeam(this.selectedID);
+    },
+    cancelCreatingNewItem() {
+      this.creatingNewItem = false;
+      this.teams.pop();
     }
   },
   props: {},
