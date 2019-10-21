@@ -14,7 +14,7 @@
                   :height="100"
                   :speed="10"
                   v-show="editing"
-                  style="border-radius:100%;overflow:hidden;opacity:0.4"
+                  style="border-radius:100%;overflow:hidden;opacity:0.6;position:absolute"
                 ></croppa>
               </div>
               <avatar :height="100" :url="me.personImageThumbnailURL" :title="me.fullName" />
@@ -167,6 +167,7 @@ import Croppa from 'vue-croppa'
 import 'vue-croppa/dist/vue-croppa.css'
 import CDN from '@/services/cdn'
 import Vue from 'vue'
+import { checkIfObjNotFilled, generateGUID, getYYYYMMDD } from '../utils/helpers'
 Vue.use(Croppa)
 
 export default {
@@ -225,7 +226,7 @@ export default {
           this.cdnKeys = response.data
         })
         var profilePic = await this.uploadProfilePic()
-        profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/PersonPics/' + profilePic : ''
+        profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/ProfilePics/' + profilePic : ''
         patch['values']['personImageURL'] = profilePic
         patch['values']['personImageThumbnailURL'] = profilePic
       }
@@ -241,14 +242,13 @@ export default {
     },    
     async uploadProfilePic() {
       const { accessKeyID, secretAccessKey } = this.cdnKeys
-      const fileSufix = 'PersonPics/'
+      const fileSufix = 'ProfilePics/'
       var fileName = generateGUID() + '.jpg'
       
       if (!this.photoCroppa.hasImage()) {
         return
       }
       var blob = await this.photoCroppa.promisedBlob('image/jpeg')
-      console.log(blob)
       var arrayBuffer = await new Response(blob).arrayBuffer();  
       await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileSufix, fileName).catch(error => {
         console.log(error)
