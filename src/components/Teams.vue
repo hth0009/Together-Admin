@@ -123,6 +123,9 @@
                   v-model="selectedTeam.subtitle"
                   :readonly="!editing"
                 />
+                <input-char-count v-show='editing'
+                                  :input='selectedTeam.subtitle' :max-num-of-chars-allowed='"40"'>
+                </input-char-count>
               </div>
               <div class="gs-form-group">
                 <label for>Description</label>
@@ -135,6 +138,9 @@
                   v-model="selectedTeam.description"
                   :readonly="!editing"
                 ></textarea>
+                <input-char-count v-show='editing'
+                                  :input='selectedTeam.description' :max-num-of-chars-allowed='"500"'>
+                </input-char-count>
               </div>
             </form>
               <div class="gs-buttons-right">         
@@ -213,9 +219,7 @@
                   required
                   v-model="newTeam.subtitle"
                 />
-                <gs-hint :input='newTeam.subtitle'
-                         :max-num-of-chars-allowed='"40"'>
-                </gs-hint>
+                <input-char-count :input='newTeam.subtitle' :max-num-of-chars-allowed='"40"'></input-char-count>
               </div>
               <div class="gs-form-group">
                 <label for>Description</label>
@@ -228,9 +232,7 @@
                   maxlength="500"
                   v-model="newTeam.description"
                 ></textarea>
-                <gs-hint :input='newTeam.description'
-                         :max-num-of-chars-allowed='"500"'>
-                </gs-hint>
+                <input-char-count :input='newTeam.description' :max-num-of-chars-allowed='"500"'></input-char-count>
               </div>
               <button class="gs-basic-button">CREATE</button>
             </form>
@@ -262,7 +264,7 @@ import { getHHMM, getDayOfWeekMonthDay } from "../utils/helpers";
 import Cards from '@/components/CardList'
 import Dropdown from '@/components/CardDropdown'
 import Padlock from '@/components/Padlock'
-import gsHint from '@/components/Hint';
+import InputCharCount from '@/components/InputCharCount';
 
 import Vue from "vue";
 Vue.use(Croppa);
@@ -317,7 +319,7 @@ export default {
     };
   },
   components: {    
-    flatPickr, Cards, SweetModal, Dropdown, Padlock, gsHint
+    flatPickr, Cards, SweetModal, Dropdown, Padlock, InputCharCount
   },
   methods: {
     recieveID(id) {
