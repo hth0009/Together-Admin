@@ -13,7 +13,7 @@
           v-model="selectedID"
           :loading="loading"
           :noProfile="true"
-          :cardList="$store.state.services"
+          :cardList="$store.state.thisSunday.services"
           :profilePicFillerValue="'name'"
           :emptyMessage="'No Events Scheduled Yet'"
           :hasDates="true"
@@ -368,7 +368,7 @@ export default {
     },
     async getServices() {
       this.loading = true;
-      await this.$store.dispatch('getServices');
+      await this.$store.dispatch('thisSunday/getServices');
       this.loading = false;
     },
     getPeople() {
@@ -462,7 +462,7 @@ export default {
   },
   props: {},
   mounted() {
-    if(this.$store.state.services.length < 1) {
+    if(this.$store.state.thisSunday.services.length < 1) {
       this.getServices();
     } 
     else {
