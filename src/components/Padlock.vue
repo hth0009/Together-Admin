@@ -1,5 +1,13 @@
 <template>
   <div class="lock-container">
+    <sweet-modal icon="error" ref="cannotUnlockModal">
+      <h3>{{cantUnlockMessage}}</h3>
+    </sweet-modal>
+    <sweet-modal icon="warning" ref="lockWarningModal">
+      <h3>{{lockWarning}}</h3>
+      <button slot="button" class="gs-basic-button red" @click="closeLockWarning">CANCEL</button>      
+      <button slot="button" class="gs-basic-button" @click="lock(true); closeLockWarning()">LOCK</button>      
+    </sweet-modal>
     <div>
     <div class="lock"
       tabindex="0"
@@ -16,6 +24,9 @@
 </template>
 
 <script>
+import { SweetModal } from "sweet-modal-vue";
+import { timeout } from 'q';
+
 export default {
   name: 'Padlock',
   data () {
@@ -24,6 +35,7 @@ export default {
     }
   },
   components: {
+    SweetModal
   },
   methods: {
     toggleLock() {
@@ -38,14 +50,28 @@ export default {
       }
     },
     unlock() {
+      if (!this.canBeUnlocked) {
+        this.$refs.cannotUnlockModal.open()
+        setTimeout(()=>{
+          this.$refs.cannotUnlockModal.close()
+        },2500);
+        return
+      }
       this.locked = false
       this.$emit('input', false)
       this.$emit('unlocked')
     },
-    lock() {
+    lock(bypassWarning = false) {
+      if (!!this.lockWarning && !bypassWarning) {
+        this.$refs.lockWarningModal.open()
+        return
+      }
       this.locked = true
       this.$emit('input', true)
       this.$emit('locked')
+    },
+    closeLockWarning() {
+      this.$refs.lockWarningModal.close()
     }
   },
   props: {
@@ -57,11 +83,23 @@ export default {
       type: Boolean,
       default: false
     },
+    canBeUnlocked: {
+      type: Boolean,
+      default: true
+    },
     lockedLabel: {
       type: String,
       default: ''
     },
     unlockedLabel: {
+      type: String,
+      default: ''
+    },
+    cantUnlockMessage: {
+      type: String,
+      default: 'This cannot be unlocked'
+    },
+    lockWarning: {
       type: String,
       default: ''
     }
@@ -94,50 +132,50 @@ export default {
 }
 /* Locked */
 .lock-container {
-  height: 50px;
+  height: 25px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 5px;
 }
 .lock-label {
   margin-left: 10px;
   font-weight: 600;
 }
 .lock {
-  width: 24px;
-  height: 21px;
-  border: 3px solid var(--locked-color);
-  border-radius: 5px;
+  width: 17px;
+  height: 15px;
+  border: 2px solid var(--locked-color);
+  border-radius: 3px;
   position: relative;
   cursor: pointer;
   -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .lock:after {
   content: "";
   display: block;
   background: var(--locked-color);
-  width: 3px;
-  height: 7px;
+  width: 2px;
+  height: 5px;
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: -3.5px 0 0 -2px;
+  margin: -1.75px 0 0 -1px;
   -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
 }
 .lock:before {
   content: "";
   display: block;
-  width: 16px;
-  height: 13px;
+  width: 10px;
+  height: 8px;
   bottom: 100%;
   position: absolute;
   left: 50%;
-  margin-left: -8px;
-  border: 3px solid var(--locked-color);
+  margin-left: -5px;
+  border: 2px solid var(--locked-color);
   border-top-right-radius: 50%;
   border-top-left-radius: 50%;
   border-bottom: 0;
@@ -150,20 +188,20 @@ export default {
 }
 .lock:focus:before,
 .lock:hover:before {
-  height: 15px;
+  height: 10px;
 }
 .lock.disabled:focus:before,
 .lock.disabled:hover:before {
-  height: 13px;
+  height: 8px;
 }
 /* Unlocked */
 .unlocked {
   transform: rotate(10deg);
 }
 .unlocked:before {
-  bottom: 130%;
+  bottom: 117%;
   left: 31%;
-  margin-left: -11.5px;
+  margin-left: -6.5px;
   transform: rotate(-45deg);
 }
 .unlocked,
@@ -171,7 +209,7 @@ export default {
   border-color: var(--unlocked-color);
 }
 .unlocked::before {
-  height: 15px;
+  height: 10px;
 }
 .unlocked:after {
   background: var(--unlocked-color);
@@ -183,9 +221,9 @@ export default {
 }
 .unlocked:focus:before,
 .unlocked:hover:before {
-  height: 15px;
-  left: 40%;
-  bottom: 124%;
+  height: 10px;
+  left: 35%;
+  bottom: 115%;
   transform: rotate(-30deg);
 }
 
@@ -195,8 +233,8 @@ export default {
 }
 .disabled.unlocked:focus:before,
 .disabled.unlocked:hover:before {
-  height: 15px;
-  bottom: 130%;
+  height: 10px;
+  bottom: 117%;
   left: 31%;
   transform: rotate(-45deg);
 }

@@ -71,6 +71,9 @@
                 :lockedLabel="'Private Team'"
                 :unlockedLabel="'Public Team'"
                 :disabled="!editing"
+                :canBeUnlocked="false"
+                :cantUnlockMessage="'Private teams cannot be made public'"
+                :lockWarning="'Once this team is made private it cannot be made public again.'"
               />
               <div class="gs-form-group">
                 <label for>Name</label>
@@ -111,6 +114,17 @@
                 <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
                   v-model="selectedTeam.speakerName"
                 :readonly="!editing">-->
+              </div>
+              <div class="gs-form-group">
+                <label for>Max Capacity</label>
+                <input
+                  type="number"
+                  class="gs-basic-input"
+                  placeholder="Enter the max capacity for this group"
+                  required
+                  v-model="selectedTeam.maxCapacity"
+                  :readonly="!editing"
+                />
               </div>
               <div class="gs-form-group">
                 <label for>Short Description</label>
@@ -174,6 +188,7 @@
                 v-model="newTeam.isPrivate"
                 :lockedLabel="'Private Team'"
                 :unlockedLabel="'Public Team'"
+                :lockWarning="'Once this team is made private it cannot be made public again.'"
               />
               <div class="gs-form-group">
                 <label for>Name</label>
@@ -290,7 +305,7 @@ const newTeamTemplate = {
   subtitle: "",
   time: "",
   title: "",
-  isPrivate: true
+  isPrivate: false
 };
 
 export default {
