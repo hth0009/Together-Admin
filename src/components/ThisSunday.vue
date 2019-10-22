@@ -246,6 +246,8 @@ import { getHHMM, getDayOfWeekMonthDay, getThisSunday } from '../utils/helpers'
 import Cards from '@/components/CardList'
 import Dropdown from '@/components/CardDropdown'
 
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
+
 import Vue from 'vue'
 Vue.use(Croppa)
 
@@ -270,7 +272,6 @@ export default {
     return {
       loading: true,
       creatingNewItem: false,
-      // services: [],
       newService: {},
       selectedID: -1,
       selectedService: {},
@@ -291,6 +292,9 @@ export default {
     flatPickr, Cards, SweetModal, Dropdown
   },
   methods: {
+    ...mapMutations('thisSunday', {setServicesStore: 'setServices'}),
+    ...mapActions('thisSunday', {getServicesStore: 'getServices'}),
+
     async createNewItem() {
       this.selectedID = -1;
       this.$router.push(`/app/this-sunday/`);
@@ -368,7 +372,7 @@ export default {
     },
     async getServices() {
       this.loading = true;
-      await this.$store.dispatch('thisSunday/getServices');
+      await this.getServicesStore();
       this.loading = false;
     },
     getPeople() {

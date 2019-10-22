@@ -4,7 +4,8 @@ import moment from 'moment';
 export const thisSundayModule = {
   namespaced: true,
   state: {
-    services: []
+    services: [],
+    loading: true,
   },
   mutations: {
     setServices (state, payload) {
