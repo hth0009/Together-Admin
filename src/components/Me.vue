@@ -88,7 +88,7 @@
                   :alphabetical="true"
                   :emptyMessage="'Not in any organizations'"
                   :cardList="myOrgs"
-                  :cardSelectable="false"
+                  :cardSelectable="true"
                   profilePicFillerValue="orgName"
                   :hasSearch="false"
                   :fields="{
@@ -108,7 +108,7 @@
                   :alphabetical="true"
                   :emptyMessage="'Not in any teams'"
                   :cardList="myTeams"
-                  :cardSelectable="false"
+                  :cardSelectable="true"
                   profilePicFillerValue="teamName"
                   :hasSearch="false"
                   :fields="{
