@@ -21,7 +21,8 @@ export default {
         date: serviceData.date,
         speakerName: serviceData.speakerName,
         serviceTimes: serviceData.times,
-        title: serviceData.title
+        title: serviceData.title,
+        iconUrl: serviceData.iconUrl
       }
     });
   },

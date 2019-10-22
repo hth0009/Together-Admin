@@ -391,14 +391,8 @@ export default {
     },
     async postService(service) {
       this.$root.$emit("loading", true);
-      let profilePic = await this.uploadProfilePic();
-      profilePic = !!profilePic
-        ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
-        : "";
-      const serviceToPost = { ...service };
-      serviceToPost.churchUsername = this.$store.state.churchUsername;
-      serviceToPost.date = moment(serviceToPost.date).format('YYYY-MM-DD');
-      serviceToPost.iconURL = profilePic;
+      const serviceToPost = await this.getFormattedService(service);
+
       try {
         await Services.postService(serviceToPost)
         this.$refs.itemCreated.open();
@@ -413,14 +407,7 @@ export default {
     },
     async patchService(service) {
       this.$root.$emit("loading", true);
-      let profilePic = await this.uploadProfilePic();
-      profilePic = !!profilePic
-        ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
-        : "";
-      const serviceToPatch = { ...service };
-      serviceToPatch.churchUsername = this.$store.state.churchUsername;
-      serviceToPatch.date = moment(serviceToPatch.date).format('YYYY-MM-DD');
-      serviceToPatch.iconURL = profilePic;
+      const serviceToPatch = await this.getFormattedService(service);
       try {
         await Services.patchService(serviceToPatch.id, serviceToPatch);
         this.$refs.itemCreated.open();
@@ -432,6 +419,17 @@ export default {
         await this.getServices()
         this.$root.$emit("loading", false);
       }
+    },
+    async getFormattedService(service) {
+      let profilePic = await this.uploadProfilePic();
+      profilePic = !!profilePic
+        ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
+        : "";
+      const formattedService = { ...service };
+      formattedService .churchUsername = this.$store.state.churchUsername;
+      formattedService .date = moment(formattedService .date).format('YYYY-MM-DD');
+      formattedService .iconURL = profilePic;
+      return formattedService;
     },
     async uploadProfilePic() {
       const { accessKeyID, secretAccessKey } = this.cdnKeys;
