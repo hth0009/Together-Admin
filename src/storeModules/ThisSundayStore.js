@@ -6,6 +6,7 @@ export const thisSundayModule = {
   state: {
     services: [],
     loading: true,
+    creatingNewItem: false,
   },
   mutations: {
     setServices (state, payload) {
@@ -14,9 +15,8 @@ export const thisSundayModule = {
         return service;
       });
     },
-    setLoading (state, loading) {
-      state.loading = loading;
-    }
+    setLoading (state, loading) { state.loading = loading; },
+    setCreatingNewItem (state, creatingNewItem) { state.creatingNewItem = creatingNewItem; }
   },
   actions: {
     async getServices ({ state, commit }) {

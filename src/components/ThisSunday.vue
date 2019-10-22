@@ -270,7 +270,6 @@ export default {
   name: "ThisSunday",
   data() {
     return {
-      creatingNewItem: false,
       newService: {},
       selectedID: -1,
       selectedService: {},
@@ -288,23 +287,24 @@ export default {
     }
   },
   computed: {
-    ...mapState('thisSunday', ['services', 'loading']),
+    ...mapState('thisSunday', ['services', 'loading', 'creatingNewItem']),
   },
   components: {    
     flatPickr, Cards, SweetModal, Dropdown
   },
   methods: {
     ...mapMutations('thisSunday', [
-      {setServicesStore: 'setServices'},
-      'setLoading'
+      'setServices',
+      'setLoading',
+      'setCreatingNewItem',
     ]),
     ...mapActions('thisSunday', {getServicesStore: 'getServices'}),
 
     async createNewItem() {
       this.selectedID = -1;
-      this.$router.push(`/app/this-sunday/`);
+      this.$router.push('/app/this-sunday/');
 
-      this.creatingNewItem = true;;
+      this.setCreatingNewItem(true);
       this.newService = { ...newServiceTemplate };
       if (this.creatingNewItem) {
         const cdnKeys = await CDN.getKeys();
@@ -328,7 +328,7 @@ export default {
 
       this.$router.push(`/app/this-sunday/${id}`);
 
-      this.creatingNewItem = false;
+      this.setCreatingNewItem(false);
 
       this.selectedID = id;
     },
