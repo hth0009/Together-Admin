@@ -278,10 +278,8 @@ export default {
       cdnKeys: {},
       photoCroppa: {},
       cdnKeys: {},
-      date: new Date(),
+      date: moment().format(),
       datePickerConfig: {
-        altFormat: "l F J, Y",
-        dateFormat: "Y-m-d\\Z",
         allowInput: true,
         altInput: true
       },
@@ -389,7 +387,7 @@ export default {
     },
     async editService() {
       this.selectedService.times = this.selectedService.times.map((timeObj) => {return {time: timeObj.time.substring(0,5)}})
-      this.postService(this.selectedService)
+      this.patchService(this.selectedService)
     },
     async postService(service) {
       this.$root.$emit("loading", true);
@@ -403,6 +401,28 @@ export default {
       serviceToPost.iconURL = profilePic;
       try {
         await Services.postService(serviceToPost)
+        this.$refs.itemCreated.open();
+      }
+      catch(error) {
+        return;
+      }
+      finally {
+        await this.getServices()
+        this.$root.$emit("loading", false);
+      }
+    },
+    async patchService(service) {
+      this.$root.$emit("loading", true);
+      let profilePic = await this.uploadProfilePic();
+      profilePic = !!profilePic
+        ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
+        : "";
+      const serviceToPatch = { ...service };
+      serviceToPatch.churchUsername = this.$store.state.churchUsername;
+      serviceToPatch.date = moment(serviceToPatch.date).format('YYYY-MM-DD');
+      serviceToPatch.iconURL = profilePic;
+      try {
+        await Services.patchService(serviceToPatch.id, serviceToPatch);
         this.$refs.itemCreated.open();
       }
       catch(error) {
