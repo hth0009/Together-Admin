@@ -302,9 +302,6 @@ export default {
       this.creatingNewItem = true;;
       this.newService = { ...newServiceTemplate };
       if (this.creatingNewItem) {
-        // CDN.getKeys().then(response => {
-        //   this.cdnKeys = response.data;
-        // });
         const cdnKeys = await CDN.getKeys();
         this.cdnKeys = cdnKeys.data;
       }
