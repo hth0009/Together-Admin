@@ -111,7 +111,8 @@
                   :alphabetical="true"
                   :emptyMessage="'No staff'"
                   :cardList="myChurchStaff"
-                  :cardSelectable="false"
+                  :cardSelectable="true"
+                  @selected="recieveID"
                   profilePicFillerValue="orgName"
                   :hasSearch="false"
                   :fields="{

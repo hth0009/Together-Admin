@@ -417,6 +417,7 @@ export default {
     this.loading = true
     this.getTeams()
     this.getPeople()
+    this.recieveID(this.$route.params.id)
   },
   computed: {
   }

@@ -88,7 +88,7 @@
                   :alphabetical="true"
                   :emptyMessage="'Not in any organizations'"
                   :cardList="myOrgs"
-                  :cardSelectable="true"
+                  :cardSelectable="false"
                   profilePicFillerValue="orgName"
                   :hasSearch="false"
                   :fields="{
@@ -109,6 +109,7 @@
                   :emptyMessage="'Not in any teams'"
                   :cardList="myTeams"
                   :cardSelectable="true"
+                  @selected="recieveID"
                   profilePicFillerValue="teamName"
                   :hasSearch="false"
                   :fields="{
@@ -217,6 +218,10 @@ export default {
         fileName = ''
       })
       return fileName
+    },
+    recieveID(id) {
+      console.log(id)
+      this.$router.push(`/app/teams/${id}`)
     }
   },
   props: {},
