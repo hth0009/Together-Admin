@@ -13,6 +13,19 @@ export default {
   postService (body) {    
     return Api().post('services', body)
   },
+  patchService (serviceID, serviceData) {
+    return Api().patch('services', {
+      identifier: { id: serviceID },
+      values: {
+        description: serviceData.description,
+        date: serviceData.date,
+        speakerName: serviceData.speakerName,
+        serviceTimes: serviceData.times,
+        title: serviceData.title,
+        iconUrl: serviceData.iconUrl
+      }
+    });
+  },
   deleteService (serviceID) {    
     return Api().delete('services', {data: {
       "elements": [

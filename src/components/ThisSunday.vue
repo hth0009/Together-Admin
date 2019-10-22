@@ -278,10 +278,8 @@ export default {
       cdnKeys: {},
       photoCroppa: {},
       cdnKeys: {},
-      date: new Date(),
+      date: moment().format(),
       datePickerConfig: {
-        altFormat: "l F J, Y",
-        dateFormat: "Y-m-d\\Z",
         allowInput: true,
         altInput: true
       },
@@ -389,18 +387,12 @@ export default {
     },
     async editService() {
       this.selectedService.times = this.selectedService.times.map((timeObj) => {return {time: timeObj.time.substring(0,5)}})
-      this.postService(this.selectedService)
+      this.patchService(this.selectedService)
     },
     async postService(service) {
       this.$root.$emit("loading", true);
-      let profilePic = await this.uploadProfilePic();
-      profilePic = !!profilePic
-        ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
-        : "";
-      const serviceToPost = { ...service };
-      serviceToPost.churchUsername = this.$store.state.churchUsername;
-      serviceToPost.date = moment(serviceToPost.date).format('YYYY-MM-DD');
-      serviceToPost.iconURL = profilePic;
+      const serviceToPost = await this.getFormattedService(service);
+
       try {
         await Services.postService(serviceToPost)
         this.$refs.itemCreated.open();
@@ -412,6 +404,32 @@ export default {
         await this.getServices()
         this.$root.$emit("loading", false);
       }
+    },
+    async patchService(service) {
+      this.$root.$emit("loading", true);
+      const serviceToPatch = await this.getFormattedService(service);
+      try {
+        await Services.patchService(serviceToPatch.id, serviceToPatch);
+        this.$refs.itemCreated.open();
+      }
+      catch(error) {
+        return;
+      }
+      finally {
+        await this.getServices()
+        this.$root.$emit("loading", false);
+      }
+    },
+    async getFormattedService(service) {
+      let profilePic = await this.uploadProfilePic();
+      profilePic = !!profilePic
+        ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
+        : "";
+      const formattedService = { ...service };
+      formattedService .churchUsername = this.$store.state.churchUsername;
+      formattedService .date = moment(formattedService .date).format('YYYY-MM-DD');
+      formattedService .iconURL = profilePic;
+      return formattedService;
     },
     async uploadProfilePic() {
       const { accessKeyID, secretAccessKey } = this.cdnKeys;
