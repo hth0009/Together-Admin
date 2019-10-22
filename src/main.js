@@ -28,6 +28,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import './assets/css/helpers.css';
+import './registerServiceWorker'
 
 // import { TabPlugin } from '@syncfusion/ej2-vue-navigations'
 
