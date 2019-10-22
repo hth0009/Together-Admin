@@ -7,6 +7,7 @@ export const thisSundayModule = {
     services: [],
     loading: true,
     creatingNewItem: false,
+    newService: {},
   },
   mutations: {
     setServices (state, payload) {
@@ -16,7 +17,14 @@ export const thisSundayModule = {
       });
     },
     setLoading (state, loading) { state.loading = loading; },
-    setCreatingNewItem (state, creatingNewItem) { state.creatingNewItem = creatingNewItem; }
+    setCreatingNewItem (state, creatingNewItem) { state.creatingNewItem = creatingNewItem; },
+    setNewService (state, newService) { state.newService = newService; },
+    addTimeToNewService(state) {
+      state.newService.serviceTimes.push({ time: "12:00:00" });
+    },
+    deleteTimeFromNewService(state, index) {
+      state.newService.serviceTimes.splice(index, 1);
+    },
   },
   actions: {
     async getServices ({ state, commit }) {

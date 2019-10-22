@@ -169,7 +169,7 @@
                 <label for>Times</label>
                 <div class="times">
                   <div v-for="(time, index) in newService.serviceTimes" :key="index" class="time">
-                    <div class="delete-time noselect" @click="deleteTime(index)">
+                    <div class="delete-time noselect" @click="deleteTimeFromNewService(index)">
                       <i class="material-icons">close</i>
                     </div>
                     <input
@@ -180,7 +180,7 @@
                       required
                     />
                   </div>
-                  <div class="gs-basic-button icon" formnovalidate @click="addTime">
+                  <div class="gs-basic-button icon" formnovalidate @click="addTimeToNewService">
                     <i class="material-icons">add</i>
                   </div>
                 </div>
@@ -270,7 +270,6 @@ export default {
   name: "ThisSunday",
   data() {
     return {
-      newService: {},
       selectedID: -1,
       selectedService: {},
       beforeEditedService: {},
@@ -287,7 +286,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('thisSunday', ['services', 'loading', 'creatingNewItem']),
+    ...mapState('thisSunday', ['services', 'loading', 'creatingNewItem', 'newService']),
   },
   components: {    
     flatPickr, Cards, SweetModal, Dropdown
@@ -297,15 +296,18 @@ export default {
       'setServices',
       'setLoading',
       'setCreatingNewItem',
+      'setNewService',
+      'addTimeToNewService',
+      'deleteTimeFromNewService'
     ]),
-    ...mapActions('thisSunday', {getServicesStore: 'getServices'}),
+    ...mapActions('thisSunday', ['getServices']),
 
     async createNewItem() {
       this.selectedID = -1;
       this.$router.push('/app/this-sunday/');
 
       this.setCreatingNewItem(true);
-      this.newService = { ...newServiceTemplate };
+      this.setNewService({ ...newServiceTemplate })
       if (this.creatingNewItem) {
         const cdnKeys = await CDN.getKeys();
         this.cdnKeys = cdnKeys.data;
@@ -362,18 +364,9 @@ export default {
         }.bind(this)
       );
     },
-    addTime() {
-      this.newService.serviceTimes.push({ time: "12:00:00" });
-    },
-    deleteTime(index) {
-      this.newService.serviceTimes.splice(index, 1);
-      // this.newService.serviceTimes.push([{ "time": ""}])
-    },
+    
     deleteButtonClicked() {
       this.$refs.deleteItemModal.open();
-    },
-    async getServices() {
-      await this.getServicesStore();
     },
     getPeople() {
       People.getPeople().then(response => {        
@@ -381,7 +374,7 @@ export default {
       })
     },
     async createService() {
-      this.postService(this.newService)
+      this.postService(this.newService);
     },
     async editService() {
       this.selectedService.times = this.selectedService.times.map((timeObj) => {return {time: timeObj.time.substring(0,5)}})
@@ -391,8 +384,10 @@ export default {
       this.$root.$emit("loading", true);
       const serviceToPost = await this.getFormattedService(service);
 
+      let postServiceRes;
       try {
-        await Services.postService(serviceToPost)
+        postServiceRes = await Services.postService(serviceToPost)
+
         this.$refs.itemCreated.open();
       }
       catch(error) {
@@ -400,6 +395,10 @@ export default {
       }
       finally {
         await this.getServices()
+        if(postServiceRes) {
+          service.id = postServiceRes.data.newResourceID;
+          this.recieveItem(service);
+        }
         this.$root.$emit("loading", false);
       }
     },
