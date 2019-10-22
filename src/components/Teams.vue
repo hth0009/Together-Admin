@@ -334,7 +334,9 @@ export default {
         this.$router.push(`/app/teams/`);
         return;
       }
-      this.creatingNewItem = false;
+      if(this.creatingNewItem) {
+        this.cancelCreatingNewItem();
+      }
       this.$router.push(`/app/teams/${id}`);
       this.selectedID = id;
       return this.getTeam(id);
@@ -344,9 +346,12 @@ export default {
       this.$router.push("/app/teams/");
 
 
-      this.creatingNewItem = true;
       this.newTeam = { ...newTeamTemplate };
-      this.teams.push(this.newTeam);
+
+      if(!this.creatingNewItem) {
+        this.teams.push(this.newTeam);
+      }
+      this.creatingNewItem = true;
 
       let getKeysRes = await CDN.getKeys();
       this.cdnKeys = getKeysRes.data;
