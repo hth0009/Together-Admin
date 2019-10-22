@@ -13,7 +13,7 @@
           v-model="selectedID"
           :loading="loading"
           :noProfile="true"
-          :cardList="services"
+          :cardList="$store.state.thisSunday.services"
           :profilePicFillerValue="'name'"
           :emptyMessage="'No Events Scheduled Yet'"
           :hasDates="true"
@@ -241,7 +241,7 @@ import 'flatpickr/dist/flatpickr.css'
 
 import Services from '@/services/services'
 import People from '@/services/people'
-import {getHHMM, getDayOfWeekMonthDay, getThisSunday} from '../utils/helpers'
+import { getHHMM, getDayOfWeekMonthDay, getThisSunday } from '../utils/helpers'
 
 import Cards from '@/components/CardList'
 import Dropdown from '@/components/CardDropdown'
@@ -270,7 +270,7 @@ export default {
     return {
       loading: true,
       creatingNewItem: false,
-      services: [],
+      // services: [],
       newService: {},
       selectedID: -1,
       selectedService: {},
@@ -366,16 +366,10 @@ export default {
     deleteButtonClicked() {
       this.$refs.deleteItemModal.open();
     },
-    getServices() {
+    async getServices() {
       this.loading = true;
-      return Services.getServices().then(response => {
-        this.services = response.data['services'].map(obj => {
-          obj.dateTitle = moment(obj.date, 'YYYY-MM-DD').format('dddd, MMMM Do');
-          return obj;
-        });
-
-        this.loading = false
-      })
+      await this.$store.dispatch('thisSunday/getServices');
+      this.loading = false;
     },
     getPeople() {
       People.getPeople().then(response => {        
@@ -468,11 +462,20 @@ export default {
   },
   props: {},
   mounted() {
-    this.getServices()
-    this.getPeople()
-    // this.recieveID(this.$route.params.id)
+    if(this.$store.state.thisSunday.services.length < 1) {
+      this.getServices();
+    } 
+    else {
+      this.loading = false;
+    }
+    this.getPeople();
+    if(this.$route.params.id) {
+      this.recieveID(this.$route.params.id);
+    }
   },
-  computed: {}
+  computed: {
+
+  }
 };
 </script>
 
