@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-// import Church from '@/services/church'
-// import People from '@/services/people'
+import Services from '@/services/services';
+import moment from 'moment';
 import {AuthenticationDetails, CognitoUserPool, CognitoUser} from 'amazon-cognito-identity-js'
-// import { async } from 'q';
 
 Vue.use(Vuex)
 
-var cognitoUser
+let cognitoUser
 
 export default new Vuex.Store({
   state: {
@@ -18,7 +17,13 @@ export default new Vuex.Store({
     churchUsername: localStorage.getItem('churchUsername') || '',
     personName: '',
     churchIcon: 'http://static1.squarespace.com/static/563fb2d1e4b07f78f2db4c32/t/5c3621a9352f53339f36df51/1552577214769/?format=1500w',
-    personIcon: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80'
+    personIcon: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+    services: [],
+  },
+  getters: {
+    authStatus: state => !!state.token,
+    personID: state => state.personID,
+    churchUsername: state => state.churchUsername
   },
   mutations: {
     auth_request (state) {
@@ -38,6 +43,12 @@ export default new Vuex.Store({
     logout (state) {
       state.status = ''
       state.token = ''
+    },
+    setServices (state, payload) {
+      state.services = payload.services.map(service => {
+        service.dateTitle = moment(service.date, 'YYYY-MM-DD').format('dddd, MMMM Do');
+        return service;
+      });
     }
   },
   actions: {
@@ -149,11 +160,10 @@ export default new Vuex.Store({
         commit('logout')
         resolve()
       })
+    },
+    async getServices ({ commit }) {
+      const getServicesRes = await Services.getServices()
+      commit('setServices', {services: getServicesRes.data.services});
     }
   },
-  getters: {
-    authStatus: state => !!state.token,
-    personID: state => state.personID,
-    churchUsername: state => state.churchUsername
-  }
 })
