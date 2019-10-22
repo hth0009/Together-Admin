@@ -13,12 +13,17 @@ export const thisSundayModule = {
         service.dateTitle = moment(service.date, 'YYYY-MM-DD').format('dddd, MMMM Do');
         return service;
       });
+    },
+    setLoading (state, loading) {
+      state.loading = loading;
     }
   },
   actions: {
     async getServices ({ state, commit }) {
-      const getServicesRes = await Services.getServices()
+      commit('setLoading', true);
+      const getServicesRes = await Services.getServices();
       commit('setServices', {services: getServicesRes.data.services});
+      commit('setLoading', false);
     }
   }
 }

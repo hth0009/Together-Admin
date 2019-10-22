@@ -13,7 +13,7 @@
           v-model="selectedID"
           :loading="loading"
           :noProfile="true"
-          :cardList="$store.state.thisSunday.services"
+          :cardList="services"
           :profilePicFillerValue="'name'"
           :emptyMessage="'No Events Scheduled Yet'"
           :hasDates="true"
@@ -270,7 +270,6 @@ export default {
   name: "ThisSunday",
   data() {
     return {
-      loading: true,
       creatingNewItem: false,
       newService: {},
       selectedID: -1,
@@ -288,11 +287,17 @@ export default {
       people: []
     }
   },
+  computed: {
+    ...mapState('thisSunday', ['services', 'loading']),
+  },
   components: {    
     flatPickr, Cards, SweetModal, Dropdown
   },
   methods: {
-    ...mapMutations('thisSunday', {setServicesStore: 'setServices'}),
+    ...mapMutations('thisSunday', [
+      {setServicesStore: 'setServices'},
+      'setLoading'
+    ]),
     ...mapActions('thisSunday', {getServicesStore: 'getServices'}),
 
     async createNewItem() {
@@ -368,9 +373,7 @@ export default {
       this.$refs.deleteItemModal.open();
     },
     async getServices() {
-      this.loading = true;
       await this.getServicesStore();
-      this.loading = false;
     },
     getPeople() {
       People.getPeople().then(response => {        
@@ -462,21 +465,19 @@ export default {
     }
   },
   props: {},
-  mounted() {
-    if(this.$store.state.thisSunday.services.length < 1) {
-      this.getServices();
+  async mounted() {
+    if(this.services.length < 1) {
+      await this.getServices();
     } 
     else {
-      this.loading = false;
+      this.setLoading(false);
     }
-    this.getPeople();
+    await this.getPeople();
     if(this.$route.params.id) {
-      this.recieveID(this.$route.params.id);
+      const selectedService = this.services.find(service => service.id.toString() === this.$route.params.id);
+      this.recieveItem(selectedService);
     }
   },
-  computed: {
-
-  }
 };
 </script>
 
