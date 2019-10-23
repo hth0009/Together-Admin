@@ -281,6 +281,7 @@ import Dropdown from '@/components/CardDropdown'
 import Padlock from '@/components/Padlock'
 import InputCharCount from '@/components/InputCharCount';
 
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Vue from "vue";
 Vue.use(Croppa);
 
@@ -312,9 +313,7 @@ export default {
   name: "Teams",
   data() {
     return {
-      loading: true,
       creatingNewItem: false,
-      teams: [],
       newTeam: {},
       selectedID: -1,
       selectedTeam: {},
@@ -333,10 +332,20 @@ export default {
       people: []
     };
   },
+  computed: {
+    ...mapState('teams', ['teams', 'loading']),
+  },
   components: {    
     flatPickr, Cards, SweetModal, Dropdown, Padlock, InputCharCount
   },
   methods: {
+    ...mapMutations('teams', [
+      'setTeams',
+      'setLoading',
+    ]),
+    ...mapActions('teams', ['getTeams']),
+
+
     recieveID(id) {
       if (!id) {
         return;
@@ -420,12 +429,6 @@ export default {
     },
     deleteButtonClicked() {
       this.$refs.deleteItemModal.open();
-    },
-    getTeams() {
-      return Teams.getTeamsByChurch().then(response => {
-        this.teams = response.data.teams;
-        this.loading = false;
-      });
     },
     getPeople() {
       People.getPeople().then(response => {
@@ -520,11 +523,11 @@ export default {
   },
   props: {},
   mounted() {
-    this.loading = true;
-    this.getTeams();
+    if(this.teams.length < 1) {
+      this.getTeams();
+    }
     this.getPeople();
   },
-  computed: {}
 };
 </script>
 
