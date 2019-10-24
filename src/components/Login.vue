@@ -15,7 +15,7 @@
         </div>
         <button class="gs-basic-button">ENTER</button>
       </form>      
-      <!-- <a @click="forgotPassword" id="forgot-password">forgot password?</a> -->
+      <!-- <a @click="forgotPassword" id="forgot-password">Forgot password?</a> -->
       <inline-loader v-show="loggingIn"></inline-loader>
     </div>    
     <div id="wrong-username-password" class="error" v-show="hasWrongUsernamePassword">
@@ -70,21 +70,21 @@ export default {
     },
     forgotPassword() {      
       const {lowerCaseUsername, password} = this
-      var authenticationData = {
+      const authenticationData = {
         Username: lowerCaseUsername,
         Password: password
       }
-      var authenticationDetails = new AuthenticationDetails(authenticationData)
-      var poolData = {
+      const authenticationDetails = new AuthenticationDetails(authenticationData)
+      const poolData = {
         UserPoolId: 'us-east-2_th6kgbG7W',
         ClientId: '40ljk2uqsfr2rhuqascb564rlq'
       }
-      var userPool = new CognitoUserPool(poolData)
-      var userData = {
+      const userPool = new CognitoUserPool(poolData)
+      const userData = {
         Username: lowerCaseUsername,
         Pool: userPool
       }
-      var cognitoUser = new CognitoUser(userData)
+      const cognitoUser = new CognitoUser(userData)
       cognitoUser.forgotPassword({
         onSuccess: function (result) {
           console.log('call result: ' + result);
