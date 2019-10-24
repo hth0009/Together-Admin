@@ -32,6 +32,8 @@
 import InlineLoader from '@/components/InlineLoader'
 import {AuthenticationDetails, CognitoUserPool, CognitoUser} from 'amazon-cognito-identity-js'
 
+import {mapActions} from 'vuex';
+
 export default {
   name: 'Login',
   data () {
@@ -48,14 +50,15 @@ export default {
     InlineLoader
   },
   methods: {
-    login: function () {
+    ...mapActions({storeLogin :'login'}),
+    login () {
       this.resetErrors()
       
       this.loggingIn = true
 
-      const {lowerCaseUsername, password} = this
-      const username = lowerCaseUsername
-      this.$store.dispatch('login', { username, password })
+      const username = this.lowerCaseUsername;
+      // this.$store.dispatch('login', { username, password });
+      this.storeLogin({username, password: this.password})
       .then(() => this.$router.push('/app/people'))
       .catch(err => {
         if (err.code == "NotAuthorizedException") {
