@@ -6,10 +6,13 @@
       <form v-on:submit.prevent="login">
         <label for="username">username:</label>
         <input v-model="username" type="username" name="username" required placeholder="username">
-        <br>
-        <label for="password">password:</label>
-        <input v-model="password" type="password" name="password" required placeholder="password" autocomplete="password">
-        <br>
+        <div>
+          <label for="password">password:</label>
+          <input v-model="password" :type="passwordType" name="password" required placeholder="password" autocomplete="password">
+          <i class="material-icons" id="password-eye-icon" @click="showPassword = !showPassword">
+            {{showPassword ? 'visibility' : 'visibility_off'}}
+          </i>
+        </div>
         <button class="gs-basic-button">ENTER</button>
       </form>      
       <!-- <a @click="forgotPassword" id="forgot-password">forgot password?</a> -->
@@ -35,6 +38,7 @@ export default {
     return {
       username: '',
       password: '',
+      showPassword: false,
       hasWrongUsernamePassword: false,
       userNotFound: false,
       loggingIn: false
@@ -103,6 +107,9 @@ export default {
   computed: {
     lowerCaseUsername() {
       return this.username.toLowerCase()
+    },
+    passwordType() {
+      return this.showPassword ? 'text' : 'password';
     }
   }
 }
@@ -167,6 +174,12 @@ export default {
     margin-bottom: 10px;
     width: 40%;
     font-size: 13px;    
+  }
+  #password-eye-icon{
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    position: absolute;
   }
   #login-form input::placeholder{
     color: #86898C;
