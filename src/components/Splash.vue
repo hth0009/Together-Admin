@@ -280,7 +280,7 @@
             @click="selectedShowcase = 'GIVING'"
             :class="{'selected': selectedShowcase == 'GIVING'}"
           >
-            <i class="material-icons">trip_origin</i>giving
+            <i class="material-icons">favorite</i>giving
           </button>
           <!-- <button
             @click="selectedShowcase = 'DATA INTEGRATION'"
