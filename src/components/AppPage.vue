@@ -24,7 +24,7 @@
             class="noselect"
             @click="moreToggled = !moreToggled; showSidebar = true"
             id="app-page-logo"
-            height="45"
+            height="30"
             src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small-noborder.png"
           />
           <ul class="links" :class="{toggled: moreToggled}">
@@ -50,10 +50,10 @@
         </div>
         <div class="profiles">
           <router-link v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
-            <avatar :height="45" :url="churchPic" :title="churchName" />
+            <avatar :height="30" :url="churchPic" :title="churchName" />
           </router-link>
           <router-link v-on:click.native="showSidebar = false" to="/app/me" class="noselect">
-            <avatar :height="45" :url="profilePic" :title="$store.state.personName" />
+            <avatar :height="30" :url="profilePic" :title="$store.state.personName" />
           </router-link>
         </div>
       </div>

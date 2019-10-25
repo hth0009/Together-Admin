@@ -4,13 +4,12 @@
       <div id="church-info" class="panel gs-container vertical">
         <div class="header">
           <div class="profile-pic">
-            <avatar :height="100" :url="me.personImageThumbnailURL" :title="me.fullName" />
+            <avatar :height="100" :url="myChurch.churchImageThumbnailURL" :title="myChurch.name" />
           </div>
-          <h3>Church of John</h3>
+          <h3>{{myChurch.name}}</h3>
           <div
             class="subtitle"
-            v-if="!!me.account"
-          >{{me.account.username !== '' ? '@' + 'churchofjohn' : ''}}</div>
+          >{{myChurch.username !== '' ? '@' + myChurch.username : ''}}</div>
         </div>
         <div class="gs-buttons-right">
           <button class="gs-basic-button" @click="startEdit" v-show="!editing">
@@ -31,6 +30,7 @@
               class="gs-basic-input"
               :readonly="!editing"
               placeholder="Add Website"
+              v-model="myChurch.websiteURL"
             />
           </div>
           <div class="gs-form-group">
@@ -40,6 +40,7 @@
               class="gs-basic-input"
               :readonly="!editing"
               placeholder="Add Mailing Address"
+              v-model="myChurch.address"
             />
           </div>
           <div class="gs-form-group">
@@ -49,6 +50,7 @@
               class="gs-basic-input"
               :readonly="!editing"
               placeholder="Add Phone Number"
+              v-model="myChurch.phoneNumber"
             />
           </div>
           <div class="gs-form-group">
@@ -59,6 +61,7 @@
               placeholder="Add Description"
               rows="10"
               :readonly="!editing"
+              v-model="myChurch.description"
             ></textarea>
           </div>
           <div class="gs-form-group">
@@ -69,9 +72,43 @@
               placeholder="Add Statement of Faith"
               rows="10"
               :readonly="!editing"
+              v-model="myChurch.statementOfFaith"
+            ></textarea>
+          </div>
+          <div class="gs-form-group">
+            <label>Vision</label>
+            <textarea
+              type="text"
+              class="gs-basic-input"
+              placeholder="Add Vision"
+              rows="10"
+              :readonly="!editing"
+              v-model="myChurch.vision"
             ></textarea>
           </div>
         </form>
+      </div>
+      <div id="church-staff">
+        <div class="panel gs-container vertical">
+            <h1 class="gs-card-header">Staff</h1>
+            <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :hasButtonOnCard="false"
+                  :alphabetical="true"
+                  :emptyMessage="'No staff'"
+                  :cardList="myChurchStaff"
+                  :cardSelectable="true"
+                  profilePicFillerValue="orgName"
+                  :hasSearch="false"
+                  :fields="{
+                    title: 'staffName',
+                    profile: 'staffIconURL',
+                    id: 'staffID',
+                  }"
+                />
+          </div>
       </div>
     </div>
   </div>
@@ -83,30 +120,30 @@ import People from "../services/people";
 import Church from "../services/church";
 import Teams from "../services/teams";
 import Avatar from "../components/Avatar";
+import Cards from '@/components/CardList'
 export default {
   name: "",
   data() {
     return {
-      myTeams: "",
-      me: "",
-      myOrgs: "",
+      myChurch: "",
+      myChurchStaff: "",
       editing: false
     };
   },
   components: {
-    Avatar
+    Avatar,
+    Cards
   },
   methods: {
-    async getMe() {
-      const response = await People.getPerson(Store.state.personID);
-      this.me = response["person"];
-      console.log(this.me.inChurch);
-      this.myOrgs = await Church.getChurch(this.me.inChurch);
-    },
-    async getMyTeams() {
-      const response = await Teams.getTeamsByID(Store.state.personID);
-      console.log(response);
-      // this.myTeams = response["team(s)"];
+    async getMyChurch() {
+      Church.getChurch(Store.state.churchUsername).then(response => {
+        this.myChurch = response.data.churches[0]
+        this.myChurchStaff = response.data.churches.map((aStaff) => ({
+          staffName: aStaff.pastor.firstName + ' ' + aStaff.pastor.lastName,
+          staffIconURL: aStaff.pastor.personImageURL,
+          staffID: aStaff.pastor.id
+        }))
+      })
     },
     startEdit() {
       this.editing = true;
@@ -120,8 +157,7 @@ export default {
   },
   props: {},
   mounted() {
-    this.getMe();
-    this.getMyTeams();
+    this.getMyChurch();
   },
   computed: {}
 };
@@ -132,5 +168,10 @@ export default {
 <style scoped>
   #selected-view #church-wrapper #church-info .header {
     margin: 0;
+  }
+  #church-wrapper {
+    display: grid;
+    align-items: start;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 525px));
   }
 </style>
