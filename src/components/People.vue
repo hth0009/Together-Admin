@@ -75,7 +75,7 @@
                 class="profile-pic"></div>-->
                 <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
               </static-header>
-              <div class="gs-top-buttons">
+              <div id="top-buttons" class="gs-top-buttons">
                 <button class="gs-basic-button" @click="startEdit" v-show="!editing">
                   <i class="material-icons">edit</i>EDIT
                 </button>
@@ -556,6 +556,10 @@ export default {
 </style>
 
 <style scoped>
+#top-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
 #selected-view #person-profile .header {
   margin: 0;
 }
