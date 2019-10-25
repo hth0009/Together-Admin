@@ -249,7 +249,6 @@ export default {
       return fileName
     },
     recieveID(id) {
-      console.log(id)
       this.$router.push(`/app/teams/${id}`)
     }
   },
