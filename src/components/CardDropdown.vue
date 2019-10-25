@@ -8,8 +8,8 @@
         v-if="hasSelectedItem"
         class="profile-pic"
         :height="30"
-        :url="selectedItem[fields.profile]"
-        :title="selectedItem[profilePicFillerValue]"/>
+        :url="selectedCard[fields.profile]"
+        :title="selectedCard[profilePicFillerValue]"/>
       <input type="text" :class="inputCSSClass"
         :readonly="readonly"
         ref="searchInput"
@@ -77,7 +77,7 @@ export default {
       },
       listFilters: this.filters,
       selectedFilters: {},
-      selectedItem: {},
+      selectedCard: {},
       hasSelectedItem: false,
       focus: null,
     }
@@ -92,13 +92,14 @@ export default {
         return
       }
       this.listSearch = item[this.fields.title]
-      this.selectedItem = {...item}
+      this.selectedCard = {...item}
       this.hasSelectedItem = true
       this.closeDropdown()
       this.$refs.searchInput.blur()
+      this.$emit('selected', item)  
     },
     clearInput() {
-      this.selectedItem = {}
+      this.selectedCard = {}
       this.listSearch = ''
       this.hasSelectedItem = false
     },
@@ -173,7 +174,13 @@ export default {
   },
   props: {
     inputCSSClass: '',
-    items: Array,
+    items: Array,    
+    selectedItem: {
+      defualt: {
+        type: Object,
+        default: () => {return {}}
+      }
+    },
     fields: 
     {
       type: Object,
@@ -189,7 +196,6 @@ export default {
         photoHeader: 'photoHeader'
       })
     },
-    selectedID: String,
     loading: {
       type: Boolean,
       default: false
@@ -233,7 +239,7 @@ export default {
         key: 'subtext',
         options: [
           {
-            value: 'Community Group',
+            selectedCard: 'Community Group',
             title: 'Public',
             icon: 'public'
           },
@@ -248,10 +254,21 @@ export default {
   mounted() {
     this.filteredCards = this.items
     this.filterAndSearchCards()
+    this.selectedCard = {...this.selectedItem}
   },
   computed: {
   },
   watch: {
+    selectedItem: {
+      handler(n, o) {
+        if (!!!n[this.fields.id]) {
+          return
+        }
+        this.onCardSelected(n)
+        this.selectedCard = {...n}
+        console.log(n)
+      }, deep: true
+    },
     items: {
       handler(n, o) {
         this.filteredCards = [...this.items]
@@ -261,7 +278,7 @@ export default {
     listSearch: {
       handler(n, o) {        
         this.filterAndSearchCards()
-        if (this.hasSelectedItem && n != this.selectedItem[this.fields.title]) {
+        if (this.hasSelectedItem && n != this.selectedCard[this.fields.title]) {
           this.hasSelectedItem = false
         }
         this.focus = 0
@@ -272,6 +289,19 @@ export default {
     selectedFilters: {
       handler(n) {
         this.filterAndSearchCards()
+      }, deep: true
+    },
+    selectedItem: {
+      handler(n) {
+        if (n != undefined) {          
+          this.hasSelectedItem = true
+          this.listSearch = n[this.fields.title]
+        }
+        else {
+          this.hasSelectedItem = false
+          this.listSearch = ''
+        }
+        this.selectedCard = n
       }, deep: true
     }
   }
@@ -286,7 +316,7 @@ export default {
   left: 14px;
 }
 .search-input {
-  transition: all .3s ease;
+  transition: all .3s ease, padding-left 0s
 }
 .input-wrapper.item-selected .search-input {
   padding: 20px 40px 20px 52.5px;

@@ -9,6 +9,7 @@ import store from './store'
 import VueFuse from 'vue-fuse'
 import VuejsClipper from 'vuejs-clipper'
 import { SweetModal } from 'sweet-modal-vue'
+import PrettyCheckbox from 'pretty-checkbox-vue';
 
 /* ///////////////////////////////
 ///////SYNC FUSION IMPORTS////////
@@ -26,6 +27,9 @@ import { RichTextEditorPlugin } from "@syncfusion/ej2-vue-richtexteditor"
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import './assets/css/helpers.css'
+import './registerServiceWorker'
 
 // import { TabPlugin } from '@syncfusion/ej2-vue-navigations'
 
@@ -66,6 +70,7 @@ Vue.use(VModal)
 Vue.use(VueYoutube)
 Vue.use(VueFuse)
 Vue.use(SweetModal)
+Vue.use(PrettyCheckbox);
 // Vue.use(SimpleBar)
 
 /* eslint-disable no-new */

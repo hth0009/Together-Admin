@@ -51,7 +51,9 @@
           </div>
           <div class="panel">
             <h4 class="noselect">Skills</h4>
-            <div class="explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
+            <div class="explanation">Track your members talents with the skills feature. 
+              <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.
+            </div>
             <div class="skills noselect">
               <div class="skill" 
                 v-for="(skill, index) in skills"
@@ -196,7 +198,7 @@ export default {
       this.skills[index].confirmed = !this.skills[index].confirmed
     },
     recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         return
       }
       this.creatingNewItem = false
@@ -209,7 +211,7 @@ export default {
       this.selectedThreadID = -1;
       this.$router.push(`/app/staff/`)
 
-      this.creatingNewItem = !this.creatingNewItem
+      this.creatingNewItem = true;
     }
   },
   props: {

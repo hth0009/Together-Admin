@@ -3,7 +3,7 @@ import store from '../store'
 
 export default() => {
   var API = axios.create({
-    baseURL: `https://api.togetheradmin.com/v1/`,
+    baseURL: 'https://api.togetheradmin.com/v2/',
     headers: {
       'Authorization': `Bearer ${store.state.token}`,
       'Accept': 'application/json',
@@ -11,7 +11,7 @@ export default() => {
     }
   })
   // Checks credintials before every api call
-  // If the access token is expired to refresh token will get a new one
+  // If the access token is expired the refresh token will get a new one
   API.interceptors.request.use(config => {
     return store.dispatch('checkLogin').then(() => {
       return config

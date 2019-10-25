@@ -11,7 +11,7 @@ export default {
       // region: "us-east-2",
       credentials: new AWS.Credentials(accessKey, secretKey)
    })
-
+   
    
    var s3 = new AWS.S3()
    var params = {

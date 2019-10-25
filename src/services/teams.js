@@ -20,13 +20,8 @@ export default {
       {
         params: {
           churchUsername: `${churchUsername}`
-          // accountEmail: this.$store.state.user.username
         }
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      console.error(e)
-    })
+      })
   },
   getTeam (teamID) {
     return Api().get('teams',
@@ -35,26 +30,18 @@ export default {
           id: `${teamID}`
           // accountEmail: this.$store.state.user.username
         }
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      console.error(e)
-    })
+      })
   },
   postTeam (teamInfo) {
     return Api().post('teams', teamInfo)
   },
   patchTeam (teamInfo) {
-    return Api().patch('teams', teamInfo).then((response) => {
-      return response.data
-    }).catch((e) => {
-      console.error(e)
-    })
+    return Api().patch('teams', teamInfo)
   },
-  patchTeamValue (personID, valueKey, value) {
+  patchTeamValue (teamID, valueKey, value) {
     return Api().patch('teams', {
       "identifier":{
-        "id": `${personID}`
+        "id": `${teamID}`
       },
       "values": {
         [valueKey]: `${value}`
@@ -69,10 +56,6 @@ export default {
           "id": `${teamID}`
         }
       ]
-    }}).then((response) => {
-      return response
-    }).catch((e) => {
-      console.error(e)
-    })
+    }})
   }
 }
