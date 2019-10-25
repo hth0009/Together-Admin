@@ -82,7 +82,7 @@
         >this sunday</router-link>-->
       </transition-group>
       <div id="app-footer">
-        <div class="logout">
+        <div class="logout" v-show="$route.path == '/app/me'">
           <button @click="logout" class="gs-basic-button red">LOG OUT</button>
         </div>
         <!-- <div class="profiles">
@@ -183,7 +183,7 @@ export default {
           this.churchName = church.nickname
         })
         PeopleAPI.getPerson(this.$store.state.personID).then(result => {
-          this.profilePic = result.people[0].personImageThumbnailURL
+          this.profilePic = result.data.people[0].personImageThumbnailURL
         })
       }
     },

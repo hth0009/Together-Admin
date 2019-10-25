@@ -527,6 +527,7 @@ export default {
       this.getTeams();
     }
     this.getPeople();
+    this.recieveID(this.$route.params.id)
   },
 };
 </script>
