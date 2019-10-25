@@ -64,6 +64,10 @@ export default {
 @import "../node_modules/@syncfusion/ej2-vue-inplace-editor/styles/material.css";
 </style>
 
+<style lang="scss">
+@import '../node_modules/pretty-checkbox/src/pretty-checkbox.scss';
+</style>
+
 <style src="./assets/css/material.css"></style> 
 
 <style>

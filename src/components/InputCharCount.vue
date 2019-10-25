@@ -1,6 +1,6 @@
 <template>
   <div id="input-char-count-container">
-    {{input.length}} / {{maxNumOfCharsAllowed}}
+    {{input ? input.length : 0}} / {{maxNumOfCharsAllowed}}
   </div>
 </template>
 

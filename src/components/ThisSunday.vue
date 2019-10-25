@@ -7,6 +7,9 @@
     <sweet-modal icon="success" ref="itemCreated">
       <h3>{{newService.title}} created!!</h3>
     </sweet-modal>
+    <sweet-modal icon="success" ref="itemEdited">
+      <h3>{{newService.title}} edited!!</h3>
+    </sweet-modal>
     <div class="page-wrapper">
       <div class="page-card-wrapper">
         <cards
@@ -28,112 +31,135 @@
           @onAddNew="createNewItem"
         />
       </div>
-      <div class="selected-view" id="selected-view">
-        <div class="header">
-          <h3>Sunday</h3>
-        </div>
+      <div class="gs-app-selected-view" id="selected-view">
         <div class="details" v-if="selectedID != -1 && !creatingNewItem">
-          <div class="quick-actions">
-            <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
-            <button class="basic-button red" @click="deleteButtonClicked">
-              <i class="material-icons">delete</i>
-            </button>
-          </div>
-          <div class="panel gs-container vertical">
-            <div class="gs-buttons-right">
-              <button class="gs-basic-button" @click="startEdit" v-show="!editing">
-                <i class="material-icons">edit</i>EDIT
-              </button>
-              <button class="gs-basic-button red" @click="cancelEdit" v-show="editing">
-                <i class="material-icons">close</i>CANCEL
-              </button>
-              <button class="gs-basic-button" @click="saveEdit" v-show="editing">
-                <i class="material-icons">done</i>SAVE
-              </button>
+          <div class="panel gs-card-with-shadow gs-card-rise">
+            <div class="quick-actions">
+              <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
             </div>
-            <div class="image-croppa">
-              <croppa
-                v-model="photoCroppa"
-                canvas-color="transparent"
-                :disable-rotation="true"
-                :prevent-white-space="true"
-                :width="250"
-                :height="250"
-                :speed="10"
-                v-show="editing"
-              ></croppa>
-              <img
-                :src="selectedService.iconURL"
-                alt
-                srcset
-                class="this-sunday-image"
-                v-show="!editing"
-              />
-            </div>
-            <form action class id="this-sunday-form">
-              <div class="gs-form-group">
-                <label for>Title</label>
-                <input
-                  type="text"
-                  class="gs-basic-input large"
-                  placeholder="Add a title"
-                  required
-                  v-model="selectedService.title"
-                  :readonly="!editing"
+            <div class="panel gs-container vertical">
+              <div class="gs-buttons-right">
+                <button class="gs-basic-button" @click="startEdit" v-show="!editing">
+                  <i class="material-icons">edit</i>EDIT
+                </button>
+                <button class="gs-basic-button red" 
+                  @click="deleteButtonClicked"
+                  v-show="!editing"
+                ><i class="material-icons">delete</i>DELETE</button>
+                <button class="gs-basic-button red" @click="cancelEdit" v-show="editing">
+                  <i class="material-icons">close</i>CANCEL
+                </button>
+                <button class="gs-basic-button" @click="saveEdit" v-show="editing">
+                  <i class="material-icons">done</i>SAVE
+                </button>
+              </div>
+              <div class="image-croppa">
+                <croppa
+                  v-model="photoCroppa"
+                  canvas-color="transparent"
+                  :disable-rotation="true"
+                  :prevent-white-space="true"
+                  :width="250"
+                  :height="250"
+                  :speed="10"
+                  v-show="editing"
+                ></croppa>
+                <img
+                  :src="selectedService.iconURL"
+                  alt
+                  srcset
+                  class="this-sunday-image"
+                  v-show="!editing"
                 />
               </div>
-
-              <div class="gs-form-group">
-                <label for>Date</label>
-                <flat-pickr
-                  class="gs-basic-input"
-                  :config="datePickerConfig"
-                  :disabled='!editing'
-                  v-model="selectedService.date"
-                ></flat-pickr>
-              </div>
-
-              <div class="gs-form-group">
-                <label for>Times</label>
-                <div class="times">
-                  <input v-for="time in selectedService.times" v-model="time.time" :key="time.id" type="time" class="gs-basic-input time"
-                         placeholder="Time" required :readonly="!editing">
-                  <div class="gs-basic-button icon" formnovalidate v-show="editing"><i class="material-icons">add</i></div>
+              <form action class id="this-sunday-form">
+                <div class="gs-form-group">
+                  <label for>Title</label>
+                  <input
+                    type="text"
+                    class="gs-basic-input large"
+                    placeholder="Add a title"
+                    required
+                    v-model="selectedService.title"
+                    :readonly="!editing"
+                  />
                 </div>
+
+                <div class="gs-form-group">
+                  <label for>Date</label>
+                  <flat-pickr
+                    class="gs-basic-input"
+                    :config="datePickerConfig"
+                    :disabled='!editing'
+                    v-model="selectedService.date"
+                  ></flat-pickr>
+                </div>
+
+                <div class="gs-form-group">
+                  <label for>Times</label>
+                  <div class="times">
+                    <input v-for="time in selectedService.times" v-model="time.time" :key="time.id" type="time" class="gs-basic-input time"
+                          placeholder="Time" required :readonly="!editing">
+                    <div class="gs-basic-button icon" formnovalidate v-show="editing"><i class="material-icons">add</i></div>
+                  </div>
+                </div>
+                <div class="gs-form-group">
+                  <label for="">Speaker</label>
+                  <div class="guest-speaker-checkbox" v-show="editing">
+                    <p-check class="p-default p-round p-smooth" color="primary"
+                      v-model="hasGuestSpeaker"
+                    >
+                      Guest Speaker                      
+                    </p-check>
+                  </div>
+                  <div v-show="!hasGuestSpeaker">
+                    <dropdown
+                      :inputCSSClass="'gs-basic-input'"
+                      :items="people"
+                      :readonly="!editing"
+                      :fields="{
+                        title: 'fullName',
+                        id: 'id', 
+                        profile: 'personImageThumbnailURL'
+                      }"                   
+                      :selectedItem="selectedService.person"
+                      @selected="onSpeakerSelected"
+                    />
+                  </div>
+                  <div v-show="hasGuestSpeaker">
+                    <input type="text" class="gs-basic-input" placeholder="Input Speaker's Name" required
+                      v-model="selectedService.speakerName"
+                      :readonly="!editing">
+                  </div>
+                </div>
+                <div class="gs-form-group">
+                  <label for>Description</label>
+                  <textarea
+                    type="text"
+                    class="gs-basic-input"
+                    placeholder="Add Description"
+                    rows="10"
+                    required
+                    v-model="selectedService.description"
+                    :readonly="!editing"
+                  ></textarea>
+                </div>
+              </form>              
+              <div class="gs-buttons-right">         
+              <button class="gs-basic-button red"
+                @click="cancelEdit"
+                v-show="editing"
+              ><i class="material-icons">close</i>CANCEL</button>
+              <button class="gs-basic-button"
+                @click="saveEdit"
+                v-show="editing"
+              ><i class="material-icons">done</i>SAVE</button>
               </div>
-              <div class="gs-form-group">
-                <label for="">Speaker</label>
-                <dropdown
-                  :inputCSSClass="'gs-basic-input'"
-                  :items="people"
-                  :readonly="!editing"
-                  :fields="{
-                    title: 'fullName',
-                    id: 'id', 
-                    profile: 'personImageThumbnailURL'
-                  }"
-                />      
-                <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
-                  v-model="selectedService.speakerName"
-                  :readonly="!editing"> -->
-              </div>
-              <div class="gs-form-group">
-                <label for>Description</label>
-                <textarea
-                  type="text"
-                  class="gs-basic-input"
-                  placeholder="Add Description"
-                  rows="10"
-                  required
-                  v-model="selectedService.description"
-                  :readonly="!editing"
-                ></textarea>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
         <div class="details" v-if="creatingNewItem">
-          <div class="panel gs-container vertical">
+          <div class="panel gs-card-with-shadow gs-card-rise">
             <h5>Create New Service</h5>
             <div class="image-croppa">
               <croppa
@@ -187,27 +213,32 @@
               </div>
               <div class="gs-form-group">
                 <label for="">Speaker</label>                
-                <dropdown
-                  :inputCSSClass="'gs-basic-input'"
-                  :items="people"
-                  :fields="{
-                    title: 'fullName',
-                    id: 'id', 
-                    profile: 'personImageThumbnailURL'
-                  }"
-                />   
+                <div class="guest-speaker-checkbox">
+                  <p-check class="p-default p-round p-smooth" color="primary"
+                    v-model="hasGuestSpeaker"
+                  >
+                    Guest Speaker
+                  </p-check>
+                </div>
+                <div v-show="!hasGuestSpeaker">
+                  <dropdown
+                    :inputCSSClass="'gs-basic-input'"
+                    :items="people"
+                    :fields="{
+                      title: 'fullName',
+                      id: 'id', 
+                      profile: 'personImageThumbnailURL'
+                    }"                   
+                    :selectedItem="newServicePerson"
+                    @selected="onSpeakerSelectedNewService"
+                  />
+                </div>
+                <div v-if="hasGuestSpeaker">
+                  <input type="text" class="gs-basic-input" placeholder="Input Speaker's Name" required
+                    v-model="newService.speakerName">
+                </div>
                 <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
                   v-model="newService.speakerName"> -->
-              </div>
-              <div class="gs-form-group">
-                <label for>Day</label>
-                <input
-                  type="text"
-                  class="gs-basic-input"
-                  placeholder="Change Time"
-                  required
-                  v-model="newService.speakerName"
-                />
               </div>
               <div class="gs-form-group">
                 <label for>Description</label>
@@ -282,7 +313,9 @@ export default {
         altInput: true
       },
       editing: false,
-      people: []
+      people: [],
+      hasGuestSpeaker: false,
+      newServicePerson: undefined
     }
   },
   computed: {
@@ -317,6 +350,12 @@ export default {
       this.recieveID(item.id);
       this.selectedService = item;
       this.selectedService.date = moment(item.date, 'YYYY-MM-DD').format();
+      if (!!this.selectedService.speakerName) {
+        this.hasGuestSpeaker = true
+      }
+      else {
+        this.hasGuestSpeaker = false
+      }
     },
     async recieveID(id) {
       if (!id) {
@@ -333,6 +372,13 @@ export default {
       this.setCreatingNewItem(false);
 
       this.selectedID = id;
+    },
+    onSpeakerSelected(person) {
+      this.selectedService.person = person
+    },
+    onSpeakerSelectedNewService(person) {
+      this.newService.speakerID = person.id
+      this.newServicePerson = person
     },
     async uploadImage() {
       const { accessKeyID, secretAccessKey } = this.cdnKeys;
@@ -378,13 +424,27 @@ export default {
     },
     async editService() {
       this.selectedService.times = this.selectedService.times.map((timeObj) => {return {time: timeObj.time.substring(0,5)}})
-      this.patchService(this.selectedService)
+      if (this.hasGuestSpeaker) {
+        this.patchService(this.selectedService, false)
+      }
+      else {        
+        this.selectedService['speakerID'] = this.selectedService.person.id
+        this.selectedService.speakerName = ''
+        this.patchService(this.selectedService, true)
+      }
     },
     async postService(service) {
       this.$root.$emit("loading", true);
       const serviceToPost = await this.getFormattedService(service);
 
       let postServiceRes;
+
+      if (this.hasGuestSpeaker) {
+        this.newService.speakerID = null
+      }
+      else {
+        this.newService.speakerName = null
+      }
       try {
         postServiceRes = await Services.postService(serviceToPost)
 
@@ -402,12 +462,17 @@ export default {
         this.$root.$emit("loading", false);
       }
     },
-    async patchService(service) {
+    async patchService(service, hasSpeakerID) {
       this.$root.$emit("loading", true);
       const serviceToPatch = await this.getFormattedService(service);
       try {
-        await Services.patchService(serviceToPatch.id, serviceToPatch);
-        this.$refs.itemCreated.open();
+        if (hasSpeakerID) {
+          await Services.patchServiceWithSpeakerID(serviceToPatch.id, serviceToPatch);
+        }
+        else {
+          await Services.patchService(serviceToPatch.id, serviceToPatch);
+        }
+        this.$refs.itemEdited.open();
       }
       catch(error) {
         return;
@@ -544,6 +609,13 @@ export default {
 }
 #this-sunday-form .times .gs-basic-button {
   margin-bottom: 5px;
+}
+.guest-speaker-checkbox{
+  margin: .5rem 0px;
+}
+.guest-speaker-checkbox >>> .p-primary label::before,
+.guest-speaker-checkbox >>> .p-primary label::after{
+  margin-top: 2px;
 }
 
 /* //////////////////////////
