@@ -8,5 +8,8 @@ export default {
         username: `${churchUsername}`,
       }
     })
+  },
+  patchChurch (churchInfo) {
+    return Api().patch('churches', churchInfo)
   }
 }

@@ -65,7 +65,7 @@
           backgroundImage: card[fields.photoHeader] != undefined ? 'url(' + card[fields.photoHeader] + ')' : '',          
           color: card['color'] != undefined ? card['color'] : ''
         }"
-        @click="selectCard(card['id'], card)">
+        @click="selectCard(card[fields.id], card)">
           <!-- <div v-if="card['superscript']" class="superscript">{{card['superscript']}}</div> -->
           <avatar
             v-if="!noProfile"

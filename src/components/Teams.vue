@@ -523,10 +523,10 @@ export default {
   },
   props: {},
   mounted() {
-    if(this.teams.length < 1) {
-      this.getTeams();
-    }
-    this.getPeople();
+    this.loading = true
+    this.getTeams()
+    this.getPeople()
+    this.recieveID(this.$route.params.id)
   },
 };
 </script>

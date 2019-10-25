@@ -5,6 +5,18 @@
         <div id="me-myself" class="panel gs-container vertical">
           <div class="header">
             <div class="profile-pic">
+              <div class="image-croppa">
+                <croppa v-model="photoCroppa"
+                  canvas-color="transparent"
+                  :disable-rotation="true"
+                  :prevent-white-space="true"
+                  :width="100"
+                  :height="100"
+                  :speed="10"
+                  v-show="editing"
+                  style="border-radius:100%;overflow:hidden;opacity:0.6;position:absolute"
+                ></croppa>
+              </div>
               <avatar :height="100" :url="me.personImageThumbnailURL" :title="me.fullName" />
             </div>
             <h3>{{me.firstName + ' ' + me.lastName}}</h3>
@@ -27,11 +39,11 @@
           <form id="me-form">
             <div class="gs-form-group">
               <label>Email</label>
-              <input type="text" class="gs-basic-input" readonly v-model="me.accountEmail" />
+              <input type="text" class="gs-basic-input" readonly placeholder="Email Address" v-model="me.contactEmail" />
             </div>
             <div class="gs-form-group">
               <label>Birthday</label>
-              <input type="text" class="gs-basic-input" readonly v-model="me.birthday" />
+              <input type="text" class="gs-basic-input" readonly placeholder="Birthday" v-model="me.birthday" />
             </div>
             <div class="gs-form-group">
               <label>Home Address</label>
@@ -66,20 +78,26 @@
           </form>
         </div>
         <div id="me-orgs-teams">
-          <h1>Organizations</h1>
           <div class="panel gs-container vertical">
-            <div class="header">
-              <div class="profile-pic">
-                <avatar :height="80" :url="me.personImageThumbnailURL" :title="me.fullName" />
-              </div>
-              <h3>Church of {{me.firstName}}</h3>
-              <div class="subtitle" v-if="!!me.account">Filler Content</div>
-            </div>
-            <div class="gs-buttons-right">
-              <button class="gs-basic-button red">LEAVE</button>
-            </div>
+            <h1 class="gs-card-header">Organizations</h1>
+            <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :hasButtonOnCard="false"
+                  :alphabetical="true"
+                  :emptyMessage="'Not in any organizations'"
+                  :cardList="myOrgs"
+                  :cardSelectable="false"
+                  profilePicFillerValue="orgName"
+                  :hasSearch="false"
+                  :fields="{
+                    title: 'orgName',
+                    profile: 'orgIconURL',
+                    id: 'orgID',
+                  }"
+                />
           </div>
-          <h1>Teams</h1>
           <div class="panel gs-container vertical">
             <div class="header">
               <div class="profile-pic">
@@ -103,19 +121,24 @@
           </div>
         </div>
       </div>
-      <div class="logout">
-        <button @click="logout" class="gs-basic-button red">LOG OUT</button>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Store from "../store";
-import People from "../services/people";
-import Church from "../services/church";
-import Teams from "../services/teams";
-import Avatar from "../components/Avatar";
+import Store from "../store"
+import People from "../services/people"
+import Church from "../services/church"
+import Teams from "../services/teams"
+import Avatar from "../components/Avatar"
+import Cards from '@/components/CardList'
+import Croppa from 'vue-croppa'
+import 'vue-croppa/dist/vue-croppa.css'
+import CDN from '@/services/cdn'
+import Vue from 'vue'
+import { checkIfObjNotFilled, generateGUID, getYYYYMMDD } from '../utils/helpers'
+Vue.use(Croppa)
+
 export default {
   name: "Me",
   data() {
@@ -127,42 +150,83 @@ export default {
     };
   },
   components: {
-    Avatar
+    Avatar,
+    Cards
   },
   methods: {
-    logout() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push("/login")
-        console.log("logged out")
-      });
-    },
     async getMe() {
       People.getPerson(Store.state.personID).then(response => {
         this.me = response.data.people[0]
+        this.myTeams = response.data.people[0].teamsPeople.map((aTeam) => ({
+          teamName: aTeam.team.name,
+          teamIconURL: aTeam.team.iconURL,
+          isLeader: aTeam.isLeader,
+          teamID: aTeam.teamID
+        }))
       })
       Church.getChurch(Store.state.churchUsername).then(response => {
-        this.myOrgs = response.data.churches[0]
+        this.myOrgs = response.data.churches.map((aOrg) => ({
+          orgName: aOrg.name,
+          orgIconURL: aOrg.churchImageURL,
+          orgID: aOrg.id
+        }))
       })
     },
-    async getMyTeams() {
-      const response = await Teams.getTeamsByID(Store.state.personID)
-      console.log(response)
-      // this.myTeams = response["team(s)"];
+    async saveEdit() {      
+      this.editing = false 
+      var patch = {
+        "identifier":{
+          "id": Store.state.personID
+        },
+        "values": {
+          homeAddress: this.me.homeAddress,
+          mailingAddress: this.me.mailingAddress,
+          phoneNumber: this.me.phoneNumber
+        }
+      }
+      if (this.photoCroppa.hasImage()) {        
+        await CDN.getKeys().then(response => {
+          this.cdnKeys = response.data
+        })
+        var profilePic = await this.uploadProfilePic()
+        profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/ProfilePics/' + profilePic : ''
+        patch['values']['personImageURL'] = profilePic
+        patch['values']['personImageThumbnailURL'] = profilePic
+      }
+      People.patchPerson(patch).then(() => {
+        this.getMe()
+      })
     },
     startEdit() {
       this.editing = true
     },
     cancelEdit() {
       this.editing = false
+    },    
+    async uploadProfilePic() {
+      const { accessKeyID, secretAccessKey } = this.cdnKeys
+      const fileSufix = 'ProfilePics/'
+      var fileName = generateGUID() + '.jpg'
+      
+      if (!this.photoCroppa.hasImage()) {
+        return
+      }
+      var blob = await this.photoCroppa.promisedBlob('image/jpeg')
+      var arrayBuffer = await new Response(blob).arrayBuffer();  
+      await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileSufix, fileName).catch(error => {
+        console.log(error)
+        fileName = ''
+      })
+      return fileName
     },
-    saveEdit() {
-      this.editing = false
+    recieveID(id) {
+      this.$router.push(`/app/teams/${id}`)
     }
   },
   props: {},
   mounted() {
     this.getMe()
-    this.getMyTeams()
+    // this.getMyTeams()
   },
   computed: {}
 };
@@ -183,13 +247,14 @@ export default {
   margin-left: 10px;
   font-size: 16px;
 }
-#me-orgs-teams h1 {
-  margin-left: 12px;
-}
 #me-wrapper {
   display: grid;
   align-items: start;
   grid-template-columns: repeat(auto-fit, minmax(350px, 525px));
+}
+#selected-view {
+  height: 100vh;
+  overflow-y: auto;
 }
 #selected-view #me-orgs-teams .header {
   margin: 0;
@@ -207,6 +272,7 @@ export default {
 }
 .me-container {
   height: 100%;
+  overflow: hidden;
 }
 .me-wrapper {
   display: grid;
