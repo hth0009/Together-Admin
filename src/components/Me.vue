@@ -79,6 +79,16 @@
         </div>
         <div id="me-orgs-teams">
           <div class="panel gs-container vertical">
+            <div class="header">
+              <div class="profile-pic">
+                <avatar :height="80" :url="me.personImageThumbnailURL" :title="me.fullName" />
+              </div>
+              <h3>Church of {{me.firstName}}</h3>
+              <div class="subtitle" v-if="!!me.account">Filler Content</div>
+            </div>
+            <div class="gs-buttons-right">
+              <button class="gs-basic-button red">LEAVE</button>
+            </div>
             <h1 class="gs-card-header">Organizations</h1>
             <cards
                   :hasShadow="false"
@@ -118,6 +128,25 @@
             </div>
             <div class="gs-buttons-right">
             </div>
+            <h1 class="gs-card-header">Teams</h1>
+            <cards
+                  :hasShadow="false"
+                  :loading="false"
+                  :inline="true"
+                  :hasButtonOnCard="false"
+                  :alphabetical="true"
+                  :emptyMessage="'Not in any teams'"
+                  :cardList="myTeams"
+                  :cardSelectable="true"
+                  @selected="recieveID"
+                  profilePicFillerValue="teamName"
+                  :hasSearch="false"
+                  :fields="{
+                    title: 'teamName',
+                    profile: 'teamIconURL',
+                    id: 'teamID',
+                  }"
+                />
           </div>
         </div>
       </div>

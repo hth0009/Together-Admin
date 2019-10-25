@@ -371,13 +371,11 @@ export default {
   name: "People",
   data() {
     return {
-      searchQuery: "",
-      gridColumns: ["profile", "name"],
-      columnType: { profile: "profile", name: "text" },
-      people: [],
-      peopleLoading: false,
-      peopleSearch: "",
-      selectedID: "",
+      searchQuery: '',
+      gridColumns: ['profile', 'name'],
+      columnType: {profile: 'profile', name: 'text'},
+      peopleSearch: '',
+      selectedID: '',
       selectedPerson: {},
       selectedPersonTeams: [],
       creatingNewItem: false,
@@ -399,13 +397,32 @@ export default {
     Avatar,
     StaticHeader
   },
+  computed: {
+    ...mapState ('people', ['people', 'loading']),
+    formatedPeople() {
+      var people = Array(this.people.length);
+      for (let index = 0; index < this.people.length; index++) {
+        const person = this.people[index];
+        const newPerson = {
+          id: person.id,
+          profile: person.personImageThumbnailURL,
+          title: person.firstName + " " + person.lastName,
+          subtext:
+            person.account !== null && person.account.username != ""
+              ? "@" + person.account.username
+              : ""
+          // profile: thread.threadImageThumbnailURL,
+          // profile: this.profiles[index % 4],
+        };
+        people[index] = newPerson;
+      }
+      return people;
+    }
+  },
   methods: {
-    async getPeople() {
-      const response = await People.getPeople().then(response => {
-        this.people = response.data["people"];
-      });
-    },
-    async getPerson() {
+    ...mapMutations ('people', ['setPeople', 'setLoading']),
+    ...mapActions ('people', ['getPeople']),
+    async getPerson () {
       People.getPerson(this.selectedID).then(response => {
         this.selectedPerson = response.data.people[0];
         this.selectedPersonTeams = response.data.people[0].teamsPeople.map(
@@ -448,9 +465,9 @@ export default {
       Skills.patchSkill(skillID, isConfirmed);
     },
     recieveID(id) {
-      if (id == undefined) {
-        this.selectedPerson = {};
-        return;
+      if (!id) {
+        this.selectedPerson = {}
+        return
       }
       if (id == "-1") {
         this.selectedID = id;
@@ -469,7 +486,7 @@ export default {
       this.selectedThreadID = -1;
       this.$router.push(`/app/people/`);
 
-      this.creatingNewItem = !this.creatingNewItem;
+      this.creatingNewItem = true;
     },
     async saveEdit() {      
       this.editing = false 
@@ -522,36 +539,16 @@ export default {
       this.$router.push(`/app/teams/${id}`)
     }
   },
-  props: {},
-  mounted() {
-    this.peopleLoading = true;
-    this.recieveID(this.$route.params.id);
-    this.getPeople().then(() => {
-      this.peopleLoading = false;
-    });
+  props: {
   },
-  computed: {
-    formatedPeople() {
-      var people = Array(this.people.length);
-      for (let index = 0; index < this.people.length; index++) {
-        const person = this.people[index];
-        const newPerson = {
-          id: person.id,
-          profile: person.personImageThumbnailURL,
-          title: person.firstName + " " + person.lastName,
-          subtext:
-            person.account !== null && person.account.username != ""
-              ? "@" + person.account.username
-              : ""
-          // profile: thread.threadImageThumbnailURL,
-          // profile: this.profiles[index % 4],
-        };
-        people[index] = newPerson;
-      }
-      return people;
+  mounted() {    
+    if(this.people.length < 1) {
+      this.getPeople();
     }
-  }
-};
+    this.recieveID(this.$route.params.id)
+  },
+  
+}
 </script>
 
 <style>
