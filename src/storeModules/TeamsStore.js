@@ -8,7 +8,9 @@ export const TeamsModule = {
     creatingNewItem: false,
   },
   mutations: {
-    setTeams (state, payload) { state.teams = payload.teams; },
+    setTeams (state, payload) { 
+      state.teams = payload.teams; 
+    },
     setLoading (state, loading) { state.loading = loading; },
     setCreatingNewItem (state, creatingNewItem) { state.creatingNewItem = creatingNewItem; },
   },
