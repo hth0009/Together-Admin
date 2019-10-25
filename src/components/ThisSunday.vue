@@ -13,7 +13,7 @@
           v-model="selectedID"
           :loading="loading"
           :noProfile="true"
-          :cardList="$store.state.thisSunday.services"
+          :cardList="services"
           :profilePicFillerValue="'name'"
           :emptyMessage="'No Events Scheduled Yet'"
           :hasDates="true"
@@ -169,7 +169,7 @@
                 <label for>Times</label>
                 <div class="times">
                   <div v-for="(time, index) in newService.serviceTimes" :key="index" class="time">
-                    <div class="delete-time noselect" @click="deleteTime(index)">
+                    <div class="delete-time noselect" @click="deleteTimeFromNewService(index)">
                       <i class="material-icons">close</i>
                     </div>
                     <input
@@ -180,7 +180,7 @@
                       required
                     />
                   </div>
-                  <div class="gs-basic-button icon" formnovalidate @click="addTime">
+                  <div class="gs-basic-button icon" formnovalidate @click="addTimeToNewService">
                     <i class="material-icons">add</i>
                   </div>
                 </div>
@@ -246,6 +246,8 @@ import { getHHMM, getDayOfWeekMonthDay, getThisSunday } from '../utils/helpers'
 import Cards from '@/components/CardList'
 import Dropdown from '@/components/CardDropdown'
 
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
+
 import Vue from 'vue'
 Vue.use(Croppa)
 
@@ -268,10 +270,6 @@ export default {
   name: "ThisSunday",
   data() {
     return {
-      loading: true,
-      creatingNewItem: false,
-      // services: [],
-      newService: {},
       selectedID: -1,
       selectedService: {},
       beforeEditedService: {},
@@ -287,20 +285,30 @@ export default {
       people: []
     }
   },
+  computed: {
+    ...mapState('thisSunday', ['services', 'loading', 'creatingNewItem', 'newService']),
+  },
   components: {    
     flatPickr, Cards, SweetModal, Dropdown
   },
   methods: {
+    ...mapMutations('thisSunday', [
+      'setServices',
+      'setLoading',
+      'setCreatingNewItem',
+      'setNewService',
+      'addTimeToNewService',
+      'deleteTimeFromNewService'
+    ]),
+    ...mapActions('thisSunday', ['getServices']),
+
     async createNewItem() {
       this.selectedID = -1;
-      this.$router.push(`/app/this-sunday/`);
+      this.$router.push('/app/this-sunday/');
 
-      this.creatingNewItem = true;;
-      this.newService = { ...newServiceTemplate };
+      this.setCreatingNewItem(true);
+      this.setNewService({ ...newServiceTemplate })
       if (this.creatingNewItem) {
-        // CDN.getKeys().then(response => {
-        //   this.cdnKeys = response.data;
-        // });
         const cdnKeys = await CDN.getKeys();
         this.cdnKeys = cdnKeys.data;
       }
@@ -322,7 +330,7 @@ export default {
 
       this.$router.push(`/app/this-sunday/${id}`);
 
-      this.creatingNewItem = false;
+      this.setCreatingNewItem(false);
 
       this.selectedID = id;
     },
@@ -356,20 +364,9 @@ export default {
         }.bind(this)
       );
     },
-    addTime() {
-      this.newService.serviceTimes.push({ time: "12:00:00" });
-    },
-    deleteTime(index) {
-      this.newService.serviceTimes.splice(index, 1);
-      // this.newService.serviceTimes.push([{ "time": ""}])
-    },
+    
     deleteButtonClicked() {
       this.$refs.deleteItemModal.open();
-    },
-    async getServices() {
-      this.loading = true;
-      await this.$store.dispatch('thisSunday/getServices');
-      this.loading = false;
     },
     getPeople() {
       People.getPeople().then(response => {        
@@ -377,7 +374,7 @@ export default {
       })
     },
     async createService() {
-      this.postService(this.newService)
+      this.postService(this.newService);
     },
     async editService() {
       this.selectedService.times = this.selectedService.times.map((timeObj) => {return {time: timeObj.time.substring(0,5)}})
@@ -387,8 +384,10 @@ export default {
       this.$root.$emit("loading", true);
       const serviceToPost = await this.getFormattedService(service);
 
+      let postServiceRes;
       try {
-        await Services.postService(serviceToPost)
+        postServiceRes = await Services.postService(serviceToPost)
+
         this.$refs.itemCreated.open();
       }
       catch(error) {
@@ -396,6 +395,10 @@ export default {
       }
       finally {
         await this.getServices()
+        if(postServiceRes) {
+          service.id = postServiceRes.data.newResourceID;
+          this.recieveItem(service);
+        }
         this.$root.$emit("loading", false);
       }
     },
@@ -461,21 +464,19 @@ export default {
     }
   },
   props: {},
-  mounted() {
-    if(this.$store.state.thisSunday.services.length < 1) {
-      this.getServices();
+  async mounted() {
+    if(this.services.length < 1) {
+      await this.getServices();
     } 
     else {
-      this.loading = false;
+      this.setLoading(false);
     }
-    this.getPeople();
+    await this.getPeople();
     if(this.$route.params.id) {
-      this.recieveID(this.$route.params.id);
+      const selectedService = this.services.find(service => service.id.toString() === this.$route.params.id);
+      this.recieveItem(selectedService);
     }
   },
-  computed: {
-
-  }
 };
 </script>
 

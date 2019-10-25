@@ -5,6 +5,7 @@
         id="together-badge"
         src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"
       />
+      <div id="mvp-tag">MVP</div>
       <div id="router-links">
         <!-- <h1 id="product">Product</h1>
           <h1 id="pricing">Pricing</h1>
@@ -89,6 +90,14 @@ export default {
 #together-badge {
   order: 0;
   height: 40px;
+}
+#mvp-tag {
+  color: white;
+  background-color: darkslategray;
+  padding: 4px;
+  font-size: .5em;
+  font-weight: 500;
+  border-radius: 6px;
 }
 #signup-login {
   flex-grow: 1;

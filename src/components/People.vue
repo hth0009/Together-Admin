@@ -5,7 +5,7 @@
         :class="{'inactive': selectedID != ''}">        
         <cards
           :cardList="formatedPeople"
-          :loading="peopleLoading"
+          :loading="loading"
           :selectedID="selectedID + ''"
           :hasAddNew="false"
           :alphabetical="true"
@@ -268,7 +268,7 @@ marked.setOptions({
 })
 const DOMPurify  = require('dompurify');
 
-// import store from '../store'
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'People',
@@ -277,8 +277,6 @@ export default {
       searchQuery: '',
       gridColumns: ['profile', 'name'],
       columnType: {profile: 'profile', name: 'text'},
-      people: [],
-      peopleLoading: false,
       peopleSearch: '',
       selectedID: '',
       selectedPerson: {},
@@ -294,12 +292,25 @@ export default {
     VueTable, Cards, CustomRadio, Container, Draggable, Avatar,
     StaticHeader
   },
-  methods: {
-    async getPeople () {
-      const response = await People.getPeople().then(response => {        
-        this.people = response.data['people']
+  computed: {
+    ...mapState ('people', ['people', 'loading']),
+
+    formatedPeople() {
+      return this.people.map(person => {
+        return {
+          id: person.id,
+          profile: person.personImageThumbnailURL,
+          title: person.firstName + ' ' + person.lastName,
+          subtext: person.account !== null && person.account.username != '' ? '@' + person.account.username : ''
+          // profile: thread.threadImageThumbnailURL,          
+          // profile: this.profiles[index % 4],
+        }
       })
-    },
+    }
+  },
+  methods: {
+    ...mapMutations ('people', ['setPeople', 'setLoading']),
+    ...mapActions ('people', ['getPeople']),
     async getPerson () {
       var response = await People.getPerson(this.selectedID)
       this.selectedPerson = response.data['people'][0]
@@ -361,28 +372,12 @@ export default {
   props: {
   },
   mounted() {    
-    this.peopleLoading = true
-    this.recieveID(this.$route.params.id)
-    this.getPeople().then(() => {this.peopleLoading = false})
-  },
-  computed: {
-    formatedPeople() {
-      var people = Array(this.people.length)
-      for (let index = 0; index < this.people.length; index++) {
-        const person = this.people[index];
-        const newPerson = {
-          id: person.id,
-          profile: person.personImageThumbnailURL,
-          title: person.firstName + ' ' + person.lastName,
-          subtext: person.account !== null && person.account.username != '' ? '@' + person.account.username : ''
-          // profile: thread.threadImageThumbnailURL,          
-          // profile: this.profiles[index % 4],
-        }
-        people[index] = (newPerson)
-      }
-      return people
+    if(this.people.length < 1) {
+      this.getPeople();
     }
-  }
+    this.recieveID(this.$route.params.id)
+  },
+  
 }
 </script>
 

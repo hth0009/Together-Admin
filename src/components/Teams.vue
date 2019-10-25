@@ -281,6 +281,7 @@ import Dropdown from '@/components/CardDropdown'
 import Padlock from '@/components/Padlock'
 import InputCharCount from '@/components/InputCharCount';
 
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 import Vue from "vue";
 Vue.use(Croppa);
 
@@ -312,9 +313,6 @@ export default {
   name: "Teams",
   data() {
     return {
-      loading: true,
-      creatingNewItem: false,
-      teams: [],
       newTeam: {},
       selectedID: -1,
       selectedTeam: {},
@@ -333,10 +331,21 @@ export default {
       people: []
     };
   },
+  computed: {
+    ...mapState('teams', ['teams', 'loading', 'creatingNewItem']),
+  },
   components: {    
     flatPickr, Cards, SweetModal, Dropdown, Padlock, InputCharCount
   },
   methods: {
+    ...mapMutations('teams', [
+      'setTeams',
+      'setLoading',
+      'setCreatingNewItem'
+    ]),
+    ...mapActions('teams', ['getTeams']),
+
+
     recieveID(id) {
       if (!id) {
         return;
@@ -344,7 +353,7 @@ export default {
       if (this.selectedID !== id) {
         // this.selectedTeam = {}
       }
-      if (id === "-1") {
+      if (id === -1) {
         this.selectedID = id;
         this.$router.push(`/app/teams/`);
         return;
@@ -366,7 +375,7 @@ export default {
       if(!this.creatingNewItem) {
         this.teams.push(this.newTeam);
       }
-      this.creatingNewItem = true;
+      this.setCreatingNewItem(true);
 
       let getKeysRes = await CDN.getKeys();
       this.cdnKeys = getKeysRes.data;
@@ -376,7 +385,7 @@ export default {
       const getTeamRes = await Teams.getTeam(id);
       const team = getTeamRes.data.teams[0];
       this.selectedTeam = team;
-      this.selectedTeam.leaders = team.leaders[0] != undefined ? team.leaders : [{}];
+      this.selectedTeam.leaders = team.leaders.length > 0 ? team.leaders : [{}];
 
       // this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
       //   fullName: member.firstName + ' ' + member.lastName,
@@ -401,12 +410,11 @@ export default {
     },
     async deleteItem() {
       this.$refs.deleteItemModal.close();
-      Teams.deleteTeam(this.selectedID).then(
-        function(response) {
-          this.recieveID(-1);
-          this.getTeams();
-        }.bind(this)
-      );
+      Teams.deleteTeam(this.selectedID)
+      .then(() => {
+        this.recieveID(-1);
+        this.getTeams();
+      });
     },
     onLeaderSelected(item) {
       // console.log(item)
@@ -420,12 +428,6 @@ export default {
     },
     deleteButtonClicked() {
       this.$refs.deleteItemModal.open();
-    },
-    getTeams() {
-      return Teams.getTeamsByChurch().then(response => {
-        this.teams = response.data.teams;
-        this.loading = false;
-      });
     },
     getPeople() {
       People.getPeople().then(response => {
@@ -452,6 +454,7 @@ export default {
       };
 
       let postedTeam = await Teams.postTeam(newTeam);
+      this.setCreatingNewItem(false);
       this.$refs.itemCreated.open();
       await this.getTeams();
       await this.recieveID(postedTeam.data.newResourceID);
@@ -514,17 +517,17 @@ export default {
       this.getTeam(this.selectedID);
     },
     cancelCreatingNewItem() {
-      this.creatingNewItem = false;
+      this.setCreatingNewItem(false);
       this.teams.pop();
     }
   },
   props: {},
   mounted() {
-    this.loading = true;
-    this.getTeams();
+    if(this.teams.length < 1) {
+      this.getTeams();
+    }
     this.getPeople();
   },
-  computed: {}
 };
 </script>
 

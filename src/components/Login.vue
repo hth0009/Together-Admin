@@ -6,13 +6,16 @@
       <form v-on:submit.prevent="login">
         <label for="username">username:</label>
         <input v-model="username" type="username" name="username" required placeholder="username">
-        <br>
-        <label for="password">password:</label>
-        <input v-model="password" type="password" name="password" required placeholder="password" autocomplete="password">
-        <br>
+        <div>
+          <label for="password">password:</label>
+          <input v-model="password" :type="passwordType" name="password" required placeholder="password" autocomplete="password">
+          <i class="material-icons" id="password-eye-icon" @click="showPassword = !showPassword">
+            {{showPassword ? 'visibility' : 'visibility_off'}}
+          </i>
+        </div>
         <button class="gs-basic-button">ENTER</button>
       </form>      
-      <!-- <a @click="forgotPassword" id="forgot-password">forgot password?</a> -->
+      <!-- <a @click="forgotPassword" id="forgot-password">Forgot password?</a> -->
       <inline-loader v-show="loggingIn"></inline-loader>
     </div>    
     <div id="wrong-username-password" class="error" v-show="hasWrongUsernamePassword">
@@ -29,12 +32,15 @@
 import InlineLoader from '@/components/InlineLoader'
 import {AuthenticationDetails, CognitoUserPool, CognitoUser} from 'amazon-cognito-identity-js'
 
+import {mapActions} from 'vuex';
+
 export default {
   name: 'Login',
   data () {
     return {
       username: '',
       password: '',
+      showPassword: false,
       hasWrongUsernamePassword: false,
       userNotFound: false,
       loggingIn: false
@@ -44,14 +50,15 @@ export default {
     InlineLoader
   },
   methods: {
-    login: function () {
+    ...mapActions({storeLogin :'login'}),
+    login () {
       this.resetErrors()
       
       this.loggingIn = true
 
-      const {lowerCaseUsername, password} = this
-      const username = lowerCaseUsername
-      this.$store.dispatch('login', { username, password })
+      const username = this.lowerCaseUsername;
+      // this.$store.dispatch('login', { username, password });
+      this.storeLogin({username, password: this.password})
       .then(() => this.$router.push('/app/people'))
       .catch(err => {
         if (err.code == "NotAuthorizedException") {
@@ -66,21 +73,21 @@ export default {
     },
     forgotPassword() {      
       const {lowerCaseUsername, password} = this
-      var authenticationData = {
+      const authenticationData = {
         Username: lowerCaseUsername,
         Password: password
       }
-      var authenticationDetails = new AuthenticationDetails(authenticationData)
-      var poolData = {
+      const authenticationDetails = new AuthenticationDetails(authenticationData)
+      const poolData = {
         UserPoolId: 'us-east-2_th6kgbG7W',
         ClientId: '40ljk2uqsfr2rhuqascb564rlq'
       }
-      var userPool = new CognitoUserPool(poolData)
-      var userData = {
+      const userPool = new CognitoUserPool(poolData)
+      const userData = {
         Username: lowerCaseUsername,
         Pool: userPool
       }
-      var cognitoUser = new CognitoUser(userData)
+      const cognitoUser = new CognitoUser(userData)
       cognitoUser.forgotPassword({
         onSuccess: function (result) {
           console.log('call result: ' + result);
@@ -103,6 +110,9 @@ export default {
   computed: {
     lowerCaseUsername() {
       return this.username.toLowerCase()
+    },
+    passwordType() {
+      return this.showPassword ? 'text' : 'password';
     }
   }
 }
@@ -167,6 +177,12 @@ export default {
     margin-bottom: 10px;
     width: 40%;
     font-size: 13px;    
+  }
+  #password-eye-icon{
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    position: absolute;
   }
   #login-form input::placeholder{
     color: #86898C;
