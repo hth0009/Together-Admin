@@ -315,7 +315,7 @@ export default {
       this.getEventInstancesByBase(item.eventBaseID)
     },
     async recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         return
       }
       if (id == '-1') {
@@ -341,7 +341,7 @@ export default {
       this.selectedID = -1
       this.$router.push(`/app/calendar/`)
 
-      this.creatingNewItem = !this.creatingNewItem
+      this.creatingNewItem = true;
       this.$root.$emit('currentlyEditing', '')
     },
     async getEventInstances () {

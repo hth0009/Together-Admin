@@ -25,7 +25,7 @@
               v-if="!!me.account"
             >{{me.account.username !== '' ? '@' + me.account.username : ''}}</div>
           </div>
-          <div class="gs-top-buttons">
+          <div class="gs-buttons-right">
             <button class="gs-basic-button" @click="startEdit" v-show="!editing">
               <i class="material-icons">edit</i>EDIT
             </button>
@@ -99,25 +99,25 @@
                 />
           </div>
           <div class="panel gs-container vertical">
-            <h1 class="gs-card-header">Teams</h1>
-            <cards
-                  :hasShadow="false"
-                  :loading="false"
-                  :inline="true"
-                  :hasButtonOnCard="false"
-                  :alphabetical="true"
-                  :emptyMessage="'Not in any teams'"
-                  :cardList="myTeams"
-                  :cardSelectable="true"
-                  @selected="recieveID"
-                  profilePicFillerValue="teamName"
-                  :hasSearch="false"
-                  :fields="{
-                    title: 'teamName',
-                    profile: 'teamIconURL',
-                    id: 'teamID',
-                  }"
-                />
+            <div class="header">
+              <div class="profile-pic">
+                <avatar :height="80" :url="me.personImageThumbnailURL" :title="me.fullName" />
+              </div>
+              <h3>Team of {{me.firstName}}</h3>
+              <div class="subtitle" v-if="!!me.account">Filler Content</div>
+            </div>
+            <div class="team-footer">
+              <div class="profile-pic">
+                <avatar :height="40" :url="me.personImageThumbnailURL" :title="me.fullName" />
+                <h6>Church of {{me.firstName}}</h6>
+              </div>
+              <div>
+                <button class="gs-basic-button">END TEAM</button>
+                <button class="gs-basic-button red">LEAVE</button>
+              </div>
+            </div>
+            <div class="gs-buttons-right">
+            </div>
           </div>
         </div>
       </div>

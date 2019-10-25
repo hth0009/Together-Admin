@@ -4,7 +4,7 @@
       <div class="page-card-wrapper" :class="{'inactive': selectedID != ''}">
         <cards
           :cardList="formatedPeople"
-          :loading="peopleLoading"
+          :loading="loading"
           :selectedID="selectedID + ''"
           :hasAddNew="false"
           :alphabetical="true"
@@ -365,7 +365,7 @@ marked.setOptions({
 });
 const DOMPurify = require("dompurify");
 
-// import store from '../store'
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 
 export default {
   name: "People",

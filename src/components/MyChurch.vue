@@ -23,7 +23,7 @@
             class="subtitle"
           >{{myChurch.username !== '' ? '@' + myChurch.username : ''}}</div>
         </div>
-        <div class="gs-top-buttons">
+        <div class="gs-buttons-right">
           <button class="gs-basic-button" @click="startEdit" v-show="!editing">
             <i class="material-icons">edit</i>EDIT
           </button>

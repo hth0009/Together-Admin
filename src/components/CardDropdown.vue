@@ -290,6 +290,19 @@ export default {
       handler(n) {
         this.filterAndSearchCards()
       }, deep: true
+    },
+    selectedItem: {
+      handler(n) {
+        if (n != undefined) {          
+          this.hasSelectedItem = true
+          this.listSearch = n[this.fields.title]
+        }
+        else {
+          this.hasSelectedItem = false
+          this.listSearch = ''
+        }
+        this.selectedCard = n
+      }, deep: true
     }
   }
 }
@@ -303,7 +316,7 @@ export default {
   left: 14px;
 }
 .search-input {
-  transition: all .3s ease;
+  transition: all .3s ease, padding-left 0s
 }
 .input-wrapper.item-selected .search-input {
   padding: 20px 40px 20px 52.5px;

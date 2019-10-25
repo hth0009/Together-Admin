@@ -15,7 +15,7 @@
           :noProfile="true"
           :cardList="services"
           :profilePicFillerValue="'name'"
-          :emptyMessage="'Not in any teams'"
+          :emptyMessage="'No Events Scheduled Yet'"
           :hasDates="true"
           :fields="{
               title: 'dateTitle',
@@ -40,7 +40,7 @@
             </button>
           </div>
           <div class="panel gs-container vertical">
-            <div class="gs-top-buttons">
+            <div class="gs-buttons-right">
               <button class="gs-basic-button" @click="startEdit" v-show="!editing">
                 <i class="material-icons">edit</i>EDIT
               </button>
@@ -82,19 +82,22 @@
                   :readonly="!editing"
                 />
               </div>
-              <!-- <div class="gs-form-group">
-                <label for="">Date</label>
-                <flat-pickr class="gs-basic-input" :config="datePickerConfig"
-                :disabled="!editing"
-                v-model="selectedService.dateObject"></flat-pickr>
-              </div>-->
+
+              <div class="gs-form-group">
+                <label for>Date</label>
+                <flat-pickr
+                  class="gs-basic-input"
+                  :config="datePickerConfig"
+                  :disabled='!editing'
+                  v-model="selectedService.date"
+                ></flat-pickr>
+              </div>
+
               <div class="gs-form-group">
                 <label for>Times</label>
                 <div class="times">
-
                   <input v-for="time in selectedService.times" v-model="time.time" :key="time.id" type="time" class="gs-basic-input time"
-                    placeholder="Time" required :readonly="!editing"
-                  >
+                         placeholder="Time" required :readonly="!editing">
                   <div class="gs-basic-button icon" formnovalidate v-show="editing"><i class="material-icons">add</i></div>
                 </div>
               </div>
@@ -166,7 +169,7 @@
                 <label for>Times</label>
                 <div class="times">
                   <div v-for="(time, index) in newService.serviceTimes" :key="index" class="time">
-                    <div class="delete-time noselect" @click="deleteTime(index)">
+                    <div class="delete-time noselect" @click="deleteTimeFromNewService(index)">
                       <i class="material-icons">close</i>
                     </div>
                     <input
@@ -177,7 +180,7 @@
                       required
                     />
                   </div>
-                  <div class="gs-basic-button icon" formnovalidate @click="addTime">
+                  <div class="gs-basic-button icon" formnovalidate @click="addTimeToNewService">
                     <i class="material-icons">add</i>
                   </div>
                 </div>
@@ -227,6 +230,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import Croppa from 'vue-croppa'
 import 'vue-croppa/dist/vue-croppa.css'
 import CDN from '@/services/cdn'
@@ -237,10 +241,12 @@ import 'flatpickr/dist/flatpickr.css'
 
 import Services from '@/services/services'
 import People from '@/services/people'
-import {getHHMM, getDayOfWeekMonthDay, getThisSunday} from '../utils/helpers'
+import { getHHMM, getDayOfWeekMonthDay, getThisSunday } from '../utils/helpers'
 
 import Cards from '@/components/CardList'
 import Dropdown from '@/components/CardDropdown'
+
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 
 import Vue from 'vue'
 Vue.use(Croppa)
@@ -264,20 +270,14 @@ export default {
   name: "ThisSunday",
   data() {
     return {
-      loading: true,
-      creatingNewItem: false,
-      services: [],
-      newService: {},
       selectedID: -1,
       selectedService: {},
       beforeEditedService: {},
       cdnKeys: {},
       photoCroppa: {},
       cdnKeys: {},
-      date: new Date(),
+      date: moment().format(),
       datePickerConfig: {
-        altFormat: "l F J, Y",
-        dateFormat: "Y-m-d\\Z",
         allowInput: true,
         altInput: true
       },
@@ -285,29 +285,41 @@ export default {
       people: []
     }
   },
+  computed: {
+    ...mapState('thisSunday', ['services', 'loading', 'creatingNewItem', 'newService']),
+  },
   components: {    
     flatPickr, Cards, SweetModal, Dropdown
   },
   methods: {
-    createNewItem() {
-      this.selectedID = -1;
-      this.$router.push(`/app/this-sunday/`);
+    ...mapMutations('thisSunday', [
+      'setServices',
+      'setLoading',
+      'setCreatingNewItem',
+      'setNewService',
+      'addTimeToNewService',
+      'deleteTimeFromNewService'
+    ]),
+    ...mapActions('thisSunday', ['getServices']),
 
-      this.creatingNewItem = !this.creatingNewItem;
-      this.newService = { ...newServiceTemplate };
-      if (this.creatingNewItem == true) {
-        CDN.getKeys().then(response => {
-          this.cdnKeys = response.data;
-        });
+    async createNewItem() {
+      this.selectedID = -1;
+      this.$router.push('/app/this-sunday/');
+
+      this.setCreatingNewItem(true);
+      this.setNewService({ ...newServiceTemplate })
+      if (this.creatingNewItem) {
+        const cdnKeys = await CDN.getKeys();
+        this.cdnKeys = cdnKeys.data;
       }
     },
     recieveItem(item) {
       this.recieveID(item.id);
       this.selectedService = item;
-      this.selectedService["dateObject"] = new Date(item.date);
+      this.selectedService.date = moment(item.date, 'YYYY-MM-DD').format();
     },
     async recieveID(id) {
-      if (id == undefined) {
+      if (!id) {
         return;
       }
       if (id == "-1") {
@@ -318,7 +330,7 @@ export default {
 
       this.$router.push(`/app/this-sunday/${id}`);
 
-      this.creatingNewItem = false;
+      this.setCreatingNewItem(false);
 
       this.selectedID = id;
     },
@@ -352,27 +364,9 @@ export default {
         }.bind(this)
       );
     },
-    addTime() {
-      this.newService.serviceTimes.push({ time: "12:00:00" });
-    },
-    deleteTime(index) {
-      this.newService.serviceTimes.splice(index, 1);
-      // this.newService.serviceTimes.push([{ "time": ""}])
-    },
+    
     deleteButtonClicked() {
       this.$refs.deleteItemModal.open();
-    },
-    getServices() {
-      this.loading = true;
-      return Services.getServices().then(response => {
-        // this.services = response.data['services(s)']
-        this.services = response.data['services'].map(obj => {
-          var rObj = obj
-          rObj['dateTitle'] = getDayOfWeekMonthDay(new Date(obj.date))
-          return rObj
-        })
-        this.loading = false
-      })
     },
     getPeople() {
       People.getPeople().then(response => {        
@@ -380,22 +374,59 @@ export default {
       })
     },
     async createService() {
+      this.postService(this.newService);
+    },
+    async editService() {
+      this.selectedService.times = this.selectedService.times.map((timeObj) => {return {time: timeObj.time.substring(0,5)}})
+      this.patchService(this.selectedService)
+    },
+    async postService(service) {
       this.$root.$emit("loading", true);
-      var profilePic = await this.uploadProfilePic();
+      const serviceToPost = await this.getFormattedService(service);
+
+      let postServiceRes;
+      try {
+        postServiceRes = await Services.postService(serviceToPost)
+
+        this.$refs.itemCreated.open();
+      }
+      catch(error) {
+        return;
+      }
+      finally {
+        await this.getServices()
+        if(postServiceRes) {
+          service.id = postServiceRes.data.newResourceID;
+          this.recieveItem(service);
+        }
+        this.$root.$emit("loading", false);
+      }
+    },
+    async patchService(service) {
+      this.$root.$emit("loading", true);
+      const serviceToPatch = await this.getFormattedService(service);
+      try {
+        await Services.patchService(serviceToPatch.id, serviceToPatch);
+        this.$refs.itemCreated.open();
+      }
+      catch(error) {
+        return;
+      }
+      finally {
+        await this.getServices()
+        this.$root.$emit("loading", false);
+      }
+    },
+    async getFormattedService(service) {
+      let profilePic = await this.uploadProfilePic();
       profilePic = !!profilePic
         ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
         : "";
-      var nService = { ...this.newService };
-      nService.churchUsername = this.$store.state.churchUsername;
-      console.log(this.newService.date);
-      console.log(new Date(this.newService.date));
-      nService.date = getYYYYMMDD(new Date(this.newService.date));
-      nService.iconURL = profilePic;
-      Services.postService(nService).then(() => {
-        this.$root.$emit("loading", false);
-        this.getServices().then(this.$refs.itemCreated.open());
-      });
-      console.log(nService);
+      const formattedService = { ...service };
+      formattedService .churchUsername = this.$store.state.churchUsername;
+      formattedService .date = moment(formattedService .date).format('YYYY-MM-DD');
+      formattedService .iconURL = profilePic;
+      return formattedService;
     },
     async uploadProfilePic() {
       const { accessKeyID, secretAccessKey } = this.cdnKeys;
@@ -429,15 +460,23 @@ export default {
     },
     saveEdit() {
       this.editing = false;
+      this.editService();
     }
   },
   props: {},
-  mounted() {
-    this.getServices()
-    this.getPeople()
-    // this.recieveID(this.$route.params.id)
+  async mounted() {
+    if(this.services.length < 1) {
+      await this.getServices();
+    } 
+    else {
+      this.setLoading(false);
+    }
+    await this.getPeople();
+    if(this.$route.params.id) {
+      const selectedService = this.services.find(service => service.id.toString() === this.$route.params.id);
+      this.recieveItem(selectedService);
+    }
   },
-  computed: {}
 };
 </script>
 
