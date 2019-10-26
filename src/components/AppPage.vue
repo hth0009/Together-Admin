@@ -24,7 +24,7 @@
             class="noselect"
             @click="moreToggled = !moreToggled; showSidebar = true"
             id="app-page-logo"
-            height="45"
+            height="30"
             src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small-noborder.png"
           />
           <ul class="links" :class="{toggled: moreToggled}">
@@ -50,10 +50,10 @@
         </div>
         <div class="profiles">
           <router-link v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
-            <avatar :height="45" :url="churchPic" :title="churchName" />
+            <avatar :height="30" :url="churchPic" :title="churchName" />
           </router-link>
           <router-link v-on:click.native="showSidebar = false" to="/app/me" class="noselect">
-            <avatar :height="45" :url="profilePic" :title="$store.state.personName" />
+            <avatar :height="30" :url="profilePic" :title="$store.state.personName" />
           </router-link>
         </div>
       </div>
@@ -82,6 +82,9 @@
         >this sunday</router-link>-->
       </transition-group>
       <div id="app-footer">
+        <div class="logout" v-show="$route.path == '/app/me'">
+          <button @click="logout" class="gs-basic-button red">LOG OUT</button>
+        </div>
         <!-- <div class="profiles">
           <router-link  v-on:click.native="showSidebar = false" to="/app/my-church" class="noselect">
             <avatar
@@ -166,6 +169,12 @@ export default {
     hideSidebar() {
       this.showSidebar = false;
     },
+    logout() {
+      this.$store.dispatch("logout").then(() => {
+        this.$router.push("/login")
+        console.log("logged out")
+      });
+    },
 
       getInfo() {
         ChurchAPI.getChurch(this.$store.state.churchUsername).then(result => {
@@ -174,7 +183,7 @@ export default {
           this.churchName = church.nickname
         })
         PeopleAPI.getPerson(this.$store.state.personID).then(result => {
-          this.profilePic = result.people[0].personImageThumbnailURL
+          this.profilePic = result.data.people[0].personImageThumbnailURL
         })
       }
     },
@@ -312,10 +321,8 @@ export default {
   margin-bottom: 10px;
   padding-right: 0px;
 
-  grid-row: 3/4;
-
-  display: grid;
-  grid-template-columns: 40px auto;
+  display: flex;
+  justify-content: flex-end;
   align-items: flex-end;
 }
 
