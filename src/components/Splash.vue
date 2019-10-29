@@ -1,7 +1,10 @@
 <template>
   <div id="splash-container">  
+    <sweet-modal icon="success" ref="messageSent">
+      <h3>Message sent! We'll be in touch soon!</h3>
+    </sweet-modal>
     <sweet-modal ref="earlyAccessModal">      
-      <h1>GET EARLY ACCESS</h1>  
+      <h1 style="margin-top: 0;">GET EARLY ACCESS</h1>  
       <contact-us
         @successfullySent="closeEarlyAccess"
       />
@@ -482,6 +485,7 @@ export default {
     },
     closeEarlyAccess() {
       this.$refs.earlyAccessModal.close();
+      this.$refs.messageSent.open()
     },
     handleScroll() {
       const index1 =

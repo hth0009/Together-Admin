@@ -518,7 +518,7 @@ export default {
     },
     cancelCreatingNewItem() {
       this.setCreatingNewItem(false);
-      this.teams.pop();
+      this.removeNewTeamPlaceholderInCardList();
     }
   },
   props: {},

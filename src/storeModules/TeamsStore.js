@@ -13,6 +13,7 @@ export const TeamsModule = {
     },
     setLoading (state, loading) { state.loading = loading; },
     setCreatingNewItem (state, creatingNewItem) { state.creatingNewItem = creatingNewItem; },
+    removeNewTeamPlaceholderInCardList (state) { state.teams.pop(); }
   },
   actions: {
     async getTeams ({ state, commit }) {
