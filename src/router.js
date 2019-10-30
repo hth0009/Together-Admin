@@ -34,6 +34,7 @@ import PrivacyPolicy from '@/components/PrivacyPolicy'
 
 import Splash from '@/views/Splash'
 import Welcome from '@/components/splash/Welcome';
+import Cost from '@/components/splash/Cost';
 
 import FAQ from '@/components/FAQ'
 
@@ -54,7 +55,6 @@ import store from './store'
 Vue.use(Router)
 
 let router = new Router({
-  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -80,8 +80,17 @@ let router = new Router({
           meta: {
             noNav: true,
             requiresAuth: false,
-          }
-        }
+          },
+        },
+        {
+          path: 'cost',
+          name: 'Cost',
+          component: Cost,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
       ]
     },
     {

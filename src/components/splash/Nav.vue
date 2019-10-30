@@ -9,7 +9,7 @@
 
     <div id="signup-login" class="gs-flex-row">
       <button id="signup" class="navbar-button gs-basic-button inverted"
-              @click="openRegisterWindow">
+              >
         SIGN UP
       </button>
       <router-link to="login" id="login" class="navbar-button gs-basic-button">LOGIN</router-link>

@@ -28,16 +28,13 @@ export default {
   },
   methods: {
     checkLogin() {
-      console.log('hi')
-      this.$store.dispatch('checkLogin').then(function (response) {
-        console.log(this.$store.getters.authStatus)
+      this.$store.dispatch('checkLogin').then(function () {
         if (this.$route.path === '/') {
           if (this.$store.getters.authStatus) {
             this.$router.push("/app/people")
           }
           else {
-            console.log('hello')
-            this.$router.push("/hello")
+            this.$router.push("/hello/welcome")
           }
         }
       }.bind(this)).catch(function (err) {
@@ -290,6 +287,9 @@ export default {
     color: #A0A3A6;
   }
 
+  a {
+    text-decoration: none !important;
+  }
 
 
   /* /////////////////////////////
