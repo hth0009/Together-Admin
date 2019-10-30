@@ -31,7 +31,10 @@ import ChurchInfo from '@/components/ChurchInfo'
 import Staff from '@/components/Staff'
 import Subscription from '@/components/Subscription'
 import PrivacyPolicy from '@/components/PrivacyPolicy'
+
 import Splash from '@/views/Splash'
+import Welcome from '@/components/splash/Welcome';
+
 import FAQ from '@/components/FAQ'
 
 import Inbox from '@/components/Inbox'
@@ -68,7 +71,18 @@ let router = new Router({
       meta: {
         noNav: true,
         requiresAuth: false
-      }
+      },
+      children: [
+        {
+          path: 'welcome',
+          name: 'Welcome',
+          component: Welcome,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          }
+        }
+      ]
     },
     {
       path: '/faq',

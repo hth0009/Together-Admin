@@ -183,6 +183,10 @@ label {
   flex-direction: column;
   align-items: center;
 }
+.gs-flex-row {
+  display: flex;
+  align-items: center;
+}
 
 .gs-buttons-right {
   display: flex;
@@ -353,3 +357,8 @@ label {
   border-color: white;
   box-shadow: none;
 }
+
+.m0 { margin: 0 !important; }
+.mb0 { margin-bottom: 0 !important; }
+.mb1em { margin-bottom: 1em !important; }
+.mb2em { margin-bottom: 2em !important; }

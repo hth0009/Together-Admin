@@ -25,6 +25,7 @@ import { TooltipPlugin } from "@syncfusion/ej2-vue-popups"
 import { RichTextEditorPlugin } from "@syncfusion/ej2-vue-richtexteditor"
 
 
+import { animate } from "animate.css";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 

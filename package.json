@@ -27,6 +27,7 @@
     "@syncfusion/ej2-vue-splitbuttons": "^17.3.19",
     "amazon-cognito-auth-js": "^1.3.2",
     "amazon-cognito-identity-js": "^3.1.3",
+    "animate.css": "^3.7.2",
     "aws-sdk": "^2.556.0",
     "axios": "^0.19.0",
     "bootstrap-vue": "^2.0.4",
