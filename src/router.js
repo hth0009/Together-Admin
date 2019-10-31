@@ -35,6 +35,7 @@ import PrivacyPolicy from '@/components/PrivacyPolicy'
 import Splash from '@/views/Splash'
 import Welcome from '@/components/splash/Welcome';
 import Cost from '@/components/splash/Cost';
+import StillHaveQuestions from '@/components/splash/StillHaveQuestions';
 
 import FAQ from '@/components/FAQ'
 
@@ -86,6 +87,15 @@ let router = new Router({
           path: 'cost',
           name: 'Cost',
           component: Cost,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
+        {
+          path: 'still-have-questions',
+          name: 'StillHaveQuestions',
+          component: StillHaveQuestions,
           meta: {
             noNav: true,
             requiresAuth: false,

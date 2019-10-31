@@ -1,5 +1,5 @@
 <template>
-  <div id="welcome" class="gs-flex-row">
+  <div id="welcome" class="gs-flex-row center">
     <div>
       <img id="together-title" class="mb2em" alt srcset
           src="https://togethercdn.global.ssl.fastly.net/assets/logo/title_black.png"
@@ -10,11 +10,8 @@
       </p>
       <p class="together-subtext mb2em"> No sign up or monthly payments. </p>
 
-      <button id="joinTheGlobalChurchBtn" class="gs-basic-button inverted"
-              @click="joinGlobalChurch()">
-        Join the Global Church Today
-      </button>
-      <p id="joinTheGlobalChurchSubtext"> 30 Second Organization Sign Up. 5 Minute Learning Curve </p>
+      <join-global-church/>
+      
     </div>
 
     <div>
@@ -25,14 +22,11 @@
 </template>
 
 <script>
+import JoinGlobalChurch from './JoinGlobalChurch.vue';
 export default {
-  methods: {
-    joinGlobalChurch() {
-      return;
-    }
+  components: {
+    JoinGlobalChurch
   },
-  mounted() {
-  }
 }
 </script>
 
@@ -49,14 +43,7 @@ export default {
   font-size: 8pt;
   font-weight: 700;
 }
-#joinTheGlobalChurchBtn {
-  width: 100%;
-  margin-bottom: 8px;
-}
-#joinTheGlobalChurchSubtext {
-  font-size: 6pt;
-  font-weight: 600;
-}
+
 
 
 </style>

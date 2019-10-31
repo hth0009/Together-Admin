@@ -2,10 +2,10 @@
 <div id="cost-wrapper" class="">
   <b-row class="mb2em">
     <b-col col lg="3" offset-lg="3" md='12' class="mb1em">
-      <div id='your-cost-left-col'>
+      <div class="center" id='your-cost-left-col'>
         <h2 id="your-zero-cost">$0</h2>
-        <p class="center">Startup or monthly payments</p>
-        <p class="center">  <strong> FEE PER TRANSACTION<br>Through Giving </strong></p>
+        <p >Startup or monthly payments</p>
+        <p> <strong> FEE PER TRANSACTION<br>Through Giving </strong></p>
         <h2 id='your-cost-giving'>GIVING</h2>
         <span class="mb4">3.0% + $.30 All Card Types</span>
         1.0% + $.50 for ACH

@@ -10,7 +10,7 @@
         WHAT DOES IT COST ???
       </span> 
     </a>
-    <a class="nav-tab-button"  style="background-color: rgb(85, 239, 196, .25)">
+    <a href="/#/hello/still-have-questions" class="nav-tab-button"  style="background-color: rgb(85, 239, 196, .25)">
       <span style="color: #00B894;">
         STILL HAVE QUESTIONS ???
       </span> 
