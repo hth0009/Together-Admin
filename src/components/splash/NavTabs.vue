@@ -1,6 +1,6 @@
 <template>
   <div id="navTabs">
-    <a class="nav-tab-button" style="background-color: rgb(93, 0, 255, .25)">
+    <a href="/#/hello/how-does-it-work" class="nav-tab-button" style="background-color: rgb(93, 0, 255, .25)">
       <span style="color: #6C5CE7;">
         HOW DOES IT WORK ???
       </span> 
@@ -20,6 +20,7 @@
 
 <style scoped>
 #navTabs {
+  overflow: hidden;
   position: absolute;
   display: flex;
   flex-flow: column;

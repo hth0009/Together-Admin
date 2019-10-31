@@ -40,6 +40,9 @@ label {
   margin-bottom: .3rem;
 }
 
+.gs-primary { color: #55C0E4;}
+.gs-primary-bg { background-color: #55C0E4;}
+
 .gs-padding {
   padding: 25px;
 }
