@@ -1,16 +1,16 @@
 <template>
-<div id="stillHaveQuestionWrapper" class="gs-flex-col animated fadeIn fast">
+<div id="stillHaveQuestionWrapper" class="animated fadeIn fast">
   <b-row class="mb2em" style="display: flex; align-items: center;">
-    <b-col lg="6" class='stillHaveQuestionsCol' style="margin-top: -12em">
-      <p class="mb1em">Question? Contact us!</p>
-      <contact-us/>
-    </b-col>
-    <b-col lg="4" class="stillHaveQuestionsCol">
+    <b-col lg="4" sm="10" class="stillHaveQuestionsCol mb2em">
       <p class="mb2em">Best Part? You don't have to wait for your 
          software contract to end. Why? Because
         it doesn't cost anything to <span>start</span> connection your people through Together.
       </p>
       <join-global-church class="mb1em"/>
+    </b-col>
+    <b-col lg="6" offset-lg="1" sm="10" class='stillHaveQuestionsCol contactUs'>
+      <p class="mb1em">Question? Contact us!</p>
+      <contact-us/>
     </b-col>
   </b-row>
 </div>
@@ -30,17 +30,15 @@ export default {
 
 <style scoped>
 #stillHaveQuestionWrapper {
-  justify-content: center;
-  text-align: center;
-  align-items: center;
+  margin-top: 10em;
 }
 
 .stillHaveQuestionsCol {
-  height: 80vh;
-  align-items: center;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
+  text-align: center;
+}
+
+#contactUs {
+  height: 30em;
 }
 
 #header-text {

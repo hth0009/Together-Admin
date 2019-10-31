@@ -12,7 +12,7 @@
               >
         SIGN UP
       </button>
-      <router-link to="login" id="login" class="navbar-button gs-basic-button">LOGIN</router-link>
+      <router-link to="/login" id="login" class="navbar-button gs-basic-button">LOGIN</router-link>
     </div>
   </div>
 </template>
