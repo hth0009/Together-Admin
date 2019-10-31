@@ -1,5 +1,5 @@
 <template>
-  <div id="welcome" class="gs-flex-row center">
+  <div id="welcome" class="gs-flex-row center animated fadeIn fast">
     <div>
       <img id="together-title" class="mb2em" alt srcset
           src="https://togethercdn.global.ssl.fastly.net/assets/logo/title_black.png"

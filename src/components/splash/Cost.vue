@@ -1,5 +1,5 @@
 <template>
-<div id="cost-wrapper" class="">
+<div id="cost-wrapper" class=" animated fadeIn fast">
   <b-row class="mb2em">
     <b-col col lg="3" offset-lg="3" md='12' class="mb1em">
       <div class="center" id='your-cost-left-col'>

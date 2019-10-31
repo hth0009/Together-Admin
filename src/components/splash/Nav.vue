@@ -1,6 +1,6 @@
 <template>
   <div id="nav" class="gs-flex-row">
-    <div id="logo" class="gs-flex-row">
+    <div @click="goToWelcomePage" id="logo" class="gs-flex-row">
       <img id="together-badge"
           src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"
       />
@@ -18,7 +18,9 @@
 </template>
 <script>
 export default {
-  
+  methods: {
+    goToWelcomePage() { this.$router.push('/hello/welcome'); }
+  }
 }
 </script>
 
@@ -32,6 +34,7 @@ export default {
   width: 20%;
   justify-content: flex-start;
   margin-left: 4em;
+  cursor: pointer;
 }
 #together-badge {
   order: 0;
