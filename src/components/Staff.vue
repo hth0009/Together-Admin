@@ -187,7 +187,7 @@ export default {
       this.people = response['person(s)']
     },
     async getPerson () {
-      var response = await People.getPerson(this.selectedID)
+      const response = await People.getPerson(this.selectedID)
       this.selectedPerson = response['person']
     },
     async getTeams() {   

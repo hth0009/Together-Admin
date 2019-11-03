@@ -11,7 +11,8 @@ export const PeopleModule = {
     setLoading (state, loading) { state.loading = loading; },
   },
   actions: {
-    async getPeople ({state, commit}) {
+    async getPeople ({state, commit}, getCurrentStateIfAlreadyThere=false) {
+      if(getCurrentStateIfAlreadyThere && state.people.length !== 0) { return state.people; }
       commit('setLoading', true);
       const getPeopleRes = await People.getPeople();
       commit('setPeople', { people: getPeopleRes.data.people });

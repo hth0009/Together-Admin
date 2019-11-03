@@ -542,9 +542,7 @@ export default {
   props: {
   },
   mounted() {    
-    if(this.people.length < 1) {
-      this.getPeople();
-    }
+    this.getPeople(true);
     this.recieveID(this.$route.params.id)
   },
   

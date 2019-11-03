@@ -313,13 +313,13 @@ export default {
         altInput: true
       },
       editing: false,
-      people: [],
       hasGuestSpeaker: false,
       newServicePerson: undefined
     }
   },
   computed: {
     ...mapState('thisSunday', ['services', 'loading', 'creatingNewItem', 'newService']),
+    ...mapState('people', ['people']),
   },
   components: {    
     flatPickr, Cards, SweetModal, Dropdown
@@ -334,6 +334,7 @@ export default {
       'deleteTimeFromNewService'
     ]),
     ...mapActions('thisSunday', ['getServices']),
+    ...mapActions('people', ['getPeople']),
 
     async createNewItem() {
       this.selectedID = -1;
@@ -413,11 +414,6 @@ export default {
     
     deleteButtonClicked() {
       this.$refs.deleteItemModal.open();
-    },
-    getPeople() {
-      People.getPeople().then(response => {        
-        this.people = response.data['people']
-      })
     },
     async createService() {
       this.postService(this.newService);
@@ -536,7 +532,7 @@ export default {
     else {
       this.setLoading(false);
     }
-    await this.getPeople();
+    await this.getPeople(true);
     if(this.$route.params.id) {
       const selectedService = this.services.find(service => service.id.toString() === this.$route.params.id);
       this.recieveItem(selectedService);
