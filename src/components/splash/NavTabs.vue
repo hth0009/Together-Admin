@@ -15,8 +15,36 @@
         STILL HAVE QUESTIONS ???
       </span> 
     </a>
+    <a @click="goBack()" class="nav-tab-button"  style="background-color: rgb(85, 239, 196, .25)" 
+       v-if='showBack'>
+      <span style="color: #00B894;">
+        BACK
+      </span> 
+    </a>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      showBack: false,
+    }
+  },
+  mounted() {
+
+  },
+  watch: {
+    $route (to, from) {
+      console.log(to);
+      console.log(from);
+      if(this.to === '') {
+        this.showBack = true;
+      }
+    }
+  }
+}
+</script>
 
 <style scoped>
 #navTabs {
