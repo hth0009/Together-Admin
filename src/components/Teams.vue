@@ -442,7 +442,7 @@ export default {
       newTeam.churchID = church.data.churches[0].id;
 
       let profilePic = await this.uploadProfilePic();
-      profilePic = !!profilePic
+      profilePic = profilePic
         ? "https://togethercdn.global.ssl.fastly.net/TeamPics/" + profilePic
         : "";
       newTeam.teamImageURL = profilePic;
@@ -506,7 +506,7 @@ export default {
         let getKeysRes = await CDN.getKeys();
         this.cdnKeys = getKeysRes.data;
         let profilePic = await this.uploadProfilePic();
-        profilePic = !!profilePic
+        profilePic = profilePic
           ? "https://togethercdn.global.ssl.fastly.net/TeamPics/" + profilePic
           : "";
         patch["values"]["teamImageURL"] = profilePic;

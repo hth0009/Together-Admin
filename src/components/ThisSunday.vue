@@ -350,7 +350,7 @@ export default {
       this.recieveID(item.id);
       this.selectedService = item;
       this.selectedService.date = moment(item.date, 'YYYY-MM-DD').format();
-      if (!!this.selectedService.speakerName) {
+      if (this.selectedService.speakerName) {
         this.hasGuestSpeaker = true
       }
       else {
@@ -484,7 +484,7 @@ export default {
     },
     async getFormattedService(service) {
       let profilePic = await this.uploadProfilePic();
-      profilePic = !!profilePic
+      profilePic = profilePic
         ? "https://togethercdn.global.ssl.fastly.net/EventPics/" + profilePic
         : "";
       const formattedService = { ...service };

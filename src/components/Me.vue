@@ -189,7 +189,7 @@ export default {
           this.cdnKeys = response.data
         })
         var profilePic = await this.uploadProfilePic()
-        profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/ProfilePics/' + profilePic : ''
+        profilePic = profilePic ? 'https://togethercdn.global.ssl.fastly.net/ProfilePics/' + profilePic : ''
         patch['values']['personImageURL'] = profilePic
         patch['values']['personImageThumbnailURL'] = profilePic
       }
