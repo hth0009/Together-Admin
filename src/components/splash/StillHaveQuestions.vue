@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 #stillHaveQuestionWrapper {
-  margin-top: 10em;
+  margin-top: 4em;
 }
 
 .stillHaveQuestionsCol {
