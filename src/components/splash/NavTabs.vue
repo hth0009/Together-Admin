@@ -1,14 +1,14 @@
 <template>
   <div id="navTabs">
     <a v-for="tab in tabs" :key="tab.id" v-show="tab.show" 
-       class="nav-tab-button" :href="tab.href" :style="tab.style.backgroundColor">
+       class="nav-tab-button animated fadeInRight faster" :href="tab.href" :style="tab.style.backgroundColor">
       <span :style="tab.style.color">
         {{tab.title}}
       </span> 
     </a>
-    <a :href="backHREF" class="nav-tab-button"  style="background-color: rgb(85, 239, 196, .25)" 
+    <a :href="backHREF" class="nav-tab-button"  style="background-color: rgb(85, 192, 228, .25)" 
        v-show='showBack'>
-      <span style="color: #00B894;">
+      <span style="color: #55C0E4;">
         BACK
       </span> 
     </a>
@@ -72,28 +72,23 @@ export default {
     filterTabs(to) {
       this.showBack = to.name !== 'Welcome';
       if(to.name === 'Welcome') { 
-        this.tabs[0].show = true;
-        this.tabs[1].show = true; 
-        this.tabs[2].show = true;
+        this.setTabsShowAttr(true, true, true, false)
       }
       if(to.name === 'How Does It Work') { 
-        this.tabs[0].show = false;
-        this.tabs[1].show = true; 
-        this.tabs[2].show = true;
-        this.backHREF = '/#/hello/welcome'
+        this.setTabsShowAttr(false, true, true, '/#/hello/welcome')
       }
       if(to.name === 'Cost') {
-        this.tabs[0].show = false;
-        this.tabs[1].show = false; 
-        this.tabs[2].show = true;
-        this.backHREF = this.tabs[0].href;
+        this.setTabsShowAttr(false, false, true, this.tabs[0].href)
       }
       if(to.name === 'Still Have Questions') { 
-        this.tabs[0].show = false;
-        this.tabs[1].show = false; 
-        this.tabs[2].show = false;
-        this.backHREF = this.tabs[1].href;
+        this.setTabsShowAttr(false, false, false, this.tabs[1].href)
       }
+    },
+    setTabsShowAttr(tab0Show, tab1Show, tab2Show, backHREF) {
+      this.tabs[0].show = tab0Show;
+      this.tabs[1].show = tab1Show; 
+      this.tabs[2].show = tab2Show;
+      this.backHREF = backHREF;
     }
   },
   watch: {
@@ -102,6 +97,8 @@ export default {
     }
   }
 }
+
+
 </script>
 
 <style scoped>
