@@ -1,7 +1,7 @@
 <template>
 <div id="stillHaveQuestionWrapper" class="animated fadeIn fast">
-  <b-row class="mb2em" style="display: flex; align-items: center;">
-    <b-col lg="4" sm="10" class="stillHaveQuestionsCol" style="margin-bottom:-10em !important">
+  <b-row class="mb2em">
+    <b-col lg="4" sm="10" class="stillHaveQuestionsCol mb2em mt4em">
       <h5 class="mb2em black">Best Part? You don't have to wait for your 
          software contract to end. Why? Because
         it doesn't cost anything to <span>start</span> connecting your people through Together.
