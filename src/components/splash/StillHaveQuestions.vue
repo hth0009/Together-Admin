@@ -46,10 +46,6 @@ export default {
   font-weight: 700;
 }
 
-.black {
-  color: black;
-}
-
 #contact-container {
   height: 30vh !important;
 }
