@@ -24,7 +24,7 @@
             <avatar :height="30" :url="church.churchImageThumbnailURL" :title="church.nickname" />
           </router-link>
           <router-link to="/app/me" class="noselect">
-            <avatar :height="30" :url="person.profilePic" :title="person.personName" />
+            <avatar :height="30" :url="person.personImageThumbnailURL" :title="person.personName" />
           </router-link>
         </b-col>
       </b-row>
@@ -49,23 +49,25 @@ import Avatar from "@/components/Avatar";
 export default {
   data() {
     return {
-      ...mapState(['church', 'personID']),
-      ...mapState('people', ['person'])
     }
   },
   methods: {
     ...mapActions(['getChurch']),
     ...mapActions('people', ['getPerson']),
-    init() {
-      
-    }
+    ...mapMutations('people', ['setPerson']),
   },
   components: {
     Avatar,
   },
-  mounted () {
+  computed: {
+    ...mapState(['church', 'personID']),
+    ...mapState('people', ['person'])
+  },
+  async mounted () {
     this.getChurch();
-    this.getPerson(this.$store.state.personID);
+    await this.getPerson(this.personID);
+    this.setPerson(this.person.people)
+    console.log(this.person);
   },
 }
 
@@ -102,14 +104,13 @@ export default {
   padding-left: 13em !important;
   padding-top: 1em !important;
 }
-#nav-page-header {
-}
 
 #nav-top-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   flex-flow: row nowrap;
+  padding-right: 2em;
 }
 
 
