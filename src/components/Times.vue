@@ -38,9 +38,6 @@ export default {
     },
     sortTimes () {
       this.times = this.times.sort(function (a, b) {
-        console.log(a + " | "+ b)
-        console.log((a.slice(0, 2) + a.slice(3,6)) + " - " + (b.slice(0, 2) + b.slice(3,6)))
-        console.log(parseInt(a.slice(0, 2) + a.slice(3,6)) - parseInt(b.slice(0, 2) + b.slice(3,6)))
         return parseInt(a.slice(0, 2) + a.slice(3,6)) - parseInt(b.slice(0, 2) + b.slice(3,6))
       })
     }

@@ -27,6 +27,7 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import EventDetails from '@/components/EventDetails'
 import AppPage from '@/components/AppPage'
+import AppPageNew from '@/components/AppPageNew'
 import ChurchInfo from '@/components/ChurchInfo'
 import Staff from '@/components/Staff'
 import Subscription from '@/components/Subscription'
@@ -142,8 +143,8 @@ let router = new Router({
     },
     {
       path: '/app',
-      name: 'AppPage',
-      component: AppPage,
+      name: 'AppPageNew',
+      component: AppPageNew,
       meta: {
         requiresAuth: true
       },
