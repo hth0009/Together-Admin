@@ -4,11 +4,10 @@
     <b-col col lg="3" offset-lg="3" md='12' class="mb1em">
       <div class="center" id='your-cost-left-col'>
         <h2 id="your-zero-cost">$0</h2>
-        <p >Startup or monthly payments</p>
-        <p> <strong> FEE PER TRANSACTION<br>Through Giving </strong></p>
-        <h2 id='your-cost-giving'>GIVING</h2>
-        <span class="mb4">3.0% + $.30 All Card Types</span>
-        1.0% + $.50 for ACH
+        <p class="mb2em">Startup or monthly payments</p>
+        <p id="fee-per-transaction" class="mb1em"> <strong> FEE PER TRANSACTION<br>Through Giving </strong></p>
+        <p class="mb1em font-size-9pt">3.0% + $.30 All Card Types</p>
+        <p class="mb4 font-size-9pt"> 1.0% + $.50 for ACH </p>
       </div>
     </b-col>
     <b-col col lg="6" md="12" id='your-cost-right-col'>
@@ -39,6 +38,10 @@ export default {
 </script>
 
 <style scoped>
+#fee-per-transaction {
+  font-size: 10pt;
+}
+.font-size-9pt { font-size: 9pt; }
 #cost-wrapper {
   padding-top: 20vh;
 }
