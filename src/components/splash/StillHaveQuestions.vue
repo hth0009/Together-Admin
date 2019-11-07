@@ -2,10 +2,10 @@
 <div id="stillHaveQuestionWrapper" class="animated fadeIn fast">
   <b-row class="mb2em" style="display: flex; align-items: center;">
     <b-col lg="4" sm="10" class="stillHaveQuestionsCol" style="margin-bottom:-10em !important">
-      <p class="mb2em">Best Part? You don't have to wait for your 
+      <h5 class="mb2em black">Best Part? You don't have to wait for your 
          software contract to end. Why? Because
-        it doesn't cost anything to <span>start</span> connection your people through Together.
-      </p>
+        it doesn't cost anything to <span>start</span> connecting your people through Together.
+      </h5>
       <join-global-church class="mb1em"/>
     </b-col>
     <b-col lg="6" offset-lg="1" sm="10" class='stillHaveQuestionsCol contactUs'>
@@ -44,6 +44,10 @@ export default {
 #header-text {
   font-size: 14pt;
   font-weight: 700;
+}
+
+.black {
+  color: black;
 }
 
 #contact-container {

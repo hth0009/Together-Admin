@@ -35,12 +35,13 @@ export default {
   justify-content: space-evenly;
   align-items: center;
   height: 100%;
+  flex-flow: row wrap;
 }
 #together-title {
-  height: 2em;
+  height: 3em;
 }
 .together-subtext {
-  font-size: 8pt;
+  font-size: .8rem;
   font-weight: 700;
 }
 

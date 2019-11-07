@@ -6,8 +6,8 @@
         <h2 id="your-zero-cost">$0</h2>
         <p class="mb2em">Startup or monthly payments</p>
         <p id="fee-per-transaction" class="mb1em"> <strong> FEE PER TRANSACTION<br>Through Giving </strong></p>
-        <p class="mb1em font-size-9pt">3.0% + $.30 All Card Types</p>
-        <p class="mb4 font-size-9pt"> 1.0% + $.50 for ACH </p>
+        <p class="mb1em font-size-_9em">3.0% + $.30 All Card Types</p>
+        <p class="mb4 font-size-_9em"> 1.0% + $.50 for ACH </p>
       </div>
     </b-col>
     <b-col col lg="6" md="12" id='your-cost-right-col'>
@@ -39,9 +39,9 @@ export default {
 
 <style scoped>
 #fee-per-transaction {
-  font-size: 10pt;
+  font-size: 1rem;
 }
-.font-size-9pt { font-size: 9pt; }
+.font-size-_9em { font-size: .9rem; }
 #cost-wrapper {
   padding-top: 20vh;
 }
@@ -62,7 +62,7 @@ export default {
 }
 
 #your-zero-cost {
-  font-size: 4rem;
+  font-size: 5.5rem;
   color: black;
   font-weight: 100;
 }

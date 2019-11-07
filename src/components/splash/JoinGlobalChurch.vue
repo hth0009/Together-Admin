@@ -23,9 +23,10 @@ export default {
 #joinTheGlobalChurchBtn {
   width: 20em;
   margin-bottom: 8px;
+  height: 3em;
 }
 #joinTheGlobalChurchSubtext {
-  font-size: 6pt;
+  font-size: .6rem;
   font-weight: 600;
 }
 </style>

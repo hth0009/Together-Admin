@@ -78,7 +78,7 @@
 .description {
   min-height: 7vh;
   margin-bottom: 0;
-  font-size: 8pt;
+  font-size: .8rem;
   font-weight: 500;
 }
 #image {
