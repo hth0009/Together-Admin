@@ -6,9 +6,11 @@
         {{tab.title}}
       </span> 
     </a>
-    <a :href="backHREF" class="nav-tab-button"  style="background-color: rgb(85, 192, 228, .25)" 
+    <a :href="backHREF" class="back-button animated fadeInRight faster"  
+       style="background-color: rgb(85, 192, 228, .25); color: #55C0E4;" 
        v-show='showBack'>
-      <span style="color: #55C0E4;">
+      <i class="material-icons" id="back-arrow">arrow_backward</i>
+      <span>
         BACK
       </span> 
     </a>
@@ -107,23 +109,34 @@ export default {
   position: absolute;
   display: flex;
   flex-flow: column;
+  justify-content: flex-end;
   right: 0;
   top: 6em;
 }
-.nav-tab-button {
+.nav-tab-button, .back-button {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: flex-start;
   height: 5em;
-  width: 21em;
   border-radius: 2em;
   padding-left: 1em;
   margin-bottom: 8px;
-  margin-right: -2em;
+  margin-right: -5em;
   font-size: 6pt;
   font-weight: 700;
   border: none;
   cursor: pointer;
+}
+.nav-tab-button { 
+  width: 22em;
+}
+.back-button {
+  width: 16em;
+  margin-left: 6em;
+}
+#back-arrow {
+  width: 1.5em;
+  font-size: 12pt;
 }
 </style>
