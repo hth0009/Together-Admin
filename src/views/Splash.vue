@@ -26,7 +26,7 @@ export default {
 #main-focus-view {
   width: 85%;
   height: 80vh !important;
-  margin-left: 4em;
+  margin-left: 5%;
 }
 
 </style>
