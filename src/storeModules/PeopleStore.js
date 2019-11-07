@@ -4,10 +4,12 @@ export const PeopleModule = {
   namespaced: true,
   state: {
     people: [],
+    person: {},
     loading: true
   },
   mutations: {
     setPeople (state, payload) { state.people = payload.people; },
+    setPerson (state, person) { state.person = {...person}; },
     setLoading (state, loading) { state.loading = loading; },
   },
   actions: {
@@ -17,6 +19,10 @@ export const PeopleModule = {
       const getPeopleRes = await People.getPeople();
       commit('setPeople', { people: getPeopleRes.data.people });
       commit('setLoading', false);
+    },
+    async getPerson ({commit}, personID) {
+      const getPersonRes = await People.getPerson(personID);
+      commit('setPerson', { people: getPersonRes.data.people[0] });
     }
   }
 }

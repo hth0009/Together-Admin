@@ -21,16 +21,16 @@
             src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small-noborder.png"
           />
           <router-link to="/app/my-church" class="noselect">
-            <avatar :height="30" :url="churchPic" :title="churchName" />
+            <avatar :height="30" :url="church.churchImageThumbnailURL" :title="church.nickname" />
           </router-link>
           <router-link to="/app/me" class="noselect">
-            <avatar :height="30" :url="profilePic" :title="$store.state.personName" />
+            <avatar :height="30" :url="person.profilePic" :title="person.personName" />
           </router-link>
         </b-col>
       </b-row>
     </div>
 
-    <div id="app-page-content" :class="{'toggled': showSidebar}">
+    <div id="app-page-content">
       <router-view></router-view>
       <div
         style="overflow-y: auto; height: calc(100vh - 40px)"
@@ -43,13 +43,32 @@
 </template>
 
 <script>
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
+import Avatar from "@/components/Avatar";
+
 export default {
+  data() {
+    return {
+      ...mapState(['church', 'personID']),
+      ...mapState('people', ['person'])
+    }
+  },
   methods: {
+    ...mapActions(['getChurch']),
+    ...mapActions('people', ['getPerson']),
     init() {
       
     }
   },
+  components: {
+    Avatar,
+  },
+  mounted () {
+    this.getChurch();
+    this.getPerson(this.$store.state.personID);
+  },
 }
+
 </script>
 
 <style scoped>
@@ -94,7 +113,10 @@ export default {
 }
 
 
-
+#app-page-content {
+  padding-left: 12em !important;
+  padding-top: 3.5em !important;
+}
 #app-page-content >>> .main-wrapper {
   display: grid;
   grid-template-columns: 250px auto;
@@ -105,8 +127,6 @@ export default {
 }
 
 #app-page-content >>> .page-wrapper {
-  padding-left: 12em !important;
-  padding-top: 3.5em !important;
   display: grid;
   grid-template-columns: 240px auto;
   position: relative;
