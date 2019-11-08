@@ -3,7 +3,7 @@
     <div id="side-nav">
       <a href="/#/app/people" id="people-nav-item">People</a>
       <a href="/#/app/teams">Teams</a>
-      <a href="/#/app/teams">This Sunday</a>
+      <a href="/#/app/this-sunday">This Sunday</a>
     </div>
 
     <div id="top-nav">
