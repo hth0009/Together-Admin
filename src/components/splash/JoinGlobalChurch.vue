@@ -20,6 +20,11 @@ export default {
 </script>
 
 <style scoped>
+#joinGlobalChurchToday {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
 #joinTheGlobalChurchBtn {
   width: 20em;
   margin-bottom: 8px;
