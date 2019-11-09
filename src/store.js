@@ -7,7 +7,6 @@ import Church from '@/services/church';
 
 Vue.use(Vuex)
 
-let cognitoUser
 
 import { thisSundayModule } from './storeModules/ThisSundayStore'
 import { TeamsModule } from './storeModules/TeamsStore'
@@ -79,7 +78,7 @@ export default new Vuex.Store({
           Username: username,
           Pool: userPool
         }
-        cognitoUser = new CognitoUser(userData)
+        let cognitoUser = new CognitoUser(userData)
         cognitoUser.authenticateUser(authenticationDetails, {
           onSuccess: function (result) {
             // Local Storage
@@ -127,7 +126,7 @@ export default new Vuex.Store({
           ClientId: '40ljk2uqsfr2rhuqascb564rlq'
         }
         var userPool = new CognitoUserPool(data)
-        cognitoUser = userPool.getCurrentUser()
+        let cognitoUser = userPool.getCurrentUser()
 
         if (cognitoUser != null) {
           cognitoUser.getSession(function (err, session) {
@@ -156,20 +155,17 @@ export default new Vuex.Store({
       })
     },
     logout ({commit}) {
-      return new Promise((resolve, reject) => {
-        var data = {
-          UserPoolId: 'us-east-2_th6kgbG7W',
-          ClientId: '40ljk2uqsfr2rhuqascb564rlq'
-        }
-        var userPool = new CognitoUserPool(data)
-        cognitoUser = userPool.getCurrentUser()
-        cognitoUser.signOut()
+      const data = {
+        UserPoolId: 'us-east-2_th6kgbG7W',
+        ClientId: '40ljk2uqsfr2rhuqascb564rlq'
+      }
+      const userPool = new CognitoUserPool(data)
+      let cognitoUser = userPool.getCurrentUser()
+      cognitoUser.signOut()
 
-        delete axios.defaults.headers.common['Authorization']
+      delete axios.defaults.headers.common['Authorization']
 
-        commit('logout')
-        resolve()
-      })
+      commit('logout')
     },
   },
 })
