@@ -8,12 +8,13 @@
     </b-row>
     <b-row>
       <b-col sm="9">
-        <div id="image">large image</div>
+        <img id="image" :src="topics[selectedTopic].img" />
       </b-col>
     </b-row>
     <b-row>
       <b-col sm="9">
-        <div v-for="(value, key) in topicIcons" :key="key" class="switchTopicCardWrapper" :class="{'gs-primary-bg': selectedTopic === key}">
+        <div v-for="(value, key) in topicIcons" :key="key" class="switchTopicCardWrapper" 
+             :class="{'gs-primary-bg': selectedTopic === key}">
           <div class="switchTopicCard" @click="chooseTopic(key)" >
             <i class="material-icons">{{value.icon}}</i>
           </div>
@@ -30,6 +31,7 @@
     data() {
       return {
         selectedTopic: 1,
+        imgUrl: '',
         topics,
         topicIcons: {
           1: {
@@ -42,22 +44,22 @@
             icon: 'favorite_border'
           },
           4: {
-            icon: 'favorite_border'
+            icon: 'event_seat'
           },
           5: {
             icon: 'favorite_border'
           },
           6: {
-            icon: 'favorite_border'
+            icon: 'send'
           },
           7: {
-            icon: 'favorite_border'
+            icon: 'system_update'
           },
           8: {
             icon: 'favorite_border'
           },
           9: {
-            icon: 'favorite_border'
+            icon: 'people'
           },
         }
       };
@@ -76,14 +78,15 @@
   margin-bottom: 4px;
 }
 .description {
-  min-height: 7vh;
+  min-height: 10vh;
   margin-bottom: 0;
   font-size: .8rem;
   font-weight: 500;
 }
 #image {
   height: 60vh;
-  background-color: black;
+  background-color: white;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);
 }
 
 .row {
@@ -105,6 +108,9 @@
   justify-content: center;
   height: inherit;
   cursor: pointer;
+}
+.switchTopicCard .material-icons {
+  font-size: 20px;
 }
 
 </style>
