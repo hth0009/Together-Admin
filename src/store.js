@@ -29,6 +29,7 @@ export default new Vuex.Store({
     personName: '',
     churchIcon: 'http://static1.squarespace.com/static/563fb2d1e4b07f78f2db4c32/t/5c3621a9352f53339f36df51/1552577214769/?format=1500w',
     personIcon: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+    drawerIsOpen: true,
   },
   getters: {
     authStatus: state => !!state.token,
@@ -54,6 +55,7 @@ export default new Vuex.Store({
       state.status = ''
       state.token = ''
     },
+    setDrawerIsOpen(state, drawerIsOpen) { state.drawerIsOpen = drawerIsOpen; },
   },
   actions: {
     async getChurch({state, commit}, churchUsername = state.churchUsername, getCurrentStateIfAlreadyThere=false) {

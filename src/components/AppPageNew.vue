@@ -1,53 +1,10 @@
 <template>
   <div class="app-page">
-    <i class="material-icons animated fadeIn" v-show="drawerIsOpen" id="nav-arrow" @click="closeDrawer()">arrow_backwards</i>
-    <i class="material-icons animated fadeIn" v-show="!drawerIsOpen" id="nav-arrow" @click="openDrawer()">arrow_forwards</i>
-    <div id="side-nav">
-      <a href="/#/app/people" id="people-nav-item">People</a>
-      <a href="/#/app/teams">Teams</a>
-      <a href="/#/app/this-sunday">This Sunday</a>
-    </div>
+    <side-nav></side-nav>
+    <top-nav></top-nav>
 
-    <div id="top-nav">
-      <b-row style="align-items: center;" class="animated fadeIn faster">
-        <b-col md="6" id="nav-page-header">
-
-          <div id="nav-name-title" class="gs-flex-row animated fadeIn faster" v-show="showName">
-            <div>
-              <h3 class="black">{{person.fullName}}</h3>
-              <p class="black pl4"><strong>Your Page</strong></p>
-            </div>
-            <button @click="logoutAndGoBackToLogin()" class="gs-basic-button red ml4em">LOG OUT</button>
-          </div>
-
-          <div id="nav-church-title" v-show="showChurch">
-            <h3 class="black">{{church.name}}</h3>
-            <p class="black pl4"><strong>{{routeNameWithoutListInName}}</strong></p>
-          </div>
-
-        </b-col>
-        <b-col md="6" class="black" id="nav-top-right">
-          <strong style="font-size: 14pt !important">Welcome Back, {{ person.firstName }}</strong>
-          <img
-            class="noselect ml1em"
-            id="app-page-logo"
-            :height="50"
-            src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small-noborder.png"
-          />
-          <router-link to="/app/my-church" class="noselect">
-            <avatar :height="50" class="ml1em" :url="church.churchImageThumbnailURL" :title="church.nickname" />
-          </router-link>
-          <div id="message-circle-wrapper">
-            <i class="material-icons">send</i>
-          </div>
-          <router-link to="/app/me" class="noselect">
-            <avatar :height="70" :url="person.personImageThumbnailURL" :title="person.personName" />
-          </router-link>
-        </b-col>
-      </b-row>
-    </div>
-
-    <div id="app-page-content">
+    <div id="app-page-content" 
+         :class="{'open': $store.state.drawerIsOpen, 'collapsed': !$store.state.drawerIsOpen}">
       <router-view></router-view>
       <div
         style="overflow-y: auto; height: calc(100vh - 40px)"
@@ -60,61 +17,13 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
-import Avatar from "@/components/Avatar";
+import SideNav from "@/components/framework/SideNav";
+import TopNav from "@/components/framework/TopNav";
 
 export default {
-  data() {
-    return {
-      showChurch: false,
-      showName: false,
-      drawerIsOpen: true,
-    }
-  },
-  watch: {
-    $route(to, from) {
-      this.setShowChurchAndShowNameBasedOnRouteName(to.name);
-    }
-  },
-  methods: {
-    ...mapActions(['getChurch', 'logout']),
-    ...mapActions('people', ['getPerson']),
-    ...mapMutations('people', ['setPerson']),
-    setShowChurchAndShowNameBasedOnRouteName(routeName) {
-      if(routeName === 'Me') { 
-        this.showName = true;
-        this.showChurch = false;
-        return;
-      }
-      this.showName = false;
-      this.showChurch = true;
-    },
-    logoutAndGoBackToLogin() {
-      this.logout();
-      this.$router.push("/login");
-    },
-    closeDrawer() {
-      this.drawerIsOpen = false;
-    },
-    openDrawer() {
-      this.drawerIsOpen = true;
-    }
-  },
   components: {
-    Avatar,
-  },
-  computed: {
-    ...mapState(['church', 'personID']),
-    ...mapState('people', ['person']),
-    routeNameWithoutListInName() {
-      return this.$route.name.replace(' List', '');
-    }
-  },
-  async mounted () {
-    this.setShowChurchAndShowNameBasedOnRouteName(this.$route.name);
-    this.getChurch();
-    await this.getPerson(this.personID);
-    this.setPerson(this.person.people)
+    SideNav,
+    TopNav,
   },
 }
 
@@ -125,66 +34,9 @@ export default {
   height: 100%;
 }
 
-#nav-arrow {
-  position: absolute;
-  left: 1em;
-  top: 1em;
-  z-index: 99;
-  cursor: pointer;
-}
-
-#side-nav {
-  position: absolute;
-  width: 10em;
-  height: 95vh;
-  background-color: #55C0E4;
-  border-radius: 0 6em 6em 0;
-  color: white;
-  display: flex;
-  flex-flow: column;
-  align-items: flex-end;
-  padding-right: 1em;
-}
-#side-nav > a {
-  margin-bottom: 3em;
-  color: white;
-  font-weight: 600;
-}
-#people-nav-item {
-  margin-top: 9em;
-}
-
-#top-nav {
-  position: absolute;
-  width: 100%;
-  padding-left: 13em !important;
-  padding-top: 3em !important;
-}
-
-#nav-top-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-flow: row nowrap;
-  padding-right: 2em;
-}
-
-#nav-top-right > #message-circle-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 1.5em;
-  width: 60px;
-  height: 60px;
-  border-radius: 6em;
-  box-shadow: 0px 5px 13px -2px #00000040;
-}
-
-
-#app-page-content {
-  padding-left: 12em !important;
-  padding-top: 8em !important;
-}
+#app-page-content { padding-top: 8em !important; }
+#app-page-content.open { padding-left: 12em !important; }
+#app-page-content.collapsed { padding-left: 6em !important; }
 #app-page-content >>> .main-wrapper {
   display: grid;
   grid-template-columns: 250px auto;
