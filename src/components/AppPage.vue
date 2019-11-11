@@ -3,22 +3,21 @@
     <div id="app-navbar-header" :class="{'toggled': showSidebar}">
       <div id="app-navbar-toggle" @click="showSidebar = !showSidebar">
         <transition name="rotate-fade">
-          <i class="material-icons noselect" v-if="showSidebar == false">menu</i>
+          <i class="material-icons noselect" v-if="!showSidebar">menu</i>
         </transition>
         <transition name="rotate-fade">
           <i
             class="material-icons noselect"
-            v-if="showSidebar == true"
+            v-if="showSidebar"
             @click="moreToggled = false"
           >clear</i>
         </transition>
         <div class="current-page" v-show="showSidebar == false">{{$route.path.split('/')[2]}}</div>
       </div>
     </div>
+
     <div id="app-navbar" :class="{'toggled': showSidebar}">
       <div id="app-header" class="noselect">
-        <!-- <img class="logo" src="/static/image/black-logo.png" alt="" srcset=""> -->
-        <!-- <div class="brand noselect">TOGETHER</div> -->
         <div class="more">
           <img
             class="noselect"
@@ -172,7 +171,6 @@ export default {
     logout() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/login")
-        console.log("logged out")
       });
     },
 
