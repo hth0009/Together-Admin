@@ -31,7 +31,13 @@ import ChurchInfo from '@/components/ChurchInfo'
 import Staff from '@/components/Staff'
 import Subscription from '@/components/Subscription'
 import PrivacyPolicy from '@/components/PrivacyPolicy'
-import Splash from '@/components/Splash'
+
+import Splash from '@/views/Splash'
+import Welcome from '@/components/splash/Welcome';
+import Cost from '@/components/splash/Cost';
+import StillHaveQuestions from '@/components/splash/StillHaveQuestions';
+import HowDoesItWork from '@/components/splash/HowDoesItWork';
+
 import FAQ from '@/components/FAQ'
 
 import Inbox from '@/components/Inbox'
@@ -51,7 +57,6 @@ import store from './store'
 Vue.use(Router)
 
 let router = new Router({
-  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -68,7 +73,45 @@ let router = new Router({
       meta: {
         noNav: true,
         requiresAuth: false
-      }
+      },
+      children: [
+        {
+          path: 'welcome',
+          name: 'Welcome',
+          component: Welcome,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
+        {
+          path: 'cost',
+          name: 'Cost',
+          component: Cost,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
+        {
+          path: 'still-have-questions',
+          name: 'Still Have Questions',
+          component: StillHaveQuestions,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
+        {
+          path: 'how-does-it-work',
+          name: 'How Does It Work',
+          component: HowDoesItWork,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
+      ]
     },
     {
       path: '/faq',

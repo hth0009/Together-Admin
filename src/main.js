@@ -25,8 +25,12 @@ import { TooltipPlugin } from "@syncfusion/ej2-vue-popups"
 import { RichTextEditorPlugin } from "@syncfusion/ej2-vue-richtexteditor"
 
 
+import { animate } from "animate.css";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import { LayoutPlugin } from "bootstrap-vue";
+Vue.use(LayoutPlugin);
 
 import './assets/css/helpers.css'
 import './registerServiceWorker'

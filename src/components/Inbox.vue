@@ -174,7 +174,7 @@ export default {
     },
     selectedThreadID(val) {
       const reloadNumber = Number(this.messagesReload)
-      if (!!reloadNumber) {
+      if (reloadNumber) {
         // window.clearInterval(reloadNumber)
       }
       if (val != -1 && val != undefined) {

@@ -271,7 +271,6 @@ export default {
 }
 #app-navbar-buttons a.router-link-active:before {
   height: 1.8rem;
-  bottom: -0.5rem;
   right: -0.5rem;
   border: 4px #00cec9 solid;
   border-radius: 5px;

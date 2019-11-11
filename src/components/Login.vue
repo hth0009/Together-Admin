@@ -1,8 +1,8 @@
 <template>
   <div id="login-page">
-    <router-link to="/hello"  id="back-to-landing"><i class="material-icons">arrow_back</i></router-link>
+    <router-link to="/hello/welcome"  id="back-to-landing"><i class="material-icons">arrow_back</i></router-link>
     <h1 class="noselect">together</h1>
-    <div id="login-form">
+    <div id="login-form" class="animated fadeIn fast">
       <form v-on:submit.prevent="login">
         <label for="username">username:</label>
         <input v-model="username" type="username" name="username" required placeholder="username">
@@ -57,7 +57,6 @@ export default {
       this.loggingIn = true
 
       const username = this.lowerCaseUsername;
-      // this.$store.dispatch('login', { username, password });
       this.storeLogin({username, password: this.password})
       .then(() => this.$router.push('/app/people'))
       .catch(err => {
@@ -67,8 +66,9 @@ export default {
         if (err.code == "UserNotFoundException") {
           this.userNotFound = true;
         }
-      }).then(() => {
-        this.loggingIn = false
+      })
+      .finally(() => {
+        this.loggingIn = false;
       })
     },
     forgotPassword() {      

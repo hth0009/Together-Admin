@@ -582,7 +582,7 @@ export default {
       )
 
       const filteredArray = people.filter(function (x) {
-        return !!!toRemoveMap[x.id + ''];
+        return !toRemoveMap[x.id + ''];
       })
 
       this.peopleNotInTeam = filteredArray
@@ -627,7 +627,7 @@ export default {
     async postTeam() {      
       this.$root.$emit('loading', true)
       var profilePic = await this.uploadTeamProfilePic()
-      profilePic = !!profilePic ? 'https://togethercdn.global.ssl.fastly.net/TeamPics/' + profilePic : ''
+      profilePic = profilePic ? 'https://togethercdn.global.ssl.fastly.net/TeamPics/' + profilePic : ''
       const newTeam = {
         "churchUsername": store.state.churchUsername,
         "name": this.newTeam.name,

@@ -347,9 +347,7 @@ import ContactUs from "./ContactUs.vue";
 import PersonalSimpleFree from "./PersonalSimpleFree";
 
 import RegisterChurch from "@/components/RegisterChurch";
-import { LayoutPlugin } from "bootstrap-vue";
 import Vue from "vue";
-Vue.use(LayoutPlugin);
 
 export default {
   name: "Hello",
