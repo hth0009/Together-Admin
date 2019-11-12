@@ -13,7 +13,9 @@
             {{showPassword ? 'visibility' : 'visibility_off'}}
           </i>
         </div>
-        <button class="gs-basic-button">ENTER</button>
+        <div id="enter-btn-wrapper">
+          <button class="gs-basic-button">ENTER</button>
+        </div>
       </form>      
       <!-- <a @click="forgotPassword" id="forgot-password">Forgot password?</a> -->
       <inline-loader v-show="loggingIn"></inline-loader>
@@ -192,6 +194,11 @@ export default {
     background: none;
     border: none;
     cursor: pointer;
+  }
+  #enter-btn-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
   #login-footer {
     position: absolute;

@@ -3,10 +3,10 @@
     <i class="material-icons animated fadeIn black" v-show="drawerIsOpen" id="nav-arrow" @click="setDrawerIsOpen(false)">arrow_backwards</i>
     <i class="material-icons animated fadeIn black" v-show="!drawerIsOpen" id="nav-arrow" @click="setDrawerIsOpen(true)">arrow_forwards</i>
     <div id="side-nav" class="open" :class="{'open': drawerIsOpen, 'collapsed': !drawerIsOpen}">
-      <a href="/#/app/people" :class="{'black': $route.name === 'People List'}" id="people-nav-item">People</a>
-      <a href="/#/app/teams" :class="{'black': $route.name === 'Teams List'}">Teams</a>
+      <a href="/#/app/people" :class="{'black': $route.path.startsWith('/app/people')}" id="people-nav-item">People</a>
+      <a href="/#/app/teams" :class="{'black': $route.path.startsWith('/app/teams')}">Teams</a>
       <a href="/#/app/this-sunday" style="text-align: center" 
-         :class="{'black': $route.name === 'This Sunday'}">This Sunday</a>
+         :class="{'black': $route.path.startsWith('/app/this-sunday')}">This Sunday</a>
       <a href="/#/app/giving" :class="{'black': $route.name === 'giving'}">
         <i v-if='!drawerIsOpen' class="material-icons">favorite</i>
         <span v-else>Giving</span>
@@ -27,6 +27,8 @@ export default {
   watch: {
     $route(to, from) {
       // this.setShowChurchAndShowNameBasedOnRouteName(to.name);
+      console.log(this.$route);
+      
     }
   },
   methods: {
