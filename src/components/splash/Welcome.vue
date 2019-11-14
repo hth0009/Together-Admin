@@ -16,6 +16,7 @@
 
     <div>
       <h2>Cross globe animation here</h2>
+      <font-awesome-icon icon="user-secret" />
     </div>
     
   </div>
