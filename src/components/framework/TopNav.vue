@@ -12,7 +12,8 @@
           <button @click="logoutAndGoBackToLogin()" class="gs-basic-button red ml4em">LOG OUT</button>
         </div>
 
-        <div id="nav-church-title" v-show="showChurch">
+        <div id="nav-church-title" style="cursor: pointer;" 
+             @click="$router.push('/app/my-church')" v-show="showChurch">
           <h3 class="black">{{church.name}}</h3>
           <p class="black pl4"><strong>{{routeNameWithoutListInName}}</strong></p>
         </div>

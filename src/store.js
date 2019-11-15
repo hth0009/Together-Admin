@@ -62,6 +62,7 @@ export default new Vuex.Store({
       if(getCurrentStateIfAlreadyThere && Object.keys(state.church).length !== 0) { return state.church; }
       const getChurchRes = await Church.getChurch(churchUsername);
       commit('setChurch', getChurchRes.data.churches[0]);
+      return state.church;
     },
     login ({commit, dispatch}, user) {
       return new Promise((resolve, reject) => {

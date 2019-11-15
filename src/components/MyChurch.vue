@@ -16,12 +16,12 @@
                   style="border-radius:100%;overflow:hidden;opacity:0.6;position:absolute"
                 ></croppa>
               </div>
-            <avatar :height="100" :url="myChurch.churchImageThumbnailURL" />
+            <avatar :height="100" :url="church.churchImageThumbnailURL" />
           </div>
-          <h3>{{myChurch.name}}</h3>
+          <h3>{{church.name}}</h3>
           <div
             class="subtitle"
-          >{{myChurch.username !== '' ? '@' + myChurch.username : ''}}</div>
+          >{{church.username !== '' ? '@' + church.username : ''}}</div>
         </div>
         <div class="gs-buttons-right">
           <button class="gs-basic-button" @click="startEdit" v-show="!editing">
@@ -42,7 +42,7 @@
               class="gs-basic-input"
               :readonly="!editing"
               placeholder="Add Website"
-              v-model="myChurch.websiteURL"
+              v-model="church.websiteURL"
             />
           </div>
           <div class="gs-form-group">
@@ -52,7 +52,7 @@
               class="gs-basic-input"
               :readonly="!editing"
               placeholder="Add Mailing Address"
-              v-model="myChurch.address"
+              v-model="church.address"
             />
           </div>
           <div class="gs-form-group">
@@ -62,7 +62,7 @@
               class="gs-basic-input"
               :readonly="!editing"
               placeholder="Add Phone Number"
-              v-model="myChurch.phoneNumber"
+              v-model="church.phoneNumber"
             />
           </div>
           <div class="gs-form-group">
@@ -73,7 +73,7 @@
               placeholder="Add Description"
               rows="10"
               :readonly="!editing"
-              v-model="myChurch.description"
+              v-model="church.description"
             ></textarea>
           </div>
           <div class="gs-form-group">
@@ -84,7 +84,7 @@
               placeholder="Add Statement of Faith"
               rows="10"
               :readonly="!editing"
-              v-model="myChurch.statementOfFaith"
+              v-model="church.statementOfFaith"
             ></textarea>
           </div>
           <div class="gs-form-group">
@@ -95,7 +95,7 @@
               placeholder="Add Vision"
               rows="10"
               :readonly="!editing"
-              v-model="myChurch.vision"
+              v-model="church.vision"
             ></textarea>
           </div>
         </form>
@@ -139,13 +139,13 @@ import 'vue-croppa/dist/vue-croppa.css'
 import CDN from '@/services/cdn'
 import Vue from 'vue'
 import { checkIfObjNotFilled, generateGUID, getYYYYMMDD } from '../utils/helpers'
+import { mapActions, mapState } from 'vuex';
 Vue.use(Croppa)
 
 export default {
   name: "",
   data() {
     return {
-      myChurch: "",
       myChurchStaff: "",
       editing: false
     };
@@ -154,11 +154,14 @@ export default {
     Avatar,
     Cards
   },
+  computed: {
+    ...mapState(['church', 'churchUsername']),
+  },
   methods: {
+    ...mapActions(['getChurch']),
     async getMyChurch() {
-      Church.getChurch(Store.state.churchUsername).then(response => {
-        this.myChurch = response.data.churches[0]
-        this.myChurchStaff = response.data.churches.map((aStaff) => ({
+      this.getChurch(this.churchUsername, true).then(response => {
+        this.myChurchStaff = [response].map((aStaff) => ({
           staffName: aStaff.pastor.firstName + ' ' + aStaff.pastor.lastName,
           staffIconURL: aStaff.pastor.personImageURL,
           staffID: aStaff.pastor.id
@@ -178,12 +181,12 @@ export default {
           "username": Store.state.churchUsername
         },
         "values": {
-          websiteURL: this.myChurch.websiteURL,
-          address: this.myChurch.address,
-          phoneNumber: this.myChurch.phoneNumber,
-          description: this.myChurch.description,
-          statementOfFaith: this.myChurch.statementOfFaith,
-          vision: this.myChurch.vision
+          websiteURL: this.church.websiteURL,
+          address: this.church.address,
+          phoneNumber: this.church.phoneNumber,
+          description: this.church.description,
+          statementOfFaith: this.church.statementOfFaith,
+          vision: this.church.vision
         }
       }
       if (this.photoCroppa.hasImage()) {        
@@ -224,7 +227,6 @@ export default {
   mounted() {
     this.getMyChurch();
   },
-  computed: {}
 };
 </script>
 
