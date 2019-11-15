@@ -118,12 +118,12 @@ export default {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
-  height: 5em;
+  height: 6em;
   border-radius: 2em;
   padding-left: 1em;
   margin-bottom: 8px;
   margin-right: -5em;
-  font-size: 6pt;
+  font-size: 9pt;
   font-weight: 700;
   border: none;
   cursor: pointer;

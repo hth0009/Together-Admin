@@ -38,13 +38,11 @@ export default {
   flex-flow: row wrap;
 }
 #together-title {
-  height: 3em;
+  height: 4em;
 }
 .together-subtext {
-  font-size: .8rem;
+  font-size: 1rem;
   font-weight: 700;
 }
-
-
 
 </style>

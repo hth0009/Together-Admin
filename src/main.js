@@ -11,10 +11,6 @@ import VuejsClipper from 'vuejs-clipper'
 import { SweetModal } from 'sweet-modal-vue'
 import PrettyCheckbox from 'pretty-checkbox-vue';
 
-/* ///////////////////////////////
-///////SYNC FUSION IMPORTS////////
-/////////////////////////////// */
-
 import { DropDownListPlugin, AutoCompletePlugin, MultiSelectPlugin, ComboBoxPlugin } from '@syncfusion/ej2-vue-dropdowns'
 import { DateTimePickerPlugin, DatePickerPlugin, TimePickerPlugin, DateRangePickerPlugin } from '@syncfusion/ej2-vue-calendars'
 import { InPlaceEditorPlugin } from '@syncfusion/ej2-vue-inplace-editor'
@@ -35,15 +31,14 @@ Vue.use(LayoutPlugin);
 import './assets/css/helpers.css'
 import './registerServiceWorker'
 
-// import { TabPlugin } from '@syncfusion/ej2-vue-navigations'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faFilter, faCross } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faStripeS } from '@fortawesome/free-brands-svg-icons'
+import { faHeart, faPaperPlane, faUser } from '@fortawesome/free-regular-svg-icons'
+library.add(faFilter, faCross, faStripeS, faHeart, faPaperPlane, faUser);
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-// import BootstrapVue from 'bootstrap-vue'
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-/* ///////////////////////
-///////SYNC FUSION////////
-/////////////////////// */
 
 Vue.use(DropDownListPlugin)
 Vue.use(DateTimePickerPlugin)
@@ -60,13 +55,6 @@ Vue.use(DateRangePickerPlugin)
 Vue.use(TimePickerPlugin)
 Vue.use(TooltipPlugin)
 Vue.use(RichTextEditorPlugin)
-// Vue.use(TabPlugin)
-
-/* ///////////////////////
-///////////OTHER//////////
-/////////////////////// */
-
-// Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 Vue.use(VuejsClipper)
@@ -75,7 +63,8 @@ Vue.use(VueYoutube)
 Vue.use(VueFuse)
 Vue.use(SweetModal)
 Vue.use(PrettyCheckbox);
-// Vue.use(SimpleBar)
+
+
 
 /* eslint-disable no-new */
 new Vue({

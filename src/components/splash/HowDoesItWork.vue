@@ -16,7 +16,7 @@
         <div v-for="(value, key) in topicIcons" :key="key" class="switchTopicCardWrapper" 
              :class="{'gs-primary-bg': selectedTopic === key}">
           <div class="switchTopicCard" @click="chooseTopic(key)" >
-            <i class="material-icons">{{value.icon}}</i>
+            <font-awesome-icon :icon="[value.prefix, value.icon]" />
           </div>
         </div>
       </b-col>
@@ -35,31 +35,40 @@
         topics,
         topicIcons: {
           1: {
-            icon: 'favorite_border'
+            prefix: 'far',
+            icon: 'heart'
           },
           2: {
-            icon: 'favorite_border'
+            prefix: 'far',
+            icon: 'heart'
           },
           3: {
-            icon: 'favorite_border'
+            prefix: 'far',
+            icon: 'heart'
           },
           4: {
-            icon: 'event_seat'
+            prefix: 'fab',
+            icon: 'stripe-s'
           },
           5: {
-            icon: 'favorite_border'
+            prefix: 'far',
+            icon: 'heart'
           },
           6: {
-            icon: 'send'
+            prefix: 'far',
+            icon: 'paper-plane'
           },
           7: {
-            icon: 'system_update'
+            prefix: 'fas',
+            icon: 'filter'
           },
           8: {
-            icon: 'favorite_border'
+            prefix: 'fas',
+            icon: 'cross'
           },
           9: {
-            icon: 'people'
+            prefix: 'far',
+            icon: 'user'
           },
         }
       };
