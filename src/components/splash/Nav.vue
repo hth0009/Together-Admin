@@ -38,13 +38,13 @@ export default {
 }
 #together-badge {
   order: 0;
-  height: 40px;
+  height: 70px;
 }
 #mvp-tag {
   color: white;
   background-color: darkslategray;
   padding: 4px;
-  font-size: .5em;
+  font-size: .7em;
   font-weight: 500;
   border-radius: 6px;
   margin-left: 1em;
@@ -52,6 +52,6 @@ export default {
 #signup-login {
   width: 80%;
   justify-content: flex-end;
-  margin-right: 4em;
+  margin-right: 13em;
 }
 </style>
