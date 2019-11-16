@@ -1,7 +1,7 @@
 <template>
   <div id="welcome" class="gs-flex-row center animated fadeIn fast">
-    <div class="fullscreen-bg">
-      <video class="fullscreen-bg_video animated fadeIn fast" :src="videoUrl" loop autoplay muted></video>
+    <div class="fullscreen-bg animated fadeIn fast">
+      <video class="fullscreen-bg_video" :src="videoUrl" loop autoplay muted></video>
     </div>
     <div id="together-hero-card">
       <img id="together-title" class="mb2em" alt srcset
@@ -42,7 +42,7 @@ export default {
 }
 #together-hero-card {
   background-color: white;
-  opacity: .8;
+  opacity: .85;
   box-shadow: 0px 5px 13px -2px #00000040;
   border-radius: 1em;
   padding: 4em;
@@ -58,16 +58,16 @@ export default {
 .fullscreen-bg {
     position: fixed;
     top: 10%;
-    right: 20%;
+    right: 10%;
     bottom: 10%;
-    left: 10%;
+    left: 5%;
     overflow: hidden;
     z-index: -100;
-    border-radius: 1em;
 }
 
-.fullscreen-bg__video {
+.fullscreen-bg_video {
     position: absolute;
+    border-radius: 21em;
     top: 0;
     left: 0;
     width: 100%;
