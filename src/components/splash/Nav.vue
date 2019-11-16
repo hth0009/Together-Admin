@@ -52,6 +52,20 @@ export default {
 #signup-login {
   width: 80%;
   justify-content: flex-end;
-  margin-right: 13em;
+}
+
+@media all and (min-width: 1024px) {
+  #signup-login {
+    margin-right: 13em;
+  }
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+}
+
+@media all and (max-width: 480px) {
 }
 </style>
