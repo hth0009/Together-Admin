@@ -111,7 +111,8 @@ export default {
   flex-flow: column;
   justify-content: flex-end;
   right: 0;
-  top: 6em;
+  width: 15%;
+  top: 8em;
 }
 .nav-tab-button, .back-button {
   display: flex;
@@ -119,21 +120,20 @@ export default {
   align-items: center;
   justify-content: flex-start;
   height: 6em;
-  border-radius: 2em;
+  border-radius: 2em 0 0 2em;
   padding-left: 1em;
+  padding-right: 1em;
   margin-bottom: 8px;
-  margin-right: -5em;
   font-size: 9pt;
   font-weight: 700;
   border: none;
   cursor: pointer;
 }
 .nav-tab-button { 
-  width: 22em;
+  width: 100%;
 }
 .back-button {
-  width: 16em;
-  margin-left: 6em;
+  margin-left: 40%;
 }
 #back-arrow {
   width: 1.5em;
