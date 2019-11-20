@@ -1,6 +1,6 @@
 <template>
   <div class="people-container">
-    <div class="page-wrapper">
+    <div class="page-wrapper three-rows">
       <div class="page-card-wrapper" :class="{'inactive': selectedID != ''}">
         <cards
           :cardList="formatedPeople"
@@ -18,15 +18,10 @@
         <div
           class="selected-view"
           id="selected-view"
-          v-if="selectedID != '' && Object.keys(selectedPerson).length != 0 && selectedID != -1 && !creatingNewItem"
+          v-if="selectedID !== '' && Object.keys(selectedPerson).length !== 0 && selectedID !== -1 && !creatingNewItem"
           ref="selectedView"
         >
           <div class="details">
-            <div class="quick-actions">
-              <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
-              <!-- <button class="basic-button red"><i class="material-icons">delete</i></button> -->
-            </div>
-            <!-- <button class="section-toggle">Teams</button> -->
             <div id="person-profile" class="panel gs-container vertical">
               <div class="header">
                 <div class="profile-pic">
@@ -85,6 +80,9 @@
                 <button class="gs-basic-button" @click="saveEdit" v-show="editing">
                   <i class="material-icons">done</i>SAVE
                 </button>
+
+                <font-awesome-icon v-show="!editing" class="ml1em" style="font-size: 1.3em; cursor: pointer" 
+                                   :icon="['far', 'paper-plane']" @click="showMessages = true;" />
               </div>
               <!-- <div class="item">
               <i class="material-icons noselect">email</i>
@@ -273,6 +271,16 @@
           </div>
         </div>
       </transition>
+      <transition name="fadeOut">
+          <div id="third-col" class="selected-view">
+            <div id="messages" class="panel vertical gs-container">
+              <div class="header">
+                messages
+              </div>
+            </div>
+          </div>
+      </transition>
+
       <div class="new-item" v-if="creatingNewItem">
         <div class="title">New Person</div>
         <div class="details">
@@ -344,12 +352,11 @@ import CustomRadio from "@/components/CustomRadio";
 import StaticHeader from "@/components/StaticHeader";
 import Avatar from "@/components/Avatar";
 import { Container, Draggable } from "vue-smooth-dnd";
-import { applyDrag } from "@/utils/helpers";
 import Croppa from 'vue-croppa'
 import 'vue-croppa/dist/vue-croppa.css'
 import CDN from '@/services/cdn'
 import Vue from 'vue'
-import { checkIfObjNotFilled, generateGUID, getYYYYMMDD } from '../utils/helpers'
+import { checkIfObjNotFilled, generateGUID, getYYYYMMDD, applyDrag } from '../utils/helpers'
 Vue.use(Croppa)
 
 import { Rte } from "@syncfusion/ej2-vue-inplace-editor";
@@ -381,7 +388,8 @@ export default {
       creatingNewItem: false,
       newItemType: 0,
       notesHTML: "",
-      editing: false
+      editing: false,
+      showMessages: false,
     };
   },
   provide: {
@@ -557,6 +565,8 @@ export default {
 #top-buttons {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  padding-right: 1em;
 }
 #selected-view #person-profile .header {
   margin: 0;
@@ -572,23 +582,20 @@ h2 {
 
 .people-wrapper {
   display: grid;
-  grid-template-columns: 250px auto;
+  grid-template-columns: 250px 450px auto;
   position: relative;
   height: 100%;
   width: 100%;
   overflow: hidden;
-  /* overflow-x: auto; */
 }
 
 .people-card-wrapper {
   overflow-y: auto;
   width: 100%;
   position: relative;
-  /* border-right: 1px #E6E9EC solid; */
 }
 
 .person-view {
-  /* width: 100%; */
   height: 100%;
   position: relative;
   padding-left: 30px;
