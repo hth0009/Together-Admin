@@ -175,6 +175,67 @@
               </button>
             </div>
           </div>
+          <div class="panel gs-container vertical">
+            <div class="gs-card-header" style="display:flex;justify-content:space-between;">
+              <div @click="membersSelected = true" style="cursor:pointer;">Members</div>
+              <div @click="membersSelected = false" style="cursor:pointer;">Subteams</div>
+            </div>
+            <div v-if="membersSelected">
+              <label v-if="selectedTeam.isPrivate">Pending</label>
+              <cards
+                v-if="selectedTeam.isPrivate"
+                style="maxHeight:20vh"
+                :hasApproveDeny="true"
+                :loading="loading"
+                :cardList="selectedTeamMembers"
+                :emptyMessage="'No Pending Requests'"
+                :cardSelectable="false"
+                :hasShadow="false"
+                :inline="true"
+                :hasSearch="false"
+                @onApprove="memberApproved"
+                @onDeny="memberDenied"
+                :fields="{
+              title: 'memberName',
+              id: 'memberID',
+              profile: 'memberAvatar'
+              }"
+              />
+              <label>Members</label>
+              <cards
+                style="maxHeight:20vh"
+                :loading="loading"
+                :cardList="selectedTeamMembers"
+                :emptyMessage="'No Members'"
+                :cardSelectable="false"
+                :hasShadow="false"
+                :inline="true"
+                :hasSearch="false"
+                :fields="{
+              title: 'memberName',
+              id: 'memberID',
+              profile: 'memberAvatar'
+              }"
+              />
+            </div>
+            <div v-if="!membersSelected">
+              <cards
+                style="maxHeight:20vh"
+                :loading="loading"
+                :cardList="selectedTeamSubteams"
+                :emptyMessage="'No Subteams'"
+                :cardSelectable="false"
+                :hasShadow="false"
+                :inline="true"
+                :hasSearch="false"
+                :fields="{
+              title: 'subteamName',
+              id: 'subteamID',
+              profile: 'subteamAvatar'
+              }"
+              />
+            </div>
+          </div>
         </div>
         <div class="details" v-if="creatingNewItem">
           <div class="panel gs-card-with-shadow gs-card-rise">
@@ -321,6 +382,8 @@ export default {
       newTeam: {},
       selectedID: -1,
       selectedTeam: {},
+      selectedTeamMembers: [],
+      selectedTeamSubteams: [],
       beforeEditedService: {},
       cdnKeys: {},
       photoCroppa: {},
@@ -333,7 +396,8 @@ export default {
         altInput: true
       },
       editing: false,
-      people: []
+      people: [],
+      membersSelected: true
     };
   },
   computed: {
@@ -391,6 +455,12 @@ export default {
       const team = getTeamRes.data.teams[0];
       this.selectedTeam = team;
       this.selectedTeam.leaders = team.leaders.length > 0 ? team.leaders : [{}];
+      this.selectedTeamMembers = team.members.map(aMember => ({
+        memberID: aMember.personID,
+        memberAvatar: aMember.person.personImageThumbnailURL,
+        memberName: aMember.person.fullName
+      }));
+      this.selectedTeamSubteams = team.subteams;
 
       // this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
       //   fullName: member.firstName + ' ' + member.lastName,
@@ -528,6 +598,12 @@ export default {
     },
     removeNewTeamPlaceholderInCardList() {
       this.teams.pop();
+    },
+    memberApproved(id) {
+      console.log(id + " approved");
+    },
+    memberDenied(id) {
+      console.log(id + " denied");
     }
   },
   props: {},
