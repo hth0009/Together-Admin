@@ -272,11 +272,9 @@
         </div>
       </transition>
       <transition name="fadeOut">
-          <div id="third-col" class="selected-view">
+          <div id="third-col" v-if="showMessages" class="selected-view">
             <div id="messages" class="panel vertical gs-container">
-              <div class="header">
-                messages
-              </div>
+              <h5 class="black">New Message</h5>
             </div>
           </div>
       </transition>

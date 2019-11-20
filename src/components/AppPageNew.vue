@@ -56,7 +56,7 @@ export default {
   padding: 0px 3px;
 }
 #app-page-content >>> .page-wrapper.three-rows {
-  grid-template-columns: 240px minmax(auto, 500px) auto;
+  grid-template-columns: 240px minmax(460px, auto) minmax(460px, auto);
 }
 
   #app-page-content >>> .card-list-wrapper {
