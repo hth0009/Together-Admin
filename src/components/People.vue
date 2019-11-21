@@ -18,7 +18,7 @@
         <div
           class="selected-view"
           id="selected-view"
-          v-if="selectedID !== '' && Object.keys(selectedPerson).length !== 0 && selectedID !== -1 && !creatingNewItem"
+          v-if="selectedID !== '' && Object.keys(person).length !== 0 && selectedID !== -1 && !creatingNewItem"
           ref="selectedView"
         >
           <div class="details">
@@ -40,35 +40,29 @@
                   </div>
                   <avatar
                     :height="100"
-                    :url="selectedPerson.personImageThumbnailURL"
-                    :title="selectedPerson.fullName"
+                    :url="person.personImageThumbnailURL"
+                    :title="person.fullName"
                   />
                 </div>
-                <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
+                <h3>{{person.firstName + ' ' + person.lastName}}</h3>
                 <div
                   class="subtitle"
-                  v-if="!!selectedPerson.account"
-                >{{selectedPerson.account.username !== '' ? '@' + selectedPerson.account.username : ''}}</div>
+                  v-if="!!person.account"
+                >{{person.account.username !== '' ? '@' + person.account.username : ''}}</div>
               </div>
               <static-header
                 class="static-header"
                 :parentDivID="'selected-view'"
                 :displayScrollValue="100"
               >
-                <!-- <div :style="{backgroundImage: 'url(' +  selectedPerson.profile + ')'}"
-                class="profile-pic"></div>-->
-                <!-- <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
-                class="profile-pic"></div>-->
                 <div class="profile-pic">
                   <avatar
                     :height="30"
-                    :url="selectedPerson.personImageThumbnailURL"
-                    :title="selectedPerson.fullName"
+                    :url="person.personImageThumbnailURL"
+                    :title="person.fullName"
                   />
                 </div>
-                <!-- <div :style="{backgroundImage: 'url(https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80)'}"
-                class="profile-pic"></div>-->
-                <h3>{{selectedPerson.firstName + ' ' + selectedPerson.lastName}}</h3>
+                <h3>{{person.firstName + ' ' + person.lastName}}</h3>
               </static-header>
               <div id="top-buttons" class="gs-top-buttons">
                 <button class="gs-basic-button" @click="startEdit" v-show="!editing">
@@ -84,22 +78,7 @@
                 <font-awesome-icon v-show="!editing" class="ml1em" style="font-size: 1.3em; cursor: pointer" 
                                    :icon="['far', 'paper-plane']" @click="showMessages = true;" />
               </div>
-              <!-- <div class="item">
-              <i class="material-icons noselect">email</i>
-              <div class="label noselect">Email</div>
-                {{selectedPerson.accountEmail}}
-              </div>
-            <div class="item">
-              <i class="material-icons noselect">event</i>
-              <div class="label noselect">Birthday</div>
-              {{selectedPerson.birthday}}
-            </div>
-            <div class="item">
-              <i class="material-icons noselect">place</i>
-              <div class="label noselect">Address</div>
-              {{selectedPerson.address}}
-              </div>-->
-              <form id="selectedPerson-form">
+              <form id="person-form">
                 <div class="gs-form-group">
                   <label>Email</label>
                   <input
@@ -107,7 +86,7 @@
                     class="gs-basic-input"
                     readonly
                     placeholder="Email Address"
-                    v-model="selectedPerson.contactEmail"
+                    v-model="person.contactEmail"
                   />
                 </div>
                 <div class="gs-form-group">
@@ -117,7 +96,7 @@
                     class="gs-basic-input"
                     readonly
                     placeholder="Birthday"
-                    v-model="selectedPerson.birthday"
+                    v-model="person.birthday"
                   />
                 </div>
                 <div class="gs-form-group">
@@ -127,7 +106,7 @@
                     class="gs-basic-input"
                     :readonly="!editing"
                     placeholder="Home Address"
-                    v-model="selectedPerson.homeAddress"
+                    v-model="person.homeAddress"
                   />
                 </div>
                 <div class="gs-form-group">
@@ -137,7 +116,7 @@
                     class="gs-basic-input"
                     :readonly="!editing"
                     placeholder="Mailing Address"
-                    v-model="selectedPerson.mailingAddress"
+                    v-model="person.mailingAddress"
                   />
                 </div>
                 <div class="gs-form-group">
@@ -147,10 +126,28 @@
                     class="gs-basic-input"
                     :readonly="!editing"
                     placeholder="Phone Number"
-                    v-model="selectedPerson.phoneNumber"
+                    v-model="person.phoneNumber"
                   />
                 </div>
               </form>
+            </div>
+            <div class="panel gs-container vertical">
+              <h1 class="gs-card-header">Notes <span style="text-align: right;width: 100%;cursor:pointer;">+</span></h1>
+              <cards
+                :hasShadow='false'
+                :loading='false'
+                :inline="true"
+                :hasButtonOnCard="false"
+                :alphabetical="false"
+                :emptyMessage="'None'"
+                :cardList="notes"
+                :cardSelectable="false"
+                :hasSearch="false"
+                :fields='{
+                  title: "noteText"
+                }'
+              >
+              </cards>
             </div>
             <div class="panel gs-container vertical">
               <h1 class="gs-card-header">Teams</h1>
@@ -161,7 +158,7 @@
                 :hasButtonOnCard="false"
                 :alphabetical="true"
                 :emptyMessage="'Not in any teams'"
-                :cardList="selectedPersonTeams"
+                :cardList="teams"
                 :cardSelectable="true"
                 @selected="teamSelected"
                 profilePicFillerValue="teamName"
@@ -173,51 +170,13 @@
                   }"
               />
             </div>
-            <!-- <div class="panel">
-            <div class="card-header">Roles</div>
-            <div class="search">              
-                <cards
-                  :hasShadow="false"
-                  :loading="false"
-                  :inline="true"
-                  :cardList="[]"
-                  :cardSelectable="false"
-                  :hasSearch="false"
-                  :profilePicFillerValue="'name'"
-                  :fields="{
-                    title: 'name',
-                    id: 'id'
-                  }"
-                />
-            </div>
-            </div>-->
-            <!-- <div class="panel">
-            <div class="card-header">Teams</div>
-            <div class="teams">              
-                <cards
-                  :hasShadow="false"
-                  :loading="false"
-                  :inline="true"
-                  :cardList="selectedPersonTeams"
-                  :cardSelectable="false"
-                  :profilePicFillerValue="'name'"
-                  :emptyMessage="'Not in any teams'"
-                  :alphabetical="true"
-                  :fields="{
-                    title: 'name',
-                    id: 'id',
-                    profile: 'teamImageThumbnailURL'
-                  }"
-                />
-            </div>
-            </div>-->
             <!-- <div class="panel"
             style="min-height: 200px">
             <div class="card-header">Notes</div>
             <div class="card-explanation">These notes are visible to anyone on the admin site.</div>
             <div class="markdown">
             <ejs-inplaceeditor ref="notes" :emptyText="'Notes'" width="100%" autocomplete="off" :mode="'Inline'" :submitOnEnter="false" 
-              :value="selectedPerson.notes"
+              :value="person.notes"
               :model="{
                 editorMode: 'Markdown',               
                 placeholder: 'Notes',
@@ -241,7 +200,7 @@
             <div class="card-explanation">Track your members talents with the skills feature. <span style="color: #05e0a2; font-weight: 600">Confirm</span> skills and they will filter to the top of any skills search.</div>
             <div class="skills noselect">
               <div class="skill" 
-                v-for="(skill, index) in selectedPerson.skills['personSkill(s)']"
+                v-for="(skill, index) in person.skills['personSkill(s)']"
                 :key="skill.id"
                 :class="{'confirmed': skill.confirmed}"
                 @click="toggleSkill(index, skill.id)">
@@ -249,25 +208,9 @@
               </div>
             </div>
             </div>-->
-            <!-- <div class="panel">
-            <div class="card-header">Family</div>
-            <div class="card-explanation">COMING SOON</div>
-            <div class="search">              
-                <cards
-                  :hasShadow="false"
-                  :loading="false"
-                  :inline="true"
-                  :cardList="[]"
-                  :cardSelectable="false"
-                  :hasSearch="false"
-                  :profilePicFillerValue="'name'"
-                  :fields="{
-                    title: 'name',
-                    id: 'id'
-                  }"
-                />
+            <div class="panel gs-container vertical">
+              <h1 class="gs-card-header">Giving</h1>
             </div>
-            </div>-->
           </div>
         </div>
       </transition>
@@ -381,8 +324,8 @@ export default {
       columnType: {profile: 'profile', name: 'text'},
       peopleSearch: '',
       selectedID: '',
-      selectedPerson: {},
-      selectedPersonTeams: [],
+      person: {},
+      teams: [],
       creatingNewItem: false,
       newItemType: 0,
       notesHTML: "",
@@ -430,8 +373,8 @@ export default {
     ...mapActions ('people', ['getPeople']),
     async getPerson () {
       People.getPerson(this.selectedID).then(response => {
-        this.selectedPerson = response.data.people[0];
-        this.selectedPersonTeams = response.data.people[0].teamsPeople.map(
+        this.person = response.data.people[0];
+        this.teams = this.person.teamsPeople.map(
           aTeam => ({
             teamName: aTeam.team.name,
             teamIconURL: aTeam.team.iconURL,
@@ -439,6 +382,7 @@ export default {
             teamID: aTeam.teamID
           })
         );
+        this.notes = this.person.notes ? [{noteText: this.person.notes}] : [];
       });
     },
     async patchPersonValue(valueKey, value) {
@@ -449,7 +393,6 @@ export default {
       );
     },
     patchNotes(noteContent) {
-      // console.log(noteContent))
       var val = noteContent.value;
       if (val === "") return;
       // noteContent.value = this.toMarkdown(val + '')
@@ -459,29 +402,28 @@ export default {
       // this.$refs.notes.value = this.toMarkdown(this.$refs.notes.value)
     },
     toMarkdown(val) {
-      console.log(val);
       var markedVal = marked(val);
       const clean = DOMPurify.sanitize(markedVal);
       return '<div class="markdown">' + clean + "</div>";
     },
     toggleSkill(index, skillID) {
-      const isConfirmed = !this.selectedPerson.skills["personSkills"][index]
+      const isConfirmed = !this.person.skills["personSkills"][index]
         .confirmed;
-      this.selectedPerson.skills["personSkills"][index].confirmed = isConfirmed;
+      this.person.skills["personSkills"][index].confirmed = isConfirmed;
       Skills.patchSkill(skillID, isConfirmed);
     },
     recieveID(id) {
       if (!id) {
-        this.selectedPerson = {}
+        this.person = {}
         return
       }
       if (id == "-1") {
         this.selectedID = id;
         this.$router.push(`/app/people/`);
-        this.selectedPerson = {};
+        this.person  = {};
         return;
       }
-      this.selectedPerson = {};
+      this.person   = {};
       this.creatingNewItem = false;
       this.$router.push(`/app/people/${id}`);
       this.selectedID = id;
@@ -501,9 +443,9 @@ export default {
           "id": this.selectedID
         },
         "values": {
-          homeAddress: this.selectedPerson.homeAddress,
-          mailingAddress: this.selectedPerson.mailingAddress,
-          phoneNumber: this.selectedPerson.phoneNumber
+          homeAddress: this.person.homeAddress,
+          mailingAddress: this.person.mailingAddress,
+          phoneNumber: this.person.phoneNumber
         }
       }
       if (this.photoCroppa.hasImage()) {        
@@ -536,7 +478,6 @@ export default {
       var blob = await this.photoCroppa.promisedBlob('image/jpeg')
       var arrayBuffer = await new Response(blob).arrayBuffer();  
       await CDN.postImage(accessKeyID, secretAccessKey, arrayBuffer, fileSufix, fileName).catch(error => {
-        console.log(error)
         fileName = ''
       })
       return fileName

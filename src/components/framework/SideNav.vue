@@ -24,13 +24,6 @@ import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'SideNav',
-  watch: {
-    $route(to, from) {
-      // this.setShowChurchAndShowNameBasedOnRouteName(to.name);
-      console.log(this.$route);
-      
-    }
-  },
   methods: {
     ...mapMutations(['setDrawerIsOpen']),
   },
