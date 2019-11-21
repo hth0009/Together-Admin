@@ -21,12 +21,6 @@
       </b-col>
       <b-col md="6" class="black" id="nav-top-right">
         <strong style="font-size: 14pt !important">Welcome Back, {{ person.firstName }}</strong>
-        <img
-          class="noselect ml1em"
-          id="app-page-logo"
-          :height="50"
-          src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small-noborder.png"
-        />
         <router-link to="/app/my-church" class="noselect">
           <avatar :height="50" class="ml1em" :url="church.churchImageThumbnailURL" :title="church.nickname" />
         </router-link>
@@ -110,7 +104,7 @@ export default {
   justify-content: flex-end;
   align-items: center;
   flex-flow: row nowrap;
-  padding-right: 2em;
+  padding-right: 4em;
 }
 
 #nav-top-right > #message-circle-wrapper {
@@ -118,8 +112,8 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 0 1.5em;
-  width: 60px;
-  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
   border-radius: 6em;
   box-shadow: 0px 5px 13px -2px #00000040;
 }

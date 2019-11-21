@@ -27,7 +27,7 @@ export default {
 <style scoped>
 #nav {
   padding-top: 2em;
-  height: 4em;
+  height: 6em;
   width: 100%;
 }
 #logo {
@@ -50,8 +50,22 @@ export default {
   margin-left: 1em;
 }
 #signup-login {
-  width: 80%;
+  width: 60%;
   justify-content: flex-end;
-  margin-right: 13em;
+}
+
+@media all and (min-width: 1024px) {
+  #signup-login {
+    margin-right: 13em;
+  }
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+}
+
+@media all and (max-width: 480px) {
 }
 </style>
