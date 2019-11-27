@@ -26,66 +26,71 @@
           @onAddNew="createNewItem"
         />
       </div>
-      <div class="gs-app-selected-view" id="selected-view" >
+      <div class="selected-view" id="selected-view">
         <div class="details" v-if="selectedID != -1 && !creatingNewItem">
-          <div class="panel gs-card-with-shadow gs-card-rise">
-            <div class="gs-buttons-right">
-              <button class="gs-basic-button"
-                @click="startEdit"
-                v-show="!editing"
-              ><i class="material-icons">edit</i>EDIT</button>            
-              <button class="gs-basic-button red" 
-                @click="deleteButtonClicked"
-                v-show="!editing"
-              ><i class="material-icons">delete</i>DELETE</button>
-              <button class="gs-basic-button red"
-                @click="cancelEdit"
-                v-show="editing"
-              ><i class="material-icons">close</i>CANCEL</button>
-              <button class="gs-basic-button"
-                @click="saveEdit"
-                v-show="editing"
-              ><i class="material-icons">done</i>SAVE</button>            
+          <div class="panel gs-container vertical">
+            <div class="header" id="header">
+              <div class="profile-pic">
+                <div class="image-croppa">
+                  <croppa
+                    v-model="photoCroppa"
+                    canvas-color="transparent"
+                    :disable-rotation="true"
+                    :prevent-white-space="true"
+                    :width="100"
+                    :height="100"
+                    :speed="10"
+                    v-show="editing"
+                    style="border-radius:100%;overflow:hidden;opacity:0.6;position:absolute"
+                  ></croppa>
+                </div>
+                <avatar
+                  :height="100"
+                  :url="selectedTeam.teamImageThumbnailURL"
+                  :title="selectedTeam.name"
+                />
+              </div>
+              <h3>
+                <div class="gs-form-group">
+                  <input
+                    type="text"
+                    class="gs-basic-input"
+                    form="teams-form"
+                    placeholder="ex. Every Wednesday at 7:00 PM"
+                    required
+                    v-model="selectedTeam.name"
+                    :readonly="!editing"
+                    style="font-size:32px;font-weight:600;"
+                  />
+                </div>
+              </h3>
             </div>
-            <div class="image-croppa gs-card-photo">
-              <croppa v-model="photoCroppa"
-                canvas-color="transparent"
-                :disable-rotation="true"
-                :prevent-white-space="true"
-                :width="250"
-                :height="250"
-                :speed="10"
-                v-show="editing"
-              ></croppa>
-              <img
-                :src="selectedTeam.teamImageURL"
-                alt
-                srcset
-                class="teams-image"
-                v-show="!editing"
-              />
-            </div>
-            <form action="" class="" id="teams-form">
+            <div id="button-row">
               <padlock
                 v-model="selectedTeam.isPrivate"
-                :lockedLabel="'Private Team'"
-                :unlockedLabel="'Public Team'"
+                :lockedLabel="'Private'"
+                :unlockedLabel="'Public'"
                 :disabled="!editing"
                 :canBeUnlocked="false"
                 :cantUnlockMessage="'Private teams cannot be made public'"
                 :lockWarning="'Once this team is made private it cannot be made public again.'"
               />
-              <div class="gs-form-group">
-                <label for>Name</label>
-                <input
-                  type="text"
-                  class="gs-basic-input large"
-                  placeholder="Add a team name"
-                  required
-                  v-model="selectedTeam.name"
-                  :readonly="!editing"
-                />
+              <div class="gs-buttons-right">
+                <button class="gs-basic-button" @click="startEdit" v-show="!editing">
+                  <i class="material-icons">edit</i>EDIT
+                </button>
+                <button class="gs-basic-button red" @click="deleteButtonClicked" v-show="!editing">
+                  <i class="material-icons">delete</i>DELETE
+                </button>
+                <button class="gs-basic-button red" @click="cancelEdit" v-show="editing">
+                  <i class="material-icons">close</i>CANCEL
+                </button>
+                <button class="gs-basic-button" @click="saveEdit" v-show="editing">
+                  <i class="material-icons">done</i>SAVE
+                </button>
               </div>
+            </div>
+            <form action class id="teams-form">
               <div class="gs-form-group">
                 <label for>Meeting Frequency</label>
                 <input
@@ -137,9 +142,11 @@
                   v-model="selectedTeam.subtitle"
                   :readonly="!editing"
                 />
-                <input-char-count v-show='editing'
-                                  :input='selectedTeam.subtitle' :max-num-of-chars-allowed='"40"'>
-                </input-char-count>
+                <input-char-count
+                  v-show="editing"
+                  :input="selectedTeam.subtitle"
+                  :max-num-of-chars-allowed="40"
+                ></input-char-count>
               </div>
               <div class="gs-form-group">
                 <label for>Description</label>
@@ -152,21 +159,82 @@
                   v-model="selectedTeam.description"
                   :readonly="!editing"
                 ></textarea>
-                <input-char-count v-show='editing'
-                                  :input='selectedTeam.description' :max-num-of-chars-allowed='"500"'>
-                </input-char-count>
+                <input-char-count
+                  v-show="editing"
+                  :input="selectedTeam.description"
+                  :max-num-of-chars-allowed="500"
+                ></input-char-count>
               </div>
             </form>
-              <div class="gs-buttons-right">         
-              <button class="gs-basic-button red"
-                @click="cancelEdit"
-                v-show="editing"
-              ><i class="material-icons">close</i>CANCEL</button>
-              <button class="gs-basic-button"
-                @click="saveEdit"
-                v-show="editing"
-              ><i class="material-icons">done</i>SAVE</button>
-              </div>
+            <div class="gs-buttons-right">
+              <button class="gs-basic-button red" @click="cancelEdit" v-show="editing">
+                <i class="material-icons">close</i>CANCEL
+              </button>
+              <button class="gs-basic-button" @click="saveEdit" v-show="editing">
+                <i class="material-icons">done</i>SAVE
+              </button>
+            </div>
+          </div>
+          <div class="panel gs-container vertical">
+            <div class="gs-card-header" style="display:flex;justify-content:space-between;">
+              <div @click="membersSelected = true" style="cursor:pointer;">Members</div>
+              <div @click="membersSelected = false" style="cursor:pointer;">Subteams</div>
+            </div>
+            <div v-if="membersSelected">
+              <label v-if="selectedTeam.isPrivate">Pending</label>
+              <cards
+                v-if="selectedTeam.isPrivate"
+                style="maxHeight:20vh"
+                :hasApproveDeny="true"
+                :loading="loading"
+                :cardList="selectedTeamMembers"
+                :emptyMessage="'No Pending Requests'"
+                :cardSelectable="false"
+                :hasShadow="false"
+                :inline="true"
+                :hasSearch="false"
+                @onApprove="memberApproved"
+                @onDeny="memberDenied"
+                :fields="{
+              title: 'memberName',
+              id: 'memberID',
+              profile: 'memberAvatar'
+              }"
+              />
+              <label>Members</label>
+              <cards
+                style="maxHeight:20vh"
+                :loading="loading"
+                :cardList="selectedTeamMembers"
+                :emptyMessage="'No Members'"
+                :cardSelectable="false"
+                :hasShadow="false"
+                :inline="true"
+                :hasSearch="false"
+                :fields="{
+              title: 'memberName',
+              id: 'memberID',
+              profile: 'memberAvatar'
+              }"
+              />
+            </div>
+            <div v-if="!membersSelected">
+              <cards
+                style="maxHeight:20vh"
+                :loading="loading"
+                :cardList="selectedTeamSubteams"
+                :emptyMessage="'No Subteams'"
+                :cardSelectable="false"
+                :hasShadow="false"
+                :inline="true"
+                :hasSearch="false"
+                :fields="{
+              title: 'subteamName',
+              id: 'subteamID',
+              profile: 'subteamAvatar'
+              }"
+              />
+            </div>
           </div>
         </div>
         <div class="details" v-if="creatingNewItem">
@@ -180,7 +248,8 @@
               </b-col>
             </b-row>
             <div class="image-croppa gs-card-photo">
-              <croppa v-model="photoCroppa"
+              <croppa
+                v-model="photoCroppa"
                 canvas-color="transparent"
                 :disable-rotation="true"
                 :prevent-white-space="true"
@@ -189,23 +258,13 @@
                 :speed="10"
               ></croppa>
             </div>
-            <form action="" class="" id="teams-form" @submit.prevent="createTeam">
+            <form action class id="teams-form" @submit.prevent="createTeam">
               <padlock
                 v-model="newTeam.isPrivate"
-                :lockedLabel="'Private Team'"
-                :unlockedLabel="'Public Team'"
+                :lockedLabel="'Private'"
+                :unlockedLabel="'Public'"
                 :lockWarning="'Once this team is made private it cannot be made public again.'"
               />
-              <div class="gs-form-group">
-                <label for>Name</label>
-                <input
-                  type="text"
-                  class="gs-basic-input large"
-                  placeholder="Add a team name"
-                  required
-                  v-model="newTeam.name"
-                />
-              </div>
               <div class="gs-form-group">
                 <label for>Meeting Frequency</label>
                 <input
@@ -240,7 +299,7 @@
                   required
                   v-model="newTeam.subtitle"
                 />
-                <input-char-count :input='newTeam.subtitle' :max-num-of-chars-allowed='"40"'></input-char-count>
+                <input-char-count :input="newTeam.subtitle" :max-num-of-chars-allowed="40"></input-char-count>
               </div>
               <div class="gs-form-group">
                 <label for>Description</label>
@@ -253,7 +312,7 @@
                   maxlength="500"
                   v-model="newTeam.description"
                 ></textarea>
-                <input-char-count :input='newTeam.description' :max-num-of-chars-allowed='"500"'></input-char-count>
+                <input-char-count :input="newTeam.description" :max-num-of-chars-allowed="500"></input-char-count>
               </div>
               <button class="gs-basic-button">CREATE</button>
             </form>
@@ -276,18 +335,19 @@ import {
 import { SweetModal } from "sweet-modal-vue";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+import Avatar from "@/components/Avatar";
 
 import Teams from "@/services/teams";
 import Church from "@/services/church";
 import People from "@/services/people";
 import { getHHMM, getDayOfWeekMonthDay } from "../utils/helpers";
 
-import Cards from '@/components/CardList'
-import Dropdown from '@/components/CardDropdown'
-import Padlock from '@/components/Padlock'
-import InputCharCount from '@/components/InputCharCount';
+import Cards from "@/components/CardList";
+import Dropdown from "@/components/CardDropdown";
+import Padlock from "@/components/Padlock";
+import InputCharCount from "@/components/InputCharCount";
 
-import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
+import { mapActions, mapMutations, mapGetters, mapState } from "vuex";
 import Vue from "vue";
 Vue.use(Croppa);
 
@@ -322,6 +382,8 @@ export default {
       newTeam: {},
       selectedID: -1,
       selectedTeam: {},
+      selectedTeamMembers: [],
+      selectedTeamSubteams: [],
       beforeEditedService: {},
       cdnKeys: {},
       photoCroppa: {},
@@ -334,23 +396,25 @@ export default {
         altInput: true
       },
       editing: false,
-      people: []
+      people: [],
+      membersSelected: true
     };
   },
   computed: {
-    ...mapState('teams', ['teams', 'loading', 'creatingNewItem']),
+    ...mapState("teams", ["teams", "loading", "creatingNewItem"])
   },
-  components: {    
-    flatPickr, Cards, SweetModal, Dropdown, Padlock, InputCharCount
+  components: {
+    flatPickr,
+    Cards,
+    SweetModal,
+    Dropdown,
+    Padlock,
+    InputCharCount,
+    Avatar
   },
   methods: {
-    ...mapMutations('teams', [
-      'setTeams',
-      'setLoading',
-      'setCreatingNewItem'
-    ]),
-    ...mapActions('teams', ['getTeams']),
-
+    ...mapMutations("teams", ["setTeams", "setLoading", "setCreatingNewItem"]),
+    ...mapActions("teams", ["getTeams"]),
 
     recieveID(id) {
       if (!id) {
@@ -364,7 +428,7 @@ export default {
         this.$router.push(`/app/teams/`);
         return;
       }
-      if(this.creatingNewItem) {
+      if (this.creatingNewItem) {
         this.cancelCreatingNewItem();
       }
       this.$router.push(`/app/teams/${id}`);
@@ -375,10 +439,9 @@ export default {
       this.selectedID = -1;
       this.$router.push("/app/teams/");
 
-
       this.newTeam = { ...newTeamTemplate };
 
-      if(!this.creatingNewItem) {
+      if (!this.creatingNewItem) {
         this.teams.push(this.newTeam);
       }
       this.setCreatingNewItem(true);
@@ -392,6 +455,12 @@ export default {
       const team = getTeamRes.data.teams[0];
       this.selectedTeam = team;
       this.selectedTeam.leaders = team.leaders.length > 0 ? team.leaders : [{}];
+      this.selectedTeamMembers = team.members.map(aMember => ({
+        memberID: aMember.personID,
+        memberAvatar: aMember.person.personImageThumbnailURL,
+        memberName: aMember.person.fullName
+      }));
+      this.selectedTeamSubteams = team.subteams;
 
       // this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
       //   fullName: member.firstName + ' ' + member.lastName,
@@ -416,8 +485,7 @@ export default {
     },
     async deleteItem() {
       this.$refs.deleteItemModal.close();
-      Teams.deleteTeam(this.selectedID)
-      .then(() => {
+      Teams.deleteTeam(this.selectedID).then(() => {
         this.recieveID(-1);
         this.getTeams();
       });
@@ -478,7 +546,9 @@ export default {
       await CDN.postImage(
         accessKeyID,
         secretAccessKey,
-        await new Response(await this.photoCroppa.promisedBlob("image/jpeg")).arrayBuffer(),
+        await new Response(
+          await this.photoCroppa.promisedBlob("image/jpeg")
+        ).arrayBuffer(),
         fileSufix,
         fileName
       ).catch(error => {
@@ -518,7 +588,7 @@ export default {
         patch["values"]["teamImageURL"] = profilePic;
         patch["values"]["teamImageThumbnailURL"] = profilePic;
       }
-      await Teams.patchTeam(patch)
+      await Teams.patchTeam(patch);
       this.getTeams();
       this.getTeam(this.selectedID);
     },
@@ -526,22 +596,41 @@ export default {
       this.setCreatingNewItem(false);
       this.removeNewTeamPlaceholderInCardList();
     },
-    removeNewTeamPlaceholderInCardList() { this.teams.pop(); }
+    removeNewTeamPlaceholderInCardList() {
+      this.teams.pop();
+    },
+    memberApproved(id) {
+      console.log(id + " approved");
+    },
+    memberDenied(id) {
+      console.log(id + " denied");
+    }
   },
   props: {},
   mounted() {
-    if(this.teams.length < 1) {
+    if (this.teams.length < 1) {
       this.getTeams();
     }
     this.getPeople();
-    this.recieveID(this.$route.params.id)
-  },
+    this.recieveID(this.$route.params.id);
+  }
 };
 </script>
 
 <style src="./../assets/css/general-style.css"></style> 
 
 <style scoped>
+#selected-view #header {
+  margin: 0;
+}
+#selected-view #button-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#selected-view .gs-buttons-right {
+  margin: 0;
+}
 .edit {
   align-self: flex-end;
   margin-bottom: 10px;
@@ -569,7 +658,7 @@ export default {
   display: block;
 }
 #teams-form {
-  margin-top: 25px;
+  /* margin-top: 25px; */
   /* max-width: 600px; */
 }
 #teams-form .times {
