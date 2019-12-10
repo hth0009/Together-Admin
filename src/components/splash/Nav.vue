@@ -7,6 +7,10 @@
       <div id="mvp-tag">BETA</div>
     </div>
 
+    <div id="nav-tabs-wrapper">
+      <nav-tabs v-show="showNavTabs"/>
+    </div>
+
     <div id="signup-login" class="gs-flex-row">
       <button id="signup" class="navbar-button gs-basic-button inverted"
               >
@@ -17,9 +21,27 @@
   </div>
 </template>
 <script>
+import NavTabs from '@/components/splash/NavTabs'
 export default {
+  data() {
+    return {
+      showNavTabs: false,
+    }
+  },
   methods: {
-    goToWelcomePage() { this.$router.push('/hello/welcome'); }
+    goToWelcomePage() { this.$router.push('/hello/welcome'); },
+    setShowNavTabsBasedOnRoute(routeName) { this.showNavTabs = routeName !== 'Welcome'; }
+  },
+  components: {
+    NavTabs
+  },
+  mounted () {
+    this.setShowNavTabsBasedOnRoute(this.$route.name);
+  },
+  watch: {
+    $route(to) {
+      this.setShowNavTabsBasedOnRoute(to.name); 
+    },
   }
 }
 </script>
@@ -31,9 +53,8 @@ export default {
   width: 100%;
 }
 #logo {
-  width: 20%;
+  flex: 1 1 1;
   justify-content: flex-start;
-  margin-left: 4em;
   cursor: pointer;
 }
 #together-badge {
@@ -49,9 +70,12 @@ export default {
   border-radius: 6px;
   margin-left: 1em;
 }
+#nav-tabs-wrapper {
+  flex: 1 1 0;
+}
 #signup-login {
-  width: 60%;
   justify-content: flex-end;
+  flex: 1 1 1;
 }
 
 @media all and (min-width: 1024px) {

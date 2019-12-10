@@ -3,7 +3,6 @@
   <nav-bar class="mb2em"/>
   <div id="main-focus-view">
     <router-view/>
-    <nav-tabs></nav-tabs>
   </div>
 
 </div>
@@ -11,10 +10,9 @@
 
 <script>
 import NavBar from '@/components/splash/Nav'
-import NavTabs from '@/components/splash/NavTabs'
 export default {
   components: {
-    NavBar, NavTabs
+    NavBar, 
   }
 }
 </script>
@@ -22,11 +20,10 @@ export default {
 <style scoped>
 #splash-view {
   min-height: 100%;
+  padding: 0 5% !important;
 }
 #main-focus-view {
-  width: 75%;
   height: 80vh !important;
-  margin-left: 5%;
 }
 
 </style>

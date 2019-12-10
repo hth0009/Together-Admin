@@ -1,26 +1,25 @@
 <template>
-  <div id="welcome" class="gs-flex-row center animated fadeIn fast">
-    <div id="video-block">
-      <video :src="videoUrl" loop autoplay muted></video>
-      <div id="together-hero-card">
-        <img id="together-title" class="mb2em" alt srcset
-            src="https://togethercdn.global.ssl.fastly.net/assets/logo/title_black.png"
-        />
+  <div id="welcome" class="center animated fadeIn fast">
+    <div id="together-hero-card">
+      <img id="together-title" class="mb2em" alt srcset
+          src="https://togethercdn.global.ssl.fastly.net/assets/logo/title_black.png"
+      />
 
-        <p class="together-subtext mb1em">
-          A church and ministry management<br/>software connecting the global church.
-        </p>
-        <p class="together-subtext mb2em"> No sign up or monthly payments. </p>
+      <p class="together-subtext mb1em">
+        A church and ministry management<br/>software connecting the global church.
+      </p>
+      <p class="together-subtext mb2em"> No sign up or monthly payments. </p>
 
-        <join-global-church/>
-        
-      </div>
+      <join-global-church/>
+      
     </div>
+    <nav-tabs/>
   </div>
 </template>
 
 <script>
 import JoinGlobalChurch from './JoinGlobalChurch.vue';
+import NavTabs from '@/components/splash/NavTabs'
 export default {
   data() {
     return {
@@ -28,7 +27,7 @@ export default {
     }
   },
   components: {
-    JoinGlobalChurch
+    JoinGlobalChurch, NavTabs,
   },
 }
 </script>
@@ -37,27 +36,13 @@ export default {
 #welcome {
   justify-content: space-evenly;
   align-items: center;
-  height: 100%;
+  height: 80%;
   flex-flow: row wrap;
 }
-#video-block {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  height: 100%;
-  border-radius: 6em;
-}
 #together-hero-card {
-  background-color: white;
-  opacity: .85;
-  -webkit-box-shadow: 0px 5px 13px -2px #00000040;
-  box-shadow: 0px 5px 13px -2px #00000040;
-  border-radius: 1em;
   padding: 4em;
-  position: absolute;
-  margin-top: 8em;
+  margin-top: 6em !important;
+  margin-bottom: 6em !important; 
 }
 #together-title {
   height: 4em;
