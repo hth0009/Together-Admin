@@ -48,6 +48,7 @@ import Prayer from '@/components/Prayer'
 import Calendar from '@/components/Calendar'
 import Home from '@/components/Home'
 import ThisSunday from '@/components/ThisSunday'
+import Giving from '@/components/Giving'
 import Me from '@/components/Me'
 import MyChurch from '@/components/MyChurch'
 
@@ -265,6 +266,14 @@ let router = new Router({
           path: 'this-sunday/:id',
           component: ThisSunday,
           name: 'This Sunday',
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'giving',
+          component: Giving,
+          name: 'Giving',
           meta: {
             requiresAuth: true
           }

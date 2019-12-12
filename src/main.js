@@ -32,11 +32,11 @@ import './assets/css/helpers.css'
 import './registerServiceWorker'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faFilter, faCross } from '@fortawesome/free-solid-svg-icons'
+import { faFilter, faCross, faRedo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faStripeS } from '@fortawesome/free-brands-svg-icons'
 import { faHeart, faPaperPlane, faUser } from '@fortawesome/free-regular-svg-icons'
-library.add(faFilter, faCross, faStripeS, faHeart, faPaperPlane, faUser);
+library.add(faFilter, faCross, faRedo, faStripeS, faHeart, faPaperPlane, faUser);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 
