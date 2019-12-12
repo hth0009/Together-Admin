@@ -10,12 +10,14 @@ let cognitoUser
 import { thisSundayModule } from './storeModules/ThisSundayStore'
 import { TeamsModule } from './storeModules/TeamsStore'
 import { PeopleModule } from './storeModules/PeopleStore'
+import { MessagesModule } from './storeModules/MessagesStore'
 
 export default new Vuex.Store({
   modules: {
     thisSunday: thisSundayModule,
     teams: TeamsModule,
     people: PeopleModule,
+    messages: MessagesModule
   },
   state: {
     status: '',

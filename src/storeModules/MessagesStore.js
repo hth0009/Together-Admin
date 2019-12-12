@@ -1,7 +1,7 @@
 import Messages from '@/services/messages';
 import Threads from '@/services/threads';
 
-export const TeamsModule = {
+export const MessagesModule = {
   namespaced: true,
   state: {
     threads: [],
@@ -27,14 +27,14 @@ export const TeamsModule = {
   actions: {
     async getThreads ({ state, commit }) {
       commit('setLoading', true);
-      const getThreadsByPersonRes = await Threads.getThreadsByPersonID();
-      commit('setThreads', { threads: getThreadsByPersonRes.data.threads });
+      const getThreadsByPersonRes = await Threads.getThreads();
+      commit('setThreads', { threads: getThreadsByPersonRes.data.messagethreads });
       commit('setLoading', false);
     },
     async getSelectedThread ({ state, commit },{ threadID }) {
       commit('setThreadLoading', true);
       const getThreadRes = await Threads.getThreadByID(threadID);
-      commit('setThread', { thread: getThreadRes.data.thread[0] });
+      commit('setThread', { thread: getThreadRes.data.messagethreads[0] });
       commit('setThreadLoading', false);
     }
   }
