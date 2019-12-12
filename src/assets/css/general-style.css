@@ -42,6 +42,7 @@ label {
 
 .gs-primary { color: #55C0E4;}
 .gs-primary-bg { background-color: #55C0E4;}
+.gs-light { color: white; }
 
 .gs-padding {
   padding: 25px;
@@ -206,12 +207,12 @@ label {
 
 .gs-basic-button {  
   background: white;
-  color: #00cec9;
+  color: #55C0E4;
   outline: none;
   text-decoration: none;
   appearance: none;
   width: auto;
-  border: 1.5px #00cec9 solid;
+  border: 1.5px #55C0E4 solid;
   cursor: pointer;
   padding: .5rem .75rem;
   font-size: .8rem;
@@ -225,7 +226,7 @@ label {
   justify-content: center;
   text-decoration: none;
 
-  box-shadow: 0px 0rem 0px 0px inset #00cec9;
+  box-shadow: 0px 0rem 0px 0px inset #55C0E4;
   
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -238,7 +239,7 @@ label {
 
 .gs-basic-button.inverted {  
   color: white;
-  background-color: #00cec9;
+  background-color: #55C0E4;
   box-shadow: 0px 0rem 0px 0px inset white;
 }
 .gs-basic-button.big {
@@ -262,8 +263,8 @@ label {
 .gs-basic-button:hover,
 .gs-basic-button:focus {
   text-decoration: none;
-  box-shadow: 0px 2rem 0px 0px inset #00cec9;
-  background-color: #00cec9;
+  box-shadow: 0px 2rem 0px 0px inset #55C0E4;
+  background-color: #55C0E4;
   color: white;
   outline:0;
 }
@@ -271,11 +272,11 @@ label {
 .gs-basic-button.inverted:focus {
   box-shadow: 0px 2rem 0px 0px inset white;
   background-color: white;
-  color: #00cec9;
+  color: #55C0E4;
 }
 .gs-basic-button.big:hover,
 .gs-basic-button.big:focus {  
-  box-shadow: 0px 3rem 0px 0px inset #00cec9;
+  box-shadow: 0px 3rem 0px 0px inset #55C0E4;
 }
 .gs-basic-button.orange {
   background: #e17055;
@@ -346,8 +347,8 @@ label {
   transition: all .2s ease-in-out;
 }
 .gs-basic-input:focus {
-  border: 1px solid #00cec9;
-  box-shadow: 0px 0px 0px 2px #00cec9;
+  border: 1px solid #55C0E4;
+  box-shadow: 0px 0px 0px 2px #55C0E4;
 }
 
 .gs-basic-input.large {

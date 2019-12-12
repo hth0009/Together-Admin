@@ -78,7 +78,7 @@ export default {
    grid-column-gap: 20px;
 }
 #contact-container .user-info:focus {
-   border: 2px solid #00cec9;
+   border: 2px solid #55C0E4;
 }
 #contact-container #form-name {
    grid-column: 1/2;

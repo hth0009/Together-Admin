@@ -201,7 +201,7 @@ export default {
     margin-right: 10px;
   }
   .selected-view .quick-actions button:hover{
-    color: #00cec9;
+    color: #55C0E4;
   }
   .selected-view .quick-actions button.red:hover{
     color: #ff7675;

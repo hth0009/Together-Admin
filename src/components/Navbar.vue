@@ -120,7 +120,7 @@ export default {
   justify-content: flex-start;
 }
 #router-links h1 {
-  color: #00cec9;
+  color: #55C0E4;
   font-size: 1rem;
   font-weight: 500;
   margin: 0 1vw;

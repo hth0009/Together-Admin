@@ -4,7 +4,7 @@
             @click="joinGlobalChurch()">
       Join the Global Church Today
     </button>
-    <p id="joinTheGlobalChurchSubtext"> 30 Second Organization Sign Up. 5 Minute Learning Curve </p>
+    <p id="joinTheGlobalChurchSubtext" class="gs-primary"> 30 Second Organization Sign Up. 5 Minute Learning Curve </p>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="inline-loader-container">
-    <div style="color: #00cec9" class="la-ball-pulse">
+    <div style="color: #55C0E4" class="la-ball-pulse">
       <div></div>
       <div></div>
       <div></div>

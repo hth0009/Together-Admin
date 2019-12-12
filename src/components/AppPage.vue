@@ -197,7 +197,7 @@ export default {
 }
 #app-header .profiles a.router-link-active,
 #app-header .profiles a.router-link-active i {
-  border: 2px #00cec9 solid;
+  border: 2px #55C0E4 solid;
   border-radius: 100%;
   transition: all 0.3s ease-in-out 0s;
 }
@@ -253,8 +253,8 @@ export default {
   bottom: -2px;
   border-radius: 2px;
   right: 0;
-  background-color: #00cec9;
-  border: 0px #00cec9 solid;
+  background-color: #55C0E4;
+  border: 0px #55C0E4 solid;
   visibility: hidden;
   -webkit-transition: all 0.3s ease-in-out 0s;
   transition: all 0.3s ease-in-out 0s;
@@ -270,7 +270,7 @@ export default {
 #app-navbar-buttons a.router-link-active:before {
   height: 1.8rem;
   right: -0.5rem;
-  border: 4px #00cec9 solid;
+  border: 4px #55C0E4 solid;
   border-radius: 5px;
   width: calc(100% + 1rem);
   z-index: -1;
@@ -303,7 +303,7 @@ export default {
   text-align: center;
   margin-top: 4px;
   margin-left: 10px;
-  color: #00cec9;
+  color: #55C0E4;
   font-weight: 500;
   writing-mode: vertical-rl;
   /* text-orientation: upright; */
@@ -782,7 +782,7 @@ export default {
   margin-right: 10px;
 }
 #app-page-content >>> .selected-view .quick-actions button:hover {
-  color: #00cec9;
+  color: #55C0E4;
 }
 #app-page-content >>> .selected-view .quick-actions button.red:hover {
   color: #ff7675;

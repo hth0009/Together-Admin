@@ -144,7 +144,7 @@ export default {
     /* font-family: 'Sorts Mill Goudy', serif; */
     letter-spacing: 3px;
     font-weight: 100;
-    color: #00cec9;
+    color: #55C0E4;
     text-align: center;
   }
   #login-form{

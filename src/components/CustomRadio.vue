@@ -96,7 +96,7 @@ export default {
   padding-right: 15px;
 }
 .radio-buttons input:checked ~ span{
-  background: #00cec9;
+  background: #55C0E4;
   text-shadow: 0px 1px 9px #00000041;
   color: #ffffff;
 }

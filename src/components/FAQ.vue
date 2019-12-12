@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <go-top bg-color="#00cec9" :has-outline="false" />
+    <go-top bg-color="#55C0E4" :has-outline="false" />
     <div class="title-and-topic-list">
       <h1 id="page-title">FAQ</h1>
       <h3 id="topic-list-title">Topics</h3>
@@ -154,7 +154,7 @@ export default {
   padding: 0;
 }
 #page-title {
-  color: #00cec9;
+  color: #55C0E4;
   font-size: 2rem;
   margin: 0;
   margin-top: 2rem;
@@ -179,7 +179,7 @@ export default {
   margin-bottom: 75px;
 }
 #topic-list li a{
-  color: #00cec9;
+  color: #55C0E4;
   text-decoration: none;
 }
 .topic {
@@ -187,7 +187,7 @@ export default {
 }
 .topic h2 {
   color: white;
-  background-color: #00cec9;
+  background-color: #55C0E4;
   padding: .75rem 15%;
   font-size: 1.5rem;
   margin-top: 1rem;

@@ -598,7 +598,7 @@ h1::before {
   left: 30px;
   bottom: 0px;
 
-  background-color: #00cec9;
+  background-color: #55C0E4;
   border-radius: 2px;
 }
 
@@ -652,7 +652,7 @@ h1::before {
   padding: 7.5px 15px;
   text-align: center;
   cursor: pointer;
-  background: #00cec9;
+  background: #55C0E4;
   color: white;
   position: absolute;
   right: 30px;
@@ -660,7 +660,7 @@ h1::before {
   z-index: 100;
   text-decoration: none;
   border-radius: 25px;
-  border: 5px #00cec9 solid;
+  border: 5px #55C0E4 solid;
   /* border: 3px white solid; */
 }
 
@@ -807,7 +807,7 @@ h1::before {
   color: white;
   padding: 10px 20px;
   text-shadow: 0px 0px 6px #000000b9;
-  /* background: linear-gradient(45deg, #05e0a2 20%, #00cec9 80%); */
+  /* background: linear-gradient(45deg, #05e0a2 20%, #55C0E4 80%); */
   transform: rotate(90deg);
   border-radius: 40px;
   top: 97.5vh;
@@ -991,8 +991,8 @@ h1::before {
   bottom: -0.1rem;
   border-radius: 5px;
   right: 0;
-  background-color: #00cec9;
-  border: 0px #00cec9 solid;
+  background-color: #55C0E4;
+  border: 0px #55C0E4 solid;
   visibility: hidden;
   -webkit-transition: all 0.3s ease-in-out 0s;
   transition: all 0.3s ease-in-out 0s;
@@ -1010,7 +1010,7 @@ h1::before {
   height: 2.15rem;
   bottom: -0.5rem;
   right: -0.3rem;
-  border: 0.2rem #00cec9 solid;
+  border: 0.2rem #55C0E4 solid;
   padding: 0.3rem;
   width: calc(100% + 0.6rem);
   z-index: -1;
@@ -1114,7 +1114,7 @@ h1::before {
   font-size: 1.1rem;
   text-align: center;
   font-weight: 600;
-  background: #00cec9;
+  background: #55C0E4;
   font-size: 0.7rem;
   width: 80px;
   border-radius: 30px;
@@ -1165,7 +1165,7 @@ h1::before {
 }
 #footer-router-links h2 {
   font-size: 1rem;
-  color: #00cec9;
+  color: #55C0E4;
   font-weight: 500;
 }
 #footer {
@@ -1181,7 +1181,7 @@ h1::before {
 }
 #footer-router-links h2{
   font-size: 1.4rem;
-  color: #00cec9;
+  color: #55C0E4;
   font-weight: 500;
 }
 

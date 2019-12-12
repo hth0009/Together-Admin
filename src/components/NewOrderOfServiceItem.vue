@@ -21,8 +21,8 @@
             v-bind:key="itemType.itemName">
             <input class="basic-radio"
               name="itemType" type="radio" 
-              :style="{borderColor: '#00cec9',
-                background: '#00cec9'}"
+              :style="{borderColor: '#55C0E4',
+                background: '#55C0E4'}"
               v-model="selectedItem.itemType"
             :value="itemType">
             <i :for="itemType.typeName">{{itemType.typeName}}</i>
@@ -93,7 +93,7 @@ export default {
     return {
       selectedItem: {},
       colors: ['#eb3b5a', '#fa8231', '#f7b731', '#20bf6b',
-        '#00cec9', '#2d98da', '#3867d6', '#8854d0', '#a5b1c2', '#4b6584'],
+        '#55C0E4', '#2d98da', '#3867d6', '#8854d0', '#a5b1c2', '#4b6584'],
       maxLength: 2000,
       showCharCount: true,
       toolbarSettings: {
@@ -104,7 +104,7 @@ export default {
       },
       itemTypes: [{
           typeName: 'Text',
-          color: '00cec9',
+          color: '55C0E4',
           hasVideo: false,
           videoUrl: '',
           hasLyrics: false,
@@ -117,7 +117,7 @@ export default {
           notes: ''
         },{
           typeName: 'Song',
-          color: '00cec9',
+          color: '55C0E4',
           hasVideo: true,
           videoUrl: '',
           hasLyrics: true,
@@ -130,7 +130,7 @@ export default {
           notes: ''  
         },{
           typeName: 'Video',
-          color: '00cec9',
+          color: '55C0E4',
           hasVideo: true,
           videoUrl: '',
           hasLyrics: false,

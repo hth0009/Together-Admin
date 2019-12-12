@@ -134,7 +134,7 @@ export default {
   }
   .basic-button {
     /* border: #12b5e7 3px solid; */
-    background: #00cec9;
+    background: #55C0E4;
     color: white;
     text-shadow: 0px 1px 8px #00000034;
     box-shadow: 0px 1px 6px 2px #00cecb69;
@@ -245,8 +245,8 @@ export default {
   }
   
   .basic-radio{
-    border-color: #00cec9;
-    background: #00cec9;
+    border-color: #55C0E4;
+    background: #55C0E4;
 
     appearance: none;
     outline: none;
