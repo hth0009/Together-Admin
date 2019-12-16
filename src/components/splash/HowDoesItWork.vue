@@ -110,7 +110,7 @@
   align-items: flex-end;
 }
 .switchTopicCardWrapper {
-  margin-bottom: 1em;
+  margin-bottom: 1vh;
   height: 2.5em;
   width: 3em;
   border-radius: .5em;

@@ -1,7 +1,7 @@
 <template>
 <div id="stillHaveQuestionWrapper" class="animated fadeIn fast">
-  <b-row class="mb2em">
-    <b-col lg="8" offset-lg="2" sm="10" class="stillHaveQuestionsCol mb2em mt4em">
+  <b-row>
+    <b-col lg="8" offset-lg="2" sm="10" class="stillHaveQuestionsCol mb2em mt2em">
       <h5 class="mb1em black">Best Part? You don't have to wait for your 
          software contract to end. Why? Because
         <span class="gs-light"> it doesn't cost anything to </span> 
@@ -11,7 +11,7 @@
     </b-col>
     <b-col lg="8" offset-lg="2" sm="10" class='stillHaveQuestionsCol contactUs'>
       <p class="mb1em">Question? Contact us!</p>
-      <contact-us/>
+      <contact-us class="mb2em"/>
     </b-col>
   </b-row>
 </div>
@@ -30,25 +30,13 @@ export default {
 </script>
 
 <style scoped>
-#stillHaveQuestionWrapper {
-  margin-top: 4em;
-}
-
 .stillHaveQuestionsCol {
   text-align: center;
-}
-
-#contactUs {
-  height: 30em;
 }
 
 #header-text {
   font-size: 14pt;
   font-weight: 700;
-}
-
-#contact-container {
-  height: 30vh !important;
 }
 
 </style>
