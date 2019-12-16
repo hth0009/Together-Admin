@@ -23,8 +23,5 @@ export default {
   padding: 0 5% !important;
   background: linear-gradient(#55C0E4, #004580);
 }
-#main-focus-view {
-  height: 80vh !important;
-}
 
 </style>
