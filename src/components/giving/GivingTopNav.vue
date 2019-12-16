@@ -1,0 +1,57 @@
+<template>
+  <div id="giving-top-nav">
+    <b-row class="mb2em">
+      <b-col sm="2">
+        <input type="text" name="giving-search" class="floating" placeholder="search..." id="giving-search">
+      </b-col>
+      <b-col sm="1">
+        <button name="giving-filter" id="giving-filter" class="gs-basic-button">Filter</button>
+      </b-col>
+      <b-col sm="1" id="redo-icon">
+        <font-awesome-icon :icon="['fas', 'redo']" />
+      </b-col>
+      <b-col sm="8" class="giving-creation-actions">
+        <button class="gs-basic-button" @click="startManualEntry()">Manual Entry</button>
+        <button class="gs-basic-button">Create Fund</button>
+        <button class="gs-basic-button">Create Report</button>
+      </b-col>
+    </b-row>
+  </div>
+</template>
+
+<script>
+import { mapState, mapMutations } from 'vuex';
+
+export default {
+  data() {
+    return {
+      ...mapState('giving', [setShowCollapsedTableView]),
+    }
+  },
+  ...mapMutations('giving', [ 'setShowCollapsedTableView' ]),
+  methods: {
+    startManualEntry() {
+      this.setShowCollapsedTableView(false);
+    }
+  },
+}
+</script>
+
+<style scoped>
+  .floating {
+    padding: 10px 20px 10px 20px;
+    box-shadow: 0px 5px 13px -2px #00000040;
+    line-height: 1rem;
+    font-weight: 600;
+    border-radius: 1em;
+    width: 100%
+  }
+  #redo-icon {
+    display: flex;
+    align-items: center;
+  }
+  .giving-creation-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>

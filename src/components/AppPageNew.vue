@@ -59,6 +59,9 @@ export default {
 #app-page-content >>> .page-wrapper.one-col {
   grid-template-columns: auto !important;
 }
+#app-page-content >>> .page-wrapper.two-cols.no-search {
+  grid-template-columns: auto auto !important;
+}
 
 #app-page-content >>> .page-wrapper.three-rows {
   grid-template-columns: 240px minmax(460px, auto) minmax(460px, auto);

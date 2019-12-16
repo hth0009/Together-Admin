@@ -12,6 +12,7 @@ import { thisSundayModule } from './storeModules/ThisSundayStore'
 import { TeamsModule } from './storeModules/TeamsStore'
 import { PeopleModule } from './storeModules/PeopleStore'
 import { SplashModule } from './storeModules/SplashStore'
+import { GivingModule } from './storeModules/GivingStore'
 
 export default new Vuex.Store({
   modules: {
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     teams: TeamsModule,
     people: PeopleModule,
     splash: SplashModule,
+    giving: GivingModule,
   },
   state: {
     status: '',

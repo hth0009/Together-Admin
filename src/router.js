@@ -48,7 +48,7 @@ import Prayer from '@/components/Prayer'
 import Calendar from '@/components/Calendar'
 import Home from '@/components/Home'
 import ThisSunday from '@/components/ThisSunday'
-import Giving from '@/components/Giving'
+import Giving from '@/components/giving/Giving'
 import Me from '@/components/Me'
 import MyChurch from '@/components/MyChurch'
 
