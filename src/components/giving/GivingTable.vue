@@ -6,19 +6,19 @@
           <tr>
             <th>Person</th>
             <th>Date</th>
-            <th>Fund</th>
-            <th>Type</th>
-            <th>Gift</th>
-            <th>Giving Fee From Org</th>
+            <th v-if="!showCollapsedTableView">Fund</th>
+            <th v-if="!showCollapsedTableView">Type</th>
+            <th v-if="!showCollapsedTableView">Gift</th>
+            <th v-if="!showCollapsedTableView">Giving Fee From Org</th>
             <th>Amount</th>
           </tr>
           <tr>
             <td>hey</td>
             <td>hey</td>
-            <td>hey</td>
-            <td>hey</td>
-            <td>hey</td>
-            <td id="giving-fee-td">hey</td>
+            <td v-if="!showCollapsedTableView">hey</td>
+            <td v-if="!showCollapsedTableView">hey</td>
+            <td v-if="!showCollapsedTableView">hey</td>
+            <td v-if="!showCollapsedTableView" id="giving-fee-td">hey</td>
             <td>hey</td>
           </tr>
         </table>
@@ -27,6 +27,16 @@
     </b-row>
   </div>
 </template>
+
+<script>
+import { mapState, mapMutations } from 'vuex';
+
+export default {
+  computed: {
+    ...mapState('giving', ['showCollapsedTableView']),
+  },
+}
+</script>
 
 <style scoped>
 

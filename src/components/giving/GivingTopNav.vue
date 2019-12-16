@@ -23,15 +23,13 @@
 import { mapState, mapMutations } from 'vuex';
 
 export default {
-  data() {
-    return {
-      ...mapState('giving', [setShowCollapsedTableView]),
-    }
+  computed: {
+    ...mapState('giving', ['showCollapsedTableView']),
   },
-  ...mapMutations('giving', [ 'setShowCollapsedTableView' ]),
   methods: {
+  ...mapMutations('giving', [ 'setShowCollapsedTableView' ]),
     startManualEntry() {
-      this.setShowCollapsedTableView(false);
+      this.setShowCollapsedTableView(!this.showCollapsedTableView);
     }
   },
 }

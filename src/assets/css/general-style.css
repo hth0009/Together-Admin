@@ -373,6 +373,9 @@ label {
   color: black !important;
 }
 
+.gs-right {
+  text-align: right !important;
+}
 
 .m0 { margin: 0 !important; }
 .mb0 { margin-bottom: 0 !important; }

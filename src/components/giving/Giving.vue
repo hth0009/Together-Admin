@@ -2,10 +2,10 @@
   <div id="selected-view" class="selected-view">
     <div id="giving-wrapper" class="page-wrapper two-cols no-search">
       <div class="giving-panel">
-        <giving-top-nav></giving-top-nav>
-        <giving-table></giving-table>
+        <giving-top-nav/>
+        <giving-table/>
       </div>
-      <div v-if="showCollapsedTableView" class="panel gs-containter vertical">hey</div>
+      <giving-manual-entry style="width: 700px" v-if="showCollapsedTableView"/>
     </div>
   </div>
   
@@ -14,11 +14,12 @@
 <script>
 import GivingTable from '@/components/giving/GivingTable'
 import GivingTopNav from '@/components/giving/GivingTopNav'
+import GivingManualEntry from '@/components/giving/GivingManualEntry'
 import { mapState } from 'vuex';
 
 export default {
   components: {
-    GivingTable, GivingTopNav
+    GivingTable, GivingTopNav, GivingManualEntry
   },
   data() {
     return {
