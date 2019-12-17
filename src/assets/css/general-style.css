@@ -44,6 +44,10 @@ label {
 .gs-primary-bg { background-color: #55C0E4 !important; }
 .gs-light { color: white !important; }
 
+.bold {
+  font-weight: bold;
+}
+
 .gs-padding {
   padding: 25px;
 }

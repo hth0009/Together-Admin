@@ -19,7 +19,7 @@
             <td v-if="!showCollapsedTableView">hey</td>
             <td v-if="!showCollapsedTableView">hey</td>
             <td v-if="!showCollapsedTableView" id="giving-fee-td">hey</td>
-            <td>hey</td>
+            <td :style="{color: 500 > 0 ? '#08C900' : ''}">$500</td>
           </tr>
         </table>
       </b-col>
@@ -48,5 +48,6 @@ export default {
 }
 th, td {
   padding: .5em 1em;
+  font-weight: bold;
 }
 </style>
