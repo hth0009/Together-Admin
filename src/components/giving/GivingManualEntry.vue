@@ -8,20 +8,17 @@
         <span class="">Manual Entry</span>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row class="gs-flex-row">
       <b-col sm="6">
-        <button class="gs-basic-button">Amount</button>
+        <button class="gs-floating-button">Amount</button>
       </b-col>
       <b-col sm="6" class="right">
-        
-        <div class="gs-form-group">
-                  <label for>Payment Date</label>
-                  <flat-pickr
-                    class="gs-basic-input"
-                    :config="datePickerConfig"
-                    v-model="manualEntry.date"
-                  ></flat-pickr>
-                </div>
+        <label for>Payment Date</label>
+        <flat-pickr
+          class="gs-basic-input"
+          :config="datePickerConfig"
+          v-model="manualEntry.date"
+        ></flat-pickr>
       </b-col>
     </b-row>
     <b-row>
@@ -29,7 +26,7 @@
         Person
       </b-col>
       <b-col sm="12">
-        <button class="gs-basic-button">Search</button>
+        <button class="gs-floating-button">Search</button>
       </b-col>
     </b-row>
     <b-row>
@@ -37,9 +34,9 @@
         Select Fund
       </b-col>
       <b-col sm="12" style="display: flex">
-        <button class="gs-basic-button">Building</button>
-        <button class="gs-basic-button">General</button>
-        <button class="gs-basic-button">Youth Ministry</button>
+        <button class="gs-floating-button">Building</button>
+        <button class="gs-floating-button">General</button>
+        <button class="gs-floating-button">Youth Ministry</button>
       </b-col>
     </b-row>
     <b-row>
@@ -47,12 +44,12 @@
         Type
       </b-col>
       <b-col sm="12" style="display: flex">
-        <button class="gs-basic-button">Check</button>
-        <button class="gs-basic-button">Cash</button>
+        <button class="gs-floating-button">Check</button>
+        <button class="gs-floating-button">Cash</button>
       </b-col>
     </b-row>
     <div>
-      <button class="gs-basic-button mr-5" style="float: right;">Create</button>
+      <button class="gs-floating-button mr-5" style="float: right;">Create</button>
     </div>
   </div>
 </template>

@@ -1,19 +1,19 @@
 <template>
   <div id="giving-top-nav">
     <b-row class="mb2em">
-      <b-col sm="2">
+      <b-col sm="3">
         <input type="text" name="giving-search" class="floating" placeholder="search..." id="giving-search">
       </b-col>
-      <b-col sm="1">
-        <button name="giving-filter" id="giving-filter" class="gs-basic-button">Filter</button>
+      <b-col sm="2">
+        <button name="giving-filter" id="giving-filter" class="gs-floating-button">Filter</button>
       </b-col>
       <b-col sm="1" id="redo-icon">
         <font-awesome-icon :icon="['fas', 'redo']" />
       </b-col>
-      <b-col sm="8" class="giving-creation-actions">
-        <button class="gs-basic-button" @click="startManualEntry()">Manual Entry</button>
-        <button class="gs-basic-button">Create Fund</button>
-        <button class="gs-basic-button">Create Report</button>
+      <b-col sm="6" class="giving-creation-actions">
+        <button class="gs-floating-button" @click="startManualEntry()">Manual Entry</button>
+        <button class="gs-floating-button">Create Fund</button>
+        <button class="gs-floating-button">Create Report</button>
       </b-col>
     </b-row>
   </div>
@@ -46,7 +46,7 @@ export default {
   }
   #redo-icon {
     display: flex;
-    align-items: center;
+    margin-top: 1em;
   }
   .giving-creation-actions {
     display: flex;
