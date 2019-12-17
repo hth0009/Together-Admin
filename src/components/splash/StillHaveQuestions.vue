@@ -1,5 +1,5 @@
 <template>
-<div id="stillHaveQuestionWrapper" class="animated fadeIn fast">
+<div id="stillHaveQuestionWrapper" class="animated fadeIn fast bold">
   <b-row>
     <b-col lg="8" offset-lg="2" sm="10" class="stillHaveQuestionsCol mb2em mt2em">
       <h5 class="mb1em black">Best Part? You don't have to wait for your 

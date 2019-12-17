@@ -9,7 +9,7 @@
     <b-row>
       <b-col sm="1" class="switchTopicCardsCol">
         <div v-for="(value, key) in topicIcons" :key="key" class="switchTopicCardWrapper" 
-             :class="{'gs-primary-bg': selectedTopic === key}">
+             :class="{'gs-primary-bg': selectedTopic === key, 'white': selectedTopic === key}">
           <div class="switchTopicCard" @click="chooseTopic(key)" >
             <font-awesome-icon :icon="[value.prefix, value.icon]" />
           </div>
@@ -31,7 +31,7 @@
   export default {
     data() {
       return {
-        selectedTopic: 1,
+        selectedTopic: '1',
         imgUrl: '',
         topics,
         topicIcons: {
@@ -73,6 +73,9 @@
           },
         }
       };
+    },
+    mounted () {
+      this.chooseTopic(this.selectedTopic);
     },
     methods: {
       chooseTopic(key) {

@@ -1,5 +1,5 @@
 <template>
-<div id="cost-wrapper" class=" animated fadeIn fast">
+<div id="cost-wrapper" class="bold animated fadeIn fast">
   <b-row class="mb2em">
     <b-col col lg="3" offset-lg="3" md='12' class="mb1em">
       <div class="center" id='your-cost-left-col'>
@@ -29,7 +29,7 @@ export default {
         { name: 'Giving', color: '#5FBAFF' },
         { name: 'Mass Message Tool', color: '#FF84B5' },
         { name: 'Engagement Software', color: '#FF7276' },
-        { name: 'Database and Data Storage', color: '#7256EF' },
+        { name: 'Database and Data Storage', color: '#780AAF' },
         { name: 'Basic Planning and Management', color: '#18C6A3' },
       ],
     }

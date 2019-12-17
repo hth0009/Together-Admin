@@ -107,8 +107,6 @@ export default {
   align-items: center;
   font-size: 1.4rem;
 }
-#signup {
-}
 #login {
   text-decoration: none;
 }

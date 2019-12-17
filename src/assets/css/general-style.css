@@ -372,6 +372,12 @@ label {
 .black {
   color: black !important;
 }
+.white {
+  color: white !important;
+}
+.bold {
+  font-weight: bold;
+}
 
 
 .m0 { margin: 0 !important; }

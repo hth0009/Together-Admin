@@ -20,7 +20,7 @@ export default {
 <style scoped>
 #splash-view {
   min-height: 100%;
-  padding: 0 5% !important;
+  padding: 0 10% !important;
   background: linear-gradient(#55C0E4, #004580);
 }
 

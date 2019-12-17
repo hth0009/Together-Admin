@@ -78,12 +78,6 @@ export default {
   flex: 1 1 1;
 }
 
-@media all and (min-width: 1024px) {
-  #signup-login {
-    margin-right: 13em;
-  }
-}
-
 @media all and (min-width: 768px) and (max-width: 1024px) {
 }
 

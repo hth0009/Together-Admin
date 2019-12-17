@@ -53,10 +53,9 @@ export default {
 #navTabs {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 .nav-tab-button {
-  margin: 0em 3em !important;
   display: flex;
   justify-content: center;
   font-weight: 700;
