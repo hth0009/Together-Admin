@@ -634,6 +634,7 @@ export default {
   padding: 0px 3px;
   /* overflow-x: auto; */
 }
+
 #app-page-content >>> .page-wrapper.three-rows {
   grid-template-columns: 240px minmax(auto, 500px) auto;
 }

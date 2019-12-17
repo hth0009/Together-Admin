@@ -7,11 +7,11 @@
       <a href="/#/app/teams" :class="{'black': $route.path.startsWith('/app/teams')}">Teams</a>
       <a href="/#/app/this-sunday" style="text-align: center" 
          :class="{'black': $route.path.startsWith('/app/this-sunday')}">This Sunday</a>
-      <a href="/#/app/giving" :class="{'black': $route.name === 'giving'}">
+      <a href="/#/app/giving" :class="{'black': $route.path.startsWith('/app/giving')}">
         <i v-if='!drawerIsOpen' class="material-icons">favorite</i>
         <span v-else>Giving</span>
       </a>
-      <a href="/#/app/more" :class="{'black': $route.name === 'more'}">
+      <a href="/#/app/more" :class="{'black': $route.name.startsWith('/app/more')}">
         <i v-if='!drawerIsOpen' class="material-icons">menu</i>
         <span v-else>More</span>
       </a>

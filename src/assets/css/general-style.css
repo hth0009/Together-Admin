@@ -44,6 +44,10 @@ label {
 .gs-primary-bg { background-color: #55C0E4 !important; }
 .gs-light { color: white !important; }
 
+.bold {
+  font-weight: bold;
+}
+
 .gs-padding {
   padding: 25px;
 }
@@ -203,6 +207,38 @@ label {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
+}
+
+.gs-floating {
+  padding: 10px 20px 10px 20px;
+  box-shadow: 0px 5px 13px -2px #00000040;
+  line-height: 1rem;
+  font-weight: 600;
+  border-radius: 1em;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.gs-floating-button {
+  background: white;
+  padding: .5rem .75rem;
+  font-size: .8rem;
+  border-radius: 10px;
+  margin: 2.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px 10px 20px;
+  box-shadow: 0px 5px 13px -2px #00000040;
+  line-height: 1rem;
+  font-weight: 600;
+  border-radius: 1em;
+  border: none;
+}
+
+.gs-floating-button.primary {
+  background-color: #55C0E4;
+  color: white;
 }
 
 .gs-basic-button {  
@@ -379,11 +415,15 @@ label {
   font-weight: bold;
 }
 
+.gs-right {
+  text-align: right !important;
+}
 
 .m0 { margin: 0 !important; }
 .mb0 { margin-bottom: 0 !important; }
 .mb4 { margin-bottom: 4px !important; }
 .mb8 { margin-bottom: 8px !important; }
+.mb_5em { margin-bottom: .5em !important; }
 .mb1em { margin-bottom: 1em !important; }
 .mb2em { margin-bottom: 2em !important; }
 .mb3em { margin-bottom: 3em !important; }

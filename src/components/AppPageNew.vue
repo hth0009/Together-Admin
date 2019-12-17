@@ -55,6 +55,16 @@ export default {
   overflow: hidden;
   padding: 0px 3px;
 }
+
+#app-page-content >>> .page-wrapper.one-col {
+  grid-template-columns: auto !important;
+}
+#app-page-content >>> .page-wrapper.two-cols.no-search {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 #app-page-content >>> .page-wrapper.three-rows {
   grid-template-columns: 240px minmax(460px, auto) minmax(460px, auto);
 }
