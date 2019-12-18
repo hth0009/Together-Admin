@@ -50,6 +50,7 @@ import Home from '@/components/Home'
 import ThisSunday from '@/components/ThisSunday'
 import Me from '@/components/Me'
 import MyChurch from '@/components/MyChurch'
+import More from '@/components/More'
 
 import NewEvent from '@/components/NewEvent'
 
@@ -281,6 +282,14 @@ let router = new Router({
           path: 'my-church/',
           component: MyChurch,
           name: 'My Church',
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'more/',
+          component: More,
+          name: 'More',
           meta: {
             requiresAuth: true
           }

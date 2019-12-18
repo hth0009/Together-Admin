@@ -11,7 +11,7 @@
         <i v-if='!drawerIsOpen' class="material-icons">favorite</i>
         <span v-else>Giving</span>
       </a>
-      <a href="/#/app/more" :class="{'black': $route.name === 'more'}">
+      <a href="/#/app/more" :class="{'black': $route.path.startsWith('/app/more')}">
         <i v-if='!drawerIsOpen' class="material-icons">menu</i>
         <span v-else>More</span>
       </a>
