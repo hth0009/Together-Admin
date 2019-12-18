@@ -28,60 +28,150 @@
       </div>
       <div class="selected-view" id="selected-view">
         <div class="details" v-if="selectedID != -1 && !creatingNewItem">
-          <div class="panel gs-container vertical">
-            <div class="header" id="header">
-              <div class="profile-pic">
-                <div class="image-croppa">
-                  <croppa
-                    v-model="photoCroppa"
-                    canvas-color="transparent"
-                    :disable-rotation="true"
-                    :prevent-white-space="true"
-                    :width="100"
+          <div v-if="!creatingSubteam">
+            <div class="panel gs-container vertical">
+              <div class="header" id="header">
+                <div class="profile-pic">
+                  <div class="image-croppa">
+                    <croppa
+                      v-model="photoCroppa"
+                      canvas-color="transparent"
+                      :disable-rotation="true"
+                      :prevent-white-space="true"
+                      :width="100"
+                      :height="100"
+                      :speed="10"
+                      v-show="editing"
+                      style="border-radius:100%;overflow:hidden;opacity:0.6;position:absolute"
+                    ></croppa>
+                  </div>
+                  <avatar
                     :height="100"
-                    :speed="10"
-                    v-show="editing"
-                    style="border-radius:100%;overflow:hidden;opacity:0.6;position:absolute"
-                  ></croppa>
+                    :url="selectedTeam.teamImageThumbnailURL"
+                    :title="selectedTeam.name"
+                  />
                 </div>
-                <avatar
-                  :height="100"
-                  :url="selectedTeam.teamImageThumbnailURL"
-                  :title="selectedTeam.name"
-                />
+                <h3>
+                  <div class="gs-form-group">
+                    <input
+                      type="text"
+                      class="gs-basic-input"
+                      form="teams-form"
+                      placeholder="ex. Every Wednesday at 7:00 PM"
+                      required
+                      v-model="selectedTeam.name"
+                      :readonly="!editing"
+                      style="font-size:32px;font-weight:600;"
+                    />
+                  </div>
+                </h3>
               </div>
-              <h3>
+              <div id="button-row">
+                <padlock
+                  v-model="selectedTeam.isPrivate"
+                  :lockedLabel="'Private'"
+                  :unlockedLabel="'Public'"
+                  :disabled="!editing"
+                  :canBeUnlocked="false"
+                  :cantUnlockMessage="'Private teams cannot be made public'"
+                  :lockWarning="'Once this team is made private it cannot be made public again.'"
+                />
+                <div class="gs-buttons-right">
+                  <button class="gs-basic-button" @click="startEdit" v-show="!editing">
+                    <i class="material-icons">edit</i>EDIT
+                  </button>
+                  <button
+                    class="gs-basic-button red"
+                    @click="deleteButtonClicked"
+                    v-show="!editing"
+                  >
+                    <i class="material-icons">delete</i>DELETE
+                  </button>
+                  <button class="gs-basic-button red" @click="cancelEdit" v-show="editing">
+                    <i class="material-icons">close</i>CANCEL
+                  </button>
+                  <button class="gs-basic-button" @click="saveEdit" v-show="editing">
+                    <i class="material-icons">done</i>SAVE
+                  </button>
+                </div>
+              </div>
+              <form action class id="teams-form">
                 <div class="gs-form-group">
+                  <label for>Meeting Frequency</label>
                   <input
                     type="text"
                     class="gs-basic-input"
-                    form="teams-form"
                     placeholder="ex. Every Wednesday at 7:00 PM"
                     required
-                    v-model="selectedTeam.name"
+                    v-model="selectedTeam.time"
                     :readonly="!editing"
-                    style="font-size:32px;font-weight:600;"
                   />
                 </div>
-              </h3>
-            </div>
-            <div id="button-row">
-              <padlock
-                v-model="selectedTeam.isPrivate"
-                :lockedLabel="'Private'"
-                :unlockedLabel="'Public'"
-                :disabled="!editing"
-                :canBeUnlocked="false"
-                :cantUnlockMessage="'Private teams cannot be made public'"
-                :lockWarning="'Once this team is made private it cannot be made public again.'"
-              />
+                <div class="gs-form-group">
+                  <label for>Leader</label>
+                  <dropdown
+                    :inputCSSClass="'gs-basic-input'"
+                    :items="people"
+                    :readonly="!editing"
+                    :fields="{
+                    title: 'fullName',
+                    id: 'id', 
+                    profile: 'personImageThumbnailURL'
+                  }"
+                    @selected="onLeaderSelected"
+                    :selectedItem="selectedTeam.leaders[0].person"
+                  />
+                  <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
+                  v-model="selectedTeam.speakerName"
+                  :readonly="!editing">-->
+                </div>
+                <div class="gs-form-group">
+                  <label for>Max Capacity</label>
+                  <input
+                    type="number"
+                    class="gs-basic-input"
+                    placeholder="Enter the max capacity for this group"
+                    required
+                    v-model="selectedTeam.maxCapacity"
+                    :readonly="!editing"
+                  />
+                </div>
+                <div class="gs-form-group">
+                  <label for>Short Description</label>
+                  <input
+                    type="text"
+                    class="gs-basic-input"
+                    maxlength="40"
+                    placeholder="Add a short description (ex. 6th Grade Boys Small Group)"
+                    required
+                    v-model="selectedTeam.subtitle"
+                    :readonly="!editing"
+                  />
+                  <input-char-count
+                    v-show="editing"
+                    :input="selectedTeam.subtitle"
+                    :max-num-of-chars-allowed="40"
+                  ></input-char-count>
+                </div>
+                <div class="gs-form-group">
+                  <label for>Description</label>
+                  <textarea
+                    type="text"
+                    class="gs-basic-input"
+                    placeholder="Add Description"
+                    rows="10"
+                    required
+                    v-model="selectedTeam.description"
+                    :readonly="!editing"
+                  ></textarea>
+                  <input-char-count
+                    v-show="editing"
+                    :input="selectedTeam.description"
+                    :max-num-of-chars-allowed="500"
+                  ></input-char-count>
+                </div>
+              </form>
               <div class="gs-buttons-right">
-                <button class="gs-basic-button" @click="startEdit" v-show="!editing">
-                  <i class="material-icons">edit</i>EDIT
-                </button>
-                <button class="gs-basic-button red" @click="deleteButtonClicked" v-show="!editing">
-                  <i class="material-icons">delete</i>DELETE
-                </button>
                 <button class="gs-basic-button red" @click="cancelEdit" v-show="editing">
                   <i class="material-icons">close</i>CANCEL
                 </button>
@@ -90,150 +180,170 @@
                 </button>
               </div>
             </div>
-            <form action class id="teams-form">
-              <div class="gs-form-group">
-                <label for>Meeting Frequency</label>
-                <input
-                  type="text"
-                  class="gs-basic-input"
-                  placeholder="ex. Every Wednesday at 7:00 PM"
-                  required
-                  v-model="selectedTeam.time"
-                  :readonly="!editing"
-                />
+            <div class="panel gs-container vertical">
+              <div class="gs-card-header" style="display:flex;justify-content:space-between;">
+                <div
+                  v-if="!membersSelected"
+                  @click="membersSelected = true"
+                  style="cursor:pointer;color:black;"
+                >Members</div>
+                <div
+                  v-if="membersSelected"
+                  @click="membersSelected = true"
+                  style="cursor:pointer;color:#55C0E4;"
+                >Members</div>
+                <div
+                  v-if="membersSelected"
+                  @click="membersSelected = false"
+                  style="cursor:pointer;color:black;"
+                >Subteams</div>
+                <div
+                  v-if="!membersSelected"
+                  @click="membersSelected = false"
+                  style="cursor:pointer;color:#55C0E4;"
+                >Subteams</div>
               </div>
-              <div class="gs-form-group">
-                <label for>Leader</label>
-                <dropdown
-                  :inputCSSClass="'gs-basic-input'"
-                  :items="people"
-                  :readonly="!editing"
+              <div v-if="membersSelected">
+                <cards
+                  style="maxHeight:20vh"
+                  :loading="loading"
+                  :cardList="selectedTeamMembers"
+                  :emptyMessage="'No Members'"
+                  :cardSelectable="false"
+                  :hasShadow="false"
+                  :inline="true"
+                  :hasSearch="false"
                   :fields="{
-                    title: 'fullName',
-                    id: 'id', 
-                    profile: 'personImageThumbnailURL'
-                  }"
-                  @selected="onLeaderSelected"
-                  :selectedItem="selectedTeam.leaders[0].person"
-                />
-                <!-- <input type="text" class="gs-basic-input" placeholder="Add Speaker" required
-                  v-model="selectedTeam.speakerName"
-                :readonly="!editing">-->
-              </div>
-              <div class="gs-form-group">
-                <label for>Max Capacity</label>
-                <input
-                  type="number"
-                  class="gs-basic-input"
-                  placeholder="Enter the max capacity for this group"
-                  required
-                  v-model="selectedTeam.maxCapacity"
-                  :readonly="!editing"
-                />
-              </div>
-              <div class="gs-form-group">
-                <label for>Short Description</label>
-                <input
-                  type="text"
-                  class="gs-basic-input"
-                  maxlength="40"
-                  placeholder="Add a short description (ex. 6th Grade Boys Small Group)"
-                  required
-                  v-model="selectedTeam.subtitle"
-                  :readonly="!editing"
-                />
-                <input-char-count
-                  v-show="editing"
-                  :input="selectedTeam.subtitle"
-                  :max-num-of-chars-allowed="40"
-                ></input-char-count>
-              </div>
-              <div class="gs-form-group">
-                <label for>Description</label>
-                <textarea
-                  type="text"
-                  class="gs-basic-input"
-                  placeholder="Add Description"
-                  rows="10"
-                  required
-                  v-model="selectedTeam.description"
-                  :readonly="!editing"
-                ></textarea>
-                <input-char-count
-                  v-show="editing"
-                  :input="selectedTeam.description"
-                  :max-num-of-chars-allowed="500"
-                ></input-char-count>
-              </div>
-            </form>
-            <div class="gs-buttons-right">
-              <button class="gs-basic-button red" @click="cancelEdit" v-show="editing">
-                <i class="material-icons">close</i>CANCEL
-              </button>
-              <button class="gs-basic-button" @click="saveEdit" v-show="editing">
-                <i class="material-icons">done</i>SAVE
-              </button>
-            </div>
-          </div>
-          <div class="panel gs-container vertical">
-            <div class="gs-card-header" style="display:flex;justify-content:space-between;">
-              <div @click="membersSelected = true" style="cursor:pointer;">Members</div>
-              <div @click="membersSelected = false" style="cursor:pointer;">Subteams</div>
-            </div>
-            <div v-if="membersSelected">
-              <label v-if="selectedTeam.isPrivate">Pending</label>
-              <cards
-                v-if="selectedTeam.isPrivate"
-                style="maxHeight:20vh"
-                :hasApproveDeny="true"
-                :loading="loading"
-                :cardList="selectedTeamMembers"
-                :emptyMessage="'No Pending Requests'"
-                :cardSelectable="false"
-                :hasShadow="false"
-                :inline="true"
-                :hasSearch="false"
-                @onApprove="memberApproved"
-                @onDeny="memberDenied"
-                :fields="{
               title: 'memberName',
               id: 'memberID',
               profile: 'memberAvatar'
               }"
-              />
-              <label>Members</label>
-              <cards
-                style="maxHeight:20vh"
-                :loading="loading"
-                :cardList="selectedTeamMembers"
-                :emptyMessage="'No Members'"
-                :cardSelectable="false"
-                :hasShadow="false"
-                :inline="true"
-                :hasSearch="false"
-                :fields="{
+                />
+                <label v-if="selectedTeam.isPrivate">Pending</label>
+                <cards
+                  v-if="selectedTeam.isPrivate"
+                  style="maxHeight:20vh"
+                  :hasApproveDeny="true"
+                  :loading="loading"
+                  :cardList="selectedTeamMembers"
+                  :emptyMessage="'No Pending Requests'"
+                  :cardSelectable="false"
+                  :hasShadow="false"
+                  :inline="true"
+                  :hasSearch="false"
+                  @onApprove="memberApproved"
+                  @onDeny="memberDenied"
+                  :fields="{
               title: 'memberName',
               id: 'memberID',
               profile: 'memberAvatar'
               }"
-              />
-            </div>
-            <div v-if="!membersSelected">
-              <cards
-                style="maxHeight:20vh"
-                :loading="loading"
-                :cardList="selectedTeamSubteams"
-                :emptyMessage="'No Subteams'"
-                :cardSelectable="false"
-                :hasShadow="false"
-                :inline="true"
-                :hasSearch="false"
-                :fields="{
+                />
+              </div>
+              <div v-if="!membersSelected">
+                <cards
+                  style="maxHeight:20vh"
+                  :loading="loading"
+                  :cardList="selectedTeamSubteams"
+                  :emptyMessage="'No Subteams'"
+                  :cardSelectable="false"
+                  :hasShadow="false"
+                  :inline="true"
+                  :hasSearch="false"
+                  :hasAddNew="true"
+                  @onAddNew="createNewSubteam"
+                  :fields="{
               title: 'subteamName',
               id: 'subteamID',
               profile: 'subteamAvatar'
               }"
-              />
+                />
+              </div>
+            </div>
+          </div>
+          <div v-if="creatingNewSubteam">
+            <div class="panel gs-card-with-shadow gs-card-rise">
+              <b-row>
+                <b-col sm="10">
+                  <h5>Create New Subteam</h5>
+                </b-col>
+                <b-col sm="2">
+                  <button class="gs-basic-button" @click="cancelCreatingNewSubteam()">X</button>
+                </b-col>
+              </b-row>
+              <div class="image-croppa gs-card-photo">
+                <croppa
+                  v-model="photoCroppa"
+                  canvas-color="transparent"
+                  :disable-rotation="true"
+                  :prevent-white-space="true"
+                  :width="250"
+                  :height="250"
+                  :speed="10"
+                ></croppa>
+              </div>
+              <form action class id="teams-form" @submit.prevent="createTeam">
+                <div class="gs-form-group">
+                  <label for>Subteam Name</label>
+                  <input
+                    type="text"
+                    class="gs-basic-input"
+                    placeholder="Pretty Awesome Subteam"
+                    required
+                    v-model="newTeam.time"
+                  />
+                </div>
+                <div class="gs-form-group">
+                  <label for>Meeting Frequency</label>
+                  <input
+                    type="text"
+                    class="gs-basic-input"
+                    placeholder="ex. Every Wednesday at 7:00 PM"
+                    required
+                    v-model="newTeam.time"
+                  />
+                </div>
+                <div class="gs-form-group">
+                  <label for>Leader</label>
+                  <dropdown
+                    :inputCSSClass="'gs-basic-input'"
+                    :items="people"
+                    :fields="{
+                    title: 'fullName',
+                    id: 'id', 
+                    profile: 'personImageThumbnailURL'
+                  }"
+                    @selected="onNewTeamLeaderSelected"
+                    :placeholder="'Choose a team leader'"
+                  />
+                </div>
+                <div class="gs-form-group">
+                  <label for>Short Description</label>
+                  <input
+                    type="text"
+                    class="gs-basic-input"
+                    maxlength="40"
+                    placeholder="Add a short description (ex. 6th Grade Boys Small Group)"
+                    required
+                    v-model="newTeam.subtitle"
+                  />
+                  <input-char-count :input="newTeam.subtitle" :max-num-of-chars-allowed="40"></input-char-count>
+                </div>
+                <div class="gs-form-group">
+                  <label for>Description</label>
+                  <textarea
+                    type="text"
+                    class="gs-basic-input"
+                    placeholder="Add Description"
+                    rows="10"
+                    required
+                    maxlength="500"
+                    v-model="newTeam.description"
+                  ></textarea>
+                  <input-char-count :input="newTeam.description" :max-num-of-chars-allowed="500"></input-char-count>
+                </div>
+                <button class="gs-basic-button">CREATE</button>
+              </form>
             </div>
           </div>
         </div>
@@ -384,6 +494,7 @@ export default {
       selectedTeam: {},
       selectedTeamMembers: [],
       selectedTeamSubteams: [],
+      creatingNewSubteam: false,
       beforeEditedService: {},
       cdnKeys: {},
       photoCroppa: {},
@@ -448,6 +559,12 @@ export default {
 
       let getKeysRes = await CDN.getKeys();
       this.cdnKeys = getKeysRes.data;
+    },
+    createNewSubteam() {
+      this.creatingNewSubteam = true;
+    },
+    cancelCreatingNewSubteam() {
+      this.creatingNewSubteam = false;
     },
     async getTeam(id) {
       this.selectedID = id;
@@ -620,6 +737,10 @@ export default {
 <style src="./../assets/css/general-style.css"></style> 
 
 <style scoped>
+#selected-view .details {
+  display: grid;
+  grid-template-columns: auto auto;
+}
 #selected-view #header {
   margin: 0;
 }
