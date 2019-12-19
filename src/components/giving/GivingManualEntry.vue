@@ -35,9 +35,7 @@
         Select Fund
       </b-col>
       <b-col sm="12" style="display: flex">
-        <button class="gs-floating-button">Building</button>
-        <button class="gs-floating-button">General</button>
-        <button class="gs-floating-button">Youth Ministry</button>
+        <custom-radio class="toggle" v-model="manualEntry.fund" :options="['Building', 'General', 'Youth Ministry']"></custom-radio>
       </b-col>
     </b-row>
     <b-row>
@@ -45,8 +43,7 @@
         Type
       </b-col>
       <b-col sm="12" style="display: flex">
-        <button class="gs-floating-button">Check</button>
-        <button class="gs-floating-button">Cash</button>
+        <custom-radio class="toggle" v-model="manualEntry.paymentType" :options="['Check', 'Cash']"></custom-radio>
       </b-col>
     </b-row>
     <div>
@@ -57,11 +54,12 @@
 
 <script>
 import flatPickr from 'vue-flatpickr-component'
+import CustomRadio from '@/components/CustomRadio'
 
 export default {
   data() {
     return {
-      manualEntry: {},
+      manualEntry: { paymentType: 0, fund: 0, },
       datePickerConfig: {
         allowInput: true,
         altInput: true
@@ -69,7 +67,7 @@ export default {
     }
   },
   components: {    
-    flatPickr
+    flatPickr, CustomRadio
   },
 }
 </script>

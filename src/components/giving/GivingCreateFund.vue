@@ -34,7 +34,7 @@
       <b-col sm="8" class="gs-flex-row">
         <toggle-button :value='fund.taxDeductible' id="taxDeductibleToggle" color="#55C0E4"  @change="toggleTaxDeductible"
           :labels="{checked: 'Fund Is Tax Deductible', unchecked: 'Fund Is Not Tax Deductible'}" 
-          width='250' height='30' font-size='14'/>
+          :width='250' :height='30' :font-size='14'/>
       </b-col>
       <b-col sm="4">
         <button class="gs-floating-button primary mr-5" style="float: right;">Create</button>
@@ -45,8 +45,12 @@
 
 <script>
 import flatPickr from 'vue-flatpickr-component'
+import CustomRadio from '@/components/CustomRadio'
 
 export default {
+  components: {    
+    flatPickr, CustomRadio,
+  },
   data() {
     return {
       fund: { 
@@ -56,10 +60,8 @@ export default {
         allowInput: true,
         altInput: true
       },
+      test: {},
     }
-  },
-  components: {    
-    flatPickr
   },
   methods: {
     toggleTaxDeductible() {
