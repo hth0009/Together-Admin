@@ -27,7 +27,7 @@
         Person
       </b-col>
       <b-col sm="6">
-        <input type="number" name="giving-person-input" class="gs-floating" placeholder="search...">
+        <input type="text" name="giving-person-input" class="gs-floating" placeholder="search...">
       </b-col>
     </b-row>
     <b-row>

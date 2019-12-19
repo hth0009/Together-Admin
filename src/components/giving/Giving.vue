@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 #giving-wrapper {
   padding-right: 5em !important;
 }
@@ -46,6 +46,9 @@ export default {
 }
 .giving-panel >>> .row {
   margin-bottom: 2em !important;
+}
+input, button {
+  outline: none !important;
 }
 
 
