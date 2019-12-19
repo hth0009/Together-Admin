@@ -75,7 +75,4 @@ export default {
 </script>
 
 <style scoped>
-.row {
-  margin-bottom: 2em !important;
-}
 </style>

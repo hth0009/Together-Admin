@@ -2,11 +2,19 @@ export const GivingModule = {
   namespaced: true,
   state: {
     loading: true,
-    showCollapsedTableView: false,
+    showManualEntry: false,
+    showCreateFund: false,
   },
   mutations: {
     setLoading (state, loading) { state.loading = loading; },
-    setShowCollapsedTableView (state, showCollapsedTableView) { state.showCollapsedTableView = showCollapsedTableView; },
+    setShowManualEntry (state, showManualEntry) { 
+      state.showManualEntry = showManualEntry; 
+      state.showCreateFund = false;
+    },
+    setShowCreateFund (state, showCreateFund) { 
+      state.showCreateFund = showCreateFund; 
+      state.showManualEntry = false; 
+    },
   },
   actions: {
   },

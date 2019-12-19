@@ -39,6 +39,8 @@ import { faHeart, faPaperPlane, faUser } from '@fortawesome/free-regular-svg-ico
 library.add(faFilter, faCross, faRedo, faStripeS, faHeart, faPaperPlane, faUser);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
+import ToggleButton from 'vue-js-toggle-button'
+Vue.use(ToggleButton)
 
 Vue.use(DropDownListPlugin)
 Vue.use(DateTimePickerPlugin)

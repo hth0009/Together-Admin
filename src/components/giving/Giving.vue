@@ -5,7 +5,8 @@
         <giving-top-nav/>
         <giving-table/>
       </div>
-      <giving-manual-entry style="width: 700px" v-if="showCollapsedTableView"/>
+      <giving-manual-entry style="width: 650px" v-if="showManualEntry"/>
+      <giving-create-fund style="width: 650px" v-if="showCreateFund"/>
     </div>
   </div>
   
@@ -15,11 +16,12 @@
 import GivingTable from '@/components/giving/GivingTable'
 import GivingTopNav from '@/components/giving/GivingTopNav'
 import GivingManualEntry from '@/components/giving/GivingManualEntry'
+import GivingCreateFund from '@/components/giving/GivingCreateFund'
 import { mapState } from 'vuex';
 
 export default {
   components: {
-    GivingTable, GivingTopNav, GivingManualEntry
+    GivingTable, GivingTopNav, GivingManualEntry, GivingCreateFund
   },
   data() {
     return {
@@ -27,7 +29,7 @@ export default {
     };
   },
   computed: {
-    ...mapState ('giving', ['showCollapsedTableView']),
+    ...mapState ('giving', ['showManualEntry', 'showCreateFund']),
   },
 }
 </script>
@@ -41,6 +43,9 @@ export default {
   padding: 1em !important;
   box-shadow: 0px 5px 13px -2px #00000040;
   border-radius: 10px;
+}
+.giving-panel >>> .row {
+  margin-bottom: 2em !important;
 }
 
 
