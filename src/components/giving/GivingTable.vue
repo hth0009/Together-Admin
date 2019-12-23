@@ -13,8 +13,8 @@
             <th>Amount</th>
           </tr>
           <tr>
-            <td>hey</td>
-            <td>hey</td>
+            <td>Michael Harrison</td>
+            <td>9/7/19</td>
             <td v-if="!showCollapsedTableView">hey</td>
             <td v-if="!showCollapsedTableView">hey</td>
             <td v-if="!showCollapsedTableView">hey</td>

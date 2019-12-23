@@ -42,7 +42,7 @@ export default {
 }
 .giving-panel {
   margin: 15px 12px;
-  padding: 1em !important;
+  padding: 1.5em 1em 2em 1em !important;
   box-shadow: 0px 5px 13px -2px #00000040;
   border-radius: 10px;
 }

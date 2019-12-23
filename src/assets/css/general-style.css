@@ -40,6 +40,8 @@ label {
   margin-bottom: .3rem;
 }
 
+.gs-small-label { font-size: 10pt; } 
+
 .gs-primary { color: #55C0E4 !important;}
 .gs-primary-bg { background-color: #55C0E4 !important; }
 .gs-light { color: white !important; }
@@ -217,6 +219,7 @@ label {
   border-radius: 1em;
   width: 100%;
   margin-bottom: 5px;
+  outline: none;
 }
 
 .gs-floating-button {
@@ -234,10 +237,15 @@ label {
   font-weight: 600;
   border-radius: 1em;
   border: none;
+  outline: none !important;
 }
 
 .gs-floating-button.primary {
   background-color: #55C0E4;
+  color: white;
+}
+.gs-floating-button.green {
+  background-color: #05e0a2;
   color: white;
 }
 
