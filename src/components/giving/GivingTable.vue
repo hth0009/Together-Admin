@@ -15,10 +15,11 @@
           <tr>
             <td>Michael Harrison</td>
             <td>9/7/19</td>
-            <td v-if="!showCollapsedTableView">hey</td>
-            <td v-if="!showCollapsedTableView">hey</td>
-            <td v-if="!showCollapsedTableView">hey</td>
-            <td v-if="!showCollapsedTableView" id="giving-fee-td">hey</td>
+            <td v-if="!showCollapsedTableView">Building</td>
+            <td v-if="!showCollapsedTableView">Check</td>
+            <td v-if="!showCollapsedTableView">$500</td>
+            <td v-if="!showCollapsedTableView" id="giving-fee-td"
+                :style="{color: 0 > 0 ? '#FF0000' : ''}">$0</td>
             <td :style="{color: 500 > 0 ? '#08C900' : ''}">$500</td>
           </tr>
         </table>
@@ -48,6 +49,6 @@ export default {
 }
 th, td {
   padding: .5em 1em;
-  font-weight: bold;
 }
+th { font-weight: bold; }
 </style>

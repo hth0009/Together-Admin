@@ -21,7 +21,7 @@
     </b-row>
 
     <b-row class="gs-flex-row">
-      <b-col sm="6" md="4">
+      <b-col sm="5">
         <label for>Date Started</label>
         <flat-pickr
           class="gs-basic-input"
@@ -30,7 +30,7 @@
         ></flat-pickr>
       </b-col>
       <span style="padding-top: 1.5em">-</span>
-      <b-col sm="6" md="4">
+      <b-col sm="5">
         <label for>Date Ended</label>
         <flat-pickr
           class="gs-basic-input"
@@ -91,5 +91,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.gs-basic-input.form-control:focus {
+ font-size: 11pt !important;
 }
 </style>

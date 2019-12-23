@@ -27,6 +27,12 @@ export const GivingModule = {
       state.showManualEntry = false; 
       state.showCreateFund = false;
     },
+    showFullTableView (state) {
+      state.showCollapsedTableView = false; 
+      state.showManualEntry = false; 
+      state.showCreateFund = false;
+      state.showCreateReport = false; 
+    },
   },
   actions: {
   },
