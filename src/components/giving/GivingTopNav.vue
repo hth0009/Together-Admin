@@ -13,7 +13,7 @@
       <b-col sm="6" class="giving-creation-actions">
         <button class="gs-floating-button" style="background-color: #D2D1CC" @click="startManualEntry()">Manual Entry</button>
         <button class="gs-floating-button" style="background-color: #E5E9DD" @click="startCreateFund()">Create Fund</button>
-        <button class="gs-floating-button" style="background-color: #F6F3F0">Create Report</button>
+        <button class="gs-floating-button" style="background-color: #F6F3F0" @click="startCreateReport()">Create Report</button>
       </b-col>
     </b-row>
   </div>
@@ -24,12 +24,13 @@ import { mapState, mapMutations } from 'vuex';
 
 export default {
   computed: {
-    ...mapState('giving', ['showManualEntry', 'showCreateFund']),
+    ...mapState('giving', ['showManualEntry', 'showCreateFund', 'showCreateReport']),
   },
   methods: {
-  ...mapMutations('giving', [ 'setShowManualEntry', 'setShowCreateFund' ]),
+  ...mapMutations('giving', [ 'setShowManualEntry', 'setShowCreateFund', 'setShowCreateReport' ]),
     startManualEntry() { this.setShowManualEntry(!this.showManualEntry); },
     startCreateFund() { this.setShowCreateFund(!this.showCreateFund); },
+    startCreateReport() { this.setShowCreateReport(!this.showCreateReport); },
   },
 }
 </script>
