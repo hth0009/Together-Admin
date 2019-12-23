@@ -26,7 +26,13 @@
               <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
               <!-- <button class="basic-button red"><i class="material-icons">delete</i></button> -->
             </div>
-            <!-- <button class="section-toggle">Teams</button> -->
+            <!-- <button class="section-toggle">Teams</button> -->            
+            <div class="panel gs-container vertical">
+              <h1 class="gs-card-header">Roles and Permissions</h1>
+              <permissions
+                :selectedAccountID="selectedPerson.accountID"
+              />
+            </div>
             <div id="person-profile" class="panel gs-container vertical">
               <div class="header">
                 <div class="profile-pic">
@@ -343,6 +349,7 @@ import Teams from "@/services/teams";
 import CustomRadio from "@/components/CustomRadio";
 import StaticHeader from "@/components/StaticHeader";
 import Avatar from "@/components/Avatar";
+import Permissions from "@/components/Permissions";
 import { Container, Draggable } from "vue-smooth-dnd";
 import { applyDrag } from "@/utils/helpers";
 import Croppa from 'vue-croppa'
@@ -395,7 +402,8 @@ export default {
     Container,
     Draggable,
     Avatar,
-    StaticHeader
+    StaticHeader,
+    Permissions
   },
   computed: {
     ...mapState ('people', ['people', 'loading']),
