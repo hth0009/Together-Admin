@@ -204,35 +204,38 @@
                 >Subteams</div>
               </div>
               <div v-if="membersSelected">
-                <cards
-                  style="maxHeight:20vh"
-                  :loading="loading"
-                  :cardList="selectedTeamMembers"
-                  :emptyMessage="'No Members'"
-                  :cardSelectable="false"
-                  :hasShadow="false"
-                  :inline="true"
-                  :hasSearch="false"
-                  :fields="{
-              title: 'memberName',
-              id: 'memberID',
-              profile: 'memberAvatar'
-              }"
-                />
                 <label v-if="selectedTeam.isPrivate">Pending</label>
                 <cards
                   v-if="selectedTeam.isPrivate"
                   style="maxHeight:20vh"
                   :hasApproveDeny="true"
                   :loading="loading"
-                  :cardList="selectedTeamMembers"
+                  :cardList="selectedTeamRequests"
                   :emptyMessage="'No Pending Requests'"
-                  :cardSelectable="false"
+                  :cardSelectable="true"
                   :hasShadow="false"
                   :inline="true"
                   :hasSearch="false"
                   @onApprove="memberApproved"
                   @onDeny="memberDenied"
+                  @selected="personSelected"
+                  :fields="{
+              title: 'memberName',
+              id: 'memberID',
+              profile: 'memberAvatar'
+              }"
+                />
+                <label v-if="selectedTeam.isPrivate">Members</label>
+                <cards
+                  style="maxHeight:20vh"
+                  :loading="loading"
+                  :cardList="selectedTeamMembers"
+                  :emptyMessage="'No Members'"
+                  :cardSelectable="true"
+                  :hasShadow="false"
+                  :inline="true"
+                  :hasSearch="false"
+                  @selected="personSelected"
                   :fields="{
               title: 'memberName',
               id: 'memberID',
@@ -494,6 +497,7 @@ export default {
       selectedTeam: {},
       selectedTeamMembers: [],
       selectedTeamSubteams: [],
+      selectedTeamRequests: [],
       creatingNewSubteam: false,
       beforeEditedService: {},
       cdnKeys: {},
@@ -578,6 +582,8 @@ export default {
         memberName: aMember.person.fullName
       }));
       this.selectedTeamSubteams = team.subteams;
+      const getTeamRequests = await Teams.getTeamRequestsByID(id);
+      this.selectedTeamRequests = getTeamRequests.data.teamrequests;
 
       // this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
       //   fullName: member.firstName + ' ' + member.lastName,
@@ -716,11 +722,14 @@ export default {
     removeNewTeamPlaceholderInCardList() {
       this.teams.pop();
     },
-    memberApproved(id) {
-      console.log(id + " approved");
+    memberApproved(personID) {
+      Teams.acceptTeamRequest(this.selectedID, personID);
     },
-    memberDenied(id) {
-      console.log(id + " denied");
+    memberDenied(personID) {
+      Teams.denyTeamRequest(this.selectedID, personID);
+    },
+    personSelected(personID) {
+      this.$router.push(`/app/people/${personID}`)
     }
   },
   props: {},

@@ -32,6 +32,37 @@ export default {
         }
       })
   },
+  getTeamRequestsByID (teamID) {
+    return Api().get('teamrequests',
+      {
+        params: {
+          teamID: `${teamID}`
+        }
+      }
+    )
+  },
+  acceptTeamRequest (teamID, personID) {
+    return Api().patch('teamrequests',{
+      "identifier":{
+        "personID": `${personID}`,
+        "teamID": `${teamID}`
+      },
+      "values":{
+        "isAccepted": true
+      }
+    })
+  },
+  denyTeamRequest (teamID, personID) {
+    return Api().patch('teamrequests',{
+      "identifier":{
+        "personID": `${personID}`,
+        "teamID": `${teamID}`
+      },
+      "values":{
+        "isAccepted": false
+      }
+    })
+  },
   postTeam (teamInfo) {
     return Api().post('teams', teamInfo)
   },
