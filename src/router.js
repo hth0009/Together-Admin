@@ -51,7 +51,7 @@ import ThisSunday from '@/components/ThisSunday'
 import Giving from '@/components/giving/Giving'
 import Me from '@/components/Me'
 import MyChurch from '@/components/MyChurch'
-
+import Signup from '@components/Signup'
 import NewEvent from '@/components/NewEvent'
 
 import store from './store'
@@ -292,6 +292,14 @@ let router = new Router({
           name: 'My Church',
           meta: {
             requiresAuth: true
+          }
+        },
+        {
+          path: 'signup/',
+          component: Signup,
+          name: 'Signup',
+          meta: {
+            requiresAuth: false
           }
         }
       ]
