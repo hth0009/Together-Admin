@@ -34,7 +34,7 @@
               <div class="gs-form-group">
                 <input
                   type="username"
-                  class="gs-basic-input"
+                  class="basic-input"
                   placeholder="Username"
                   v-model="username"
                   name="username"
@@ -43,7 +43,7 @@
               <div class="gs-form-group">
                 <input
                   :type="passwordType"
-                  class="gs-basic-input"
+                  class="basic-input"
                   placeholder="Password"
                   v-model="password"
                   name="password"
@@ -72,7 +72,7 @@
         <!-- <a @click="forgotPassword" id="forgot-password">Forgot password?</a> -->
         <div v-if="!logInSelected" style="text-align:center;">
           <div v-if="personSignUp">
-            <label style="display:block;font-size:1rem;margin-bottom:0;">PERSONAL ACCOUNT CREATION</label>
+            <label style="display:block;font-size:1rem;margin-bottom:0;line-height:0.6;">PERSONAL ACCOUNT CREATION</label>
             <label
               v-on:click="personSignUp = false"
               style="font-size:.7rem;cursor:pointer;text-decoration:underline #55C0E4;color:#55C0E4;"
@@ -80,19 +80,19 @@
             <form v-on:submit.prevent="login" style="margin:auto;">
               <div>
                 <div class="gs-form-group">
-                  <input type="text" class="gs-basic-input" placeholder="Name" name="Name" />
+                  <input type="text" class="basic-input" placeholder="Name" name="Name" />
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="gs-basic-input" placeholder="Email" name="Email" />
+                  <input type="text" class="basic-input" placeholder="Email" name="Email" />
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="gs-basic-input" placeholder="Username" name="Username" />
+                  <input type="text" class="basic-input" placeholder="Username" name="Username" />
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="gs-basic-input" placeholder="Password" name="Password" />
+                  <input type="text" class="basic-input" placeholder="Password" name="Password" />
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="gs-basic-input" placeholder="Birthday" name="Birthday" />
+                  <input type="text" class="basic-input" placeholder="Birthday" name="Birthday" />
                 </div>
                 <div id="enter-btn-wrapper">
                   <button class="gs-basic-button">CONTINUE</button>
@@ -101,7 +101,7 @@
             </form>
           </div>
           <div v-if="!personSignUp">
-            <label style="display:block;font-size:1rem;margin-bottom:0;">ORGANIZATION CREATION</label>
+            <label style="display:block;font-size:1rem;margin-bottom:0;line-height:0.6;">ORGANIZATION CREATION</label>
             <label
               v-on:click="personSignUp = true"
               style="font-size:.7rem;cursor:pointer;text-decoration:underline #55C0E4;color:#55C0E4;"
@@ -111,21 +111,21 @@
                 <div class="gs-form-group">
                   <input
                     type="text"
-                    class="gs-basic-input"
+                    class="basic-input"
                     placeholder="Organization Name"
                     name="Organization Name"
                   />
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="gs-basic-input" placeholder="City" name="City" />
+                  <input type="text" class="basic-input" placeholder="City" name="City" />
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="gs-basic-input" placeholder="State" name="State" />
+                  <input type="text" class="basic-input" placeholder="State" name="State" />
                 </div>
                 <div class="gs-form-group">
                   <input
                     type="text"
-                    class="gs-basic-input"
+                    class="basic-input"
                     placeholder="501C3 Number"
                     name="501C3 Number"
                   />
@@ -396,11 +396,22 @@ input:-webkit-autofill {
   align-items: center;
   margin-bottom: 1rem;
 }
-#form-inputs {
-  /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; */
+.basic-input {
+  background: white;
+  outline: none;  
+  width: 100%;
+  padding: .45rem .7rem;
+  font-size: .9rem;
+  line-height: 1.3;
+  margin-bottom: 5px;
+  resize: none;
+  border-bottom: 2px #d4d4d4 solid;
+  display: block;
+  box-sizing: border-box;
+  transition: all .2s ease-in-out;
+}
+.basic-input:focus {
+  border-bottom: 3px solid #55C0E4;
 }
 .panel {
   margin-bottom: 10px;
