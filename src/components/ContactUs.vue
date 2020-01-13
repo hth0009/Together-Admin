@@ -6,7 +6,7 @@
       <input id="form-org-name" class="gs-basic-input transparent-input" name="org-name" type="text" v-model="orgName" placeholder="Organization Name">
       <textarea id="form-message" class="gs-basic-input transparent-input" name="message" v-model="message" required placeholder="Message"/>
       <inline-loader v-show="loggingIn"></inline-loader>
-      <button id="form-submit" class="gs-basic-button green black" type="submit">SUBMIT</button>
+      <button id="form-submit" class="gs-basic-button black" style="background-color: #44f1f1" type="submit">SUBMIT</button>
     </form>
   </div>    
 </template>
@@ -108,11 +108,11 @@ export default {
 }
 
 .transparent-input {
-  background-color: rgba(255, 255, 255, .25);
+  background-color: rgba(0, 0, 0, .16);
   border: none;
 }
 .transparent-input::placeholder {
-  color: black;
+  color: white;
 }
 
 @media all and (max-width: 800px) {

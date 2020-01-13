@@ -1,10 +1,9 @@
 <template>
   <div id="navTabs">
-    <a v-for="tab in tabs" :key="tab.id" :class="{'active-bg': '/#' + $route.path === tab.href}"
-       class="nav-tab-button animated fadeInRight faster" :href="tab.href" :style="tab.style.backgroundColor">
-      <span :style="tab.style.color">
+    <a v-for="tab in tabs" :key="tab.id" 
+       :class="{'active': '/#' + $route.path === tab.href, 'inactive': '/#' + $route.path !== tab.href}"
+       class="nav-tab-button animated fadeInRight faster" :href="tab.href">
         {{tab.title}}
-      </span> 
     </a>
   </div>
 </template>
@@ -15,31 +14,16 @@ export default {
     return {
       tabs: [
         {
-          title: 'HOW DOES IT WORK',
-          href: '/#/hello/how-does-it-work',
-          style: {
-            color: {
-              'color': '#FDBCBC',
-            },
-          }
+          title: 'PRODUCT',
+          href: '/#/hello/product',
         },
         {
-          title: 'WHAT DOES IT COST',
-          href: '/#/hello/cost',
-          style: {
-            color: {
-              'color': '#D2D1CC',
-            },
-          }
+          title: 'PRICE',
+          href: '/#/hello/price',
         },
         {
-          title: 'STILL HAVE QUESTIONS',
-          href: '/#/hello/still-have-questions',
-          style: {
-            color: {
-              'color': '#FFFFFF',
-            },
-          },
+          title: 'QUESTIONS',
+          href: '/#/hello/questions',
         },
       ],
     }
@@ -53,7 +37,8 @@ export default {
 #navTabs {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: flex-end;
+  margin-right: 4em;
 }
 .nav-tab-button {
   display: flex;
@@ -62,7 +47,6 @@ export default {
   padding: 1em;
   border-radius: 4px;
 }
-.active-bg {
-  background-color: #37474F;
-}
+.active { color: white; }
+.inactive { color: #004580; }
 </style>

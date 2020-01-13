@@ -4,7 +4,7 @@
     <b-col lg="8" offset-lg="2" sm="10" class="stillHaveQuestionsCol mb2em mt2em">
       <h5 class="mb1em black">Best Part? You don't have to wait for your 
          software contract to end. Why? Because
-        <span class="gs-light"> it doesn't cost anything to </span> 
+        it doesn't cost anything to 
         <span>start</span> connecting your people through Together.
       </h5>
       <join-global-church class="mb1em"/>

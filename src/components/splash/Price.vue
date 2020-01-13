@@ -1,6 +1,6 @@
 <template>
-<div id="cost-wrapper" class="bold animated fadeIn fast">
-  <b-row class="mb2em">
+<div id="cost-wrapper" class="bold animated fadeIn fast gs-light">
+  <b-row class="mb2em dark-wrapper">
     <b-col col lg="3" offset-lg="3" md='12' class="mb1em">
       <div class="center" id='your-cost-left-col'>
         <h2 id="your-zero-cost">$0</h2>
@@ -17,20 +17,21 @@
       </div>
     </b-col>
   </b-row>
+    No Contracts Necessary
 </div>
 </template>
 
 <script>
 export default {
-  name: 'Cost',
+  name: 'Price',
   data() {
     return {
       yourCostDetails: [
-        { name: 'Giving', color: '#5FBAFF' },
-        { name: 'Mass Message Tool', color: '#FF84B5' },
-        { name: 'Engagement Software', color: '#FF7276' },
-        { name: 'Database and Data Storage', color: '#780AAF' },
-        { name: 'Basic Planning and Management', color: '#18C6A3' },
+        { name: 'Giving', color: '#FFFFFF' },
+        { name: 'Mass Message Tool', color: '#FFFFFF' },
+        { name: 'Engagement Software', color: '#FFFFFF' },
+        { name: 'Database and Data Storage', color: '#FFFFFF' },
+        { name: 'Basic Planning and Management', color: '#FFFFFF' },
       ],
     }
   },
@@ -43,7 +44,16 @@ export default {
 }
 .font-size-_9em { font-size: .9rem; }
 #cost-wrapper {
-  padding-top: 20vh;
+  padding-top: 10vh;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+.dark-wrapper {
+  opacity: 0.5;
+  border-radius: 25px;
+  box-shadow: 0 0 20px 0 #ffffff;
+  background-color: #000000;
 }
 #your-cost-left-col {
   display: flex;
@@ -63,13 +73,11 @@ export default {
 
 #your-zero-cost {
   font-size: 5.5rem;
-  color: black;
   font-weight: 100;
 }
 
 #your-cost-giving {
   font-size: 1.2rem;
-  color: black;
   font-weight: 100;
   margin-bottom: .5em;
 }

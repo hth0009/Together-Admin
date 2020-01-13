@@ -8,7 +8,7 @@
     </div>
 
     <div id="nav-tabs-wrapper">
-      <nav-tabs v-show="showNavTabs"/>
+      <nav-tabs/>
     </div>
 
     <div id="signup-login" class="gs-flex-row">
@@ -23,26 +23,12 @@
 <script>
 import NavTabs from '@/components/splash/NavTabs'
 export default {
-  data() {
-    return {
-      showNavTabs: false,
-    }
-  },
   methods: {
     goToWelcomePage() { this.$router.push('/hello/welcome'); },
-    setShowNavTabsBasedOnRoute(routeName) { this.showNavTabs = routeName !== 'Welcome'; }
   },
   components: {
     NavTabs
   },
-  mounted () {
-    this.setShowNavTabsBasedOnRoute(this.$route.name);
-  },
-  watch: {
-    $route(to) {
-      this.setShowNavTabsBasedOnRoute(to.name); 
-    },
-  }
 }
 </script>
 
