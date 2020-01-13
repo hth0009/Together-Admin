@@ -51,7 +51,8 @@ import ThisSunday from '@/components/ThisSunday'
 import Giving from '@/components/giving/Giving'
 import Me from '@/components/Me'
 import MyChurch from '@/components/MyChurch'
-
+import Signup from '@/components/Signup'
+import OrgCreation from '@/components/OrgCreation'
 import NewEvent from '@/components/NewEvent'
 
 import store from './store'
@@ -132,6 +133,24 @@ let router = new Router({
         noNav: true,
         requiresAuth: false
       }
+    },
+    {
+      path: '/signup',
+      component: Signup,
+      name: 'Signup',
+      meta: {
+        requiresAuth: false
+      },
+      children: [
+        {
+          path: 'org-creation',
+          name: 'orgCreation',
+          component: OrgCreation,
+          meta: {
+            requiresAuth: true
+          }
+        }
+      ]
     },
     {
       path: '/privacy-policy',

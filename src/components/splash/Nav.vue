@@ -12,10 +12,10 @@
     </div>
 
     <div id="signup-login" class="gs-flex-row">
-      <button id="signup" class="navbar-button gs-basic-button inverted"
+      <router-link to="/signup" id="signup" class="navbar-button gs-basic-button inverted"
               >
         SIGN UP
-      </button>
+      </router-link>
       <router-link to="/login" id="login" class="navbar-button gs-basic-button">LOGIN</router-link>
     </div>
   </div>
