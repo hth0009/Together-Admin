@@ -3,11 +3,11 @@
     <b-row>
       <b-col md='3' class="mb2em">
         <b-row class="mb1em">
-          <b-col sm="6" style="cursor: pointer;" 
+          <b-col sm="6" class="website-mobile-tab" 
                  :class="{'gs-active': showWebsiteDetails, 'gs-inactive': !showWebsiteDetails}"
                  @click="showWebsiteDetails = true"
           >WEBSITE</b-col>
-          <b-col sm="6" style="cursor: pointer;"
+          <b-col sm="6" class="website-mobile-tab"
                  :class="{'gs-active': !showWebsiteDetails, 'gs-inactive': showWebsiteDetails}"
                  @click="showWebsiteDetails = false"
           >MOBILE</b-col>
@@ -52,6 +52,11 @@
 
 #product-wrapper {
   color: white;
+}
+
+.website-mobile-tab {
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .product-description-text {
