@@ -1,135 +1,67 @@
 <template>
-  <div id="howDoesItWorkWrapper" class="animated fadeIn fast">
-    <b-row id="description-row">
-      <b-col sm="9" offset-sm="1">
-        <p id="topicHeader"><strong>{{topics[selectedTopic].header}}</strong></p>
-        <p class="description">{{topics[selectedTopic].description}}</p>
-      </b-col>
-    </b-row>
+  <div id="product-wrapper" class="animated fadeIn fast">
     <b-row>
-      <b-col sm="1" class="switchTopicCardsCol">
-        <div v-for="(value, key) in topicIcons" :key="key" class="switchTopicCardWrapper" 
-             :class="{'gs-primary-bg': selectedTopic === key, 'white': selectedTopic === key}">
-          <div class="switchTopicCard" @click="chooseTopic(key)" >
-            <font-awesome-icon :icon="[value.prefix, value.icon]" />
-          </div>
-        </div>
+      <b-col md='3' class="mb2em">
+        <b-row class="mb1em">
+          <b-col sm="6" style="cursor: pointer;" 
+                 :class="{'gs-active': showWebsiteDetails, 'gs-inactive': !showWebsiteDetails}"
+                 @click="showWebsiteDetails = true"
+          >WEBSITE</b-col>
+          <b-col sm="6" style="cursor: pointer;"
+                 :class="{'gs-active': !showWebsiteDetails, 'gs-inactive': showWebsiteDetails}"
+                 @click="showWebsiteDetails = false"
+          >MOBILE</b-col>
+        </b-row>
+        <span class="product-description-text" v-show="showWebsiteDetails">
+          Obviously you’ve found our Website.  This is Step 1. This means you’re interested in getting your organization plugged in through Together. <br> <br> By hitting that sign up button in the top right, you’re creating an organizational account. That means you are giving your organization it’s new digital home on our mobile app for connecting your people. This will allow your intended audience to search and join your organization on the app. <br> <br> The point of the website is to manage everything going on within the app. On the website, you can manage all your people, teams, sunday events, giving, and your staff. <br> <br>The website is strictly for staff and administration. If people in your church have not received an invitation from you to access the website portal, then they will be denied access. Secured. <br>
+        </span>
+        <span class="product-description-text" v-show="!showWebsiteDetails">
+          Welcome to Step 2. Have your church go to the App Store on their phone (iPhone and Android) to download Together today. Type in Together - Church Connection for a quick find. Here, they’ll create their account, search your organization and join today! All for free. <br><br>This Mobile platform is for everyone within the organization all the way from the staff to the one time attendee. <br><br>This is designed to increase engagement allowing people within your organization to join bible study, community groups, and serve teams have them be in a “team message” right on the app. No more groupme. No more group text. All in one place. <br><br>Not to mention, allow them to give to your organization right on the app.      </span>
       </b-col>
-      <b-col sm="9">
-        <img id="image" :src="topics[selectedTopic].img" />
+      <b-col md='9'>
+        <b-row>
+          <b-col md="4" v-for="webImg in webImgs" :key='webImg.id' class="gs-flex-col mb2em">
+            {{webImg.title}}
+            <img class="website-img" :src="webImg.imgUrl" alt="">
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
-    <b-row>
-      
-    </b-row>
-
   </div>
 </template>
 
 <script>
-  import { topics } from '@/factories/SplashMoreInfoTopics'; 
   export default {
     data() {
       return {
-        selectedTopic: '1',
-        imgUrl: '',
-        topics,
-        topicIcons: {
-          1: {
-            prefix: 'far',
-            icon: 'heart'
-          },
-          2: {
-            prefix: 'far',
-            icon: 'heart'
-          },
-          3: {
-            prefix: 'far',
-            icon: 'heart'
-          },
-          4: {
-            prefix: 'fab',
-            icon: 'stripe-s'
-          },
-          5: {
-            prefix: 'far',
-            icon: 'heart'
-          },
-          6: {
-            prefix: 'far',
-            icon: 'paper-plane'
-          },
-          7: {
-            prefix: 'fas',
-            icon: 'filter'
-          },
-          8: {
-            prefix: 'fas',
-            icon: 'cross'
-          },
-          9: {
-            prefix: 'far',
-            icon: 'user'
-          },
-        }
-      };
-    },
-    mounted () {
-      this.chooseTopic(this.selectedTopic);
-    },
-    methods: {
-      chooseTopic(key) {
-        this.selectedTopic = key; 
+        showWebsiteDetails: true,
+        webImgs: [
+          { title: 'Managing', imgUrl: 'https://togethercdn.global.ssl.fastly.net/XDExternalScreenshots/org-home.png' },
+          { title: 'Messaging', imgUrl: 'https://togethercdn.global.ssl.fastly.net/XDExternalScreenshots/inbox.png' },
+          { title: 'People', imgUrl: 'https://togethercdn.global.ssl.fastly.net/XDExternalScreenshots/people.png' },
+          { title: 'Teams', imgUrl: 'https://togethercdn.global.ssl.fastly.net/XDExternalScreenshots/teams.png' },
+          { title: 'This Sunday', imgUrl: 'https://togethercdn.global.ssl.fastly.net/XDExternalScreenshots/This-Sunday.png' },
+          { title: 'Giving', imgUrl: 'https://togethercdn.global.ssl.fastly.net/XDExternalScreenshots/giving.png' },
+        ],
       }
     },
   }
 </script>
 
-<style lang="scss" scoped>
-#topicHeader {
-  font-size: 10pt;
-  margin-bottom: 4px;
-}
-.description {
-  min-height: 10vh;
-  margin-bottom: 0;
-  font-size: .8rem;
-  font-weight: 600;
-}
-#image {
-  height: 60vh;
-  background-color: white;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);
+<style lang="css" scoped>
+
+#product-wrapper {
+  color: white;
 }
 
-.row {
-  margin-bottom: 8px !important;
+.product-description-text {
+  line-height: 1;
+  font-size: 11pt;
 }
 
-.switchTopicCardsCol {
-  text-align: right;
-  display: flex;
-  flex-flow: column;
-  align-items: flex-end;
-}
-.switchTopicCardWrapper {
-  margin-bottom: 1vh;
-  height: 2.5em;
-  width: 3em;
-  border-radius: .5em;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.19);
-  background-color: white;
-  color: black;
-}
-.switchTopicCard {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: inherit;
-  cursor: pointer;
-}
-.switchTopicCard .material-icons {
-  font-size: 20px;
+.website-img {
+  height: auto;
+  max-width: 100%
 }
 
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="navTabs">
     <a v-for="tab in tabs" :key="tab.id" 
-       :class="{'active': '/#' + $route.path === tab.href, 'inactive': '/#' + $route.path !== tab.href}"
+       :class="{'gs-active': '/#' + $route.path === tab.href, 'gs-inactive': '/#' + $route.path !== tab.href}"
        class="nav-tab-button animated fadeInRight faster" :href="tab.href">
         {{tab.title}}
     </a>
@@ -47,6 +47,4 @@ export default {
   padding: 1em;
   border-radius: 4px;
 }
-.active { color: white; }
-.inactive { color: #004580; }
 </style>
