@@ -22,6 +22,9 @@ export default {
         }
       })
   },
+  postPerson (personInfo) {
+    return Api().post('people', personInfo)
+  },
   patchPerson (personInfo) {
     return Api().patch('people', personInfo)
   },
