@@ -1,9 +1,11 @@
 <template>
   <div id="nav" class="gs-flex-row">
     <div @click="goToWelcomePage" id="logo" class="gs-flex-row">
-      <img id="together-badge"
-          src="https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"
-      />
+      <div class="blue-circle-logo">
+        <img id="together-badge"
+            src="https://togethercdn.global.ssl.fastly.net/assets/t-logo-small-white.png"
+        />
+      </div>
       <div id="mvp-tag">BETA</div>
     </div>
 
@@ -43,13 +45,18 @@ export default {
   justify-content: flex-start;
   cursor: pointer;
 }
+.blue-circle-logo {
+  height: 40px;
+  padding: 10px;
+  background-color: #00C2E8;
+  border-radius: 1em;
+}
 #together-badge {
   order: 0;
-  height: 70px;
+  height: 20px;
 }
 #mvp-tag {
   color: white;
-  background-color: darkslategray;
   padding: 4px;
   font-size: .7em;
   font-weight: 500;
