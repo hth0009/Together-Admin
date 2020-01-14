@@ -1,7 +1,7 @@
 <template>
   <div id="giving-table">
     <b-row>
-      <b-col sm="12">
+      <b-col sm="12" class="px0">
         <table id="giving-table">
           <tr>
             <th>Person</th>
@@ -12,7 +12,7 @@
             <th v-if="!showCollapsedTableView">Giving Fee From Org</th>
             <th>Amount</th>
           </tr>
-          <tr>
+          <tr :class="{'selected': true}">
             <td>Michael Harrison</td>
             <td>9/7/19</td>
             <td v-if="!showCollapsedTableView">Building</td>
@@ -51,4 +51,7 @@ th, td {
   padding: .5em 1em;
 }
 th { font-weight: bold; }
+.selected {
+  background-color: rgba(85, 192, 228, .15)
+}
 </style>
