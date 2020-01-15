@@ -11,9 +11,18 @@
         <font-awesome-icon :icon="['fas', 'redo']" />
       </b-col>
       <b-col sm="6" class="giving-creation-actions">
-        <button class="gs-floating-button" style="background-color: #D2D1CC" @click="startManualEntry()">Manual Entry</button>
-        <button class="gs-floating-button" style="background-color: #E5E9DD" @click="startCreateFund()">Create Fund</button>
-        <button class="gs-floating-button" style="background-color: #F6F3F0" @click="startCreateReport()">Create Report</button>
+        <button class="gs-floating-button white" style="background-color: #183661" @click="startManualEntry()">
+          <span v-show='!showCollapsedTableView'>Manual Entry</span>
+          <font-awesome-icon v-show="showCollapsedTableView" :icon="['far', 'plus-square']" style="font-size: 2em;" />
+        </button>
+        <button class="gs-floating-button white" style="background-color: #1c4b82" @click="startCreateFund()">
+          <span v-show='!showCollapsedTableView'>Create Fund</span>
+          <font-awesome-icon v-show="showCollapsedTableView" :icon="['far', 'file']" style="font-size: 2em;" />
+        </button>
+        <button class="gs-floating-button white" style="background-color: #f17e7e" @click="startCreateReport()">
+          <span v-show='!showCollapsedTableView'>Create Report</span>
+          <font-awesome-icon v-show="showCollapsedTableView" :icon="['far', 'chart-bar']" style="font-size: 2em;" />
+        </button>
         <font-awesome-icon v-show="showCollapsedTableView" class="top-nav-icon" 
                           @click="showFullTableView()"
                            style="margin-left: 10px; cursor: pointer;" :icon="['fas', 'arrow-right']" />

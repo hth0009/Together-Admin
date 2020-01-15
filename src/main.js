@@ -35,8 +35,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faFilter, faCross, faRedo, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faStripeS } from '@fortawesome/free-brands-svg-icons'
-import { faHeart, faPaperPlane, faUser } from '@fortawesome/free-regular-svg-icons'
-library.add(faFilter, faCross, faRedo, faArrowLeft, faArrowRight, faStripeS, faHeart, faPaperPlane, faUser);
+import { faHeart, faPaperPlane, faUser, faPlusSquare, faFile, faChartBar } from '@fortawesome/free-regular-svg-icons'
+library.add(faFilter, faCross, faRedo, faArrowLeft, faArrowRight, faStripeS, faHeart, faPaperPlane, faUser, faPlusSquare, faFile, faChartBar);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 import ToggleButton from 'vue-js-toggle-button'
