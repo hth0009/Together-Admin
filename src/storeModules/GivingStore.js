@@ -6,7 +6,7 @@ export const GivingModule = {
     showManualEntry: false,
     showCreateFund: false,
     showCreateReport: false,
-    showPersonSummary: true,
+    showPersonSummary: false,
     selectedPerson: {},
   },
   mutations: {
@@ -48,7 +48,6 @@ export const GivingModule = {
     },
     setSelectedPerson (state, selectedPerson) {
       state.selectedPerson = selectedPerson;
-      // mutations.setShowPersonSummary(true);
     }
   },
   actions: {
