@@ -66,6 +66,33 @@ Vue.use(VueFuse)
 Vue.use(SweetModal)
 Vue.use(PrettyCheckbox);
 
+/* firebase config */
+import * as firebase from "firebase";
+const firebaseConfig = {
+  apiKey: "AIzaSyDNsXHvTVIW2rQxkFl6QBeZvQuUa2IAuZs",
+  authDomain: "together-admin.firebaseapp.com",
+  databaseURL: "https://together-admin.firebaseio.com",
+  projectId: "together-admin",
+  storageBucket: "together-admin.appspot.com",
+  messagingSenderId: "803597910191",
+  appId: "1:803597910191:web:76031789c0fb7ca982945a"
+};
+firebase.initializeApp(firebaseConfig);
+
+const messaging = firebase.messaging();
+messaging.usePublicVapidKey("BM_9_GKjrzF6mrmpSu5U4h8vQDy8DkwGu8Roe9Z3_P-ggTlawqSwPaW5TMwxrAV0u8A9D4Fdc6WUMUt9LBhuRVc");
+
+// Request Permission of Notifications
+messaging.requestPermission().then(() => {
+  console.log('Notification permission granted.');
+
+  // Get Token
+  messaging.getToken().then((token) => {
+    console.log(token)
+  })
+}).catch((err) => {
+  console.log('Unable to get permission to notify.', err);
+});
 
 
 /* eslint-disable no-new */

@@ -38,6 +38,7 @@
     "bootstrap-vue": "^2.0.4",
     "core-js": "^2.6.10",
     "dompurify": "^1.0.11",
+    "firebase": "^7.6.2",
     "marked": "^0.7.0",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
