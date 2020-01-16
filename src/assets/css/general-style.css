@@ -46,6 +46,8 @@ label {
 .gs-primary-bg { background-color: #55C0E4 !important; }
 .gs-light { color: white !important; }
 
+.gs-green { color: #08C900 }
+
 .gs-active { color: white !important;}
 .gs-inactive { color: #004580 !important; }
 

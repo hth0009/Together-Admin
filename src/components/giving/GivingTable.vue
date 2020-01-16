@@ -12,7 +12,8 @@
             <th v-if="!showCollapsedTableView">Giving Fee From Org</th>
             <th>Amount</th>
           </tr>
-          <tr :class="{'selected': true}">
+          <tr :class="{'selected': true}" style="cursor: pointer;" 
+              @click='setSelectedPerson({}); setShowPersonSummary(true)'>
             <td>Michael Harrison</td>
             <td>9/7/19</td>
             <td v-if="!showCollapsedTableView">Building</td>
@@ -33,8 +34,16 @@
 import { mapState, mapMutations } from 'vuex';
 
 export default {
+  data() {
+    return {
+      people: [],
+    }
+  },
   computed: {
     ...mapState('giving', ['showCollapsedTableView']),
+  },
+  methods: {
+    ...mapMutations('giving', ['setSelectedPerson', 'setShowPersonSummary'])
   },
 }
 </script>
