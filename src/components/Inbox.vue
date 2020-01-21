@@ -5,26 +5,26 @@
     </sweet-modal>    
     <div class="page-wrapper">
       <div class="page-card-wrapper"
-        :class="{'inactive': selectedThreadID != '' || -1}">
+        :class="{'inactive': selectedID != '' || -1}">
         <cards
           :cardList="sortedThreads"
-          :loading="threadsLoading"
-          :selectedID="selectedThreadID + ''"
+          :loading="loading"
+          :selectedID="selectedID + ''"
           :hasAddNew="true"
-          @selected="selectThread"
+          @selected="recieveID"
           @onAddNew="createNewItem"
           />
       </div>
-      <div class="thread-wrapper" v-if="!creatingNewItem && selectedThreadID != -1 && displayThread > 0">
+      <div class="thread-wrapper" v-if="!creatingNewItem && selectedID != -1">
         <div class="thread">
-          <div class="thread-header noselect">{{thread.title}}</div>
+          <div class="thread-header noselect">{{selectedThread.title}}</div>
           <div class="messages">
-            <div class="message-box-wrapper" v-if="displayThread == 2">
+            <div class="message-box-wrapper">
               <div v-for="(message, index) in reversedMessages" :key="message.id"
               class="message-box"
               :class="{
                   'self': personID == message.fromID,
-                  'repeat': index > 0 && reversedMessages[index - 1].fromID == reversedMessages[index].fromID 
+                  'repeat': index > 0 && selectedThread.messages[index - 1].person.id == reversedMessages[index].person.id 
                 }">
                 <!-- <div
                   class="profile-pic" :style="{backgroundImage: 'url(' +  message.fromIDIcon + ')'}"></div> -->
@@ -35,20 +35,19 @@
                 >
                   <avatar
                     :height="30"
-                    :url="peopleHash[message.fromID].personImageThumbnailURL"
-                    :title="peopleHash[message.fromID].fullName"
+                    :url="message.person.personImageThumbnailURL"
+                    :title="message.person.firstName + ' ' + message.person.lastName"
                   />
                 </div>
                 <div class="message-info">
                   <div
-                    class="user">{{peopleHash[message.fromID].firstName + " " + peopleHash[message.fromID].lastName}}</div>
+                    class="user">{{message.person.firstName + " " + message.person.lastName}}</div>
                   <div class="message-content">{{message.contents}}</div>
                 </div>
               </div>
             </div>
           </div>
             <form class="new-message-box"
-              v-if="displayThread >= 0"
               v-on:sumbit.prevent="">
               <input type="text" v-model="newMessageContent"  @keypress.enter.prevent="sendMessage">
               <i @click="sendMessage" class="material-icons noselect">send</i>
@@ -116,21 +115,25 @@ import store from '../store'
 import {formatDate} from '../utils/helpers'
 import { clearInterval } from 'timers'; 
 
+import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
+
+import Amplify, { Auth, PubSub } from 'aws-amplify';
+import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
+
 export default {
   name: 'Messages',
   data () {
     return {
       threadSearch: '',
-      threads: [],
-      threadsLoading: false,
+      // threads: [],
+      // threadsLoading: false,
       thread: {},
-      selectedThreadID: -1,
-      messages: [],
+      selectedID: -1,
       personID: -1,
       peopleHash: {},
       displayThread: -1,
       newMessageContent: '',
-      creatingNewItem: false,
+      // creatingNewItem: false,
       dropDownField: { value: 'id', text: 'name' },
       textValidationRules: {
         Name: { required: [true, 'Enter valid title'] },
@@ -151,19 +154,9 @@ export default {
     Cards, CustomRadio, Avatar, SweetModal
   },
   mounted() {
-    this.personID = store.state.personID
-    this.threadsLoading = true
-    this.selectThread(this.$route.params.id)
-    this.getThreads().then(() => {this.threadsLoading = false})
-    this.getTeams()
-    this.getPeople()
+    // this.threadsLoading = true
+    this.onLoad()
     
-    // THIS IS TEMPORARY
-    // this.threadReload = setInterval(function () {this.getThreads()}.bind(this), 10000)
-  },
-  beforeDestroy() {
-    // window.clearInterval(this.messagesReload)
-    // window.clearInterval(this.threadReload)
   },
   watch: {
     newThreadType: {
@@ -172,7 +165,7 @@ export default {
       },
       deep: true
     },
-    selectedThreadID(val) {
+    selectedID(val) {
       const reloadNumber = Number(this.messagesReload)
       if (reloadNumber) {
         // window.clearInterval(reloadNumber)
@@ -184,94 +177,97 @@ export default {
       }
     }
   },
-  methods: {
-    getThreads() {
-      const response = Threads.getThreads().then(response => {
-        console.log(response)
-        this.threads = response.data.messagethreads
-      })
-      return response
-    },
-    async getTeams() {
-      // const response = await Teams.getTeamsByID(this.personID)
-      const response = await Teams.getTeamsByChurch()
-      let teams = response['team(s)']
-      this.teams = teams
-    },
-    async getPeople() {
-      // const response = await Teams.getTeamsByID(this.personID)
-      const response = await People.getPeople()
-      let people = response['person(s)']
-      this.people = people
-    },
-    async getThread(id) {
-      // const response = await Threads.getThread(id)
-      // // console.log(thread)
-      // let thread = response.thread
-      // Threads.patchMessageRead(thread.threadPersonID)
-      // let members = thread.members['threadMembers(s)']
-      // this.peopleHash = []
-      // for (let index = 0; index < members.length; index++) {
-      //   const member = members[index].person;
-      //   this.peopleHash[member.id] = member
-      // }
-      // this.thread = thread
-    },
-    async getMessages(id) {
-      const response = await Message.getMessages(id)
-      let messages = response['message(s)']
-      return messages
+  methods: {    
+    ...mapMutations('messages', [
+      'setThreads',
+      'setThread',
+      'setSelectedThread',
+      'setLoading',
+      'setThreadLoading',
+      'setCreatingNewItem'
+    ]),
+    ...mapActions('messages', ['getThreads', 'getSelectedThread']),    
+    recieveID(id) {
+      if (!id) {
+        return;
+      }
+      if (id === -1) {
+        this.selectedID = id;
+        this.$router.push(`/app/messages/`);
+        return;
+      }
+      if(this.creatingNewItem) {
+        this.cancelCreatingNewItem();
+      }
+      this.$router.push(`/app/messages/${id}`);
+      this.selectedID = id;
+      return this.getSelectedThread({ threadID: id});
     },
     async postMessage(fromID, threadID, content) {
-      const response = await Message.postMessage(fromID, threadID, content)
+      const body = {
+        fromPersonID: fromID,
+        threadID: threadID,
+        contents: content,
+        // media: ""
+      }
+      const response = await Message.postMessage(body)
+      return response
     },
-    async postDirectThread(senderID, recipientID, title) {
-      const response = await Threads.postDirectThread(senderID, recipientID, title).then(response => {
-        console.log(response)
-        const newID = response.data.newResourceID
-        this.postMessage('', newID, this.newThread.firstMessage).then(() => {
-          this.$refs.newMessageSelect.open()
-          this.selectThread(newID)
-          this.newThread = {
-            recipientID: -1,
-            teamID: -1,
-            firstMessage: '',
-            type: 0
-          }
-        })
-      }).catch(error => {
-        console.log(error)
-      })
-    },
-    // On new thread member selected
-    assignMember (member) {
-      console.log(member)
-    },
+    // async postDirectThread(senderID, recipientID, title) {
+    //   const response = await Threads.postDirectThread(senderID, recipientID, title).then(response => {
+    //     console.log(response)
+    //     const newID = response.data.newResourceID
+    //     this.postMessage('', newID, this.newThread.firstMessage).then(() => {
+    //       this.$refs.newMessageSelect.open()
+    //       this.selectThread(newID)
+    //       this.newThread = {
+    //         recipientID: -1,
+    //         teamID: -1,
+    //         firstMessage: '',
+    //         type: 0
+    //       }
+    //     })
+    //   }).catch(error => {
+    //     console.log(error)
+    //   })
+    // },
+    // // On new thread member selected
+    // assignMember (member) {
+    //   console.log(member)
+    // },
     getDateFormate(date1, date2) {
       return formatDate(date1, date2)
     },
     createNewItem() {
-      this.selectedThreadID = -1;
+      this.selectedID = -1;
       this.$router.push(`/app/messages/`)
 
       this.creatingNewItem = true;
+    },
+    async onLoad() {
+      this.personID = store.state.personID
+
+      if(this.threads.length < 1) {
+        await this.getThreads();
+      }
+      this.selectThread(this.$route.params.id)
     },
     selectThread(id) {
       if (!id) {
         return
       }
       if (id == '-1') {
-        this.selectedThreadID = id
+        this.selectedID = id
         this.$router.push(`/app/messages/`)
         return
+      }
+      else if (id != this.$route.params.id) {
+        this.$router.push(`/app/messages/${id}`)
       }
       
       // clearInterval(this.messageReload)
 
-      this.$router.push(`/app/messages/${id}`)
-
-      this.selectedThreadID = id
-      this.messages = []
+      this.selectedID = id
       this.creatingNewItem = false
 
       // displayThread waits for getThread() and getMessages()
@@ -279,29 +275,23 @@ export default {
       // functions have run
       this.displayThread = 0
       this.thread = {}
-      this.getThread(id).then(() => {this.displayThread += 1})
-      this.getMessages(id).then(response => {
-          this.displayThread += 1
-          this.messages = response
-        })
+
+      this.getSelectedThread({ threadID: id})
+      // this.getThread(id).then(() => {this.displayThread += 1})
     },
     sendMessage() {
       const fromID = this.personID
-      const threadID = this.selectedThreadID
+      const threadID = this.selectedID
       const content = this.newMessageContent
       if (content == '') {
         return
       }
       this.postMessage(fromID, threadID, content).then(() => {
-        this.updateMessages(threadID)
         this.newMessageContent = ''
       })
     },
-    updateMessages(id) {
-      this.getMessages(id).then(response => {
-        this.messages = response
-      })
-    },
+    // updateMessages(id) {
+    // },
     async createThread() {      
       this.$root.$emit('loading', true)
       const thread = this.newThread
@@ -341,22 +331,27 @@ export default {
       return threads
     },
     reversedMessages() {
-      return this.messages.reverse()
-    },
-    formatedPeople() {
-      const people = this.people
-      var formatedPeople = []
-      for (let index = 0; index < people.length; index++) {
-        const person = people[index]
-        if (person.id != this.personID) {
-          formatedPeople.push({
-            name: person.firstName + " " + person.lastName,
-            id: person.id
-          })
-        }
+      let messages = [...this.selectedThread.messages]
+      if (messages == undefined) {
+        return []
       }
-      return formatedPeople
-    }
+      return messages.reverse()
+    },
+    // formatedPeople() {
+    //   const people = this.people
+    //   var formatedPeople = []
+    //   for (let index = 0; index < people.length; index++) {
+    //     const person = people[index]
+    //     if (person.id != this.personID) {
+    //       formatedPeople.push({
+    //         name: person.firstName + " " + person.lastName,
+    //         id: person.id
+    //       })
+    //     }
+    //   }
+    //   return formatedPeople
+    // },    
+    ...mapState('messages', ['threads', 'selectedThread', 'loading', 'threadLoading', 'creatingNewItem']),
   }
 }
 </script>

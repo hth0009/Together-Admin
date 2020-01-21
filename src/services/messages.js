@@ -1,32 +1,23 @@
-import Api from './api'
+import API from './api'
+import awsIot from 'aws-iot-device-sdk'
+import AWS from 'aws-sdk/global'
+import AWSMqttClient from 'aws-mqtt'
 import store from '../store'
 
+// AWS.config.region = 'us-east-2' // your region
+// AWS.config.credentials = store.state.token // See AWS Setup and Security below 
+
 export default {
-  getMessages (threadID) {
-    return Api().get('messages',
-      {
-        params: {
-          threadID: `${threadID}`,
-          orderByDescending: 'sentAt',
-          pageSize: 100,
-          page: 0
-        }
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      return e
+  async getMessages(threadID) {
+    console.log(store)
+    console.log('sotreere')
+    return await API().get('messages', {
+      params: {
+        threadID: `${threadID}`
+      }
     })
+  },  
+  async postMessage(body) {    
+    return API().post('messages', body)
   },
-  postMessage (fromID, threadID, contents) {
-    return Api().post('messages',
-      {
-        fromID: `${store.state.personID}`,
-        threadID: `${threadID}`,
-        contents: `${contents}`
-      }).then((response) => {
-      return response.data
-    }).catch((e) => {
-      return e
-    })
-  }
 }
