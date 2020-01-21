@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '../store'
 
 export default() => {
-  var API = axios.create({
+  const API = axios.create({
     baseURL: 'https://api.togetheradmin.com/v2/',
     headers: {
       'Authorization': `Bearer ${store.state.token}`,

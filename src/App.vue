@@ -31,16 +31,13 @@ export default {
   },
   methods: {    
     checkLogin() {
-      console.log('hi')
-      this.$store.dispatch('checkLogin').then(function (response) {
-        console.log(this.$store.getters.authStatus)
+      this.$store.dispatch('checkLogin').then(function () {
         if (this.$route.path === '/') {
           if (this.$store.getters.authStatus) {
             this.$router.push("/app/people")
           }
           else {
-            console.log('hello')
-            this.$router.push("/hello")
+            this.$router.push("/hello/welcome")
           }
         }
       }.bind(this)).catch(function (err) {
@@ -140,7 +137,7 @@ export default {
   }
   .basic-button {
     /* border: #12b5e7 3px solid; */
-    background: #00cec9;
+    background: #55C0E4;
     color: white;
     text-shadow: 0px 1px 8px #00000034;
     box-shadow: 0px 1px 6px 2px #00cecb69;
@@ -251,8 +248,8 @@ export default {
   }
   
   .basic-radio{
-    border-color: #00cec9;
-    background: #00cec9;
+    border-color: #55C0E4;
+    background: #55C0E4;
 
     appearance: none;
     outline: none;
@@ -293,6 +290,9 @@ export default {
     color: #A0A3A6;
   }
 
+  a {
+    text-decoration: none !important;
+  }
 
 
   /* /////////////////////////////

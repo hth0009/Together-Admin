@@ -416,7 +416,7 @@ export default {
   }
   .search-wrapper .filter-section-toggle {
     // padding-top: 5px;
-    color: #00cec9;;
+    color: #55C0E4;;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -491,7 +491,7 @@ export default {
   }
   .filter i.selected,
   .filter .short.selected {
-    color: #00cec9;
+    color: #55C0E4;
   }
   .card-boxes {
     overflow-y: auto;
@@ -762,7 +762,7 @@ export default {
   position: absolute;
   bottom: 10px;
   right: 20px;
-  background: #00cec9;
+  background: #55C0E4;
   border-radius: 50%;
   cursor: pointer;
   z-index: 100;
@@ -838,7 +838,7 @@ export default {
 
   
   .card-box.loading .profile-pic{  
-    background-color: #00cec9;
+    background-color: #55C0E4;
   } 
 /* //////////////////////////
 //////  MEDIA QUERIES ///////

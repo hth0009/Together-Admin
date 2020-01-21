@@ -173,7 +173,7 @@ export default {
     }
   },
   props: {
-    inputCSSClass: '',
+    inputCSSClass: String,
     items: Array,    
     selectedItem: {
       defualt: {
@@ -261,7 +261,7 @@ export default {
   watch: {
     selectedItem: {
       handler(n, o) {
-        if (!!!n[this.fields.id]) {
+        if (!n[this.fields.id]) {
           return
         }
         this.onCardSelected(n)

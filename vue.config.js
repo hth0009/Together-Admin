@@ -6,6 +6,11 @@ module.exports = {
     },
     // devtool: 'source-map'
   },
+  pwa: {
+    workboxOptions: {
+      skipWaiting: true
+    }
+  },
   css: {
     // Enable CSS source maps.
     // sourceMap: true

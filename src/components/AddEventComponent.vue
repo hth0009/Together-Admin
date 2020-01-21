@@ -204,12 +204,12 @@ export default {
 .component-type:focus,
 .component-type:hover {
   outline: none;
-  color: #00cec9;
+  color: #55C0E4;
 }
 
 .component-type:active,
 .component-type.selected {
-  background-color: #00cec9;
+  background-color: #55C0E4;
   color: white;
   transition: color .2s ease, background-color .75s ease-out;
 }

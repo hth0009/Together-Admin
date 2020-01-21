@@ -107,7 +107,7 @@ export default {
   margin-right: 10px;
 
   color: white;
-  background-color: #00cec9;
+  background-color: #55C0E4;
   
   display: inline-flex;
   justify-content: center;
@@ -131,7 +131,7 @@ export default {
   /* box-shadow: 0px 0px 0px 4px white inset; */
 }
 .carousel-button.queued:hover {  
-  background-color: #00cec9;
+  background-color: #55C0E4;
 }
 .carousel-cards-wrapper {
   width: 100%;

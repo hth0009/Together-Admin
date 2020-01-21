@@ -3,44 +3,51 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import {AuthenticationDetails, CognitoUserPool, CognitoUser} from 'amazon-cognito-identity-js'
 
+import Church from '@/services/church';
+
 Vue.use(Vuex)
 
-let cognitoUser
 
 import { thisSundayModule } from './storeModules/ThisSundayStore'
 import { TeamsModule } from './storeModules/TeamsStore'
 import { PeopleModule } from './storeModules/PeopleStore'
 import { MessagesModule } from './storeModules/MessagesStore'
+import { SplashModule } from './storeModules/SplashStore'
+import { GivingModule } from './storeModules/GivingStore'
 
 export default new Vuex.Store({
   modules: {
     thisSunday: thisSundayModule,
     teams: TeamsModule,
     people: PeopleModule,
-    messages: MessagesModule
+    messages: MessagesModule,
+    splash: SplashModule,
+    giving: GivingModule,
   },
   state: {
     status: '',
     token: '',
     personID: -1,
+    church: {},
     churchUsername: localStorage.getItem('churchUsername') || '',
     personName: '',
     churchIcon: 'http://static1.squarespace.com/static/563fb2d1e4b07f78f2db4c32/t/5c3621a9352f53339f36df51/1552577214769/?format=1500w',
     personIcon: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+    drawerIsOpen: true,
   },
   getters: {
     authStatus: state => !!state.token,
     personID: state => state.personID,
-    churchUsername: state => state.churchUsername
+    churchUsername: state => state.churchUsername,
   },
   mutations: {
+    setChurch(state, church) { state.church = {...church}; },
     auth_request (state) {
       state.status = 'loading'
     },
     auth_success (state, payload) {
       state.status = 'success'
       state.token = payload.token
-      // state.personID = 1
       state.personID = payload.personID
       state.personName = payload.personName
       state.churchUsername = payload.churchUsername
@@ -52,8 +59,15 @@ export default new Vuex.Store({
       state.status = ''
       state.token = ''
     },
+    setDrawerIsOpen(state, drawerIsOpen) { state.drawerIsOpen = drawerIsOpen; },
   },
   actions: {
+    async getChurch({state, commit}, churchUsername = state.churchUsername, getCurrentStateIfAlreadyThere=false) {
+      if(getCurrentStateIfAlreadyThere && Object.keys(state.church).length !== 0) { return state.church; }
+      const getChurchRes = await Church.getChurch(churchUsername);
+      commit('setChurch', getChurchRes.data.churches[0]);
+      return state.church;
+    },
     login ({commit, dispatch}, user) {
       return new Promise((resolve, reject) => {
         const { username, password } = user
@@ -71,7 +85,7 @@ export default new Vuex.Store({
           Username: username,
           Pool: userPool
         }
-        cognitoUser = new CognitoUser(userData)
+        let cognitoUser = new CognitoUser(userData)
         cognitoUser.authenticateUser(authenticationDetails, {
           onSuccess: function (result) {
             // Local Storage
@@ -119,7 +133,7 @@ export default new Vuex.Store({
           ClientId: '40ljk2uqsfr2rhuqascb564rlq'
         }
         var userPool = new CognitoUserPool(data)
-        cognitoUser = userPool.getCurrentUser()
+        let cognitoUser = userPool.getCurrentUser()
 
         if (cognitoUser != null) {
           cognitoUser.getSession(function (err, session) {
@@ -148,20 +162,17 @@ export default new Vuex.Store({
       })
     },
     logout ({commit}) {
-      return new Promise((resolve, reject) => {
-        var data = {
-          UserPoolId: 'us-east-2_th6kgbG7W',
-          ClientId: '40ljk2uqsfr2rhuqascb564rlq'
-        }
-        var userPool = new CognitoUserPool(data)
-        cognitoUser = userPool.getCurrentUser()
-        cognitoUser.signOut()
+      const data = {
+        UserPoolId: 'us-east-2_th6kgbG7W',
+        ClientId: '40ljk2uqsfr2rhuqascb564rlq'
+      }
+      const userPool = new CognitoUserPool(data)
+      let cognitoUser = userPool.getCurrentUser()
+      cognitoUser.signOut()
 
-        delete axios.defaults.headers.common['Authorization']
+      delete axios.defaults.headers.common['Authorization']
 
-        commit('logout')
-        resolve()
-      })
+      commit('logout')
     },
   },
 })

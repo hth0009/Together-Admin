@@ -69,7 +69,7 @@ export default {
       eventServiceItems: this.value.fields.eventElements['orderOfEventComponentMembers(s)'],
       newItem: {
         title: '',
-        colorCode: '00cec9',
+        colorCode: '55C0E4',
         id: '',
         videoUrl: '',
         lyrics: '',
@@ -81,7 +81,7 @@ export default {
       selectedItem: {},
       itemTypes: [{
           typeName: '+',
-          color: '00cec9',
+          color: '55C0E4',
           hasVideo: false,
           videoUrl: '',
           hasLyrics: false,
@@ -95,7 +95,7 @@ export default {
         },
         // {
         //   typeName: 'Song',
-        //   color: '00cec9',
+        //   color: '55C0E4',
         //   hasVideo: true,
         //   videoUrl: '',
         //   hasLyrics: true,
@@ -108,7 +108,7 @@ export default {
         //   notes: ''  
         // },{
         //   typeName: 'Video',
-        //   color: '00cec9',
+        //   color: '55C0E4',
         //   hasVideo: false,
         //   videoUrl: '',
         //   hasLyrics: false,

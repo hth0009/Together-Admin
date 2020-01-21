@@ -1,12 +1,12 @@
 <template>
   <div id="contact-container">    
     <form @submit.prevent="sendMail" >
-      <input id="form-name" class="gs-basic-input" name="name" type="text" v-model="name" required placeholder="Name">
-      <input id="form-email" class="gs-basic-input" name="email" type="email" v-model="email" required placeholder="Email">
-      <input id="form-org-name" class="gs-basic-input" name="org-name" type="text" v-model="orgName" placeholder="Organization Name">
-      <textarea id="form-message" class="gs-basic-input" name="message" v-model="message" required placeholder="Message"/>
+      <input id="form-name" class="gs-basic-input transparent-input" name="name" type="text" v-model="name" required placeholder="Name">
+      <input id="form-email" class="gs-basic-input transparent-input" name="email" type="email" v-model="email" required placeholder="Email">
+      <input id="form-org-name" class="gs-basic-input transparent-input" name="org-name" type="text" v-model="orgName" placeholder="Organization Name">
+      <textarea id="form-message" class="gs-basic-input transparent-input" name="message" v-model="message" required placeholder="Message"/>
       <inline-loader v-show="loggingIn"></inline-loader>
-      <button id="form-submit" class="gs-basic-button" type="submit">SUBMIT</button>
+      <button id="form-submit" class="gs-basic-button black" style="background-color: #44f1f1" type="submit">SUBMIT</button>
     </form>
   </div>    
 </template>
@@ -78,7 +78,7 @@ export default {
    grid-column-gap: 20px;
 }
 #contact-container .user-info:focus {
-   border: 2px solid #00cec9;
+   border: 2px solid #55C0E4;
 }
 #contact-container #form-name {
    grid-column: 1/2;
@@ -105,6 +105,14 @@ export default {
    grid-column: 1 / 3;
    grid-row: 5 / 6;
    justify-self: center;
+}
+
+.transparent-input {
+  background-color: rgba(0, 0, 0, .16);
+  border: none;
+}
+.transparent-input::placeholder {
+  color: white;
 }
 
 @media all and (max-width: 800px) {

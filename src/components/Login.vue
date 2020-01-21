@@ -1,8 +1,8 @@
 <template>
   <div id="login-page">
-    <router-link to="/hello"  id="back-to-landing"><i class="material-icons">arrow_back</i></router-link>
+    <router-link to="/hello/welcome"  id="back-to-landing"><i class="material-icons">arrow_back</i></router-link>
     <h1 class="noselect">together</h1>
-    <div id="login-form">
+    <div id="login-form" class="animated fadeIn fast">
       <form v-on:submit.prevent="login">
         <label for="username">username:</label>
         <input v-model="username" type="username" name="username" required placeholder="username">
@@ -13,7 +13,9 @@
             {{showPassword ? 'visibility' : 'visibility_off'}}
           </i>
         </div>
-        <button class="gs-basic-button">ENTER</button>
+        <div id="enter-btn-wrapper">
+          <button class="gs-basic-button">ENTER</button>
+        </div>
       </form>      
       <!-- <a @click="forgotPassword" id="forgot-password">Forgot password?</a> -->
       <inline-loader v-show="loggingIn"></inline-loader>
@@ -57,7 +59,6 @@ export default {
       this.loggingIn = true
 
       const username = this.lowerCaseUsername;
-      // this.$store.dispatch('login', { username, password });
       this.storeLogin({username, password: this.password})
       .then(() => this.$router.push('/app/people'))
       .catch(err => {
@@ -67,8 +68,9 @@ export default {
         if (err.code == "UserNotFoundException") {
           this.userNotFound = true;
         }
-      }).then(() => {
-        this.loggingIn = false
+      })
+      .finally(() => {
+        this.loggingIn = false;
       })
     },
     forgotPassword() {      
@@ -142,7 +144,7 @@ export default {
     /* font-family: 'Sorts Mill Goudy', serif; */
     letter-spacing: 3px;
     font-weight: 100;
-    color: #00cec9;
+    color: #55C0E4;
     text-align: center;
   }
   #login-form{
@@ -192,6 +194,11 @@ export default {
     background: none;
     border: none;
     cursor: pointer;
+  }
+  #enter-btn-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
   #login-footer {
     position: absolute;

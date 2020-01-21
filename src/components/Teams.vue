@@ -170,9 +170,15 @@
           </div>
         </div>
         <div class="details" v-if="creatingNewItem">
-          <button class="gs-basic-button close-creating-new-team" @click="cancelCreatingNewItem()">X</button>
           <div class="panel gs-card-with-shadow gs-card-rise">
-            <h5>Create New Team</h5>
+            <b-row>
+              <b-col sm="10">
+                <h5>Create New Team</h5>
+              </b-col>
+              <b-col sm="2">
+                <button class="gs-basic-button" @click="cancelCreatingNewItem()">X</button>
+              </b-col>
+            </b-row>
             <div class="image-croppa gs-card-photo">
               <croppa v-model="photoCroppa"
                 canvas-color="transparent"
@@ -442,7 +448,7 @@ export default {
       newTeam.churchID = church.data.churches[0].id;
 
       let profilePic = await this.uploadProfilePic();
-      profilePic = !!profilePic
+      profilePic = profilePic
         ? "https://togethercdn.global.ssl.fastly.net/TeamPics/" + profilePic
         : "";
       newTeam.teamImageURL = profilePic;
@@ -506,7 +512,7 @@ export default {
         let getKeysRes = await CDN.getKeys();
         this.cdnKeys = getKeysRes.data;
         let profilePic = await this.uploadProfilePic();
-        profilePic = !!profilePic
+        profilePic = profilePic
           ? "https://togethercdn.global.ssl.fastly.net/TeamPics/" + profilePic
           : "";
         patch["values"]["teamImageURL"] = profilePic;
@@ -519,7 +525,8 @@ export default {
     cancelCreatingNewItem() {
       this.setCreatingNewItem(false);
       this.removeNewTeamPlaceholderInCardList();
-    }
+    },
+    removeNewTeamPlaceholderInCardList() { this.teams.pop(); }
   },
   props: {},
   mounted() {
@@ -535,11 +542,6 @@ export default {
 <style src="./../assets/css/general-style.css"></style> 
 
 <style scoped>
-.close-creating-new-team {
-  position: absolute;
-  margin-top: -3em;
-  margin-left: 1em;
-}
 .edit {
   align-self: flex-end;
   margin-bottom: 10px;

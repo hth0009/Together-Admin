@@ -398,7 +398,7 @@ export default {
             }
           )
           await this.postInstance(eventInstances[index]).then(response => {
-            newInstanceID = !!!newInstanceID ? response.data.newResourceID : newInstanceID
+            newInstanceID = !newInstanceID ? response.data.newResourceID : newInstanceID
             console.log(newInstanceID)
           })
         }

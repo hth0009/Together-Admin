@@ -27,11 +27,18 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import EventDetails from '@/components/EventDetails'
 import AppPage from '@/components/AppPage'
+import AppPageNew from '@/components/AppPageNew'
 import ChurchInfo from '@/components/ChurchInfo'
 import Staff from '@/components/Staff'
 import Subscription from '@/components/Subscription'
 import PrivacyPolicy from '@/components/PrivacyPolicy'
-import Splash from '@/components/Splash'
+
+import Splash from '@/views/Splash'
+import Welcome from '@/components/splash/Welcome';
+import Price from '@/components/splash/Price';
+import Questions from '@/components/splash/Questions';
+import Product from '@/components/splash/Product';
+
 import FAQ from '@/components/FAQ'
 
 import Inbox from '@/components/Inbox'
@@ -41,9 +48,11 @@ import Prayer from '@/components/Prayer'
 import Calendar from '@/components/Calendar'
 import Home from '@/components/Home'
 import ThisSunday from '@/components/ThisSunday'
+import Giving from '@/components/giving/Giving'
 import Me from '@/components/Me'
 import MyChurch from '@/components/MyChurch'
-
+import Signup from '@/components/Signup'
+import OrgCreation from '@/components/OrgCreation'
 import NewEvent from '@/components/NewEvent'
 
 import store from './store'
@@ -51,7 +60,6 @@ import store from './store'
 Vue.use(Router)
 
 let router = new Router({
-  // mode: 'history',
   routes: [
     {
       path: '/',
@@ -68,7 +76,45 @@ let router = new Router({
       meta: {
         noNav: true,
         requiresAuth: false
-      }
+      },
+      children: [
+        {
+          path: 'welcome',
+          name: 'Welcome',
+          component: Welcome,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
+        {
+          path: 'price',
+          name: 'Price',
+          component: Price,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
+        {
+          path: 'questions',
+          name: 'Questions',
+          component: Questions,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
+        {
+          path: 'product',
+          name: 'Product',
+          component: Product,
+          meta: {
+            noNav: true,
+            requiresAuth: false,
+          },
+        },
+      ]
     },
     {
       path: '/faq',
@@ -89,6 +135,24 @@ let router = new Router({
       }
     },
     {
+      path: '/signup',
+      component: Signup,
+      name: 'Signup',
+      meta: {
+        requiresAuth: false
+      },
+      children: [
+        {
+          path: 'org-creation',
+          name: 'orgCreation',
+          component: OrgCreation,
+          meta: {
+            requiresAuth: true
+          }
+        }
+      ]
+    },
+    {
       path: '/privacy-policy',
       name: 'PrivacyPolicy',
       component: PrivacyPolicy,
@@ -99,8 +163,8 @@ let router = new Router({
     },
     {
       path: '/app',
-      name: 'AppPage',
-      component: AppPage,
+      name: 'AppPageNew',
+      component: AppPageNew,
       meta: {
         requiresAuth: true
       },
@@ -221,6 +285,14 @@ let router = new Router({
           path: 'this-sunday/:id',
           component: ThisSunday,
           name: 'This Sunday',
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'giving',
+          component: Giving,
+          name: 'Giving',
           meta: {
             requiresAuth: true
           }
