@@ -44,8 +44,6 @@ export const MessagesModule = {
         return `message_threads/${x.id}`
       });
 
-      console.log(topics)
-
       if (state.currentSubscription != undefined) {
         state.currentSubscription.unsubscribe()
       }

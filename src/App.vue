@@ -26,10 +26,10 @@ export default {
     this.checkLogin()
     
   },
-  created () {
+  beforeCreate () {
     MQTT.createMqttClient()
   },
-  methods: {
+  methods: {    
     checkLogin() {
       console.log('hi')
       this.$store.dispatch('checkLogin').then(function (response) {

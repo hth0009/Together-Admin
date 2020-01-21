@@ -129,7 +129,6 @@ export default {
       // threadsLoading: false,
       thread: {},
       selectedID: -1,
-      messages: [],
       personID: -1,
       peopleHash: {},
       displayThread: -1,
@@ -155,40 +154,9 @@ export default {
     Cards, CustomRadio, Avatar, SweetModal
   },
   mounted() {
-    this.personID = store.state.personID
     // this.threadsLoading = true
+    this.onLoad()
     
-    if(this.threads.length < 1) {
-      this.getThreads();
-    }
-    this.selectThread(this.$route.params.id)
-
-    console.log('pubsub started')
-    
-      Amplify.configure({
-        identityPoolId: "us-east-2:565cdd94-fd83-45d7-b4c5-ee8b6f40fffb",
-        region: "us-east-2",
-        userPoolId: "us-east-2_th6kgbG7W",
-        userPoolWebClientId: "40ljk2uqsfr2rhuqascb564rlq"
-      });
-  
-      Amplify.addPluggable(
-        new AWSIoTProvider({
-          aws_pubsub_region: 'us-east-2',
-          aws_pubsub_endpoint:
-            'wss://a249ujnc2b66n0-ats.iot.us-east-2.amazonaws.com/mqtt'
-        })
-      );
-      console.log(';esffkasjdnfia')
-      PubSub.subscribe(`message_threads/571`).subscribe({
-        next: data => {
-          console.log('Message received', data);
-        },
-        error: error => console.error(error),
-        close: () => console.log('Done')
-      });
-
-      console.log('pubsub done')
   },
   watch: {
     newThreadType: {
@@ -235,43 +203,6 @@ export default {
       this.selectedID = id;
       return this.getSelectedThread({ threadID: id});
     },
-    // getThreads() {
-    //   const response = Threads.getThreads().then(response => {
-    //     console.log(response)
-    //     this.threads = response.data.messagethreads
-    //   })
-    //   return response
-    // },
-    // async getTeams() {
-    //   // const response = await Teams.getTeamsByID(this.personID)
-    //   const response = await Teams.getTeamsByChurch()
-    //   let teams = response['team(s)']
-    //   this.teams = teams
-    // },
-    // async getPeople() {
-    //   // const response = await Teams.getTeamsByID(this.personID)
-    //   const response = await People.getPeople()
-    //   let people = response['person(s)']
-    //   this.people = people
-    // },
-    // async getThread(id) {
-    //   // const response = await Threads.getThread(id)
-    //   // // console.log(thread)
-    //   // let thread = response.thread
-    //   // Threads.patchMessageRead(thread.threadPersonID)
-    //   // let members = thread.members['threadMembers(s)']
-    //   // this.peopleHash = []
-    //   // for (let index = 0; index < members.length; index++) {
-    //   //   const member = members[index].person;
-    //   //   this.peopleHash[member.id] = member
-    //   // }
-    //   // this.thread = thread
-    // },
-    // async getMessages(id) {
-    //   const response = await Message.getMessages(id)
-    //   let messages = response['message(s)']
-    //   return messages
-    // },
     async postMessage(fromID, threadID, content) {
       const body = {
         fromPersonID: fromID,
@@ -313,6 +244,14 @@ export default {
 
       this.creatingNewItem = true;
     },
+    async onLoad() {
+      this.personID = store.state.personID
+
+      if(this.threads.length < 1) {
+        await this.getThreads();
+      }
+      this.selectThread(this.$route.params.id)
+    },
     selectThread(id) {
       if (!id) {
         return
@@ -322,13 +261,13 @@ export default {
         this.$router.push(`/app/messages/`)
         return
       }
+      else if (id != this.$route.params.id) {
+        this.$router.push(`/app/messages/${id}`)
+      }
       
       // clearInterval(this.messageReload)
 
-      this.$router.push(`/app/messages/${id}`)
-
       this.selectedID = id
-      this.messages = []
       this.creatingNewItem = false
 
       // displayThread waits for getThread() and getMessages()
@@ -336,7 +275,9 @@ export default {
       // functions have run
       this.displayThread = 0
       this.thread = {}
-      this.getThread(id).then(() => {this.displayThread += 1})
+
+      this.getSelectedThread({ threadID: id})
+      // this.getThread(id).then(() => {this.displayThread += 1})
     },
     sendMessage() {
       const fromID = this.personID

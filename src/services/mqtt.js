@@ -20,12 +20,5 @@ export default {
           'wss://a249ujnc2b66n0-ats.iot.us-east-2.amazonaws.com/mqtt'
       })
     );
-    PubSub.subscribe(`message_threads/571`).subscribe({
-      next: data => {
-        console.log('Message received', data);
-      },
-      error: error => console.error(error),
-      close: () => console.log('Done')
-    });
   }
 }
