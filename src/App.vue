@@ -7,6 +7,7 @@
 
 <script>
 import Loading from '@/components/Loading'
+import MQTT from '@/services/mqtt';
 
 export default {
   name: 'App',
@@ -23,8 +24,10 @@ export default {
       this.loading = data
     })
     this.checkLogin()
+    
   },
   created () {
+    MQTT.createMqttClient()
   },
   methods: {
     checkLogin() {

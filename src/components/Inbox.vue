@@ -20,16 +20,16 @@
           <div class="thread-header noselect">{{selectedThread.title}}</div>
           <div class="messages">
             <div class="message-box-wrapper">
-              <div v-for="(message, index) in selectedThread.messages" :key="message.id"
+              <div v-for="(message, index) in reversedMessages" :key="message.id"
               class="message-box"
               :class="{
                   'self': personID == message.fromID,
-                  'repeat': index > 0 && selectedThread.messages[index - 1].person.id == selectedThread.messages[index].person.id 
+                  'repeat': index > 0 && selectedThread.messages[index - 1].person.id == reversedMessages[index].person.id 
                 }">
                 <!-- <div
                   class="profile-pic" :style="{backgroundImage: 'url(' +  message.fromIDIcon + ')'}"></div> -->
                 <div class="time" v-if="index == 0">{{getDateFormate(message.sentAt)}}</div>
-                <div class="time" v-else>{{getDateFormate(message.sentAt, selectedThread.messages[index - 1].sentAt)}}</div>
+                <div class="time" v-else>{{getDateFormate(message.sentAt, reversedMessages[index - 1].sentAt)}}</div>
                 <div
                   class="profile-pic"
                 >
@@ -48,7 +48,6 @@
             </div>
           </div>
             <form class="new-message-box"
-              v-if="displayThread >= 0"
               v-on:sumbit.prevent="">
               <input type="text" v-model="newMessageContent"  @keypress.enter.prevent="sendMessage">
               <i @click="sendMessage" class="material-icons noselect">send</i>
@@ -118,6 +117,9 @@ import { clearInterval } from 'timers';
 
 import { mapActions, mapMutations, mapGetters, mapState } from 'vuex';
 
+import Amplify, { Auth, PubSub } from 'aws-amplify';
+import { AWSIoTProvider } from '@aws-amplify/pubsub/lib/Providers';
+
 export default {
   name: 'Messages',
   data () {
@@ -153,13 +155,40 @@ export default {
     Cards, CustomRadio, Avatar, SweetModal
   },
   mounted() {
-    // this.personID = store.state.personID
+    this.personID = store.state.personID
     // this.threadsLoading = true
     
     if(this.threads.length < 1) {
       this.getThreads();
     }
     this.selectThread(this.$route.params.id)
+
+    console.log('pubsub started')
+    
+      Amplify.configure({
+        identityPoolId: "us-east-2:565cdd94-fd83-45d7-b4c5-ee8b6f40fffb",
+        region: "us-east-2",
+        userPoolId: "us-east-2_th6kgbG7W",
+        userPoolWebClientId: "40ljk2uqsfr2rhuqascb564rlq"
+      });
+  
+      Amplify.addPluggable(
+        new AWSIoTProvider({
+          aws_pubsub_region: 'us-east-2',
+          aws_pubsub_endpoint:
+            'wss://a249ujnc2b66n0-ats.iot.us-east-2.amazonaws.com/mqtt'
+        })
+      );
+      console.log(';esffkasjdnfia')
+      PubSub.subscribe(`message_threads/571`).subscribe({
+        next: data => {
+          console.log('Message received', data);
+        },
+        error: error => console.error(error),
+        close: () => console.log('Done')
+      });
+
+      console.log('pubsub done')
   },
   watch: {
     newThreadType: {
@@ -243,9 +272,16 @@ export default {
     //   let messages = response['message(s)']
     //   return messages
     // },
-    // async postMessage(fromID, threadID, content) {
-    //   const response = await Message.postMessage(fromID, threadID, content)
-    // },
+    async postMessage(fromID, threadID, content) {
+      const body = {
+        fromPersonID: fromID,
+        threadID: threadID,
+        contents: content,
+        // media: ""
+      }
+      const response = await Message.postMessage(body)
+      return response
+    },
     // async postDirectThread(senderID, recipientID, title) {
     //   const response = await Threads.postDirectThread(senderID, recipientID, title).then(response => {
     //     console.log(response)
@@ -301,10 +337,6 @@ export default {
       this.displayThread = 0
       this.thread = {}
       this.getThread(id).then(() => {this.displayThread += 1})
-      this.getMessages(id).then(response => {
-          this.displayThread += 1
-          this.messages = response
-        })
     },
     sendMessage() {
       const fromID = this.personID
@@ -314,15 +346,11 @@ export default {
         return
       }
       this.postMessage(fromID, threadID, content).then(() => {
-        this.updateMessages(threadID)
         this.newMessageContent = ''
       })
     },
-    updateMessages(id) {
-      this.getMessages(id).then(response => {
-        this.messages = response
-      })
-    },
+    // updateMessages(id) {
+    // },
     async createThread() {      
       this.$root.$emit('loading', true)
       const thread = this.newThread
@@ -361,9 +389,13 @@ export default {
       }
       return threads
     },
-    // reversedMessages() {
-    //   return this.messages.reverse()
-    // },
+    reversedMessages() {
+      let messages = [...this.selectedThread.messages]
+      if (messages == undefined) {
+        return []
+      }
+      return messages.reverse()
+    },
     // formatedPeople() {
     //   const people = this.people
     //   var formatedPeople = []
