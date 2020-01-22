@@ -7,18 +7,46 @@
           <input
             type="text"
             class="basic-input"
-            placeholder="Organization Name"
-            name="Organization Name"
+            placeholder="Church Name"
+            name="name"
+            v-model="name"
           />
         </div>
         <div class="gs-form-group">
-          <input type="text" class="basic-input" placeholder="City" name="City" />
+          <input
+            type="text"
+            class="basic-input"
+            placeholder="Username"
+            name="Username"
+            v-model="username"
+          />
         </div>
         <div class="gs-form-group">
-          <input type="text" class="basic-input" placeholder="State" name="State" />
+          <input
+            type="text"
+            class="basic-input"
+            placeholder="Statement of Faith"
+            name="Statement of Faith"
+            v-model="statementOfFaith"
+          />
         </div>
         <div class="gs-form-group">
-          <input type="text" class="basic-input" placeholder="501C3 Number" name="501C3 Number" />
+          <input
+            type="text"
+            class="basic-input"
+            placeholder="Description"
+            name="Description"
+            v-model="description"
+          />
+        </div>
+        <div class="gs-form-group">
+          <input
+            type="text"
+            class="basic-input"
+            placeholder="Vision"
+            name="Vision"
+            v-model="vision"
+          />
         </div>
         <div
           class="gs-form-group"
@@ -41,13 +69,85 @@
 </template>
 
 <script>
+import Church from "@/services/church";
+import ChurchPeople from "@/services/churchPeople";
+import Accounts from "@/services/accounts";
 export default {
+  data() {
+    return {
+      name: "",
+      username: "",
+      statementOfFaith: "",
+      description: "",
+      vision: "",
+      res: "",
+      churchImageURL:
+        "https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png",
+      churchImageThumbnailURL:
+        "https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png",
+      churchInfo: {},
+      churchPeopleBody: {},
+      personID: "",
+      churchID: ""
+    };
+  },
+  props: {
+    personUsername: ""
+  },
   methods: {
     createOrg() {
-      this.$router.push('/app/people');
+      this.churchInfo = {
+        name: this.name,
+        username: this.username,
+        nickname: this.username,
+        statementOfFaith: this.statementOfFaith,
+        description: this.description,
+        vision: this.vision,
+        churchImageURL:
+          "https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png",
+        churchImageThumbnailURL:
+          "https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"
+      };
+      Church.postChurch(
+        this.name,
+        this.username,
+        this.username,
+        this.statementOfFaith,
+        this.description,
+        this.vision,
+        this.churchImageURL,
+        this.churchImageThumbnailURL
+      )
+        .then(response => {
+          console.log(response.data.message);
+          this.churchID = response.data.newResourceID;
+          this.getPersonID();
+          if (window.confirm("Church created!")) {
+            this.$router.push("/app/people");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    async getPersonID() {
+      await Accounts.getAccount(this.personUsername).then(response => {
+        console.log(response.data)
+        this.personID = response.data.accounts[0].mainPersonID;
+        this.postChurchPerson();
+      });
+    },
+    async postChurchPerson() {
+      let body = {
+        churchID: this.churchID,
+        personID: this.personID
+      }
+      await ChurchPeople.postChurchPerson(body).then(response => {
+        console.log(response.data)
+      })
     }
   }
-}
+};
 </script>
 
 <style>

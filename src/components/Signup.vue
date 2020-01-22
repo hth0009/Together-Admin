@@ -91,19 +91,56 @@
             <form v-on:submit.prevent="signup" style="margin:auto;">
               <div>
                 <div class="gs-form-group">
-                  <input type="text" class="basic-input" placeholder="First Name" name="firstName" v-model="firstName" />
+                  <input
+                    type="text"
+                    class="basic-input"
+                    placeholder="First Name"
+                    name="firstName"
+                    v-model="firstName"
+                  />
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="basic-input" placeholder="Last Name" name="lastName" v-model="lastName" />
+                  <input
+                    type="text"
+                    class="basic-input"
+                    placeholder="Last Name"
+                    name="lastName"
+                    v-model="lastName"
+                  />
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="basic-input" placeholder="Email" name="Email" v-model="email" />
+                  <flat-pickr
+                    class="basic-input"
+                    :config="datePickerConfig"
+                    v-model="birthdate"
+                  ></flat-pickr>
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="basic-input" placeholder="Username" name="Username" v-model="username" />
+                  <input
+                    type="text"
+                    class="basic-input"
+                    placeholder="Email"
+                    name="Email"
+                    v-model="email"
+                  />
                 </div>
                 <div class="gs-form-group">
-                  <input type="text" class="basic-input" placeholder="Password" name="Password" v-model="password" />
+                  <input
+                    type="text"
+                    class="basic-input"
+                    placeholder="Username"
+                    name="Username"
+                    v-model="username"
+                  />
+                </div>
+                <div class="gs-form-group">
+                  <input
+                    type="text"
+                    class="basic-input"
+                    placeholder="Password"
+                    name="Password"
+                    v-model="password"
+                  />
                 </div>
                 <div id="enter-btn-wrapper" class="gs-form-group">
                   <button class="basic-button">Continue</button>
@@ -118,7 +155,7 @@
         </div>
       </div>
       <div class="panel gs-container" style="display:block;" v-if="loginSuccess">
-        <router-view />
+        <router-view :person-username="username"> </router-view>
       </div>
     </div>
   </div>
@@ -132,11 +169,20 @@ import {
   CognitoUserPool,
   CognitoUser
 } from "amazon-cognito-identity-js";
-
+import Amplify, { Auth } from "aws-amplify";
+import moment from 'moment'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
 import { mapActions } from "vuex";
 
+Amplify.configure({
+  identityPoolId: "us-east-2:565cdd94-fd83-45d7-b4c5-ee8b6f40fffb",
+  region: "us-east-2",
+  userPoolId: "us-east-2_th6kgbG7W",
+  userPoolWebClientId: "40ljk2uqsfr2rhuqascb564rlq"
+});
+
 export default {
-  name: "Login",
   data() {
     return {
       username: "",
@@ -144,6 +190,7 @@ export default {
       firstName: "",
       lastName: "",
       email: "",
+      birthdate: moment().format(),
       showPassword: false,
       logInSelected: true,
       personSignUp: true,
@@ -154,7 +201,7 @@ export default {
     };
   },
   components: {
-    InlineLoader
+    InlineLoader, flatPickr
   },
   methods: {
     ...mapActions({ storeLogin: "login" }),
@@ -182,12 +229,31 @@ export default {
         });
     },
     signup() {
-      const personInfo = {
-        accountEmail: this.email,
-        firstName: this.firstName,
-        lastName: this.lastName,
-      }
-      People.postPerson(personInfo);
+      Auth.signUp({
+        username: this.username,
+        password: this.password,
+        attributes: {
+          email: this.email,
+          given_name: this.firstName,
+          family_name: this.lastName,
+          birthdate: this.birthdate
+        }
+      })
+        .then(res => {
+          console.log("===============NEW USER CREATED=====================");
+          console.log(res);
+          console.log("====================================================");
+          if (
+            window.confirm(
+              "Account Registered! Please verify your email before logging in."
+            )
+          ) {
+            this.$router.push("/hello/welcome");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
     resetErrors() {
       this.hasWrongUsernamePassword = false;
@@ -210,7 +276,7 @@ export default {
 #login-page {
   width: 100%;
   height: 100%;
-  background: linear-gradient(#55C0E4, #004580);
+  background: linear-gradient(#55c0e4, #004580);
   /* background: url(https://s3.wasabisys.com/cdn.togetheradmin.com/login.jpg);
   background-repeat: no-repeat;
   background-size: cover;
