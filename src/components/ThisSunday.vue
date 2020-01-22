@@ -33,11 +33,10 @@
       </div>
       <div class="gs-app-selected-view" id="selected-view">
         <div class="details" v-if="selectedID != -1 && !creatingNewItem">
-          <div class="panel gs-card-with-shadow gs-card-rise">
+          <div class="panel gs-card-with-shadow gs-container vertical gs-card-rise">
             <div class="quick-actions">
               <!-- <button class="basic-button"><i class="material-icons">send</i></button> -->
             </div>
-            <div class="panel gs-container vertical">
               <div class="gs-buttons-right">
                 <button class="gs-basic-button" @click="startEdit" v-show="!editing">
                   <i class="material-icons">edit</i>EDIT
@@ -155,7 +154,6 @@
                 v-show="editing"
               ><i class="material-icons">done</i>SAVE</button>
               </div>
-            </div>
           </div>
         </div>
         <div class="details" v-if="creatingNewItem">

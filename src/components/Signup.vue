@@ -445,7 +445,7 @@ input:-webkit-autofill {
   box-shadow: 0px 5px 13px -2px #00000040;
   min-width: 350px;
   max-width: 350px;
-  min-height: 600px;
+  /* min-height: 600px; */
   background: white;
   /* ANIMATION */
   animation: 0.5s ease-out 0s 1 fadeIn;

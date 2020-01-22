@@ -145,8 +145,9 @@ export default {
     return {
       myTeams: [],
       me: {},
-      myOrgs: {},
-      editing: false
+      myOrgs: [],
+      editing: false,
+      photoCroppa: {},
     };
   },
   components: {

@@ -35,9 +35,9 @@ import PrivacyPolicy from '@/components/PrivacyPolicy'
 
 import Splash from '@/views/Splash'
 import Welcome from '@/components/splash/Welcome';
-import Cost from '@/components/splash/Cost';
-import StillHaveQuestions from '@/components/splash/StillHaveQuestions';
-import HowDoesItWork from '@/components/splash/HowDoesItWork';
+import Price from '@/components/splash/Price';
+import Questions from '@/components/splash/Questions';
+import Product from '@/components/splash/Product';
 
 import FAQ from '@/components/FAQ'
 
@@ -88,27 +88,27 @@ let router = new Router({
           },
         },
         {
-          path: 'cost',
-          name: 'Cost',
-          component: Cost,
+          path: 'price',
+          name: 'Price',
+          component: Price,
           meta: {
             noNav: true,
             requiresAuth: false,
           },
         },
         {
-          path: 'still-have-questions',
-          name: 'Still Have Questions',
-          component: StillHaveQuestions,
+          path: 'questions',
+          name: 'Questions',
+          component: Questions,
           meta: {
             noNav: true,
             requiresAuth: false,
           },
         },
         {
-          path: 'how-does-it-work',
-          name: 'How Does It Work',
-          component: HowDoesItWork,
+          path: 'product',
+          name: 'Product',
+          component: Product,
           meta: {
             noNav: true,
             requiresAuth: false,

@@ -28,6 +28,22 @@ export default {
   patchPerson (personInfo) {
     return Api().patch('people', personInfo)
   },
+  async patchPersonValues (personID, values) {
+    try{
+      return await Api().patch('people', {
+        "identifier":{
+          "id": `${personID}`
+        },
+        "values": {
+          ...values
+        }
+      })
+    }
+    catch(e) {
+      console.error(e)
+    }
+    
+  },
   patchPersonValue (personID, valueKey, value) {
     return Api().patch('people', {
       "identifier":{

@@ -46,6 +46,11 @@ label {
 .gs-primary-bg { background-color: #55C0E4 !important; }
 .gs-light { color: white !important; }
 
+.gs-green { color: #08C900 }
+
+.gs-active { color: white !important;}
+.gs-inactive { color: #004580 !important; }
+
 .bold {
   font-weight: bold;
 }
@@ -202,6 +207,7 @@ label {
 .gs-flex-col {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-flow: column;
 }
 
@@ -450,4 +456,13 @@ label {
 .ml3em { margin-left: 3em !important; }
 .ml4em { margin-left: 4em !important; }
 
+.mr1em { margin-right: 1em !important; }
+.mr2em { margin-right: 2em !important; }
+.mr3em { margin-right: 3em !important; }
+.mr4em { margin-right: 4em !important; }
+
+.px0 {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 .pl4 { padding-left: 4px !important; }

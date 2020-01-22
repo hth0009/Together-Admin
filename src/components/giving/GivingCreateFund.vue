@@ -40,6 +40,11 @@
         <button class="gs-floating-button primary mr-5" style="float: right;">Create</button>
       </b-col>
     </b-row>
+    <b-row> 
+      <b-col>
+        Created Funds
+      </b-col> 
+    </b-row>
   </div>
 </template>
 

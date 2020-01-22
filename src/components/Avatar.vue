@@ -6,7 +6,7 @@
       width: height + 'px',
       backgroundImage: url != '' && url != undefined ?
         'url(' + url + ')' :
-        gradients[(title.length % 6)]
+        `${gradients[(title.length % 6)]} !important`
     }">
     <div class="text" v-if="url == '' || url == undefined"
       :style="{

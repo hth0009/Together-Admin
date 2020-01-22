@@ -146,7 +146,8 @@ export default {
   name: "",
   data() {
     return {
-      myChurchStaff: "",
+      myChurchStaff: [],
+      photoCroppa: {},
       editing: false
     };
   },

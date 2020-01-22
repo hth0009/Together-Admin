@@ -11,10 +11,10 @@
         <i v-if='!drawerIsOpen' class="material-icons">favorite</i>
         <span v-else>Giving</span>
       </a>
-      <a href="/#/app/more" :class="{'black': $route.name.startsWith('/app/more')}">
+      <!-- <a href="/#/app/more" :class="{'black': $route.name.startsWith('/app/more')}">
         <i v-if='!drawerIsOpen' class="material-icons">menu</i>
         <span v-else>More</span>
-      </a>
+      </a> -->
     </div>
   </div>
 </template>

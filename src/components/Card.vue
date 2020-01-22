@@ -135,7 +135,6 @@ export default {
   }
   .nothing-here {
     text-align: center;
-    padding: 150px 0px;
   }
   .card-boxes .header{
     /* text-align: center; */

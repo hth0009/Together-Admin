@@ -140,11 +140,11 @@
                 :hasButtonOnCard="false"
                 :alphabetical="false"
                 :emptyMessage="'None'"
-                :cardList="notes"
+                :cardList="person.notes"
                 :cardSelectable="false"
                 :hasSearch="false"
                 :fields='{
-                  title: "noteText"
+                  title: "title"
                 }'
               >
               </cards>
@@ -353,15 +353,14 @@ export default {
       for (let index = 0; index < this.people.length; index++) {
         const person = this.people[index];
         const newPerson = {
-          id: person.id,
-          profile: person.personImageThumbnailURL,
+          id: person.personID,
+          profile: person.personImageURL,
           title: person.firstName + " " + person.lastName,
-          subtext:
-            person.account !== null && person.account.username != ""
-              ? "@" + person.account.username
-              : ""
-          // profile: thread.threadImageThumbnailURL,
-          // profile: this.profiles[index % 4],
+          // subtext:
+          //   person.account !== null && person.account.username != ""
+          //     ? "@" + person.account.username
+          //     : ""
+          subtext: '@username',
         };
         people[index] = newPerson;
       }
@@ -372,18 +371,25 @@ export default {
     ...mapMutations ('people', ['setPeople', 'setLoading']),
     ...mapActions ('people', ['getPeople']),
     async getPerson () {
-      People.getPerson(this.selectedID).then(response => {
-        this.person = response.data.people[0];
+      const response = await People.getPerson(this.selectedID)
+      this.person = response.data.people[0];
+      if(this.person.teamsPeople) {
         this.teams = this.person.teamsPeople.map(
           aTeam => ({
             teamName: aTeam.team.name,
-            teamIconURL: aTeam.team.iconURL,
+            teamIconURL: aTeam.team.teamImageURL,
             isLeader: aTeam.isLeader,
             teamID: aTeam.teamID
           })
         );
-        this.notes = this.person.notes ? [{noteText: this.person.notes}] : [];
-      });
+      }
+      
+      if(this.person.notes) {
+        this.notes = this.person.notes.length ? 
+          this.person.notes.map(note => ({title: note.contents}))
+          : [];
+      }
+
     },
     async patchPersonValue(valueKey, value) {
       var response = await People.patchPersonValue(
@@ -391,6 +397,9 @@ export default {
         valueKey,
         value
       );
+    },
+    async patchPersonValues() {
+      const response = await People.patchPersonValues(this.selectedID, ...this.person)
     },
     patchNotes(noteContent) {
       var val = noteContent.value;
@@ -428,7 +437,6 @@ export default {
       this.$router.push(`/app/people/${id}`);
       this.selectedID = id;
       this.getPerson();
-      // this.getTeams()
     },
     createNewItem() {
       this.selectedThreadID = -1;
@@ -438,28 +446,24 @@ export default {
     },
     async saveEdit() {      
       this.editing = false 
-      var patch = {
-        "identifier":{
-          "id": this.selectedID
-        },
-        "values": {
-          homeAddress: this.person.homeAddress,
-          mailingAddress: this.person.mailingAddress,
-          phoneNumber: this.person.phoneNumber
-        }
+      let patchValues = {
+        homeAddress: this.person.homeAddress,
+        mailingAddress: this.person.mailingAddress,
+        phoneNumber: this.person.phoneNumber
       }
       if (this.photoCroppa.hasImage()) {        
-        await CDN.getKeys().then(response => {
-          this.cdnKeys = response.data
-        })
-        var profilePic = await this.uploadProfilePic()
-        profilePic = profilePic ? 'https://togethercdn.global.ssl.fastly.net/ProfilePics/' + profilePic : ''
-        patch['values']['personImageURL'] = profilePic
-        patch['values']['personImageThumbnailURL'] = profilePic
+        let res = await CDN.getKeys()
+        this.cdnKeys = res.data
+        let profilePic = await this.uploadProfilePic();
+        profilePic = profilePic ? 'https://togethercdn.global.ssl.fastly.net/ProfilePics/' + profilePic : '';
+        patchValues = {
+          ...patchValues,
+          personImageURL: profilePic,
+          personImageThumbnailURL: profilePic,
+        }
       }
-      People.patchPerson(patch).then(() => {
-        this.getPerson()
-      })
+      await People.patchPersonValues(this.selectedID, patchValues)
+      this.getPerson()
     },
     cancelEdit() {
       this.editing = false;
@@ -488,8 +492,11 @@ export default {
   },
   props: {
   },
-  mounted() {    
-    this.getPeople(true);
+  async mounted() {
+    this.setLoading(true);
+    const peopleRes = await ChurchPeople.getChurchPeople();
+    this.setPeople(peopleRes.data.churchpeople);
+    this.setLoading(false);
     this.recieveID(this.$route.params.id)
   },
   

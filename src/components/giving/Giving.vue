@@ -8,6 +8,7 @@
       <giving-manual-entry style="width: 650px" v-if="showManualEntry"/>
       <giving-create-fund style="width: 650px" v-if="showCreateFund"/>
       <giving-create-report style="width: 650px" v-if="showCreateReport"/>
+      <giving-person-summary style="width: 650px" v-if="showPersonSummary"/>
     </div>
   </div>
   
@@ -19,11 +20,12 @@ import GivingTopNav from '@/components/giving/GivingTopNav'
 import GivingManualEntry from '@/components/giving/GivingManualEntry'
 import GivingCreateFund from '@/components/giving/GivingCreateFund'
 import GivingCreateReport from '@/components/giving/GivingCreateReport'
+import GivingPersonSummary from '@/components/giving/GivingPersonSummary'
 import { mapState } from 'vuex';
 
 export default {
   components: {
-    GivingTable, GivingTopNav, GivingManualEntry, GivingCreateFund, GivingCreateReport,
+    GivingTable, GivingTopNav, GivingManualEntry, GivingCreateFund, GivingCreateReport, GivingPersonSummary
   },
   data() {
     return {
@@ -31,7 +33,7 @@ export default {
     };
   },
   computed: {
-    ...mapState ('giving', ['showManualEntry', 'showCreateFund', 'showCreateReport']),
+    ...mapState ('giving', ['showManualEntry', 'showCreateFund', 'showCreateReport', 'showPersonSummary']),
   },
 }
 </script>

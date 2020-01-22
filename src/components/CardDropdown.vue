@@ -364,7 +364,6 @@ export default {
 }
 .nothing-here {
   text-align: center;
-  padding: 150px 0px;
 }
 
 

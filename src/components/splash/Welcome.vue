@@ -13,7 +13,6 @@
       <join-global-church/>
       
     </div>
-    <nav-tabs/>
   </div>
 </template>
 

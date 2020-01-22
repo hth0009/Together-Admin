@@ -391,28 +391,9 @@ export default {
       const getTeamRes = await Teams.getTeam(id);
       const team = getTeamRes.data.teams[0];
       this.selectedTeam = team;
-      this.selectedTeam.leaders = team.leaders.length > 0 ? team.leaders : [{}];
-
-      // this.peopleInTeam = response['team'].members['teamMembers(s)'].map((member) => ({
-      //   fullName: member.firstName + ' ' + member.lastName,
-      //   id: member.personID,
-      //   relationshipID: member.id,
-      //   firstName: member.firstName,
-      //   lastName: member.lastName,
-      //   personImageThumbnailURL: member.person.personImageThumbnailURL,
-      // }))
-      // this.peopleInTeam = this.peopleInTeam.filter(( person ) => {
-      //   const isLeader = person.id == this.selectedTeam.leaderID
-      //   if (isLeader) {
-      //     this.selectedTeamLeader = [person]
-      //   }
-      //   return true
-      // });
-      // this.getPeopleNotInTeam()
-
-      // this.$root.$emit('loading', false)
-
-      // return this.selectedTeam
+      if(this.selectedTeam) {
+        this.selectedTeam.leaders = team.leaders.length > 0 ? team.leaders : [{}];
+      }
     },
     async deleteItem() {
       this.$refs.deleteItemModal.close();

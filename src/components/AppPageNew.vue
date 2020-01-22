@@ -19,12 +19,16 @@
 <script>
 import SideNav from "@/components/framework/SideNav";
 import TopNav from "@/components/framework/TopNav";
+import ChurchPeople from "@/services/churchPeople";
 
 export default {
   components: {
     SideNav,
     TopNav,
   },
+  // async mounted () {
+  //   const churchPeople = await ChurchPeople.getChurchPeople(44);
+  // },
 }
 
 </script>

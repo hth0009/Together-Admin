@@ -64,8 +64,8 @@
           ><div class="title">people</div><i class="material-icons">person</i></router-link>
         <router-link :key="2"  v-on:click.native="showSidebar = false" to="/app/teams" class="noselect"
           ><div class="title">teams</div><i class="material-icons">people</i></router-link>
-        <!-- <router-link :key="3" v-on:click.native="showSidebar = false" to="/app/messages" class="noselect"
-          ><div class="title">messages</div><i class="material-icons">mail</i></router-link> -->
+        <router-link :key="3" v-on:click.native="showSidebar = false" to="/app/messages" class="noselect"
+          ><div class="title">messages</div><i class="material-icons">mail</i></router-link>
         <router-link :key="4"  v-on:click.native="showSidebar = false" to="/app/this-sunday" class="noselect"
           ><div class="title">this sunday</div><i class="material-icons">event</i></router-link>
         <!-- <router-link :key="3"  v-on:click.native="showSidebar = false" to="/app/giving" class="noselect"
