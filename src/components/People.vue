@@ -144,7 +144,7 @@
                 :cardSelectable="false"
                 :hasSearch="false"
                 :fields='{
-                  title: "noteText"
+                  title: "title"
                 }'
               >
               </cards>
@@ -331,6 +331,7 @@ export default {
       notesHTML: "",
       editing: false,
       showMessages: false,
+      photoCroppa: {},
     };
   },
   provide: {
@@ -354,7 +355,7 @@ export default {
         const person = this.people[index];
         const newPerson = {
           id: person.id,
-          profile: person.personImageThumbnailURL,
+          profile: person.personImageURL,
           title: person.firstName + " " + person.lastName,
           // subtext:
           //   person.account !== null && person.account.username != ""
@@ -371,18 +372,29 @@ export default {
     ...mapMutations ('people', ['setPeople', 'setLoading']),
     ...mapActions ('people', ['getPeople']),
     async getPerson () {
-      People.getPerson(this.selectedID).then(response => {
+      const alreadyLoadedPerson = this.people.find(person => person.id == this.selectedID);
+      const person = {};
+      if(alreadyLoadedPerson) {
+        this.person = {...alreadyLoadedPerson}
+      }
+      else {
+        const response = await People.getPerson(this.selectedID)
         this.person = response.data.people[0];
+      }
+      if(this.person.teamsPeople) {
         this.teams = this.person.teamsPeople.map(
           aTeam => ({
             teamName: aTeam.team.name,
-            teamIconURL: aTeam.team.iconURL,
+            teamIconURL: aTeam.team.teamImageURL,
             isLeader: aTeam.isLeader,
-            teamID: aTeam.teamID
+            teamID: aTeam.id
           })
         );
-        this.notes = this.person.notes ? [{noteText: this.person.notes}] : [];
-      });
+      }
+      
+      this.notes = this.person.notes.length ? 
+        this.person.notes.map(note => ({title: note.contents}))
+        : [];
     },
     async patchPersonValue(valueKey, value) {
       var response = await People.patchPersonValue(

@@ -68,7 +68,7 @@
         @click="selectCard(card[fields.id], card)">
           <!-- <div v-if="card['superscript']" class="superscript">{{card['superscript']}}</div> -->
           <avatar
-            v-if="profile"
+            v-if="fields.profile"
             class="profile-pic"
             :height="30"
             :url="card[fields.profile]"
@@ -77,8 +77,7 @@
               :style="{
                 backgroundImage: card[fields.photoHeader] != undefined ? 'url(' + card[fields.photoHeader] + ')' : ''
               }">
-            <div v-if='card[fields.title]' class="title"> {{card[fields.title]}} </div>
-            <div v-else>New Item</div>
+            <div class="title"> {{card[fields.title] || 'New Item'}} </div>
             <div v-if="card[fields.subtitle]" class="subtext"> {{card[fields.subtitle].substring(0, 30) + ""}} </div>
             <div v-if="card[fields.subtitle2]" class="subtext-2"> {{card[fields.subtitle2].substring(0, 30) + ""}} </div>
           </div>
