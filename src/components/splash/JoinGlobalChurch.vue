@@ -1,7 +1,7 @@
 <template>
   <div id="joinGlobalChurchToday">
     <button id="joinTheGlobalChurchBtn" class="gs-basic-button inverted"
-            @click="joinGlobalChurch()">
+            @click="$router.push('/signup')">
       Join the Global Church Today
     </button>
     <p id="joinTheGlobalChurchSubtext" class="white"> 30 Second Organization Sign Up. 5 Minute Learning Curve </p>
@@ -11,11 +11,6 @@
 <script>
 export default {
   name: 'JoinGlobalChurch',
-  methods: {
-    joinGlobalChurch() {
-      return;
-    }
-  },
 }
 </script>
 
