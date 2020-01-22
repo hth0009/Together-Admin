@@ -331,7 +331,6 @@ export default {
       notesHTML: "",
       editing: false,
       showMessages: false,
-      photoCroppa: {},
     };
   },
   provide: {
@@ -390,6 +389,7 @@ export default {
           this.person.notes.map(note => ({title: note.contents}))
           : [];
       }
+
     },
     async patchPersonValue(valueKey, value) {
       var response = await People.patchPersonValue(
@@ -437,7 +437,6 @@ export default {
       this.$router.push(`/app/people/${id}`);
       this.selectedID = id;
       this.getPerson();
-      // this.getTeams()
     },
     createNewItem() {
       this.selectedThreadID = -1;
@@ -447,23 +446,24 @@ export default {
     },
     async saveEdit() {      
       this.editing = false 
-      const patchValues = {
+      let patchValues = {
         homeAddress: this.person.homeAddress,
         mailingAddress: this.person.mailingAddress,
         phoneNumber: this.person.phoneNumber
       }
       if (this.photoCroppa.hasImage()) {        
-        await CDN.getKeys().then(response => {
-          this.cdnKeys = response.data
-        })
-        const profilePic = await this.uploadProfilePic()
-        profilePic = profilePic ? 'https://togethercdn.global.ssl.fastly.net/ProfilePics/' + profilePic : ''
-        patchValues['values']['personImageURL'] = profilePic
-        patchValues['values']['personImageThumbnailURL'] = profilePic
+        let res = await CDN.getKeys()
+        this.cdnKeys = res.data
+        let profilePic = await this.uploadProfilePic();
+        profilePic = profilePic ? 'https://togethercdn.global.ssl.fastly.net/ProfilePics/' + profilePic : '';
+        patchValues = {
+          ...patchValues,
+          personImageURL: profilePic,
+          personImageThumbnailURL: profilePic,
+        }
       }
-      People.patchPersonValues(this.selectedID, patchValues).then(() => {
-        this.getPerson()
-      })
+      await People.patchPersonValues(this.selectedID, patchValues)
+      this.getPerson()
     },
     cancelEdit() {
       this.editing = false;
