@@ -319,19 +319,6 @@ export default {
       type: Boolean,
       default: true
     },
-    /*[
-      {
-        type: 'Type',
-        key: 'subtext',
-        options: [
-          {
-            value: 'Community Group',
-            title: 'Public',
-            icon: 'public'
-          },
-        ]
-      }
-    ]*/
     filters: {
       type: Array,
       default: function () { return [] }

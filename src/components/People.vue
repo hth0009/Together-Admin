@@ -140,7 +140,7 @@
                 :hasButtonOnCard="false"
                 :alphabetical="false"
                 :emptyMessage="'None'"
-                :cardList="notes"
+                :cardList="person.notes"
                 :cardSelectable="false"
                 :hasSearch="false"
                 :fields='{
@@ -354,7 +354,7 @@ export default {
       for (let index = 0; index < this.people.length; index++) {
         const person = this.people[index];
         const newPerson = {
-          id: person.id,
+          id: person.personID,
           profile: person.personImageURL,
           title: person.firstName + " " + person.lastName,
           // subtext:
@@ -372,29 +372,24 @@ export default {
     ...mapMutations ('people', ['setPeople', 'setLoading']),
     ...mapActions ('people', ['getPeople']),
     async getPerson () {
-      const alreadyLoadedPerson = this.people.find(person => person.id == this.selectedID);
-      const person = {};
-      if(alreadyLoadedPerson) {
-        this.person = {...alreadyLoadedPerson}
-      }
-      else {
-        const response = await People.getPerson(this.selectedID)
-        this.person = response.data.people[0];
-      }
+      const response = await People.getPerson(this.selectedID)
+      this.person = response.data.people[0];
       if(this.person.teamsPeople) {
         this.teams = this.person.teamsPeople.map(
           aTeam => ({
             teamName: aTeam.team.name,
             teamIconURL: aTeam.team.teamImageURL,
             isLeader: aTeam.isLeader,
-            teamID: aTeam.id
+            teamID: aTeam.teamID
           })
         );
       }
       
-      this.notes = this.person.notes.length ? 
-        this.person.notes.map(note => ({title: note.contents}))
-        : [];
+      if(this.person.notes) {
+        this.notes = this.person.notes.length ? 
+          this.person.notes.map(note => ({title: note.contents}))
+          : [];
+      }
     },
     async patchPersonValue(valueKey, value) {
       var response = await People.patchPersonValue(
@@ -402,6 +397,9 @@ export default {
         valueKey,
         value
       );
+    },
+    async patchPersonValues() {
+      const response = await People.patchPersonValues(this.selectedID, ...this.person)
     },
     patchNotes(noteContent) {
       var val = noteContent.value;
@@ -449,26 +447,21 @@ export default {
     },
     async saveEdit() {      
       this.editing = false 
-      var patch = {
-        "identifier":{
-          "id": this.selectedID
-        },
-        "values": {
-          homeAddress: this.person.homeAddress,
-          mailingAddress: this.person.mailingAddress,
-          phoneNumber: this.person.phoneNumber
-        }
+      const patchValues = {
+        homeAddress: this.person.homeAddress,
+        mailingAddress: this.person.mailingAddress,
+        phoneNumber: this.person.phoneNumber
       }
       if (this.photoCroppa.hasImage()) {        
         await CDN.getKeys().then(response => {
           this.cdnKeys = response.data
         })
-        var profilePic = await this.uploadProfilePic()
+        const profilePic = await this.uploadProfilePic()
         profilePic = profilePic ? 'https://togethercdn.global.ssl.fastly.net/ProfilePics/' + profilePic : ''
-        patch['values']['personImageURL'] = profilePic
-        patch['values']['personImageThumbnailURL'] = profilePic
+        patchValues['values']['personImageURL'] = profilePic
+        patchValues['values']['personImageThumbnailURL'] = profilePic
       }
-      People.patchPerson(patch).then(() => {
+      People.patchPersonValues(this.selectedID, patchValues).then(() => {
         this.getPerson()
       })
     },
