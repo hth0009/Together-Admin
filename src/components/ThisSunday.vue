@@ -418,14 +418,14 @@ export default {
     },
     async editService() {
       this.selectedService.times = this.selectedService.times.map((timeObj) => {return {time: timeObj.time.substring(0,5)}})
-      if (this.hasGuestSpeaker) {
+      // if (this.hasGuestSpeaker) {
         this.patchService(this.selectedService, false)
-      }
-      else {        
-        this.selectedService['speakerID'] = this.selectedService.person.id
-        this.selectedService.speakerName = ''
-        this.patchService(this.selectedService, true)
-      }
+      // }
+      // else {        
+        // this.selectedService['speakerID'] = this.selectedService.person.id
+        // this.selectedService.speakerName = ''
+        // this.patchService(this.selectedService, true)
+      // }
     },
     async postService(service) {
       this.$root.$emit("loading", true);

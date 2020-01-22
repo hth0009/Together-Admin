@@ -20,7 +20,7 @@ export default {
         description: serviceData.description,
         date: serviceData.date,
         speakerName: serviceData.speakerName,
-        serviceTimes: serviceData.times,
+        // serviceTimes: serviceData.times,
         title: serviceData.title,
         iconUrl: serviceData.iconUrl,
       }
