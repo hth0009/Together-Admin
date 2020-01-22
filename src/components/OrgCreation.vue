@@ -70,6 +70,8 @@
 
 <script>
 import Church from "@/services/church";
+import ChurchPeople from "@/services/churchPeople";
+import Accounts from "@/services/accounts";
 export default {
   data() {
     return {
@@ -83,8 +85,14 @@ export default {
         "https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png",
       churchImageThumbnailURL:
         "https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png",
-      churchInfo: {}
+      churchInfo: {},
+      churchPeopleBody: {},
+      personID: "",
+      churchID: ""
     };
+  },
+  props: {
+    personUsername: ""
   },
   methods: {
     createOrg() {
@@ -100,7 +108,7 @@ export default {
         churchImageThumbnailURL:
           "https://togethercdn.global.ssl.fastly.net/assets/logo/logo-circle-small.png"
       };
-      this.res = Church.postChurch(
+      Church.postChurch(
         this.name,
         this.username,
         this.username,
@@ -109,19 +117,34 @@ export default {
         this.vision,
         this.churchImageURL,
         this.churchImageThumbnailURL
-      );
-      // .then(response => {
-      //   console.log(response.message);
-      //   if (
-      //     window.confirm(
-      //       "Church created!"
-      //     )
-      //   ) {
-      //     this.$router.push("/app/people");
-      //   }
-      // }).catch(e => {
-      //   console.log(e)
-      // });
+      )
+        .then(response => {
+          console.log(response.data.message);
+          this.churchID = response.data.newResourceID;
+          this.getPersonID();
+          if (window.confirm("Church created!")) {
+            this.$router.push("/app/people");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    async getPersonID() {
+      await Accounts.getAccount(this.personUsername).then(response => {
+        console.log(response.data)
+        this.personID = response.data.accounts[0].mainPersonID;
+        this.postChurchPerson();
+      });
+    },
+    async postChurchPerson() {
+      let body = {
+        churchID: this.churchID,
+        personID: this.personID
+      }
+      await ChurchPeople.postChurchPerson(body).then(response => {
+        console.log(response.data)
+      })
     }
   }
 };

@@ -155,7 +155,7 @@
         </div>
       </div>
       <div class="panel gs-container" style="display:block;" v-if="loginSuccess">
-        <router-view />
+        <router-view :person-username="username"> </router-view>
       </div>
     </div>
   </div>
