@@ -2,11 +2,14 @@ import Api from './api'
 import store from '../store'
 
 export default {
-  getChurchPeople (churchUsername = store.state.churchUsername) {
-    return Api().get('churchpeople',
-    {
+  async getChurchPeople (churchID = 19) {
+    if(!churchID) {
+      const church = await store.dispatch('getChurch');
+      churchID = church.id
+    }
+    return Api().get('churchpeople', {
       params: {
-        churchUsername: `${churchUsername}`
+        churchID: `${churchID}`
       }
     })
   },

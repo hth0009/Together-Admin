@@ -4,7 +4,7 @@
       <div class="page-card-wrapper" :class="{'inactive': selectedID != ''}">
         <cards
           :cardList="formatedPeople"
-          :loading="loading"
+          :loading="false"
           :selectedID="selectedID + ''"
           :hasAddNew="false"
           :alphabetical="true"
@@ -356,12 +356,11 @@ export default {
           id: person.id,
           profile: person.personImageThumbnailURL,
           title: person.firstName + " " + person.lastName,
-          subtext:
-            person.account !== null && person.account.username != ""
-              ? "@" + person.account.username
-              : ""
-          // profile: thread.threadImageThumbnailURL,
-          // profile: this.profiles[index % 4],
+          // subtext:
+          //   person.account !== null && person.account.username != ""
+          //     ? "@" + person.account.username
+          //     : ""
+          subtext: '@username',
         };
         people[index] = newPerson;
       }
@@ -488,8 +487,9 @@ export default {
   },
   props: {
   },
-  mounted() {    
-    this.getPeople(true);
+  async mounted() {
+    const peopleRes = await ChurchPeople.getChurchPeople();
+    this.setPeople(peopleRes.data.churchpeople);
     this.recieveID(this.$route.params.id)
   },
   

@@ -8,7 +8,7 @@ export const PeopleModule = {
     loading: true
   },
   mutations: {
-    setPeople (state, payload) { state.people = payload.people; },
+    setPeople (state, payload) { state.people = payload; },
     setPerson (state, person) { state.person = {...person}; },
     setLoading (state, loading) { state.loading = loading; },
   },

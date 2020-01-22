@@ -68,7 +68,7 @@
         @click="selectCard(card[fields.id], card)">
           <!-- <div v-if="card['superscript']" class="superscript">{{card['superscript']}}</div> -->
           <avatar
-            v-if="!noProfile"
+            v-if="profile"
             class="profile-pic"
             :height="30"
             :url="card[fields.profile]"
