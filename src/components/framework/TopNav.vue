@@ -24,7 +24,7 @@
         <router-link to="/app/my-church" class="noselect">
           <avatar :height="50" class="ml1em" :url="church.churchImageThumbnailURL" :title="church.nickname" />
         </router-link>
-        <div id="message-circle-wrapper">
+        <div id="message-circle-wrapper" @click="$router.push('/app/messages')">
           <i class="material-icons">send</i>
         </div>
         <router-link to="/app/me" class="noselect">
@@ -116,5 +116,6 @@ export default {
   min-height: 60px;
   border-radius: 6em;
   box-shadow: 0px 5px 13px -2px #00000040;
+  cursor: pointer;
 }
 </style>
