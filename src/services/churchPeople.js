@@ -2,7 +2,7 @@ import Api from './api'
 import store from '../store'
 
 export default {
-  async getChurchPeople (churchID = 19) {
+  async getChurchPeople (churchID = store.state.church.id) {
     if(!churchID) {
       const church = await store.dispatch('getChurch');
       churchID = church.id
