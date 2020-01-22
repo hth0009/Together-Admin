@@ -4,7 +4,7 @@
       <div class="page-card-wrapper" :class="{'inactive': selectedID != ''}">
         <cards
           :cardList="formatedPeople"
-          :loading="false"
+          :loading="loading"
           :selectedID="selectedID + ''"
           :hasAddNew="false"
           :alphabetical="true"
@@ -488,8 +488,10 @@ export default {
   props: {
   },
   async mounted() {
+    this.setLoading(true);
     const peopleRes = await ChurchPeople.getChurchPeople();
     this.setPeople(peopleRes.data.churchpeople);
+    this.setLoading(false);
     this.recieveID(this.$route.params.id)
   },
   
