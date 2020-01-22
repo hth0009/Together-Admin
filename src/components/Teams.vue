@@ -28,7 +28,7 @@
       </div>
       <div class="gs-app-selected-view" id="selected-view" >
         <div class="details" v-if="selectedID != -1 && !creatingNewItem">
-          <div class="panel gs-card-with-shadow gs-card-rise">
+          <div class="panel gs-container vertical">
             <div class="gs-buttons-right">
               <button class="gs-basic-button"
                 @click="startEdit"
@@ -426,7 +426,6 @@ export default {
       let newTeam = { ...this.newTeam };
 
       const church = await Church.getChurch();
-      newTeam.churchID = church.data.churches[0].id;
 
       let profilePic = await this.uploadProfilePic();
       profilePic = profilePic
@@ -434,13 +433,19 @@ export default {
         : "";
       newTeam.teamImageURL = profilePic;
       newTeam.teamImageThumbnailURL = profilePic;
-      newTeam.messageThread = {
-        directMessage: false,
-        title: newTeam.name,
-        description: newTeam.description
-      };
 
-      let postedTeam = await Teams.postTeam(newTeam);
+      let postedTeam = await Teams.postTeam({
+        churchID: church.data.churches[0].id,
+        description: newTeam.description,
+        name: newTeam.name,
+        teamImageURL: newTeam.teamImageURL,
+        teamImageThumbnailURL: newTeam.teamImageThumbnailURL,
+        messageThread: {
+          directMessage: false,
+          title: newTeam.name,
+          description: newTeam.description
+        },
+      });
       this.setCreatingNewItem(false);
       this.$refs.itemCreated.open();
       await this.getTeams();

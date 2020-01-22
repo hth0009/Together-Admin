@@ -19,7 +19,8 @@ export default {
     return Api().get('teams',
       {
         params: {
-          churchUsername: `${churchUsername}`
+          churchUsername: `${churchUsername}`,
+          page: 4,
         }
       })
   },

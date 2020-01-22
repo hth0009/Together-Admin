@@ -349,22 +349,16 @@ export default {
   computed: {
     ...mapState ('people', ['people', 'loading']),
     formatedPeople() {
-      var people = Array(this.people.length);
-      for (let index = 0; index < this.people.length; index++) {
-        const person = this.people[index];
-        const newPerson = {
+      const formattedPeople = [];
+      for (const person of this.people) {
+        formattedPeople.push({
           id: person.personID,
           profile: person.personImageURL,
           title: person.firstName + " " + person.lastName,
-          // subtext:
-          //   person.account !== null && person.account.username != ""
-          //     ? "@" + person.account.username
-          //     : ""
-          subtext: '@username',
-        };
-        people[index] = newPerson;
+          subtext: '',
+        });
       }
-      return people;
+      return formattedPeople;
     }
   },
   methods: {
