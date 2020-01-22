@@ -6,13 +6,13 @@
       <router-link to="/hello/welcome" id="back-to-landing">
         <i class="material-icons">arrow_back</i>
       </router-link>
-      <h1>Create Your Organizational Together Account</h1>
+      <h1 class="mb1em">Create Your Organizational Together Account</h1>
     </div>
     <div id="form-wrapper">
       <div class="panel gs-container" style="display:block;">
         <label
           v-if="!loginSuccess"
-          style="display:block;font-size:1rem;margin-bottom:0;text-align:center;margin-bottom:1rem;color:#004580;font-weight:700;"
+          style="display:block;font-size:1rem;text-align:center;color:#004580;font-weight:700;"
         >PERSONAL ACCOUNT</label>
         <div v-if="!loginSuccess" id="signup-login-select">
           <label
@@ -275,7 +275,7 @@ export default {
 <style scoped>
 #login-page {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background: linear-gradient(#55c0e4, #004580);
   /* background: url(https://s3.wasabisys.com/cdn.togetheradmin.com/login.jpg);
   background-repeat: no-repeat;
