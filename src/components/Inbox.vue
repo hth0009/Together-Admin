@@ -49,7 +49,8 @@
           </div>
             <form class="new-message-box"
               v-on:sumbit.prevent="">
-              <input type="text" v-model="newMessageContent"  @keypress.enter.prevent="sendMessage">
+              <textarea ref="messageInput" autofocus v-model="newMessageContent" rows="20"  @keypress.enter.prevent="sendMessage">
+              </textarea>
               <i @click="sendMessage" class="material-icons noselect">send</i>
             </form>
         </div>
@@ -79,7 +80,7 @@
                 :allowFiltering="true"
                 :select="assignTeamToNewThread"></ejs-dropdownlist> 
             </div>            
-            <textarea placeholder="Enter your message" rows="4" class="basic-textarea" v-model="newThread.firstMessage"></textarea>
+            <textarea placeholder="Enter your message" rows="4" cols="4" class="basic-textarea" v-model="newThread.firstMessage"></textarea>
           </div>
         </div>
             <!-- <ejs-textbox floatLabelType="Auto" placeholder="" v-model="newThread.name"></ejs-textbox> -->
@@ -153,10 +154,12 @@ export default {
   components: {
     Cards, CustomRadio, Avatar, SweetModal
   },
-  mounted() {
-    // this.threadsLoading = true
-    this.onLoad()
-    
+  async mounted() {
+    await this.onLoad()
+    this.$nextTick(() => {
+      this.$refs.messageInput.focus();
+      console.log(this.$refs.messageInput)
+    });
   },
   watch: {
     newThreadType: {
@@ -361,29 +364,21 @@ export default {
   .threads-card-wrapper {
     overflow-y: auto;
     /* height: calc(100vh - 40px); */
-    height: 100vh;
     width: 100%;
     position: relative;
     /* border-right: #f0f0f0 1px solid; */
   }
   .thread-wrapper {
-    /* height: calc(100vh - 40px); */
-    height: calc(92vh);
-    position: relative;
-    /* background: red; */
-    flex: 1;
     border-radius: 10px;
-    margin: calc( 10px + 4vh) 7.5px;
     box-shadow: 0px 3px 13px -2px #00000040;
-    max-width: 600px;
-    min-width: 400px;
-    overflow: hidden;
+    max-width: 95%;
+    height: 70vh;
+    margin: 10px 12px 0px 12px;
   }
   .thread {
-    display: grid;
-    grid-template-rows: 35px auto 47px;
-    height: calc(92vh);
-    position: relative;
+    display: flex;
+    flex-flow: column;
+    height: 100%;
   }
   .thread-header {
     padding: 10px 15px;
@@ -393,36 +388,32 @@ export default {
   }
   .new-message-box {
     width: 100%;
-    height: 47px;
-    display: grid;
-    grid-template-columns: 1fr 50px;
+    height: 10vh;
+    display: flex;
     border-top: 1px #E6E9EC solid;
-    /* border-left: 1px #E6E9EC solid; */
-    /* align-content: center; */
-    /* justify-items: center; */
   }
-  .new-message-box input{
+  .new-message-box textarea{
+    flex-grow: 10;
     padding: 15px;  
     padding-right: 0px;
-    position: relative;
     top: -1px;
     border-top: 1px #E6E9EC solid;
     border-radius: 10px;
-  }
-  .new-message-box input:active,
-  .new-message-box input:focus{
     outline: none;
-  }  
+    resize: none;
+  }
+
   .new-message-box i{
-    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 20px;
-    padding-top: 12.5px;
 
     color: #4e4e4e;
     cursor: pointer;
   } 
   .messages {
-    /* height: calc(94vh - 97px); */
     display: flex;
     flex-direction: column-reverse;
     overflow-y: auto;
@@ -555,7 +546,6 @@ export default {
     grid-template-columns: 1fr; 
   }
   .threads-card-wrapper {
-    height: calc(100vh - 35px);    
     padding-top: 35px;
   }
   .thread-wrapper {
