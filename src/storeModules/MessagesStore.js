@@ -27,7 +27,7 @@ export const MessagesModule = {
       state.currentSubscription = payload; 
     },
     appendSelectedThread (state, payload) { 
-      state.selectedThread.messages.unshift(payload); 
+      state.selectedThread.mostRecentMessages.unshift(payload); 
     },
     setLoading (state, loading) { state.loading = loading; },
     setThreadLoading (state, loading) { state.threadLoading = loading; },
@@ -50,15 +50,16 @@ export const MessagesModule = {
 
       
       // Subscribe to mqtt topic
-      const sub = PubSub.subscribe(topics).subscribe({
-        next: data => {
-          if (data.value.message.threadID == state.selectedThread.id) {
-            commit('appendSelectedThread', data.value.message)
-          }
-        },
-        error: error => console.error(error),
-        close: () => console.log('Done')
-      });
+      const sub = PubSub.subscribe(topics)
+        .subscribe({
+          next: data => {
+            if (data.value.message.threadID == state.selectedThread.id) {
+              commit('appendSelectedThread', data.value.message)
+            }
+          },
+          error: error => console.error(error),
+          close: () => console.log('Done')
+        });
       
       commit('setCurrentSubscription', sub)
     },

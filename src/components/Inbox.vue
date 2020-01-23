@@ -16,7 +16,7 @@
           />
       </div>
       <div class="thread-wrapper" v-if="!creatingNewItem && selectedID != -1">
-        <div class="thread">
+        <div class="thread" v-show="!loading">
           <div class="thread-header noselect">{{selectedThread.title}}</div>
           <div class="messages">
             <div class="message-box-wrapper">
@@ -24,7 +24,7 @@
               class="message-box"
               :class="{
                   'self': personID == message.fromID,
-                  'repeat': index > 0 && selectedThread.messages[index - 1].person.id == reversedMessages[index].person.id 
+                  'repeat': index > 0 && selectedThread.mostRecentMessages[index - 1].person.id == reversedMessages[index].person.id 
                 }">
                 <!-- <div
                   class="profile-pic" :style="{backgroundImage: 'url(' +  message.fromIDIcon + ')'}"></div> -->
@@ -157,8 +157,9 @@ export default {
   async mounted() {
     await this.onLoad()
     this.$nextTick(() => {
-      this.$refs.messageInput.focus();
-      console.log(this.$refs.messageInput)
+      if(this.$refs.messageInput) {
+        this.$refs.messageInput.focus();
+      }
     });
   },
   watch: {
@@ -279,7 +280,7 @@ export default {
       this.displayThread = 0
       this.thread = {}
 
-      this.getSelectedThread({ threadID: id})
+      this.getSelectedThread({ threadID: id })
       // this.getThread(id).then(() => {this.displayThread += 1})
     },
     sendMessage() {
@@ -289,7 +290,8 @@ export default {
       if (content == '') {
         return
       }
-      this.postMessage(fromID, threadID, content).then(() => {
+      this.postMessage(fromID, threadID, content)
+      .then(() => {
         this.newMessageContent = ''
       })
     },
@@ -313,6 +315,7 @@ export default {
   props: {
   },
   computed: {
+    ...mapState('messages', ['threads', 'selectedThread', 'loading', 'threadLoading', 'creatingNewItem']),
     sortedThreads() {
       var threads = Array(this.threads.length)
       for (let index = 0; index < this.threads.length; index++) {
@@ -334,7 +337,7 @@ export default {
       return threads
     },
     reversedMessages() {
-      let messages = [...this.selectedThread.messages]
+      let messages = [...this.selectedThread.mostRecentMessages]
       if (messages == undefined) {
         return []
       }
@@ -354,7 +357,6 @@ export default {
     //   }
     //   return formatedPeople
     // },    
-    ...mapState('messages', ['threads', 'selectedThread', 'loading', 'threadLoading', 'creatingNewItem']),
   }
 }
 </script>
@@ -415,6 +417,7 @@ export default {
   } 
   .messages {
     display: flex;
+    height: 100%;
     flex-direction: column-reverse;
     overflow-y: auto;
     padding-bottom: 15px;
